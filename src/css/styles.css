@@ -1,0 +1,81 @@
+/* Copyright 2018 Google LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. */ 
+
+/* You can add global styles to this file, and also import other style files */
+/* Application-wide Styles */
+h1 {
+  color: #F27010;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 250%;
+  padding-left:1%;
+  padding-top:1%;
+}
+h2, h3 {
+  color: #F27010;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: lighter;
+}
+a {
+  color: #F27010;
+  font-family: Arial, Helvetica, sans-serif;
+}
+body, input[text], button {
+  color: #000000;
+  font-family: Cambria, Georgia;
+}
+/* everywhere else */
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.menuSettings {
+  color: #F27010;
+  font-family: Arial, Helvetica, sans-serif;
+  padding-left:1%;
+  padding-top:1%;
+}
+
+.menuBar {
+  background-color: #62187D;
+}
+
+.menuItems {
+  background-color: #F27010;
+}
+
+.toggle-color {
+  border-color:#F27010;
+  color:#F27010;
+}
+
+.selected {
+  background-color: #CFD8DC !important;
+  color: white;
+}
+
+.vendorSelector {
+  color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 50%;
+  display: inline;
+}
+
+.spinnerSpan {
+  background-color: rgb(211,211,211,0.5);
+  width:100%;
+  height:100%;
+  position: absolute;
+  z-index: 10;
+  margin-top: -0.8%;
+}

@@ -1,0 +1,214 @@
+<!-- Copyright 2018 Google LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. -->
+<nav class="navbar menuBar">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle toggle-color" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar menuItems"></span>
+        <span class="icon-bar menuItems"></span>
+        <span class="icon-bar menuItems"></span>
+      </button>
+      <div class="navbar-brand toggle-color">{{ title }}</div>
+    </div>
+    <div class="collapse navbar-collapse navbar-right" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="rules" *ngIf="role"> Rules </a></li>
+        <li><a href="reports">Reports</a></li>
+        <li><a href="users" *ngIf="role"> Users </a></li>
+      </ul>
+      <ul class="nav navbar-nav">
+        <li><a href="api/logout"> Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="spinnerSpan" *ngIf="spinner">
+  <img src="../../assets/{{ loader_icon }}" style="width:5%;margin-left:50%;margin-top:10%;"/>
+</div>
+<h1>
+  Rules
+  <div style="float:right;margin-right:2%;" *ngIf="role">
+    <a data-toggle="modal" data-target="#deleteModal"><img src="../../assets/{{ delete_icon }}" style="width:10%;float:right;margin-right:2%;"/></a>
+    <a data-toggle="modal" data-target="#addModal"><img src="../../assets/{{ add_icon }}" style="width:10%;float:right;margin-right:2%;"/></a>
+    <a data-toggle="modal" data-target="#editModal"><img src="../../assets/{{ edit_icon }}" style="width:10%;float:right;margin-right:2%;"/></a>
+  </div>
+</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Identifier</th>
+      <th scope="col">Condition</th>
+      <th scope="col">Token Value</th>
+      <th scope="col">Organization</th>
+      <th scope="col">Data Source</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let rule of rules" [class.selected]="rule === selectedRule" (click)="onSelect(rule)">
+      <td>{{ rule.name }}</td>
+      <td>{{ rule.identifier }}</td>
+      <td>{{ rule.condition }}</td>
+      <td>{{ rule.token }}</td>
+      <td>{{ rule.organization }}</td>
+      <td>{{ rule.datasource }}</td>
+    </tr>
+  </tbody>
+</table>
+<!-- Add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Add New Rule</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <label> Name:
+            <input [(ngModel)]="newRule.name" placeholder="name">
+          </label>
+        </div>
+        <div>
+          <label> Data Source:
+            <select [(ngModel)]="newRule.datasource" (change)="refreshIdentifiers($event)">
+                <option *ngFor="let ds of datasourceList" [ngValue]="ds">{{ ds }}</option>
+            </select>
+          </label>
+        </div>
+        <div>
+          <label> Identifier:
+            <select [(ngModel)]="newRule.identifier" (change)="refreshIdentifierType($event)">
+              <option *ngFor="let ident of identifierList" [ngValue]="ident">{{ ident }}</option>
+            </select>
+          </label>
+        </div>
+        <div>
+          <label> Condition:
+            <select [(ngModel)]="newRule.condition" (change)="refreshIdentifiers($event)">
+              <option value="equals"> equals </option>
+              <option value="contains" *ngIf = "newRule.identifierType === 'STRING' || newRule.identifierType === ''"> contains </option>
+              <option value="excludes"> excludes </option>
+            </select>
+          </label>
+        </div>
+        <div>
+          <label> Token Value:
+            <input [(ngModel)]="newRule.token" placeholder="token value">
+          </label>
+        </div>
+        <div>
+          <label> Organization:
+            <angular2-multiselect [data]="dropdownList" [(ngModel)]="selectedItems"
+                [settings]="dropdownSettings"
+                (onSelect)="onItemSelect($event)"
+                (onDeSelect)="OnItemDeSelect($event)"
+                [selectedItems]="selectedItems"
+                (onSelectAll)="onSelectAll($event)"
+                (onDeSelectAll)="onDeSelectAll($event)">
+            </angular2-multiselect>
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addRule()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Confirm Delete Modal -->
+<div *ngIf="selectedRule" class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Delete Rule</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <label> Are you sure you want to delete the rule?
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="deleteRule()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Edit User Modal -->
+<div *ngIf="selectedRule" class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Edit Rule</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <label> Name:
+            <input [(ngModel)]="editedRule.name">
+          </label>
+        </div>
+        <div>
+          <label> Identifier:
+            <select [(ngModel)]="editedRule.identifier">
+              <option value="AccountName"> AccountName </option>
+              <option value="CampaignName"> CampaignName </option>
+              <option value="AdgroupName"> AdgroupName </option>
+            </select>
+          </label>
+        </div>
+        <div>
+          <label> Condition:
+            <select [(ngModel)]="editedRule.condition">
+              <option value="equals"> equals </option>
+              <option value="contains"> contains </option>
+              <option value="excludes"> excludes </option>
+            </select>
+          </label>
+        </div>
+        <div>
+          <label> Token Value:
+            <input [(ngModel)]="editedRule.token">
+          </label>
+        </div>
+        <div>
+          <label> Organization:
+              <angular2-multiselect [data]="dropdownList" [(ngModel)]="selectedItemsEdit"
+                  [settings]="dropdownSettings"
+                  (onSelect)="onItemSelectEdit($event)"
+                  (onDeSelect)="OnItemDeSelectEdit($event)"
+                  [selectedItems]="selectedItemsEdit"
+                  (onSelectAll)="onSelectAllEdit($event)"
+                  (onDeSelectAll)="onDeSelectAllEdit($event)">
+              </angular2-multiselect>
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="editRule()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
