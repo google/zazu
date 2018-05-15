@@ -14,10 +14,9 @@ limitations under the License. */
 
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable } from 'rxjs';
 import { Report } from './report';
-import { catchError, map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class ReportDetailsService {
@@ -31,7 +30,9 @@ export class ReportDetailsService {
 
   checkAccess(): Observable<string> {
     return this.http.get(this.baseUrl + this.checkAccessUrl)
-             .map((res:Response) => res.json().role);
+             .pipe(
+                 map((res:Response) => res.json().role)
+             );
   }
 
   getReport(body: Object): Observable<Report> {
@@ -41,7 +42,9 @@ export class ReportDetailsService {
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(this.baseUrl + this.getReportUrl, body, options)
-             .map((res:Response) => res.json().report);
+             .pipe(
+                 map((res:Response) => res.json().report)
+             );
 
   }
 
@@ -52,7 +55,9 @@ export class ReportDetailsService {
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(this.baseUrl + this.reportUserAccessUrl, body, options)
-             .map((res:Response) => res.json().isAuthed);
+             .pipe(
+                 map((res:Response) => res.json().isAuthed)
+             );
 
   }
 }

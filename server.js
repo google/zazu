@@ -86,7 +86,7 @@ passport.use(new GoogleStrategy({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
-  secret: 'JM was here!!!',
+  secret: config.session_secret, 
   resave: false,
   saveUninitialized: true,
   cookie: { secure: true, maxAge: 3600000 }

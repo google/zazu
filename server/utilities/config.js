@@ -13,15 +13,16 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 module.exports = {
-    bq_instance: '<your_Big_Query_instance>',
-    bq_dataset: '<your_Big_Query_admin_config_dataset>',
-    bq_client_dataset: '<your_Big_Query_client_dataset>',
-    bq_views_dataset: '<your_Big_Query_view_dataset>',
-    bq_client_data_base: '<your_Big_Query_client_data_table_name>',
-    bq_client_data_perms: '<your_Big_Query_client_data_table_name_replica_with_permissions>',
+    bq_instance:  process.env.bq_instance, //'google.com:zazu-192416',
+    bq_dataset: process.env.bq_dataset, //'Zazu_Config_Data',
+    bq_client_dataset: process.env.bq_client_dataset, //'Report_Data',
+    bq_views_dataset: process.env.bq_views_dataset, //'Accessible_Views',
+    bq_client_data_base: process.env.bq_client_data_base, //'adwords_campaign_performance_data_base',
+    bq_client_data_perms: process.env.bq_client_data_perms, //'adwords_campaign_performance_data',
 
-    google_client_id: "<your_Google_oAuth_client_id>",
-    google_client_secret: "<your_Google_oAuth_client_secret>",
+    google_client_id: process.env.google_client_id, //"58964490273-2vuja9gq2ahe79t34nb90t5nfa559id4.apps.googleusercontent.com",
+    google_client_secret: process.env.google_client_secret, //"XBmpfdoFkMrno481lOY50AcG",
+    session_secret: process.env.session_secret, //'JM was here!!!'
 
-    mongo_connection_string: '<your_mongodb_connection_string_with_admin_username_password_database_included>'
+    mongo_connection_string: process.env.mongo_connection_string //'mongodb://zazuadmin:vendorcoop@localhost/zazu'
 }

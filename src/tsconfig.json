@@ -14,5 +14,10 @@
     "typeRoots": [
       "../node_modules/@types"
     ]
-  }
+  },
+  "include": [
+    "../node_modules/angular2-multiselect-checkbox-dropdown/angular2-multiselect-dropdown.ts",
+    "../node_modules/angular2-multiselect-checkbox-dropdown/src/app/angular2-multiselect-dropdown/*.ts",
+    "*.ts"
+  ]
 }

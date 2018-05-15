@@ -687,95 +687,93 @@ router.post('/editUser', (req, res) => {
 });
 
 
-router.get('/refreshPermissionsTable', function(req, res) {
-    console.log("Find me!");
-    var dataset = bigquery.dataset(config.bq_client_dataset);
-    const dest_table = dataset.table(config.bq_client_data_perms);
-    const orig_table = dataset.table(config.bq_client_data_base);
-
-    dest_table.delete(function(err, apiResponse) {
-
-      if ((err)&&(err.code != 404)) {
-        res.send({"status": "500", "message": err.message });
-      }
-      else {
-          orig_table.copy(dest_table, function(err1, apiResponse1) {
-
-             if (err1) {
-               res.send({"status": "500", "message": err1.message });
-             }
-             else {
-               dest_table.getMetadata().then(function(data) {
-                   var metadata = data[0];
-                   var new_schema = metadata.schema.fields;
-
-                   new_schema.push({ name: "Permissions", type: "STRING", mode: "REPEATED" });
-                   metadata.schema.fields = new_schema;
-
-                   dest_table.setMetadata(metadata, function(err2, metadata, apiResponse2) {
-
-                     if (err2) {
-                       res.send({"status": "500", "message": err2.message });
-                     }
-                     else {
-
-                       Rule.find(function(err, docs) {
-                           if (err) {
-                             res.send({"status": "500", "message": "Rule list retrieved error."});
-                           }
-
-                           for (var i = 0; i < docs.length; i++) {
-
-                              var curr_rule = docs[i];
-                              var permsList = [];
-
-                              for (var j = 0; j < curr_rule.organization.length; j++) {
-
-                                var findId = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.vendors` WHERE organization = "' + curr_rule.organization[j] + '"';
-
-                                bigquery.createQueryStream(findId)
-                                   .on('error', function(err) {
-                                      res.send({"status": "500", "message": err.message });
-                                   })
-                                   .on('data', function(row) {
-                                      permsList.push(row.organization_id);
-
-                                      if (permsList.length === curr_rule.organization.length) {
-
-                                        var updateRow = utils.buildPermissionsQuery(config.bq_instance, config.bq_client_dataset, config.bq_client_data_perms, permsList, curr_rule.identifier, curr_rule.identifierType, curr_rule.condition, curr_rule.token);
-
-                                        bigquery.createQueryStream(updateRow)
-                                            .on('error', function(err) {
-                                               res.send({"status": "500", "message": err.message });
-                                            })
-                                            .on('data', function(data) {
-
-                                            })
-                                            .on('end', function() {
-                                                if (i === docs.length) {
-                                                  console.log("JM was here!!!");
-                                                  res.send({"status": "200", "message": "Permissions table created.", "schema": metadata.schema.fields });
-                                                }
-
-                                            })
-                                      }
-                                    })
-                                   .on('end', function() {
-
-                                   });
-
-                              }
-                           }
-                       });
-
-                     }
-                   });
-               });
-             }
-          });
-      }
-    });
-});
+// router.get('/refreshPermissionsTable', function(req, res) {
+//     var dataset = bigquery.dataset(config.bq_client_dataset);
+//     const dest_table = dataset.table(config.bq_client_data_perms);
+//     const orig_table = dataset.table(config.bq_client_data_base);
+//
+//     dest_table.delete(function(err, apiResponse) {
+//
+//       if ((err)&&(err.code != 404)) {
+//         res.send({"status": "500", "message": err.message });
+//       }
+//       else {
+//           orig_table.copy(dest_table, function(err1, apiResponse1) {
+//
+//              if (err1) {
+//                res.send({"status": "500", "message": err1.message });
+//              }
+//              else {
+//                dest_table.getMetadata().then(function(data) {
+//                    var metadata = data[0];
+//                    var new_schema = metadata.schema.fields;
+//
+//                    new_schema.push({ name: "Permissions", type: "STRING", mode: "REPEATED" });
+//                    metadata.schema.fields = new_schema;
+//
+//                    dest_table.setMetadata(metadata, function(err2, metadata, apiResponse2) {
+//
+//                      if (err2) {
+//                        res.send({"status": "500", "message": err2.message });
+//                      }
+//                      else {
+//
+//                        Rule.find(function(err, docs) {
+//                            if (err) {
+//                              res.send({"status": "500", "message": "Rule list retrieved error."});
+//                            }
+//
+//                            for (var i = 0; i < docs.length; i++) {
+//
+//                               var curr_rule = docs[i];
+//                               var permsList = [];
+//
+//                               for (var j = 0; j < curr_rule.organization.length; j++) {
+//
+//                                 var findId = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.vendors` WHERE organization = "' + curr_rule.organization[j] + '"';
+//
+//                                 bigquery.createQueryStream(findId)
+//                                    .on('error', function(err) {
+//                                       res.send({"status": "500", "message": err.message });
+//                                    })
+//                                    .on('data', function(row) {
+//                                       permsList.push(row.organization_id);
+//
+//                                       if (permsList.length === curr_rule.organization.length) {
+//
+//                                         var updateRow = utils.buildPermissionsQuery(config.bq_instance, config.bq_client_dataset, config.bq_client_data_perms, permsList, curr_rule.identifier, curr_rule.identifierType, curr_rule.condition, curr_rule.token);
+//
+//                                         bigquery.createQueryStream(updateRow)
+//                                             .on('error', function(err) {
+//                                                res.send({"status": "500", "message": err.message });
+//                                             })
+//                                             .on('data', function(data) {
+//
+//                                             })
+//                                             .on('end', function() {
+//                                                 if (i === docs.length) {
+//                                                   res.send({"status": "200", "message": "Permissions table created.", "schema": metadata.schema.fields });
+//                                                 }
+//
+//                                             })
+//                                       }
+//                                     })
+//                                    .on('end', function() {
+//
+//                                    });
+//
+//                               }
+//                            }
+//                        });
+//
+//                      }
+//                    });
+//                });
+//              }
+//           });
+//       }
+//     });
+// });
 
 // Rule management APIs
 

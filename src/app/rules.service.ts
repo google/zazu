@@ -14,11 +14,10 @@ limitations under the License. */
 
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable } from 'rxjs';
 import { Rule } from './rule';
 import { Datasource } from './datasource';
-import { catchError, map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class RulesService {
@@ -34,29 +33,37 @@ export class RulesService {
   private orgListUrl = '/listOrgs';
   private datasourceListUrl = '/listDatasources';
   private identifierListUrl = '/listIdentifiers';
-  private refreshPermissionsUrl = '/refreshPermissionsTable';
+  //private refreshPermissionsUrl = '/refreshPermissionsTable';
 
   checkAccess(): Observable<string> {
     return this.http.get(this.baseUrl + this.checkAccessUrl)
-             .map((res:Response) => res.json().role);
+             .pipe(
+                 map((res:Response) => res.json().role)
+             );
   }
 
   getOrgs(): Observable<string[]> {
 
     return this.http.get(this.baseUrl + this.orgListUrl)
-             .map((res:Response) => res.json().orgs);
+             .pipe(
+                 map((res:Response) => res.json().orgs)
+             );
   }
 
   getDatasources(): Observable<string[]> {
 
     return this.http.get(this.baseUrl + this.datasourceListUrl)
-             .map((res:Response) => res.json().tables);
+             .pipe(
+                 map((res:Response) => res.json().tables)
+             );
   }
 
   getRules(): Observable<Rule[]> {
 
     return this.http.get(this.baseUrl + this.ruleListUrl)
-             .map((res:Response) => res.json().rules);
+             .pipe(
+                 map((res:Response) => res.json().rules)
+             );
 
   }
 
@@ -67,7 +74,9 @@ export class RulesService {
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(this.baseUrl + this.identifierListUrl, body, options)
-             .map((res:Response) => res.json().identifiers);
+             .pipe(
+                 map((res:Response) => res.json().identifiers)
+             );
 
   }
 
@@ -78,7 +87,9 @@ export class RulesService {
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(this.baseUrl + this.addRuleUrl, body, options)
-             .map((res:Response) => res.json().rules);
+             .pipe(
+                 map((res:Response) => res.json().rules)
+             );
   }
 
   deleteRule(body: Object): Observable<Rule[]> {
@@ -87,7 +98,9 @@ export class RulesService {
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(this.baseUrl + this.deleteRuleUrl, body, options)
-             .map((res:Response) => res.json().rules);
+             .pipe(
+                 map((res:Response) => res.json().rules)
+             );
   }
 
   editRule(body: Object): Observable<Rule[]> {
@@ -96,12 +109,16 @@ export class RulesService {
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(this.baseUrl + this.editRuleUrl, body, options)
-             .map((res:Response) => res.json().rules);
+             .pipe(
+                 map((res:Response) => res.json().rules)
+             );
   }
-
-  refreshPermissions(): Observable<string[]> {
-
-    return this.http.get(this.baseUrl + this.refreshPermissionsUrl)
-             .map((res:Response) => res.json().schema);
-  }
+  //
+  // refreshPermissions(): Observable<string[]> {
+  //
+  //   return this.http.get(this.baseUrl + this.refreshPermissionsUrl)
+  //            .pipe(
+  //                map((res:Response) => res.json().schema)
+  //            );
+  // }
 }

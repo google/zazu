@@ -15,7 +15,8 @@ limitations under the License. */
 import { Injectable } from '@angular/core';
 import { CanActivate, CanActivateChild } from '@angular/router';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild {
@@ -27,15 +28,17 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   canActivate() {
 
     return this.http.get(this.baseUrl + '/isLoggedIn')
-             .map((res:Response) => res.json().isLoggedIn);
-
+             .pipe(
+                map((res:Response) => res.json().isLoggedIn)
+              );
   }
 
   canActivateChild() {
 
     return this.http.get(this.baseUrl + '/isLoggedIn')
-             .map((res:Response) => res.json().isLoggedIn);
-
+              .pipe(
+                 map((res:Response) => res.json().isLoggedIn)
+               );
   }
 
 }

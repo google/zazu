@@ -10,14 +10,13 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
-limitations under the License. */ 
+limitations under the License. */
 
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable } from 'rxjs';
 import { User } from './user';
-import { catchError, map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class UsersService {
@@ -34,20 +33,26 @@ export class UsersService {
 
   checkAccess(): Observable<string> {
     return this.http.get(this.baseUrl + this.checkAccessUrl)
-             .map((res:Response) => res.json().role);
+             .pipe(
+                 map((res:Response) => res.json().role)
+             );
   }
 
   getUsers(): Observable<User[]> {
 
     return this.http.get(this.baseUrl + this.userListUrl)
-             .map((res:Response) => res.json().users);
+             .pipe(
+                 map((res:Response) => res.json().users)
+             );
 
   }
 
   getOrgs(): Observable<string[]> {
 
     return this.http.get(this.baseUrl + this.orgListUrl)
-             .map((res:Response) => res.json().orgs);
+             .pipe(
+                 map((res:Response) => res.json().orgs)
+             );
   }
 
   addUser(body: Object): Observable<User[]> {
@@ -57,7 +62,9 @@ export class UsersService {
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(this.baseUrl + this.addUserUrl, body, options)
-             .map((res:Response) => res.json().users);
+             .pipe(
+                 map((res:Response) => res.json().users)
+             );
   }
 
   deleteUser(body: Object): Observable<User[]> {
@@ -66,7 +73,9 @@ export class UsersService {
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(this.baseUrl + this.deleteUserUrl, body, options)
-             .map((res:Response) => res.json().users);
+             .pipe(
+                 map((res:Response) => res.json().users)
+             );
   }
 
   editUser(body: Object): Observable<User[]> {
@@ -75,6 +84,8 @@ export class UsersService {
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(this.baseUrl + this.editUserUrl, body, options)
-             .map((res:Response) => res.json().users);
+             .pipe(
+                 map((res:Response) => res.json().users)
+             );
   }
 }
