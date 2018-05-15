@@ -100,16 +100,16 @@ export class RulesComponent implements OnInit {
                           };
 
 
-                                                    this.rulesService.refreshPermissions()
-                                                      .subscribe(
-                                                              schema => {
-                                                                          console.log(schema);
-
-                                                                       }, //Bind to view
-                                                               err => {
-                                                                   // Log errors if any
-                                                                   console.log(err);
-                                                               });
+                                                    // this.rulesService.refreshPermissions()
+                                                    //   .subscribe(
+                                                    //           schema => {
+                                                    //                       console.log(schema);
+                                                    //
+                                                    //                    }, //Bind to view
+                                                    //            err => {
+                                                    //                // Log errors if any
+                                                    //                console.log(err);
+                                                    //            });
  }
 
  getAllOrgs() {

@@ -84,21 +84,21 @@ limitations under the License. -->
         </div>
         <div>
           <label> Data Source:
-            <select [(ngModel)]="newRule.datasource" (change)="refreshIdentifiers($event)">
+            <select [(ngModel)]="newRule.datasource" (change)="refreshIdentifiers()">
                 <option *ngFor="let ds of datasourceList" [ngValue]="ds">{{ ds }}</option>
             </select>
           </label>
         </div>
         <div>
           <label> Identifier:
-            <select [(ngModel)]="newRule.identifier" (change)="refreshIdentifierType($event)">
+            <select [(ngModel)]="newRule.identifier" (change)="refreshIdentifierType()">
               <option *ngFor="let ident of identifierList" [ngValue]="ident">{{ ident }}</option>
             </select>
           </label>
         </div>
         <div>
           <label> Condition:
-            <select [(ngModel)]="newRule.condition" (change)="refreshIdentifiers($event)">
+            <select [(ngModel)]="newRule.condition" (change)="refreshIdentifiers()">
               <option value="equals"> equals </option>
               <option value="contains" *ngIf = "newRule.identifierType === 'STRING' || newRule.identifierType === ''"> contains </option>
               <option value="excludes"> excludes </option>
