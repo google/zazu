@@ -36,6 +36,7 @@
     "passport-google-oauth": "^1.0.0",
     "rxjs": "^6.0.1",
     "ts-helpers": "^1.1.1",
+    "typescript": ">=2.7.0 <2.8.0",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
@@ -55,6 +56,6 @@
     "protractor": "~4.0.13",
     "ts-node": "1.2.1",
     "tslint": "^4.3.0",
-    "typescript": "^2.7.2"
+    "typescript": ">=2.7.0 <2.8.0"
   }
 }
