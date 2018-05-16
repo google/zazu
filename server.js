@@ -86,7 +86,7 @@ passport.use(new GoogleStrategy({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
-  secret: config.session_secret, 
+  secret: config.session_secret,
   resave: false,
   saveUninitialized: true,
   cookie: { secure: true, maxAge: 3600000 }
@@ -107,6 +107,23 @@ app.get('/auth/google/callback',
         failureRedirect : '/'
   })
 );
+// app.get('/auth/google/callback',
+//   passport.authenticate('google', {
+//         successRedirect : '/reports',
+//         failureRedirect : '/'
+//   }),
+//   (err, req, res, next) => { // custom error handler to catch any errors, such as TokenError
+//     if (err.name === 'TokenError') {
+//      res.redirect('/auth/google'); // redirect them back to the login page
+//     } else {
+//      // Handle other errors here
+//     console.log("other error");
+//     }
+//   },
+//   (req, res) => { // On success, redirect to '/reports'
+//     res.redirect('/reports');
+//   }
+// );
 
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {
