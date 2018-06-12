@@ -43,48 +43,48 @@ Zazu integrates several popular production reliable web, data and analytics tech
 
 6. `cd <directory_of_step_3>/zazu; docker build -t zazuimg .`
 7. Follow the "Push Docker images to the Google Container Registry" section [here](https://cloud.google.com/container-registry/docs/pushing-and-pulling).
-8. Provision a service account on GCP.<br/>
+8. Provision a service account on GCP.
    - IAM > Service accounts > Create service accounts<br/>
-     - a. Name: **service-zazu-app**<br/>
-     - b. Role: **Project -> Owner**<br/>
+     - Name: **service-zazu-app**<br/>
+     - Role: **Project -> Owner**<br/>
 
 9. Grant the service account permissions to read from the container registry: [Instructions here](https://cloud.google.com/container-registry/docs/access-control#granting_users_and_other_projects_access_to_a_registry). User the service account name you created on **step 8**.
 
-10. Provision one static IP address for the application. Give it an appropriate name like **zazu-app**.<br/>
-       VPC > Extrenal IP addresses > Reserve static address<br/>
+10. Provision one static IP address for the application. Give it an appropriate name like **zazu-app**.
+    - VPC > Extrenal IP addresses > Reserve static address<br/>
 
-11. Create a set of OAuth credentials and keep note of the client ID/secret.<br/>
-       APIs & Services > Credentials > Create credentials > OAuth client ID.
+11. Create a set of OAuth credentials and keep note of the client ID/secret.
+    - APIs & Services > Credentials > Create credentials > OAuth client ID.
 
-12. Set up firewall rules.<br/>
-      a. VPC > Firewall rules > Create firewall rules<br/>
-             i. Name: **zazu-db**<br/>
-            ii. Description: Allow connections to zazu database from zazu app.<br/>
-           iii. Target tags: **zazu-db**<br/>
-            iv. Source tags: **zazu-app**<br/>
-             v. Protocols and ports: **tcp:27017** (which is the default port of mongodb. Change it to a different one, if mongodb is setup to run on a different port.)<br/>
-      b. VPC > Firewall rules > Create firewall rules<br/>
-             i. Name: **zazu-app**<br/>
-            ii. Description: Allow connections to zazu app from the www.<br/>
-           iii. Target tags: **zazu-app**, **https-server**<br/>
-            iv. Protocols and ports: **tcp:443**<br/>
+12. Set up firewall rules.
+    - VPC > Firewall rules > Create firewall rules
+      - Name: **zazu-db**
+      - Description: Allow connections to zazu database from zazu app.
+      - Target tags: **zazu-db**
+      - Source tags: **zazu-app**
+      - Protocols and ports: **tcp:27017** (which is the default port of mongodb. Change it to a different one, if mongodb is setup to run on a different port.)
+    - VPC > Firewall rules > Create firewall rules
+      - Name: **zazu-app**
+      - Description: Allow connections to zazu app from the www.
+      - Target tags: **zazu-app**, **https-server**
+      - Protocols and ports: **tcp:443**
 
-13. Create a new VM instance for the mongodb.<br/>
-      a. Deploy a container image.<br/>
-             i. Type **mongo** as the docker image.<br/>
-            ii. Advanced Container Options > Environment variable<br/>
-                    **MONGO_INITDB_ROOT_USERNAME <select_root_username>**<br/>
-                    **MONGO_INITDB_ROOT_PASSWORD <select_root_password>**<br/>
-                    **MONGO_INITDB_DATABASE <select_db_name>**<br/>
-                The above parameters you may choose as desired.<br/>
-      b. Boot Disk > SSD Persistent Disk<br/>
-      c. Service account: Select the one created on step 8.<br/>
-      d. Networking > Network tags > **zazu-db**.<br/>
+13. Create a new VM instance for the mongodb.
+    - Deploy a container image.
+      - Type **mongo** as the docker image.
+      - Advanced Container Options > Environment variable<br/>
+        **MONGO_INITDB_ROOT_USERNAME <select_root_username>**<br/>
+        **MONGO_INITDB_ROOT_PASSWORD <select_root_password>**<br/>
+        **MONGO_INITDB_DATABASE <select_db_name>**<br/>
+        The above parameters you may choose as desired.
+    - Boot Disk > SSD Persistent Disk
+    - Service account: Select the one created on **step 8**.
+    - Networking > Network tags > **zazu-db**.
 
-14. Create a new VM instance for the App<br/>
-       a. Deploy a container image<br/>
-            i. Use path from gcr.io where you published the Docker image on **step 7**.<br/>
-           ii. Advanced Container Options > Environment variables<br/>
+14. Create a new VM instance for the App
+    - Deploy a container image
+      - Use path from gcr.io where you published the Docker image on **step 7**.
+      - Advanced Container Options > Environment variables
                   **bq_instance  <GCP_project_name>**<br/>
                   **bq_dataset   Zazu_Config_Data**<br/>
                   **bq_client_dataset  Report_Data**<br/>
@@ -99,24 +99,24 @@ Zazu integrates several popular production reliable web, data and analytics tech
                   **https_cert_filename  <your_https_cert_filename_used_in_step_5>**<br/>
                   **mongo_connection_string mongodb:/<MONGO_INITDB_ROOT_USERNAME>:<MONGO_INITDB_ROOT_PASSWORD>@<DNS>/<MONGO_INITDB_DATABASE>**<br/>
 
-              **Note:** MONGO_INITDB values come from **step 13**. The DNS looks like: zazu-db.c.PROJECTNAME.internal. Template: INSTANCENAME.c.PROJECTNAME.internal.<br/>
+      **Note:** MONGO_INITDB values come from **step 13**. The DNS looks like: zazu-db.c.PROJECTNAME.internal. Template: INSTANCENAME.c.PROJECTNAME.internal.<br/>
 
-       b. Boot Disk > SSD Persistent Disk<br/>
-       c. Allow HTTPS.<br/>
-       d. Networking > assign the provisioned static IP address as the external IP (**step 10**).<br/>
-       e. Service account: Select the one created on **step 8**.<br/>
-       f. Networking > Network tags > **zazu-app**<br/>
+      - Boot Disk > SSD Persistent Disk
+      - Allow HTTPS.
+      - Networking > assign the provisioned static IP address as the external IP (**step 10**).
+      - Service account: Select the one created on **step 8**.
+      - Networking > Network tags > **zazu-app**
 
-15. **One time only**: Create the first admin user of the application in mongodb.<br/>
-       Compute engine > VM instances > zazu-db > SSH<br/>
-           a. `docker ps -a`<br/>
-           b. `docker exec -it <container_id> sh`<br/>
-           c. `mongo <select_db_name> -u <select_root_username> -p <select_root_password>` (from **step 13a.**)<br/>
-           d. `db.users.insert({ name: "<your_admin_name>", email: "<your_admin_email>", google_email: "<your_admin_google_id>", organization: "<your_company_name>", role: "retailer", accesses: [] })`<br/>
+15. **One time only**: Create the first admin user of the application in mongodb.
+    - Compute engine > VM instances > zazu-db > SSH
+      - `docker ps -a`
+      - `docker exec -it <container_id> sh`
+      - `mongo <select_db_name> -u <select_root_username> -p <select_root_password>` (from **step 13a.**)
+      - `db.users.insert({ name: "<your_admin_name>", email: "<your_admin_email>", google_email: "<your_admin_google_id>", organization: "<your_company_name>", role: "retailer", accesses: [] })`
 
-16. **One time only**: Create the **same** first admin user of the application as in **step 15**, in Big Query.<br/>
-       https://bigquery.cloud.google.com > Select the project > Compose query ><br/>
-              `INSERT INTO `<project_name>.Zazu_Config_Data.users` (user_id, google_email, email, organization, role) VALUES (1, '<your_admin_google_id>', '<your_admin_email>', '<your_company_name>', 'retailer')`<br/>
+16. **One time only**: Create the **same** first admin user of the application as in **step 15**, in Big Query.
+    - https://bigquery.cloud.google.com > Select the project > Compose query ><br/>
+      `INSERT INTO `<project_name>.Zazu_Config_Data.users` (user_id, google_email, email, organization, role) VALUES (1, '<your_admin_google_id>', '<your_admin_email>', '<your_company_name>', 'retailer')`
 
 
 ## Support
