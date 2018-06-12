@@ -44,9 +44,9 @@ Zazu integrates several popular production reliable web, data and analytics tech
 6. `cd <directory_of_step_3>/zazu; docker build -t zazuimg .`
 7. Follow the "Push Docker images to the Google Container Registry" section [here](https://cloud.google.com/container-registry/docs/pushing-and-pulling).
 8. Provision a service account on GCP.<br/>
-      IAM > Service accounts > Create service accounts<br/>
-        a. Name: **service-zazu-app**<br/>
-        b. Role: **Project -> Owner**<br/>
+   - IAM > Service accounts > Create service accounts<br/>
+     - a. Name: **service-zazu-app**<br/>
+     - b. Role: **Project -> Owner**<br/>
 
 9. Grant the service account permissions to read from the container registry: [Instructions here](https://cloud.google.com/container-registry/docs/access-control#granting_users_and_other_projects_access_to_a_registry). User the service account name you created on **step 8**.
 
