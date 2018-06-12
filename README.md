@@ -25,11 +25,6 @@ Zazu integrates several popular production reliable web, data and analytics tech
   * [Technical Overview](https://docs.google.com/presentation/d/1DOwl_EesvlmE_FSkgWWXBwvMYIcrJJ3e5g5JHzfIefU/edit#slide=id.g363d74ec1e_0_45)   
   * [Repository](https://github.com/google/zazu)
 
-## Support
-
-This project is in alpha - for questions please contact the project owners amete@google.com & jmattarian@google.com.  Note - while in alpha, select organizations will be approved to receive technical, analytical and engineering support from Google.  If interested in the alpha, please send requests to amete@google.com. For bugs, comments or enhancements, please submit directly at our [public repository](https://github.com/google/zazu).  Note we are also interested in collaborators interested in contributing to the application - if you'd like to make a contribution to the code base, please make a pull request.
-
-
 ## Prerequisites
 
 1. Billing method available or already set up on the [Google Cloud Platform (GCP)](https://pantheon.corp.google.com/billing).
@@ -123,6 +118,7 @@ This project is in alpha - for questions please contact the project owners amete
        https://bigquery.cloud.google.com > Select the project > Compose query >
               `INSERT INTO `<project_name>.Zazu_Config_Data.users` (user_id, google_email, email, organization, role) VALUES (1, '<your_admin_google_id>', '<your_admin_email>', '<your_company_name>', 'retailer')`
 
-## Further help
 
-To get more help on the `angular-cli` use `ng help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## Support
+
+This project is in alpha - for questions please contact the project owners amete@google.com & jmattarian@google.com.  Note - while in alpha, select organizations will be approved to receive technical, analytical and engineering support from Google.  If interested in the alpha, please send requests to amete@google.com. For bugs, comments or enhancements, please submit directly at our [public repository](https://github.com/google/zazu).  Note we are also interested in collaborators interested in contributing to the application - if you'd like to make a contribution to the code base, please make a pull request.
