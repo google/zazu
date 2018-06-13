@@ -144,7 +144,8 @@ app.set('port', port);
 
  var options = {
    key  : fs.readFileSync('./encryption/' + config.https_key_filename),
-   cert : fs.readFileSync('./encryption/' + config.https_cert_filename)
+   cert : fs.readFileSync('./encryption/' + config.https_cert_filename),
+   passphrase: config.https_passphrase
 };
 
 const server = https.createServer(options, app);
