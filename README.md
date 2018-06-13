@@ -29,10 +29,11 @@ Zazu integrates several popular production reliable web, data and analytics tech
 
 1. Billing method available or already set up on the [Google Cloud Platform (GCP)](https://pantheon.corp.google.com/billing).
 2. Docker installed: [Instructions here](https://docs.docker.com/install/).
+3. Google Cloud SDK installed: [Instructions here](https://cloud.google.com/sdk/docs/).
 
 ## Installation steps
 1. Create a new project in [GCP](https://console.cloud.google.com/home/dashboard).
-2. APIs & Services > Dashboard > If not already enabled, enable the Big Query and Google+ APIs.
+2. APIs & Services > Dashboard > If not already enabled, enable the Big Query, Google+ API and Google Container Registry.
 3. Run `git clone https://github.com/google/zazu.git` in a desired directory.
 4. `cd <directory_of_step_3>/zazu`
 5. Add your key and certificate, <key_name>.key and <cert_name>.crt for https under <directory_of_step_3>/zazu/encryption. For your key and certificate, talk to your admin.<br/>
@@ -42,19 +43,25 @@ Zazu integrates several popular production reliable web, data and analytics tech
             `openssl x509 -req -days 365 -in zazu.csr -signkey <key_name>.key -out <cert_name>.crt`<br/>
 
 6. `cd <directory_of_step_3>/zazu; docker build -t zazuimg .`
-7. Follow the "Push Docker images to the Google Container Registry" section [here](https://cloud.google.com/container-registry/docs/pushing-and-pulling).
-8. Provision a service account on GCP.
+7. Push your Docker image to the Google Container Registry.
+   - `gcloud auth configure-docker`
+   - `docker tag zazuimg gcr.io/<project_id>/zazuimg`
+   - `docker push gcr.io/<project_id>/zazuimg`
+
+8. Provision a service account on GCP. No checkbox is needed to be selected.
    - IAM > Service accounts > Create service accounts<br/>
      - Name: **service-zazu-app**<br/>
      - Role: **Project -> Owner**<br/>
 
-9. Grant the service account permissions to read from the container registry: [Instructions here](https://cloud.google.com/container-registry/docs/access-control#granting_users_and_other_projects_access_to_a_registry). User the service account name you created on **step 8**.
+9. Grant the service account permissions to read from the container registry: [Instructions here](https://cloud.google.com/container-registry/docs/access-control#granting_users_and_other_projects_access_to_a_registry). Use the service account name you created on **step 8**.
 
 10. Provision one static IP address for the application. Give it an appropriate name like **zazu-app**.
     - VPC > Extrenal IP addresses > Reserve static address<br/>
 
 11. Create a set of OAuth credentials and keep note of the client ID/secret.
     - APIs & Services > Credentials > Create credentials > OAuth client ID.
+    - Authentication Javascript origin: https://<your_domain_to_be_assigned_to_app>
+    - Authentication redirect URI: https://<your_domain_to_be_assigned_to_app>/auth/google/callback
 
 12. Set up firewall rules.
     - VPC > Firewall rules > Create firewall rules
@@ -62,11 +69,13 @@ Zazu integrates several popular production reliable web, data and analytics tech
       - Description: Allow connections to zazu database from zazu app.
       - Target tags: **zazu-db**
       - Source tags: **zazu-app**
+      - Source IP ranges: 0.0.0.0/0
       - Protocols and ports: **tcp:27017** (which is the default port of mongodb. Change it to a different one, if mongodb is setup to run on a different port.)
     - VPC > Firewall rules > Create firewall rules
       - Name: **zazu-app**
       - Description: Allow connections to zazu app from the www.
       - Target tags: **zazu-app**, **https-server**
+      - Source IP ranges: 0.0.0.0/0
       - Protocols and ports: **tcp:443**
 
 13. Create a new VM instance for the mongodb.
@@ -75,7 +84,7 @@ Zazu integrates several popular production reliable web, data and analytics tech
       - Advanced Container Options > Environment variable<br/>
         **MONGO_INITDB_ROOT_USERNAME <select_root_username>**<br/>
         **MONGO_INITDB_ROOT_PASSWORD <select_root_password>**<br/>
-        **MONGO_INITDB_DATABASE <select_db_name>**<br/>
+        **MONGO_INITDB_DATABASE zazu**<br/>
         The above parameters you may choose as desired.
     - Boot Disk > SSD Persistent Disk
     - Service account: Select the one created on **step 8**.
@@ -89,15 +98,14 @@ Zazu integrates several popular production reliable web, data and analytics tech
                   **bq_dataset   Zazu_Config_Data**<br/>
                   **bq_client_dataset  Report_Data**<br/>
                   **bq_views_dataset   Accessible_Views**<br/>
-                  **bq_client_data_perms <table_name_in_BQ_client_data>**<br/>
-                  **bq_client_data_base  <table_name_in_BQ_client_data>_base**<br/>
+                  **bq_client_data_base  <table_name_in_BQ_client_data>**<br/>
                   **google_client_id <OAuth_client_ID_step_10>**<br/>
                   **google_client_secret <OAuth_client_secret_step_10>**<br/>
                   **session_secret  <choose_any_string_for_sess_encr>**<br/>
-			            **PORT   443**<br/>
+                  **PORT   443**<br/>
                   **https_key_filename  <your_https_key_filename_used_in_step_5>**<br/>
                   **https_cert_filename  <your_https_cert_filename_used_in_step_5>**<br/>
-                  **mongo_connection_string mongodb:/<MONGO_INITDB_ROOT_USERNAME>:<MONGO_INITDB_ROOT_PASSWORD>@<DNS>/<MONGO_INITDB_DATABASE>**<br/>
+                  **mongo_connection_string mongodb:/<MONGO_INITDB_ROOT_USERNAME>:<MONGO_INITDB_ROOT_PASSWORD>@<DNS>/zazu**<br/>
 
       **Note:** MONGO_INITDB values come from **step 13**. The DNS looks like: zazu-db.c.PROJECTNAME.internal. Template: INSTANCENAME.c.PROJECTNAME.internal.<br/>
 

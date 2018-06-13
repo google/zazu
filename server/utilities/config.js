@@ -18,7 +18,7 @@ module.exports = {
     bq_client_dataset: process.env.bq_client_dataset, //'Report_Data',
     bq_views_dataset: process.env.bq_views_dataset, //'Accessible_Views',
     bq_client_data_base: process.env.bq_client_data_base, //'adwords_campaign_performance_data_base',
-    bq_client_data_perms: process.env.bq_client_data_perms, //'adwords_campaign_performance_data',
+    bq_client_data_perms: process.env.bq_client_data_base + '_perms', //'adwords_campaign_performance_data',
 
     google_client_id: process.env.google_client_id, //"58964490273-2vuja9gq2ahe79t34nb90t5nfa559id4.apps.googleusercontent.com",
     google_client_secret: process.env.google_client_secret, //"XBmpfdoFkMrno481lOY50AcG",
