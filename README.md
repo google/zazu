@@ -105,7 +105,7 @@ Zazu integrates several popular production reliable web, data and analytics tech
                   **PORT   443**<br/>
                   **https_key_filename  <your_https_key_filename_used_in_step_5>**<br/>
                   **https_cert_filename  <your_https_cert_filename_used_in_step_5>**<br/>
-                  **mongo_connection_string mongodb:/<MONGO_INITDB_ROOT_USERNAME>:<MONGO_INITDB_ROOT_PASSWORD>@<DNS>/zazu**<br/>
+                  **mongo_connection_string mongodb://<MONGO_INITDB_ROOT_USERNAME>:<MONGO_INITDB_ROOT_PASSWORD>@<DNS>/zazu**<br/>
 
       **Note:** MONGO_INITDB values come from **step 13**. The DNS looks like: zazu-db.c.PROJECTNAME.internal. Template: INSTANCENAME.c.PROJECTNAME.internal.<br/>
 
