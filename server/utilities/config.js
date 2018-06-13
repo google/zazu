@@ -23,6 +23,8 @@ module.exports = {
     google_client_id: process.env.google_client_id, //"58964490273-2vuja9gq2ahe79t34nb90t5nfa559id4.apps.googleusercontent.com",
     google_client_secret: process.env.google_client_secret, //"XBmpfdoFkMrno481lOY50AcG",
     session_secret: process.env.session_secret, //'JM was here!!!'
-
+    https_key_filename: process.env.https_key_filename, //'zazu.key'
+    https_cert_filename: process.env.https_cert_filename, //'zazu.crt'
+    
     mongo_connection_string: process.env.mongo_connection_string //'mongodb://zazuadmin:vendorcoop@localhost/zazu'
 }

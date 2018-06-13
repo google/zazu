@@ -68,9 +68,11 @@ passport.use(new GoogleStrategy({
     callbackURL: "/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
+
        User.findOne({ google_email: profile.emails[0].value }, function (err, user) {
-         if (err)
-            return done(err);
+         if (err) {
+           return done(err);
+         }
          if (user) {
             // if a user is found, log them in
             return done(null, user);
@@ -141,8 +143,8 @@ app.set('port', port);
  */
 
  var options = {
-   key  : fs.readFileSync('./encryption/zazu.key'),
-   cert : fs.readFileSync('./encryption/zazu.crt')
+   key  : fs.readFileSync('./encryption/' + config.https_key_filename),
+   cert : fs.readFileSync('./encryption/' + config.https_cert_filename)
 };
 
 const server = https.createServer(options, app);
