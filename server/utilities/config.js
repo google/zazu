@@ -13,18 +13,19 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 module.exports = {
-    bq_instance:  process.env.bq_instance, //'google.com:zazu-192416',
-    bq_dataset: process.env.bq_dataset, //'Zazu_Config_Data',
-    bq_client_dataset: process.env.bq_client_dataset, //'Report_Data',
-    bq_views_dataset: process.env.bq_views_dataset, //'Accessible_Views',
-    bq_client_data_base: process.env.bq_client_data_base, //'adwords_campaign_performance_data_base',
-    bq_client_data_perms: process.env.bq_client_data_base + '_perms', //'adwords_campaign_performance_data',
+    bq_instance:  process.env.bq_instance, 
+    bq_dataset: process.env.bq_dataset,
+    bq_client_dataset: process.env.bq_client_dataset,
+    bq_views_dataset: process.env.bq_views_dataset,
+    bq_client_data_base: process.env.bq_client_data_base,
+    bq_client_data_perms: process.env.bq_client_data_base + '_perms',
 
-    google_client_id: process.env.google_client_id, //"58964490273-2vuja9gq2ahe79t34nb90t5nfa559id4.apps.googleusercontent.com",
-    google_client_secret: process.env.google_client_secret, //"XBmpfdoFkMrno481lOY50AcG",
-    session_secret: process.env.session_secret, //'JM was here!!!'
-    https_key_filename: process.env.https_key_filename, //'zazu.key'
-    https_cert_filename: process.env.https_cert_filename, //'zazu.crt'
+    google_client_id: process.env.google_client_id,
+    google_client_secret: process.env.google_client_secret,
+    session_secret: process.env.session_secret,
+    https_key_filename: process.env.https_key_filename,
+    https_cert_filename: process.env.https_cert_filename,
+    https_passphrase: process.env.https_passphrase,
     
     mongo_connection_string: process.env.mongo_connection_string //'mongodb://zazuadmin:vendorcoop@localhost/zazu'
 }
