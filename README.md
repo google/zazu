@@ -112,6 +112,7 @@ Zazu integrates several popular production reliable web, data and analytics tech
       - Boot Disk > SSD Persistent Disk
       - Allow HTTPS.
       - Networking > assign the provisioned static IP address as the external IP (**step 10**).
+      - Networking > Public DNS PTR record: assign the domain you will be assigning to the app without the https:// part.
       - Service account: Select the one created on **step 8**.
       - Networking > Network tags > **zazu-app**
 
