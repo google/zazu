@@ -21,8 +21,8 @@ Zazu integrates several popular production reliable web, data and analytics tech
 ## Docs
 
   * [Website and Documentation](http://zazu.report/)
-  * [Business Overview](https://docs.google.com/presentation/d/1_ZW2Kz-lv_G8oUCE2D1-2inUHJymkzQ7oCni5LXZl5M/edit#slide=id.g363d74ec1e_0_45)  
-  * [Technical Overview](https://docs.google.com/presentation/d/1DOwl_EesvlmE_FSkgWWXBwvMYIcrJJ3e5g5JHzfIefU/edit#slide=id.g363d74ec1e_0_45)   
+  * [Business Overview](https://docs.google.com/a/google.com/presentation/d/e/2PACX-1vQl_gbYic88bmTw9OXp1-aGCaDt12VFitUSqweuJeYSjqjcRBBNozfrBC1UEHH8soNcQoXzdArkb5Hk/pub?start=false&loop=false&delayms=3000)  
+  * [Technical Overview](https://docs.google.com/a/google.com/presentation/d/e/2PACX-1vQT5GFcH-dlZw6jtTySSbZlsrZXqfKNsDYgbgwkq9KaeoHGudiIkUKCwoKmScqkcMEKKnuuXWZyc_BB/pub?start=false&loop=false&delayms=3000)   
   * [Repository](https://github.com/google/zazu)
 
 ## Prerequisites
