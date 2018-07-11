@@ -40,7 +40,7 @@ Zazu integrates several popular production reliable web, data and analytics tech
    **Note:** If you do not have a key and certificate yet, you can generate a self signed key/certificate for testing purposes, by running the following commands.<br/>
             `openssl genrsa -des3 -out <key_name>.key 1024`<br/>
             `openssl req -new -key <key_name>.key -out <cert_name>.csr`<br/>
-            `openssl x509 -req -days 365 -in zazu.csr -signkey <key_name>.key -out <cert_name>.crt`<br/>
+            `openssl x509 -req -days 365 -in <cert_name>.csr -signkey <key_name>.key -out <cert_name>.crt`<br/>
 
 6. `cd <directory_of_step_3>/zazu; docker build -t zazuimg .`
 7. Push your Docker image to the Google Container Registry.
