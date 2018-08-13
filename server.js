@@ -21,6 +21,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 var passport = require('passport');
 var fs = require('fs');
+var sleep = require('sleep');
 var CronJob = require('cron').CronJob;
 var config = require('./server/utilities/config');
 var utils = require('./server/utilities/utils');
@@ -69,7 +70,7 @@ passport.use(new GoogleStrategy({
   },
   function(accessToken, refreshToken, profile, done) {
 
-       User.findOne({ google_email: profile.emails[0].value }, function (err, user) {
+       User.findOne({ google_email: profile.emails[0].value.toLowerCase() }, function (err, user) {
          if (err) {
            return done(err);
          }
@@ -155,6 +156,41 @@ const server = https.createServer(options, app);
  */
 server.listen(port, () => console.log(`API running on localhost:${port}`));
 
+function applyRule(curr_rule, bq_instance, bq_dataset, bq_client_dataset, bq_client_data_perms) {
+
+    var permsList = [];
+
+    for (var j = 0; j < curr_rule.organization.length; j++) {
+      var findId = 'SELECT organization_id FROM `' + bq_instance + '.' + bq_dataset + '.vendors` WHERE organization = "' + curr_rule.organization[j] + '"';
+
+      bigquery.query(findId, function(err, rows) {
+          if (err) {
+            console.log(err);
+            return 1;
+          }
+          else {
+            permsList.push(rows[0].organization_id);
+
+            var updateRow = utils.buildPermissionsQuery(bq_instance, bq_client_dataset, bq_client_data_perms, permsList, curr_rule.identifier, curr_rule.identifierType, curr_rule.condition, curr_rule.token);
+
+            bigquery.query(updateRow, function(err2, rows2) {
+                if (err2) {
+                  console.log(err2);
+                  return 1;
+                }
+                else {
+                      console.log("Successfully refreshed permissions table.");
+                      return 0;
+                }
+
+            })
+          }
+      })
+
+    }
+
+}
+
 var job = new CronJob({
     cronTime: '00 30 23 * * 0-6',
     onTick: function() {
@@ -194,48 +230,11 @@ var job = new CronJob({
                                console.log("Rule list retrieved error.");
                              }
 
-                             for (var i = 0; i < docs.length; i++) {
-
-                                var curr_rule = docs[i];
-                                var permsList = [];
-
-                                for (var j = 0; j < curr_rule.organization.length; j++) {
-
-                                  var findId = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.vendors` WHERE organization = "' + curr_rule.organization[j] + '"';
-
-                                  bigquery.createQueryStream(findId)
-                                     .on('error', function(err) {
-                                        console.log(err.message);
-                                     })
-                                     .on('data', function(row) {
-                                        permsList.push(row.organization_id);
-
-                                        if (permsList.length === curr_rule.organization.length) {
-
-                                          var updateRow = utils.buildPermissionsQuery(config.bq_instance, config.bq_client_dataset, config.bq_client_data_perms, permsList, curr_rule.identifier, curr_rule.identifierType, curr_rule.condition, curr_rule.token);
-
-                                          bigquery.createQueryStream(updateRow)
-                                              .on('error', function(err) {
-                                                console.log(err.message );
-                                              })
-                                              .on('data', function(data) {
-
-                                              })
-                                              .on('end', function() {
-                                                  if (i === docs.length) {
-                                                    console.log("Successfully refreshed permissions table.");
-                                                  }
-
-                                              })
-                                        }
-                                      })
-                                     .on('end', function() {
-
-                                     });
-
-                                }
-                             }
-                         });
+                            for (var i = 0; i < docs.length; i++) {
+                                sleep.sleep(30);
+                                setTimeout(applyRule, 30000, docs[i], config.bq_instance, config.bq_dataset, config.bq_client_dataset, config.bq_client_data_perms);
+                            }
+                        });
 
                        }
                      });
