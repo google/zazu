@@ -129,7 +129,7 @@ Zazu integrates several popular production reliable web, data and analytics tech
     - Compute engine > VM instances > zazu-db > SSH
       - `docker ps -a`
       - `docker exec -it <container_id> sh`
-      - `mongo zazu -u <select_app_username> -p <select_app_password>` (from **step 13a.**)
+      - `mongo zazu -u <select_app_username> -p <select_app_password>` (from **step 14**)
       - `db.users.insert({ name: "<your_admin_name>", email: "<your_admin_email>", google_email: "<your_admin_google_id>", organization: "<your_company_name>", role: "retailer", accesses: [] })`
 
 17. **One time only**: Create the **same** first admin user of the application as in **step 15**, in Big Query.
