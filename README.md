@@ -90,7 +90,15 @@ Zazu integrates several popular production reliable web, data and analytics tech
     - Service account: Select the one created on **step 8**.
     - Networking > Network tags > **zazu-db**.
 
-14. Create a new VM instance for the App
+14. Create a global username and password for the mongoDB user used by the application.
+- Compute engine > VM instances > zazu-db > SSH
+  - `docker ps -a`
+  - `docker exec -it <container_id> sh`
+  - `mongo admin -u <select_root_username> -p <select_root_password>` (from **step 13a.**)
+  - `use zazu`
+  - `db.createUser({ user: "<select_app_username>", pwd: "<select_app_password>", roles: [ "readWrite" ] })`
+
+15. Create a new VM instance for the App
     - Deploy a container image
       - Use path from gcr.io where you published the Docker image on **step 7**.
       - Advanced Container Options > Environment variables
@@ -117,15 +125,14 @@ Zazu integrates several popular production reliable web, data and analytics tech
       - Service account: Select the one created on **step 8**.
       - Networking > Network tags > **zazu-app**
 
-15. **One time only**: Create the first admin user of the application in mongodb.
+16. **One time only**: Create the first admin user of the application in mongodb.
     - Compute engine > VM instances > zazu-db > SSH
       - `docker ps -a`
       - `docker exec -it <container_id> sh`
-      - `mongo admin -u <select_root_username> -p <select_root_password>` (from **step 13a.**)
-      - `use zazu`
+      - `mongo zazu -u <select_app_username> -p <select_app_password>` (from **step 13a.**)
       - `db.users.insert({ name: "<your_admin_name>", email: "<your_admin_email>", google_email: "<your_admin_google_id>", organization: "<your_company_name>", role: "retailer", accesses: [] })`
 
-16. **One time only**: Create the **same** first admin user of the application as in **step 15**, in Big Query.
+17. **One time only**: Create the **same** first admin user of the application as in **step 15**, in Big Query.
     - https://bigquery.cloud.google.com > Select the project > Compose query ><br/>
       `INSERT INTO `<project_name>.Zazu_Config_Data.users` (user_id, google_email, email, organization, role) VALUES (1, '<your_admin_google_id>', '<your_admin_email>', '<your_company_name>', 'retailer')`
 
