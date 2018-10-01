@@ -143,6 +143,10 @@ MIT
 MIT
 MIT
 
+@angular/router@6.1.8
+MIT
+MIT
+
 hammerjs@2.0.8
 MIT
 The MIT License (MIT)

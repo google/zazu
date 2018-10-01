@@ -41,6 +41,17 @@ module.exports = ".mat-elevation-z0{box-shadow:0 0 0 0 rgba(0,0,0,.2),0 0 0 0 rg
 
 /***/ }),
 
+/***/ "./node_modules/raw-loader/index.js!./node_modules/postcss-loader/lib/index.js??embedded!./node_modules/sass-loader/lib/loader.js??ref--15-3!./src/main-style-variables.scss":
+/*!*****************************************************************************************************************************************************************!*\
+  !*** ./node_modules/raw-loader!./node_modules/postcss-loader/lib??embedded!./node_modules/sass-loader/lib/loader.js??ref--15-3!./src/main-style-variables.scss ***!
+  \*****************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/* Tool bar top colour */\n/* Side nav color */\n/* Main content colour */\n"
+
+/***/ }),
+
 /***/ "./node_modules/raw-loader/index.js!./node_modules/postcss-loader/lib/index.js??embedded!./node_modules/sass-loader/lib/loader.js??ref--15-3!./src/styles.scss":
 /*!***************************************************************************************************************************************************!*\
   !*** ./node_modules/raw-loader!./node_modules/postcss-loader/lib??embedded!./node_modules/sass-loader/lib/loader.js??ref--15-3!./src/styles.scss ***!
@@ -543,6 +554,36 @@ module.exports = function (css) {
 
 /***/ }),
 
+/***/ "./src/main-style-variables.scss":
+/*!***************************************!*\
+  !*** ./src/main-style-variables.scss ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../node_modules/raw-loader!../node_modules/postcss-loader/lib??embedded!../node_modules/sass-loader/lib/loader.js??ref--15-3!./main-style-variables.scss */ "./node_modules/raw-loader/index.js!./node_modules/postcss-loader/lib/index.js??embedded!./node_modules/sass-loader/lib/loader.js??ref--15-3!./src/main-style-variables.scss");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./src/styles.scss":
 /*!*************************!*\
   !*** ./src/styles.scss ***!
@@ -574,14 +615,15 @@ if(false) {}
 /***/ }),
 
 /***/ 2:
-/*!************************************************************************************************!*\
-  !*** multi ./node_modules/@angular/material/prebuilt-themes/indigo-pink.css ./src/styles.scss ***!
-  \************************************************************************************************/
+/*!********************************************************************************************************************************!*\
+  !*** multi ./node_modules/@angular/material/prebuilt-themes/indigo-pink.css ./src/main-style-variables.scss ./src/styles.scss ***!
+  \********************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Eldon\zazu-nam\front-end\node_modules\@angular\material\prebuilt-themes\indigo-pink.css */"./node_modules/@angular/material/prebuilt-themes/indigo-pink.css");
-module.exports = __webpack_require__(/*! C:\Users\Eldon\zazu-nam\front-end\src\styles.scss */"./src/styles.scss");
+__webpack_require__(/*! C:\Users\Eldon\Desktop\zazu\front-end\node_modules\@angular\material\prebuilt-themes\indigo-pink.css */"./node_modules/@angular/material/prebuilt-themes/indigo-pink.css");
+__webpack_require__(/*! C:\Users\Eldon\Desktop\zazu\front-end\src\main-style-variables.scss */"./src/main-style-variables.scss");
+module.exports = __webpack_require__(/*! C:\Users\Eldon\Desktop\zazu\front-end\src\styles.scss */"./src/styles.scss");
 
 
 /***/ })

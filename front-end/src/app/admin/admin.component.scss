@@ -1,0 +1,64 @@
+@import "main-style-variables.scss";
+
+$side-nav-max: 150px;
+$side-nav-minimized: 60px;
+
+.side-nav {
+  width: $side-nav-max;
+  height: 100%;
+  background-color: $sidenav-color;
+  position: fixed;
+  -webkit-transition: padding-left 0.5s;
+  transition: padding-left 0.5s;
+  -webkit-transition: width 0.5s;
+  /* For Safari 3.1 to 6.0 */
+  transition: width 0.5s;
+  overflow: hidden;
+  z-index: 20;
+}
+
+.side-nav-minimized {
+  width: $side-nav-minimized !important;
+}
+
+
+.toolbar {
+  background-color: $toolbar-color;
+  color: white;
+  z-index: 20;
+
+  .menu-icon {
+    min-width: unset;
+    padding: 0;
+    i {
+      font-size: 2.5em;
+    }
+  }
+
+}
+
+
+.side-content {
+  margin-left: $side-nav-max;
+  -webkit-transition: margin-left 0.5s;
+  transition: margin-left 0.5s;
+}
+
+.toolbar {
+  position: fixed;
+}
+
+.main-content {
+  background-color: $main-content-color;
+  min-height: calc(100vh - 64px);
+  padding-top: 64px;
+}
+
+
+
+
+.side-content-minimized {
+  margin-left: $side-nav-minimized !important;
+}
+
+

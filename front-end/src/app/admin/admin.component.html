@@ -1,0 +1,36 @@
+<div class="main">
+
+  <!-- Side Navigation Menu-->
+  <div class="side-nav" [ngClass]="{'side-nav-minimized': minimized}">
+    <button mat-button>
+      Organization
+    </button>
+    <button mat-button>
+      Report List
+    </button>
+    <button mat-button>
+      User List
+    </button>
+  </div>
+
+  <div class="side-content" [ngClass]="{'side-content-minimized': minimized}">
+    <!-- Top Toolbar -->
+    <mat-toolbar class="toolbar">
+      <button mat-button class="menu-icon" (click)="toggleMenu()">
+        <i class="material-icons ">
+          menu
+        </i>
+      </button>
+    </mat-toolbar>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+
+
+
+
