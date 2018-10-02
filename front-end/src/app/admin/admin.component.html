@@ -2,18 +2,52 @@
 
   <!-- Side Navigation Menu-->
   <div class="side-nav" [ngClass]="{'side-nav-minimized': minimized}">
-    <button mat-button>
-      Organization
-    </button>
-    <button mat-button>
-      Report List
-    </button>
-    <button mat-button>
-      User List
-    </button>
+    <!-- Company Title and Logo goes Here-->
+    <div class="company">
+      <div class="icon-container">
+        <div class="icon">
+          <img src="../../assets/company-icon.png" alt="Smiley face">
+        </div>
+      </div>
+      <span class="name"> Company </span>
+    </div>
+
+    <!-- Side Navigation Menus -->
+    <div class="menu-container">
+
+      <!-- Menu # 1 -->
+      <div class="menu">
+        <i class="material-icons">
+          business
+        </i>
+        <span class="text">
+          Organizations
+        </span>
+      </div>
+
+      <!-- Menu # 2 -->
+      <div class="menu">
+        <i class="material-icons">
+          assessment
+        </i>
+        <span class="text">
+          Reports
+        </span>
+      </div>
+
+      <!-- Menu # 3 -->
+      <div class="menu">
+        <i class="material-icons">
+          person_outline
+        </i>
+        <span class="text">
+          Users
+        </span>
+      </div>
+    </div>
   </div>
 
-  <div class="side-content" [ngClass]="{'side-content-minimized': minimized}">
+  <div class="right-content" [ngClass]="{'right-content-minimized': minimized}">
     <!-- Top Toolbar -->
     <mat-toolbar class="toolbar">
       <button mat-button class="menu-icon" (click)="toggleMenu()">
@@ -29,8 +63,3 @@
     </div>
   </div>
 </div>
-
-
-
-
-

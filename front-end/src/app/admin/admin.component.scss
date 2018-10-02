@@ -1,8 +1,9 @@
 @import "main-style-variables.scss";
 
-$side-nav-max: 150px;
-$side-nav-minimized: 60px;
 
+
+
+// Side Navigation Menus Style
 .side-nav {
   width: $side-nav-max;
   height: 100%;
@@ -14,7 +15,64 @@ $side-nav-minimized: 60px;
   /* For Safari 3.1 to 6.0 */
   transition: width 0.5s;
   overflow: hidden;
-  z-index: 20;
+  z-index: 40;
+
+
+}
+
+.company {
+  height: 64px;
+
+  .icon-container {
+    height: 64px;
+    width: 64px;
+    position: relative;
+
+    img {
+      height: 45px;
+      width: 45px;
+      position: absolute;
+      right: 0;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto auto;
+    }
+  }
+
+  .name {
+    position: absolute;
+    top: 22px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    left: 70px;
+
+  }
+}
+
+
+.menu-container {
+  position: relative;
+
+  .menu {
+    height: 60px;
+    color: $menu-color;
+
+    .material-icons {
+      font-size: 30px;
+      position: relative;
+      top: 13px;
+      left: 16px;
+    }
+
+    .text {
+      position: absolute;
+      font-size: 17px;
+      left: 64px;
+      margin-top: 20px;
+    }
+  }
 }
 
 .side-nav-minimized {
@@ -26,10 +84,13 @@ $side-nav-minimized: 60px;
   background-color: $toolbar-color;
   color: white;
   z-index: 20;
+  position: fixed;
+
 
   .menu-icon {
     min-width: unset;
     padding: 0;
+
     i {
       font-size: 2.5em;
     }
@@ -38,15 +99,13 @@ $side-nav-minimized: 60px;
 }
 
 
-.side-content {
+.right-content {
   margin-left: $side-nav-max;
   -webkit-transition: margin-left 0.5s;
   transition: margin-left 0.5s;
 }
 
-.toolbar {
-  position: fixed;
-}
+
 
 .main-content {
   background-color: $main-content-color;
@@ -57,8 +116,6 @@ $side-nav-minimized: 60px;
 
 
 
-.side-content-minimized {
+.right-content-minimized {
   margin-left: $side-nav-minimized !important;
 }
-
-
