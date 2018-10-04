@@ -1,22 +1,41 @@
-<div class="breadcrumb">
-  <p> <span routerLink="../"> Organization List </span> >> {{organization.name}} </p>
+<div *ngIf="organization != null">
+  <div class="breadcrumb">
+    <p> <span routerLink="../"> Organization List </span> >> {{organization.name}} </p>
+  </div>
+
+  <div style="padding-top: 50px">
+    <h2>{{organization.name}}</h2>
+
+
+    <div *ngIf="users != null">
+      <h4>User List</h4>
+
+      <button *ngFor="let user of users" mat-button style="border: 1px solid rgba(240,240,240); box-shadow: 2px 2px 4px rgb(185, 185, 185); margin: 10px 10px; border-radius: 5px; background-color: white">
+        <div (click)="goToUser(user.id)">
+          <p>{{user.name}}</p>
+          <p> Viewer : <span *ngFor="let org of user.organizations">
+              {{org.name}}
+            </span> </p>
+
+        </div>
+      </button>
+    </div>
+
+    <div *ngIf="reports != null">
+      <h4>Report List</h4>
+
+      <button *ngFor="let report of reports" mat-button style="border: 1px solid rgba(240,240,240); box-shadow: 2px 2px 4px rgb(185, 185, 185); margin: 10px 10px; border-radius: 5px; background-color: white">
+        <div (click)="goToReport(report.id)">
+          <p>{{report.name}}</p>
+          <p> {{report.organization.name}} </p>
+          <p>{{report.date | date}}</p>
+
+        </div>
+      </button>
+    </div>
+  </div>
 </div>
 
-<div style="padding-top: 50px">
-  <h2>{{organization.name}}</h2>
-
-  <h4>User List</h4>
-
-  <button *ngFor="let user of users" mat-button style="border: 1px solid rgba(240,240,240); box-shadow: 2px 2px 4px rgb(185, 185, 185); margin: 10px 10px; border-radius: 5px; background-color: white">
-    <div (click)="goToUser(user.id)">
-      <p>{{user.name}}</p>
-      <p>Google Id: {{user.googleId}}</p>
-      <p>Secondary Id: {{user.secondaryEmail}}</p>
-      <p> Accesses: </p>
-      <p *ngFor="let org of user.organizations">
-        {{org.name}}
-      </p>
-    </div>
-  </button>
-
+<div *ngIf="organization == null">
+  <mat-spinner></mat-spinner>
 </div>

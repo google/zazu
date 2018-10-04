@@ -1,4 +1,3 @@
-import { OrganizationService } from './../shared/services/organization.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminComponent } from './admin.component';
@@ -8,6 +7,7 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { OrganizationDetailsComponent } from './organization-details/organization-details.component';
 import { OrganizationComponent } from './organization/organization.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
+import { AdminReportDetailsComponent } from './admin-report-details/admin-report-details.component';
 
 @NgModule({
   declarations: [
@@ -15,9 +15,10 @@ import { UserDetailsComponent } from './user-details/user-details.component';
     OrganizationListComponent,
     OrganizationDetailsComponent,
     OrganizationComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    AdminReportDetailsComponent,
   ],
   imports: [CommonModule, AdminRoutingModule, AngularMaterialModule],
-  providers: [OrganizationService]
+  providers: []
 })
 export class AdminModule {}

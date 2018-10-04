@@ -1,0 +1,11 @@
+{
+  "id": "5bb536d1f5998071ecba007c",
+  "name": "First Last",
+  "googleId": "name@gmail.com",
+  "secondaryEmail": "evelynhunter@zidant.com",
+  "organizations": [{
+    "id": "4",
+    "name": "Company Name"
+  }],
+  "role": "VIEWACCESS"
+}

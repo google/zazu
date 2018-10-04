@@ -3,10 +3,13 @@
 </div>
 
 <div style="padding-top: 50px">
-  <p *ngFor="let organization of organizations">
-    <button mat-button (click)="goToDetails(organization.id)" style="border: 1px solid rgba(240,240,240); box-shadow: 2px 2px 4px rgb(185, 185, 185); margin: 0 20px; border-radius: 5px; background-color: white">
-      <p>{{organization.name}}({{organization.id}})</p>
-      <p><span *ngFor="let category of organization.categories">{{category}}</span>  </p>
-    </button>
-  </p>
+  <div class="list">
+      <p *ngFor="let organization of organizations" class="card">
+          <button mat-button (click)="goToDetails(organization.id)">
+            <p>{{organization.name}}({{organization.id}})</p>
+            <p><span *ngFor="let category of organization.categories">{{category}}</span>  </p>
+          </button>
+        </p>
+  </div>
+
 </div>

@@ -1,12 +1,29 @@
-<div class="breadcrumb">
-  <p> <span routerLink="../../../"> Organization List </span> >> <span routerLink="../../"> {{organization.name}}</span>
-    >> <span> {{user.name}} </span> </p>
-</div>
+<div *ngIf="organization != null && user != null">
 
-<div style="padding-top: 60px">
-  <p> {{user.name}} </p>
-  <p> {{user.googleId }}</p>
-  <p> {{user.secondaryEmail }} </p>
-  <p> <strong>Accesses: </strong></p>
-  <p *ngFor="let org of user.organizations"> {{org.name}}  </p>
+  <div class="breadcrumb">
+    <p> <span routerLink="../../../"> Organization List </span> >> <span routerLink="../../"> {{organization.name}}</span>
+      >> <span> {{user.name}} </span> </p>
+  </div>
+
+  <div style="padding-top: 60px">
+    <p> {{user.name}} </p>
+    <p> {{user.googleId }}</p>
+    <p> {{user.secondaryEmail }} </p>
+    <p> <strong>Accesses: </strong></p>
+    <p *ngFor="let org of user.organizations"> {{org.name}} </p>
+  </div>
+
+  <div *ngIf="reports != null">
+    <h4>Report List</h4>
+
+    <button *ngFor="let report of reports" mat-button style="border: 1px solid rgba(240,240,240); box-shadow: 2px 2px 4px rgb(185, 185, 185); margin: 10px 10px; border-radius: 5px; background-color: white">
+      <div (click)="goToReport(report.id)">
+        <p>{{report.name}}</p>
+        <p> {{report.organization.name}} </p>
+        <p>{{report.date | date}}</p>
+
+      </div>
+    </button>
+  </div>
+
 </div>

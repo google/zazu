@@ -20,9 +20,14 @@ export class OrganizationListComponent implements OnInit {
 
 
 
-  ngOnInit() {
+  async ngOnInit() {
     // Gets all organizations OnInit
-    this.organizations = this.organizationService.getAllOrganizations();
+    try {
+      this.organizations = await this.organizationService.getAllOrganizations();
+    } catch (error) {
+      console.log(error);
+    }
+
   }
 
   goToDetails(id) {

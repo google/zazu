@@ -6,7 +6,7 @@ $toolbar-color: #616161;
 $main-content-color: #f5f5f5;
 
 
-/*************** SIDE NAVIGATION STYLES *******************/
+/*************** SIDE NAVIGATION VARIABLES *******************/
 
 // Maximum width size for side navigation
 $side-nav-max: 190px;
@@ -21,3 +21,14 @@ $sidenav-color: #323232;
 $menu-color: white;
 
 $sidenav-active-color: rgb(85, 85, 85);
+
+
+/*********** LIST CARD VARIABLES  ***********/
+
+$card-box-shadow: 2px 3px 4px rgba(101, 101, 101, .5);
+
+$card-background-color: white;
+
+$card-border: 1px solid #D7D7D7;
+
+$card-border-radius: 5px;

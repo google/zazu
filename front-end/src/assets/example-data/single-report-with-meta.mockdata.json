@@ -1,0 +1,30 @@
+  {
+    "id": "5bb64d2028929bcb295337ab",
+    "name": "Report Number 19",
+    "link": "https://datastudio.com/randomUrl1234",
+    "datasource": "Datasource 1",
+    "date": "Fri May 04 2001 13:16:34 GMT-0400 (Eastern Daylight Time)",
+    "createdBy": "First Last",
+    "updatedBy": "First Last",
+    "organization": {
+      "id": 3,
+      "name": "Company Name"
+    },
+    "accesses": [{
+      "id": 0,
+      "name": "Phop Ice"
+    },
+    {
+      "id": 2,
+      "name": "Wen Dees"
+    },{
+      "id": 3,
+      "name": "Mack Donald"
+    },{
+      "id": 4,
+      "name": "Kay-ef Si"
+    },{
+      "id": 5,
+      "name": "Estar Bhuks"
+    }]
+  }

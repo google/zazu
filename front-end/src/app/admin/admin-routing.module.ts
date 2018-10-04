@@ -1,3 +1,4 @@
+import { AdminReportDetailsComponent } from './admin-report-details/admin-report-details.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { OrganizationDetailsComponent } from './organization-details/organization-details.component';
 import { OrganizationListComponent } from './organization-list/organization-list.component';
@@ -19,6 +20,8 @@ const adminRoutes: Routes = [
           { path: 'list', component: OrganizationListComponent },
           { path: ':id', component: OrganizationDetailsComponent },
           { path: ':id/u/:userID', component: UserDetailsComponent  },
+          { path: ':id/r/:reportID', component: AdminReportDetailsComponent},
+          { path: ':id/u/:userID/r/:reportID', component: AdminReportDetailsComponent}
         ]
       }
     ]
