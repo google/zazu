@@ -1,21 +1,12 @@
-<div style="width: 100%; background-color: white; box-shadow: 0 1px 2px gray; height: 50px; position:fixed; z-index: 20">
+<div class="breadcrumb">
   <p>Organization List</p>
 </div>
 
 <div style="padding-top: 50px">
-  <p>
-    <button mat-button (click)="goToDetails('OrganizationOne')">
-      Organization One
-    </button>
-  </p>
-  <p>
-    <button mat-button (click)="goToDetails('OrganizationTwo')">
-      Organization Two
-    </button>
-  </p>
-  <p>
-    <button mat-button (click)="goToDetails('OrganizationThree')">
-      Organization Three
+  <p *ngFor="let organization of organizations">
+    <button mat-button (click)="goToDetails(organization.id)" style="border: 1px solid rgba(240,240,240); box-shadow: 2px 2px 4px rgb(185, 185, 185); margin: 0 20px; border-radius: 5px; background-color: white">
+      <p>{{organization.name}}({{organization.id}})</p>
+      <p><span *ngFor="let category of organization.categories">{{category}}</span>  </p>
     </button>
   </p>
 </div>

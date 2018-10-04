@@ -232,12 +232,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
 /* harmony import */ var _auth_login_login_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./auth/login/login.component */ "./src/app/auth/login/login.component.ts");
 /* harmony import */ var _user_user_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./user/user.component */ "./src/app/user/user.component.ts");
+/* harmony import */ var _shared_services_user_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./shared/services/user.service */ "./src/app/shared/services/user.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -264,7 +266,7 @@ var AppModule = /** @class */ (function () {
                 _angular_material_angular_material_module__WEBPACK_IMPORTED_MODULE_3__["AngularMaterialModule"],
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_2__["AppRoutingModule"]
             ],
-            providers: [_auth_auth_service__WEBPACK_IMPORTED_MODULE_1__["AuthService"], _auth_admin_guard_service__WEBPACK_IMPORTED_MODULE_0__["AdminGuard"]],
+            providers: [_auth_auth_service__WEBPACK_IMPORTED_MODULE_1__["AuthService"], _auth_admin_guard_service__WEBPACK_IMPORTED_MODULE_0__["AdminGuard"], _shared_services_user_service__WEBPACK_IMPORTED_MODULE_10__["UserService"]],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"]]
         })
     ], AppModule);
@@ -432,6 +434,337 @@ var LoginComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [])
     ], LoginComponent);
     return LoginComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/services/user.service.ts":
+/*!*************************************************!*\
+  !*** ./src/app/shared/services/user.service.ts ***!
+  \*************************************************/
+/*! exports provided: UserService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserService", function() { return UserService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var UserService = /** @class */ (function () {
+    function UserService() {
+        this.VIEWACCESS = 'VIEWACCESS';
+        this.ADMIN = 'ADMIN';
+        // Mocking Users Object
+        this.mockUsers = [
+            {
+                id: '5bb536d1ddd23eb99ca2ab62',
+                name: 'Terri Kemp',
+                googleId: 'name@gmail.com',
+                secondaryEmail: 'terrikemp@zidant.com',
+                organizations: [{
+                        id: '3',
+                        name: 'The Lego Company',
+                        categories: ['Toy Company']
+                    }],
+                role: 'VIEWACCESS'
+            },
+            {
+                id: '5bb536d176879b353fd7f912',
+                name: 'Preston Duncan',
+                googleId: 'name@gmail.com',
+                secondaryEmail: 'prestonduncan@zidant.com',
+                organizations: [{
+                        id: '2',
+                        name: 'Mattel Inc.',
+                        categories: ['Toy Company']
+                    },
+                    {
+                        id: '3',
+                        name: 'The Lego Company',
+                        categories: ['Toy Company']
+                    }],
+                role: 'VIEWACCESS'
+            },
+            {
+                id: '5bb536d17f017e2a23ba0278',
+                name: 'Riley Banks',
+                googleId: 'name@gmail.com',
+                secondaryEmail: 'rileybanks@zidant.com',
+                organizations: [{
+                        id: '3',
+                        name: 'The Lego Company',
+                        categories: ['Toy Company']
+                    }],
+                role: 'VIEWACCESS'
+            },
+            {
+                id: '5bb536d1320d03ad65fdff5b',
+                name: 'Melendez Gregory',
+                googleId: 'name@gmail.com',
+                secondaryEmail: 'melendezgregory@zidant.com',
+                organizations: [{
+                        id: '1',
+                        name: 'Hasbro Inc.',
+                        categories: ['Toy Company']
+                    },
+                    {
+                        id: '2',
+                        name: 'Mattel Inc.',
+                        categories: ['Toy Company']
+                    }],
+                role: 'VIEWACCESS'
+            },
+            {
+                id: '5bb536d1204a2833cf5e7ce4',
+                name: 'Arnold Ford',
+                googleId: 'name@gmail.com',
+                secondaryEmail: 'arnoldford@zidant.com',
+                organizations: [{
+                        id: '1',
+                        name: 'Hasbro Inc.',
+                        categories: ['Toy Company']
+                    }],
+                role: 'VIEWACCESS'
+            },
+            {
+                id: '5bb536d1f695ec3e12ac8bd1',
+                name: 'Montgomery Murray',
+                googleId: 'name@gmail.com',
+                secondaryEmail: 'montgomerymurray@zidant.com',
+                organizations: [{
+                        id: '1',
+                        name: 'Hasbro Inc.',
+                        categories: ['Toy Company']
+                    },
+                    {
+                        id: '4',
+                        name: 'Something',
+                        categories: ['Toy Company', 'Electronics']
+                    }],
+                role: 'VIEWACCESS'
+            },
+            {
+                id: '5bb536d1f5998071ecba007c',
+                name: 'Evelyn Hunter',
+                googleId: 'name@gmail.com',
+                secondaryEmail: 'evelynhunter@zidant.com',
+                organizations: [{
+                        id: '4',
+                        name: 'Something',
+                        categories: ['Toy Company', 'Electronics']
+                    }],
+                role: 'VIEWACCESS'
+            },
+            {
+                id: '5bb536d15ebce73929947531',
+                name: 'Gina Curry',
+                googleId: 'name@gmail.com',
+                secondaryEmail: 'ginacurry@zidant.com',
+                organizations: [{
+                        id: '2',
+                        name: 'Mattel Inc.',
+                        categories: ['Toy Company']
+                    }],
+                role: 'VIEWACCESS'
+            },
+            {
+                id: '5bb536d1ba92162c319d3518',
+                name: 'Liz Rhodes',
+                googleId: 'name@gmail.com',
+                secondaryEmail: 'lizrhodes@zidant.com',
+                organizations: [{
+                        id: '3',
+                        name: 'The Lego Company',
+                        categories: ['Toy Company']
+                    },
+                    {
+                        id: '4',
+                        name: 'Something',
+                        categories: ['Toy Company', 'Electronics']
+                    }],
+                role: 'VIEWACCESS'
+            },
+            {
+                id: '5bb536d1f979df4420fd96c6',
+                name: 'Deena Mcdowell',
+                googleId: 'name@gmail.com',
+                secondaryEmail: 'deenamcdowell@zidant.com',
+                organizations: [{
+                        id: '3',
+                        name: 'The Lego Company',
+                        categories: ['Toy Company']
+                    }],
+                role: 'VIEWACCESS'
+            },
+            {
+                id: '5bb536d1f2aaa4a685e7ab83',
+                name: 'Juarez Fulton',
+                googleId: 'name@gmail.com',
+                secondaryEmail: 'juarezfulton@zidant.com',
+                organizations: [{
+                        id: '1',
+                        name: 'Hasbro Inc.',
+                        categories: ['Toy Company']
+                    }],
+                role: 'VIEWACCESS'
+            },
+            {
+                id: '5bb536d11bbc7b909dde3caa',
+                name: 'Riddle Pittman',
+                googleId: 'name@gmail.com',
+                secondaryEmail: 'riddlepittman@zidant.com',
+                organizations: [{
+                        id: '4',
+                        name: 'Something',
+                        categories: ['Toy Company', 'Electronics']
+                    }],
+                role: 'VIEWACCESS'
+            },
+            {
+                id: '5bb536d1cfeb213cdb22d81b',
+                name: 'Cunningham Salas',
+                googleId: 'name@gmail.com',
+                secondaryEmail: 'cunninghamsalas@zidant.com',
+                organizations: [{
+                        id: '2',
+                        name: 'Mattel Inc.',
+                        categories: ['Toy Company']
+                    }],
+                role: 'VIEWACCESS'
+            },
+            {
+                id: '5bb536d119b4503f2cefdd69',
+                name: 'Nona Serrano',
+                googleId: 'name@gmail.com',
+                secondaryEmail: 'nonaserrano@zidant.com',
+                organizations: [{
+                        id: '1',
+                        name: 'Hasbro Inc.',
+                        categories: ['Toy Company']
+                    },
+                    {
+                        id: '2',
+                        name: 'Mattel Inc.',
+                        categories: ['Toy Company']
+                    }],
+                role: 'VIEWACCESS'
+            },
+            {
+                id: '5bb536d14c8fdf63c86d336e',
+                name: 'Charles Armstrong',
+                googleId: 'name@gmail.com',
+                secondaryEmail: 'charlesarmstrong@zidant.com',
+                organizations: [{
+                        id: '3',
+                        name: 'The Lego Company',
+                        categories: ['Toy Company']
+                    }],
+                role: 'VIEWACCESS'
+            },
+            {
+                id: '5bb536d1bf671b4b31c3fa0f',
+                name: 'Carole Griffith',
+                googleId: 'name@gmail.com',
+                secondaryEmail: 'carolegriffith@zidant.com',
+                organizations: [{
+                        id: '4',
+                        name: 'Something',
+                        categories: ['Toy Company', 'Electronics']
+                    }],
+                role: 'VIEWACCESS'
+            },
+            {
+                id: '5bb536d14a21db956e91cc77',
+                name: 'Helena Mcclain',
+                googleId: 'name@gmail.com',
+                secondaryEmail: 'helenamcclain@zidant.com',
+                organizations: [{
+                        id: '3',
+                        name: 'The Lego Company',
+                        categories: ['Toy Company']
+                    },
+                    {
+                        id: '4',
+                        name: 'Something',
+                        categories: ['Toy Company', 'Electronics']
+                    }],
+                role: 'VIEWACCESS'
+            },
+            {
+                id: '5bb536d1e7d64e9469d41528',
+                name: 'Mercedes Marshall',
+                googleId: 'name@gmail.com',
+                secondaryEmail: 'mercedesmarshall@zidant.com',
+                organizations: [{
+                        id: '4',
+                        name: 'Something',
+                        categories: ['Toy Company', 'Electronics']
+                    }],
+                role: 'VIEWACCESS'
+            },
+            {
+                id: '5bb536d13a9de8ed21d35cf9',
+                name: 'Villarreal Christian',
+                googleId: 'name@gmail.com',
+                secondaryEmail: 'villarrealchristian@zidant.com',
+                organizations: [{
+                        id: '4',
+                        name: 'Something',
+                        categories: ['Toy Company', 'Electronics']
+                    }],
+                role: 'VIEWACCESS'
+            },
+            {
+                id: '5bb536d1c2769b07aa437df0',
+                name: 'Graham Moran',
+                googleId: 'name@gmail.com',
+                secondaryEmail: 'grahammoran@zidant.com',
+                organizations: [{
+                        id: '2',
+                        name: 'Mattel Inc.',
+                        categories: ['Toy Company']
+                    },
+                    {
+                        id: '3',
+                        name: 'The Lego Company',
+                        categories: ['Toy Company']
+                    }],
+                role: 'VIEWACCESS'
+            }
+        ];
+    }
+    // Method for getting all users
+    UserService.prototype.getAllUsers = function () {
+        return this.mockUsers.slice();
+    };
+    // Getting user with Id
+    UserService.prototype.getUser = function (id) {
+        return this.mockUsers.filter(function (x) { return x.id === id; })[0];
+    };
+    // Filtering users by organization
+    UserService.prototype.getUsersByOrganization = function (orgId) {
+        return this.mockUsers.filter(function (u) {
+            return u.organizations.map(function (o) { return o.id; }).includes(orgId);
+        });
+    };
+    UserService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [])
+    ], UserService);
+    return UserService;
 }());
 
 

@@ -1,0 +1,12 @@
+<div class="breadcrumb">
+  <p> <span routerLink="../../../"> Organization List </span> >> <span routerLink="../../"> {{organization.name}}</span>
+    >> <span> {{user.name}} </span> </p>
+</div>
+
+<div style="padding-top: 60px">
+  <p> {{user.name}} </p>
+  <p> {{user.googleId }}</p>
+  <p> {{user.secondaryEmail }} </p>
+  <p> <strong>Accesses: </strong></p>
+  <p *ngFor="let org of user.organizations"> {{org.name}}  </p>
+</div>

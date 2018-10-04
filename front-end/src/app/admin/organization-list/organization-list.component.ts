@@ -1,5 +1,7 @@
+import { OrganizationService } from './../../shared/services/organization.service';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import * as OrganizationViewModel from '../../shared/view-models/organization.viewmodel';
 
 @Component({
   selector: 'app-organization-list',
@@ -7,15 +9,23 @@ import { Router } from '@angular/router';
   styleUrls: ['./organization-list.component.scss']
 })
 export class OrganizationListComponent implements OnInit {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private organizationService: OrganizationService
+  ) {}
 
-  constructor(  private router: Router) {  }
+  // Array of all organizations
+  organizations: OrganizationViewModel.Organization[];
+
+
 
   ngOnInit() {
+    // Gets all organizations OnInit
+    this.organizations = this.organizationService.getAllOrganizations();
   }
 
   goToDetails(id) {
-    this.router.navigate(['/admin', id]);
+    this.router.navigate(['../', id], { relativeTo: this.route });
   }
-
-
 }

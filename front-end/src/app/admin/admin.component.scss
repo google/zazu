@@ -20,6 +20,7 @@
 
 }
 
+// Company Logo  &  Name
 .company {
   height: 64px;
 
@@ -52,17 +53,26 @@
 }
 
 
+// Side Navigation Containers, Icon and text
 .menu-container {
   position: relative;
 
+  .menu-active {
+    background-color: $sidenav-active-color;
+  }
+
+  .menu:hover{
+    cursor: pointer;
+  }
+
   .menu {
-    height: 60px;
+    height: 50px;
     color: $menu-color;
 
     .material-icons {
       font-size: 30px;
       position: relative;
-      top: 13px;
+      top: 11px;
       left: 16px;
     }
 
@@ -70,7 +80,7 @@
       position: absolute;
       font-size: 17px;
       left: 64px;
-      margin-top: 20px;
+      margin-top: 17px;
     }
   }
 }

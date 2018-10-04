@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './auth/login/login.component';
 import { UserComponent } from './user/user.component';
+import { UserService } from './shared/services/user.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { UserComponent } from './user/user.component';
     AngularMaterialModule,
     AppRoutingModule
   ],
-  providers: [AuthService, AdminGuard],
+  providers: [AuthService, AdminGuard, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
