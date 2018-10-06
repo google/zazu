@@ -228,11 +228,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_material_angular_material_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../angular-material/angular-material.module */ "./src/angular-material/angular-material.module.ts");
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
-/* harmony import */ var _auth_login_login_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./auth/login/login.component */ "./src/app/auth/login/login.component.ts");
-/* harmony import */ var _user_user_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./user/user.component */ "./src/app/user/user.component.ts");
-/* harmony import */ var _shared_services_user_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./shared/services/user.service */ "./src/app/shared/services/user.service.ts");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
+/* harmony import */ var _auth_login_login_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./auth/login/login.component */ "./src/app/auth/login/login.component.ts");
+/* harmony import */ var _user_user_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./user/user.component */ "./src/app/user/user.component.ts");
+/* harmony import */ var _shared_services_user_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./shared/services/user.service */ "./src/app/shared/services/user.service.ts");
+/* harmony import */ var _shared_services_report_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./shared/services/report.service */ "./src/app/shared/services/report.service.ts");
+/* harmony import */ var _shared_services_organization_service__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./shared/services/organization.service */ "./src/app/shared/services/organization.service.ts");
+/* harmony import */ var _shared_common_view_user_list_user_list_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./shared/common-view/user-list/user-list.component */ "./src/app/shared/common-view/user-list/user-list.component.ts");
+/* harmony import */ var _shared_common_view_report_list_report_list_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./shared/common-view/report-list/report-list.component */ "./src/app/shared/common-view/report-list/report-list.component.ts");
+/* harmony import */ var _shared_common_view_report_details_report_details_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./shared/common-view/report-details/report-details.component */ "./src/app/shared/common-view/report-details/report-details.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -250,24 +256,34 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
+
+
+
+
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_5__["NgModule"])({
             declarations: [
-                _app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"],
-                _auth_login_login_component__WEBPACK_IMPORTED_MODULE_8__["LoginComponent"],
-                _user_user_component__WEBPACK_IMPORTED_MODULE_9__["UserComponent"],
+                _app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"],
+                _auth_login_login_component__WEBPACK_IMPORTED_MODULE_9__["LoginComponent"],
+                _user_user_component__WEBPACK_IMPORTED_MODULE_10__["UserComponent"],
+                _shared_common_view_user_list_user_list_component__WEBPACK_IMPORTED_MODULE_14__["UserListComponent"],
+                _shared_common_view_report_list_report_list_component__WEBPACK_IMPORTED_MODULE_15__["ReportListComponent"],
+                _shared_common_view_report_details_report_details_component__WEBPACK_IMPORTED_MODULE_16__["ReportDetailsComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__["BrowserModule"],
-                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_7__["BrowserAnimationsModule"],
+                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_8__["BrowserAnimationsModule"],
                 _angular_material_angular_material_module__WEBPACK_IMPORTED_MODULE_3__["AngularMaterialModule"],
-                _app_routing_module__WEBPACK_IMPORTED_MODULE_2__["AppRoutingModule"]
+                _app_routing_module__WEBPACK_IMPORTED_MODULE_2__["AppRoutingModule"],
+                _angular_common_http__WEBPACK_IMPORTED_MODULE_6__["HttpClientModule"],
             ],
-            providers: [_auth_auth_service__WEBPACK_IMPORTED_MODULE_1__["AuthService"], _auth_admin_guard_service__WEBPACK_IMPORTED_MODULE_0__["AdminGuard"], _shared_services_user_service__WEBPACK_IMPORTED_MODULE_10__["UserService"]],
-            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"]]
+            providers: [_auth_auth_service__WEBPACK_IMPORTED_MODULE_1__["AuthService"], _auth_admin_guard_service__WEBPACK_IMPORTED_MODULE_0__["AdminGuard"], _shared_services_user_service__WEBPACK_IMPORTED_MODULE_11__["UserService"], _shared_services_report_service__WEBPACK_IMPORTED_MODULE_12__["ReportService"], _shared_services_organization_service__WEBPACK_IMPORTED_MODULE_13__["OrganizationService"]],
+            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"]]
         })
     ], AppModule);
     return AppModule;
@@ -440,16 +456,38 @@ var LoginComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/shared/services/user.service.ts":
-/*!*************************************************!*\
-  !*** ./src/app/shared/services/user.service.ts ***!
-  \*************************************************/
-/*! exports provided: UserService */
+/***/ "./src/app/shared/common-view/report-details/report-details.component.html":
+/*!*********************************************************************************!*\
+  !*** ./src/app/shared/common-view/report-details/report-details.component.html ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>\r\n  report-details works!\r\n</p>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/shared/common-view/report-details/report-details.component.scss":
+/*!*********************************************************************************!*\
+  !*** ./src/app/shared/common-view/report-details/report-details.component.scss ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/shared/common-view/report-details/report-details.component.ts":
+/*!*******************************************************************************!*\
+  !*** ./src/app/shared/common-view/report-details/report-details.component.ts ***!
+  \*******************************************************************************/
+/*! exports provided: ReportDetailsComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserService", function() { return UserService; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReportDetailsComponent", function() { return ReportDetailsComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -461,311 +499,519 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var UserService = /** @class */ (function () {
-    function UserService() {
-        this.VIEWACCESS = 'VIEWACCESS';
-        this.ADMIN = 'ADMIN';
-        // Mocking Users Object
-        this.mockUsers = [
-            {
-                id: '5bb536d1ddd23eb99ca2ab62',
-                name: 'Terri Kemp',
-                googleId: 'name@gmail.com',
-                secondaryEmail: 'terrikemp@zidant.com',
-                organizations: [{
-                        id: '3',
-                        name: 'The Lego Company',
-                        categories: ['Toy Company']
-                    }],
-                role: 'VIEWACCESS'
-            },
-            {
-                id: '5bb536d176879b353fd7f912',
-                name: 'Preston Duncan',
-                googleId: 'name@gmail.com',
-                secondaryEmail: 'prestonduncan@zidant.com',
-                organizations: [{
-                        id: '2',
-                        name: 'Mattel Inc.',
-                        categories: ['Toy Company']
-                    },
-                    {
-                        id: '3',
-                        name: 'The Lego Company',
-                        categories: ['Toy Company']
-                    }],
-                role: 'VIEWACCESS'
-            },
-            {
-                id: '5bb536d17f017e2a23ba0278',
-                name: 'Riley Banks',
-                googleId: 'name@gmail.com',
-                secondaryEmail: 'rileybanks@zidant.com',
-                organizations: [{
-                        id: '3',
-                        name: 'The Lego Company',
-                        categories: ['Toy Company']
-                    }],
-                role: 'VIEWACCESS'
-            },
-            {
-                id: '5bb536d1320d03ad65fdff5b',
-                name: 'Melendez Gregory',
-                googleId: 'name@gmail.com',
-                secondaryEmail: 'melendezgregory@zidant.com',
-                organizations: [{
-                        id: '1',
-                        name: 'Hasbro Inc.',
-                        categories: ['Toy Company']
-                    },
-                    {
-                        id: '2',
-                        name: 'Mattel Inc.',
-                        categories: ['Toy Company']
-                    }],
-                role: 'VIEWACCESS'
-            },
-            {
-                id: '5bb536d1204a2833cf5e7ce4',
-                name: 'Arnold Ford',
-                googleId: 'name@gmail.com',
-                secondaryEmail: 'arnoldford@zidant.com',
-                organizations: [{
-                        id: '1',
-                        name: 'Hasbro Inc.',
-                        categories: ['Toy Company']
-                    }],
-                role: 'VIEWACCESS'
-            },
-            {
-                id: '5bb536d1f695ec3e12ac8bd1',
-                name: 'Montgomery Murray',
-                googleId: 'name@gmail.com',
-                secondaryEmail: 'montgomerymurray@zidant.com',
-                organizations: [{
-                        id: '1',
-                        name: 'Hasbro Inc.',
-                        categories: ['Toy Company']
-                    },
-                    {
-                        id: '4',
-                        name: 'Something',
-                        categories: ['Toy Company', 'Electronics']
-                    }],
-                role: 'VIEWACCESS'
-            },
-            {
-                id: '5bb536d1f5998071ecba007c',
-                name: 'Evelyn Hunter',
-                googleId: 'name@gmail.com',
-                secondaryEmail: 'evelynhunter@zidant.com',
-                organizations: [{
-                        id: '4',
-                        name: 'Something',
-                        categories: ['Toy Company', 'Electronics']
-                    }],
-                role: 'VIEWACCESS'
-            },
-            {
-                id: '5bb536d15ebce73929947531',
-                name: 'Gina Curry',
-                googleId: 'name@gmail.com',
-                secondaryEmail: 'ginacurry@zidant.com',
-                organizations: [{
-                        id: '2',
-                        name: 'Mattel Inc.',
-                        categories: ['Toy Company']
-                    }],
-                role: 'VIEWACCESS'
-            },
-            {
-                id: '5bb536d1ba92162c319d3518',
-                name: 'Liz Rhodes',
-                googleId: 'name@gmail.com',
-                secondaryEmail: 'lizrhodes@zidant.com',
-                organizations: [{
-                        id: '3',
-                        name: 'The Lego Company',
-                        categories: ['Toy Company']
-                    },
-                    {
-                        id: '4',
-                        name: 'Something',
-                        categories: ['Toy Company', 'Electronics']
-                    }],
-                role: 'VIEWACCESS'
-            },
-            {
-                id: '5bb536d1f979df4420fd96c6',
-                name: 'Deena Mcdowell',
-                googleId: 'name@gmail.com',
-                secondaryEmail: 'deenamcdowell@zidant.com',
-                organizations: [{
-                        id: '3',
-                        name: 'The Lego Company',
-                        categories: ['Toy Company']
-                    }],
-                role: 'VIEWACCESS'
-            },
-            {
-                id: '5bb536d1f2aaa4a685e7ab83',
-                name: 'Juarez Fulton',
-                googleId: 'name@gmail.com',
-                secondaryEmail: 'juarezfulton@zidant.com',
-                organizations: [{
-                        id: '1',
-                        name: 'Hasbro Inc.',
-                        categories: ['Toy Company']
-                    }],
-                role: 'VIEWACCESS'
-            },
-            {
-                id: '5bb536d11bbc7b909dde3caa',
-                name: 'Riddle Pittman',
-                googleId: 'name@gmail.com',
-                secondaryEmail: 'riddlepittman@zidant.com',
-                organizations: [{
-                        id: '4',
-                        name: 'Something',
-                        categories: ['Toy Company', 'Electronics']
-                    }],
-                role: 'VIEWACCESS'
-            },
-            {
-                id: '5bb536d1cfeb213cdb22d81b',
-                name: 'Cunningham Salas',
-                googleId: 'name@gmail.com',
-                secondaryEmail: 'cunninghamsalas@zidant.com',
-                organizations: [{
-                        id: '2',
-                        name: 'Mattel Inc.',
-                        categories: ['Toy Company']
-                    }],
-                role: 'VIEWACCESS'
-            },
-            {
-                id: '5bb536d119b4503f2cefdd69',
-                name: 'Nona Serrano',
-                googleId: 'name@gmail.com',
-                secondaryEmail: 'nonaserrano@zidant.com',
-                organizations: [{
-                        id: '1',
-                        name: 'Hasbro Inc.',
-                        categories: ['Toy Company']
-                    },
-                    {
-                        id: '2',
-                        name: 'Mattel Inc.',
-                        categories: ['Toy Company']
-                    }],
-                role: 'VIEWACCESS'
-            },
-            {
-                id: '5bb536d14c8fdf63c86d336e',
-                name: 'Charles Armstrong',
-                googleId: 'name@gmail.com',
-                secondaryEmail: 'charlesarmstrong@zidant.com',
-                organizations: [{
-                        id: '3',
-                        name: 'The Lego Company',
-                        categories: ['Toy Company']
-                    }],
-                role: 'VIEWACCESS'
-            },
-            {
-                id: '5bb536d1bf671b4b31c3fa0f',
-                name: 'Carole Griffith',
-                googleId: 'name@gmail.com',
-                secondaryEmail: 'carolegriffith@zidant.com',
-                organizations: [{
-                        id: '4',
-                        name: 'Something',
-                        categories: ['Toy Company', 'Electronics']
-                    }],
-                role: 'VIEWACCESS'
-            },
-            {
-                id: '5bb536d14a21db956e91cc77',
-                name: 'Helena Mcclain',
-                googleId: 'name@gmail.com',
-                secondaryEmail: 'helenamcclain@zidant.com',
-                organizations: [{
-                        id: '3',
-                        name: 'The Lego Company',
-                        categories: ['Toy Company']
-                    },
-                    {
-                        id: '4',
-                        name: 'Something',
-                        categories: ['Toy Company', 'Electronics']
-                    }],
-                role: 'VIEWACCESS'
-            },
-            {
-                id: '5bb536d1e7d64e9469d41528',
-                name: 'Mercedes Marshall',
-                googleId: 'name@gmail.com',
-                secondaryEmail: 'mercedesmarshall@zidant.com',
-                organizations: [{
-                        id: '4',
-                        name: 'Something',
-                        categories: ['Toy Company', 'Electronics']
-                    }],
-                role: 'VIEWACCESS'
-            },
-            {
-                id: '5bb536d13a9de8ed21d35cf9',
-                name: 'Villarreal Christian',
-                googleId: 'name@gmail.com',
-                secondaryEmail: 'villarrealchristian@zidant.com',
-                organizations: [{
-                        id: '4',
-                        name: 'Something',
-                        categories: ['Toy Company', 'Electronics']
-                    }],
-                role: 'VIEWACCESS'
-            },
-            {
-                id: '5bb536d1c2769b07aa437df0',
-                name: 'Graham Moran',
-                googleId: 'name@gmail.com',
-                secondaryEmail: 'grahammoran@zidant.com',
-                organizations: [{
-                        id: '2',
-                        name: 'Mattel Inc.',
-                        categories: ['Toy Company']
-                    },
-                    {
-                        id: '3',
-                        name: 'The Lego Company',
-                        categories: ['Toy Company']
-                    }],
-                role: 'VIEWACCESS'
-            }
-        ];
+var ReportDetailsComponent = /** @class */ (function () {
+    function ReportDetailsComponent() {
     }
-    // Method for getting all users
-    UserService.prototype.getAllUsers = function () {
-        return this.mockUsers.slice();
+    ReportDetailsComponent.prototype.ngOnInit = function () {
     };
-    // Getting user with Id
-    UserService.prototype.getUser = function (id) {
-        return this.mockUsers.filter(function (x) { return x.id === id; })[0];
+    ReportDetailsComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-report-details',
+            template: __webpack_require__(/*! ./report-details.component.html */ "./src/app/shared/common-view/report-details/report-details.component.html"),
+            styles: [__webpack_require__(/*! ./report-details.component.scss */ "./src/app/shared/common-view/report-details/report-details.component.scss")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], ReportDetailsComponent);
+    return ReportDetailsComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/common-view/report-list/report-list.component.html":
+/*!***************************************************************************!*\
+  !*** ./src/app/shared/common-view/report-list/report-list.component.html ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>\r\n  report-list works!\r\n</p>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/shared/common-view/report-list/report-list.component.scss":
+/*!***************************************************************************!*\
+  !*** ./src/app/shared/common-view/report-list/report-list.component.scss ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/shared/common-view/report-list/report-list.component.ts":
+/*!*************************************************************************!*\
+  !*** ./src/app/shared/common-view/report-list/report-list.component.ts ***!
+  \*************************************************************************/
+/*! exports provided: ReportListComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReportListComponent", function() { return ReportListComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var ReportListComponent = /** @class */ (function () {
+    function ReportListComponent() {
+    }
+    ReportListComponent.prototype.ngOnInit = function () {
     };
-    // Filtering users by organization
-    UserService.prototype.getUsersByOrganization = function (orgId) {
-        return this.mockUsers.filter(function (u) {
-            return u.organizations.map(function (o) { return o.id; }).includes(orgId);
+    ReportListComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-report-list',
+            template: __webpack_require__(/*! ./report-list.component.html */ "./src/app/shared/common-view/report-list/report-list.component.html"),
+            styles: [__webpack_require__(/*! ./report-list.component.scss */ "./src/app/shared/common-view/report-list/report-list.component.scss")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], ReportListComponent);
+    return ReportListComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/common-view/user-list/user-list.component.html":
+/*!***********************************************************************!*\
+  !*** ./src/app/shared/common-view/user-list/user-list.component.html ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>\r\n  user-list works!\r\n</p>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/shared/common-view/user-list/user-list.component.scss":
+/*!***********************************************************************!*\
+  !*** ./src/app/shared/common-view/user-list/user-list.component.scss ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/shared/common-view/user-list/user-list.component.ts":
+/*!*********************************************************************!*\
+  !*** ./src/app/shared/common-view/user-list/user-list.component.ts ***!
+  \*********************************************************************/
+/*! exports provided: UserListComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserListComponent", function() { return UserListComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/user.service */ "./src/app/shared/services/user.service.ts");
+/* harmony import */ var _view_models_filter_viewmodel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../view-models/filter.viewmodel */ "./src/app/shared/view-models/filter.viewmodel.ts");
+/* harmony import */ var _view_models_filter_viewmodel__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_view_models_filter_viewmodel__WEBPACK_IMPORTED_MODULE_2__);
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var UserListComponent = /** @class */ (function () {
+    function UserListComponent(userService) {
+        this.userService = userService;
+    }
+    UserListComponent.prototype.ngOnInit = function () {
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])('filters'),
+        __metadata("design:type", Object)
+    ], UserListComponent.prototype, "filters", void 0);
+    UserListComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-user-list',
+            template: __webpack_require__(/*! ./user-list.component.html */ "./src/app/shared/common-view/user-list/user-list.component.html"),
+            styles: [__webpack_require__(/*! ./user-list.component.scss */ "./src/app/shared/common-view/user-list/user-list.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_services_user_service__WEBPACK_IMPORTED_MODULE_1__["UserService"]])
+    ], UserListComponent);
+    return UserListComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/services/organization.service.ts":
+/*!*********************************************************!*\
+  !*** ./src/app/shared/services/organization.service.ts ***!
+  \*********************************************************/
+/*! exports provided: OrganizationService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrganizationService", function() { return OrganizationService; });
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+
+
+var OrganizationService = /** @class */ (function () {
+    function OrganizationService(http) {
+        this.http = http;
+    }
+    /**
+     * Method for getting all of the organizations
+     */
+    OrganizationService.prototype.getAllOrganizations = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, ((this.http.get('../../../assets/example-data/organizations.mockdata.json')).toPromise())];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
         });
     };
-    UserService = __decorate([
+    /**
+     *  Method for getting organization with filters
+     *  ********** MUST CONSULT HOW TO DO THIS *******
+     */
+    OrganizationService.prototype.getOrganizationsWithFilter = function (filter) {
+        return null;
+    };
+    /**
+     *  Method for getting Organization object with ID
+     */
+    OrganizationService.prototype.getOrganizationById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, ((this.http.get('../../../assets/example-data/single-organization.mockup.json')).toPromise())];
+                    case 1: return [4 /*yield*/, _a.sent()];
+                    case 2: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    OrganizationService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"]])
+    ], OrganizationService);
+    return OrganizationService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/services/report.service.ts":
+/*!***************************************************!*\
+  !*** ./src/app/shared/services/report.service.ts ***!
+  \***************************************************/
+/*! exports provided: ReportService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReportService", function() { return ReportService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+
+
+var ReportService = /** @class */ (function () {
+    function ReportService(http) {
+        this.http = http;
+    }
+    /**
+     * Gets all the reports for all organizations
+     */
+    ReportService.prototype.getAllReports = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, (this.http.get('../../../assets/example-data/reports.mockdata.json')).toPromise()];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /**
+     * Gets all the details(with meta data) for a specific report
+     * @param id - ID of the specific reprot
+     */
+    ReportService.prototype.getReport = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, (this.http.get('../../../assets/example-data/single-report-with-meta.mockdata.json')).toPromise()];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /**
+      *  Gets the reports for a specific organization. Can be more than one
+      * @param orgIDs ID of a specific organization
+      */
+    ReportService.prototype.getReportByOrganization = function (orgIDs) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, (this.http.get('../../../assets/example-data/reports.mockdata.json')).toPromise()];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /**
+     *  Gets the reports for organization(s). Can be more than one
+     * @param orgIDs Array of the Organization IDs
+     */
+    ReportService.prototype.getReportByOrganizations = function (orgIDs) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, (this.http.get('../../../assets/example-data/reports.mockdata.json')).toPromise()];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    ReportService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
             providedIn: 'root'
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], ReportService);
+    return ReportService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/services/user.service.ts":
+/*!*************************************************!*\
+  !*** ./src/app/shared/services/user.service.ts ***!
+  \*************************************************/
+/*! exports provided: UserService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserService", function() { return UserService; });
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+
+
+var UserService = /** @class */ (function () {
+    function UserService(http) {
+        this.http = http;
+        this.VIEWACCESS = 'VIEWACCESS';
+        this.ADMIN = 'ADMIN';
+    }
+    // Method for getting all users
+    UserService.prototype.getAllUsers = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        console.log('getting all users');
+                        return [4 /*yield*/, ((this.http.get('../../../assets/example-data/user-list.mockdata.json')).toPromise())];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    // Getting user with Id
+    UserService.prototype.getUser = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, ((this.http.get('../../../assets/example-data/single-user.mockdata.json')).toPromise())];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    // Filtering users by organization
+    UserService.prototype.getUsersByOrganization = function (orgId) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, ((this.http.get('../../../assets/example-data/user-list.mockdata.json')).toPromise())];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    UserService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"]])
     ], UserService);
     return UserService;
 }());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/view-models/filter.viewmodel.ts":
+/*!********************************************************!*\
+  !*** ./src/app/shared/view-models/filter.viewmodel.ts ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
 
 
 

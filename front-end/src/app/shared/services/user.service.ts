@@ -14,6 +14,7 @@ export class UserService {
 
   // Method for getting all users
   public async getAllUsers(): Promise<UserViewModel.SimpleUserView[]> {
+    console.log('getting all users');
     return await ((this.http.get<UserViewModel.SimpleUserView[]>('../../../assets/example-data/user-list.mockdata.json')).toPromise());
   }
 
@@ -23,11 +24,8 @@ export class UserService {
   }
 
   // Filtering users by organization
-  public getUsersByOrganization(orgId): UserViewModel.User[] {
-   // return this.mockUsers.filter(u => {
-   //   return u.organizations.map(o => o.id).includes(orgId);
-   // });
-   return null;
+  public async getUsersByOrganization(orgId): Promise<UserViewModel.SimpleUserView[]> {
+    return await ((this.http.get<UserViewModel.SimpleUserView[]>('../../../assets/example-data/user-list.mockdata.json')).toPromise());
   }
 
 

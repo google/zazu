@@ -1,0 +1,80 @@
+[{
+  "id": "5bb536d1ddd23eb99ca2ab62",
+  "name": "Terri Kemp",
+  "googleId": "name@gmail.com",
+  "secondaryEmail": "terrikemp@zidant.com",
+  "organizations": [{
+    "id": "3",
+    "name": "Company Name"
+  }],
+  "role": "VIEWACCESS"
+}, {
+  "id": "5bb536d176879b353fd7f912",
+  "name": "Preston Duncan",
+  "googleId": "name@gmail.com",
+  "secondaryEmail": "prestonduncan@zidant.com",
+  "organizations": [{
+    "id": "2",
+    "name": "Company Name"
+  }, {
+    "id": "3",
+    "name": "Company Name"
+  }],
+  "role": "VIEWACCESS"
+}, {
+  "id": "5bb536d17f017e2a23ba0278",
+  "name": "Riley Banks",
+  "googleId": "name@gmail.com",
+  "secondaryEmail": "rileybanks@zidant.com",
+  "organizations": [{
+    "id": "3",
+    "name": "Company Name"
+  }],
+  "role": "VIEWACCESS"
+}, {
+  "id": "5bb536d1320d03ad65fdff5b",
+  "name": "Melendez Gregory",
+  "googleId": "name@gmail.com",
+  "secondaryEmail": "melendezgregory@zidant.com",
+  "organizations": [{
+    "id": "1",
+    "name": "Company Name"
+  }, {
+    "id": "2",
+    "name": "Company Name"
+  }],
+  "role": "VIEWACCESS"
+}, {
+  "id": "5bb536d1204a2833cf5e7ce4",
+  "name": "Arnold Ford",
+  "googleId": "name@gmail.com",
+  "secondaryEmail": "arnoldford@zidant.com",
+  "organizations": [{
+    "id": "1",
+    "name": "Company Name"
+  }],
+  "role": "VIEWACCESS"
+}, {
+  "id": "5bb536d1f695ec3e12ac8bd1",
+  "name": "Montgomery Murray",
+  "googleId": "name@gmail.com",
+  "secondaryEmail": "montgomerymurray@zidant.com",
+  "organizations": [{
+    "id": "1",
+    "name": "Company Name"
+  }, {
+    "id": "4",
+    "name": "Company Name"
+  }],
+  "role": "VIEWACCESS"
+}, {
+  "id": "5bb536d1f5998071ecba007c",
+  "name": "Evelyn Hunter",
+  "googleId": "name@gmail.com",
+  "secondaryEmail": "evelynhunter@zidant.com",
+  "organizations": [{
+    "id": "4",
+    "name": "Company Name"
+  }],
+  "role": "VIEWACCESS"
+}]
