@@ -1,3 +1,14 @@
-<p>
-  user-list works!
-</p>
+
+ <div *ngIf="users != null">
+  <h4>User List</h4>
+
+  <button *ngFor="let user of users" mat-button style="border: 1px solid rgba(240,240,240); box-shadow: 2px 2px 4px rgb(185, 185, 185); margin: 10px 10px; border-radius: 5px; background-color: white">
+    <div (click)="userClicked(user.id)">
+      <p>{{user.name}}</p>
+      <p> Viewer : <span *ngFor="let org of user.organizations">
+          {{org.name}}
+        </span> </p>
+
+    </div>
+  </button>
+</div>

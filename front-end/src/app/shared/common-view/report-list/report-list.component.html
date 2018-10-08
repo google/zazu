@@ -1,3 +1,12 @@
-<p>
-  report-list works!
-</p>
+<div *ngIf="reports != null">
+  <h4>Report List</h4>
+
+  <button *ngFor="let report of reports" mat-button style="border: 1px solid rgba(240,240,240); box-shadow: 2px 2px 4px rgb(185, 185, 185); margin: 10px 10px; border-radius: 5px; background-color: white">
+    <div (click)="reportClicked(report.id)">
+      <p>{{report.name}}</p>
+      <p> {{report.organization.name}} </p>
+      <p>{{report.date | date}}</p>
+
+    </div>
+  </button>
+</div>

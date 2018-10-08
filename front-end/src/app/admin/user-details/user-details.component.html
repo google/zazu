@@ -1,8 +1,14 @@
 <div *ngIf="organization != null && user != null">
 
   <div class="breadcrumb">
-    <p> <span routerLink="../../../"> Organization List </span> >> <span routerLink="../../"> {{organization.name}}</span>
-      >> <span> {{user.name}} </span> </p>
+    <div *ngIf="this.orgID === undefined">
+        <p> <span routerLink="../../"> User List </span> >> <span> {{user.name}} </span> </p>
+    </div>
+    <div *ngIf="this.orgID != undefined">
+      <p> <span routerLink="../../../"> Organization List </span> >> <span routerLink="../../"> {{organization.name}}</span>
+        >> <span> {{user.name}} </span> </p>
+    </div>
+
   </div>
 
   <div style="padding-top: 60px">

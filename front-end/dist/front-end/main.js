@@ -236,9 +236,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_services_user_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./shared/services/user.service */ "./src/app/shared/services/user.service.ts");
 /* harmony import */ var _shared_services_report_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./shared/services/report.service */ "./src/app/shared/services/report.service.ts");
 /* harmony import */ var _shared_services_organization_service__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./shared/services/organization.service */ "./src/app/shared/services/organization.service.ts");
-/* harmony import */ var _shared_common_view_user_list_user_list_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./shared/common-view/user-list/user-list.component */ "./src/app/shared/common-view/user-list/user-list.component.ts");
-/* harmony import */ var _shared_common_view_report_list_report_list_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./shared/common-view/report-list/report-list.component */ "./src/app/shared/common-view/report-list/report-list.component.ts");
-/* harmony import */ var _shared_common_view_report_details_report_details_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./shared/common-view/report-details/report-details.component */ "./src/app/shared/common-view/report-details/report-details.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -259,30 +256,26 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
-
-
-
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_5__["NgModule"])({
-            declarations: [
-                _app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"],
-                _auth_login_login_component__WEBPACK_IMPORTED_MODULE_9__["LoginComponent"],
-                _user_user_component__WEBPACK_IMPORTED_MODULE_10__["UserComponent"],
-                _shared_common_view_user_list_user_list_component__WEBPACK_IMPORTED_MODULE_14__["UserListComponent"],
-                _shared_common_view_report_list_report_list_component__WEBPACK_IMPORTED_MODULE_15__["ReportListComponent"],
-                _shared_common_view_report_details_report_details_component__WEBPACK_IMPORTED_MODULE_16__["ReportDetailsComponent"],
-            ],
+            declarations: [_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"], _auth_login_login_component__WEBPACK_IMPORTED_MODULE_9__["LoginComponent"], _user_user_component__WEBPACK_IMPORTED_MODULE_10__["UserComponent"]],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__["BrowserModule"],
                 _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_8__["BrowserAnimationsModule"],
                 _angular_material_angular_material_module__WEBPACK_IMPORTED_MODULE_3__["AngularMaterialModule"],
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_2__["AppRoutingModule"],
-                _angular_common_http__WEBPACK_IMPORTED_MODULE_6__["HttpClientModule"],
+                _angular_common_http__WEBPACK_IMPORTED_MODULE_6__["HttpClientModule"]
             ],
-            providers: [_auth_auth_service__WEBPACK_IMPORTED_MODULE_1__["AuthService"], _auth_admin_guard_service__WEBPACK_IMPORTED_MODULE_0__["AdminGuard"], _shared_services_user_service__WEBPACK_IMPORTED_MODULE_11__["UserService"], _shared_services_report_service__WEBPACK_IMPORTED_MODULE_12__["ReportService"], _shared_services_organization_service__WEBPACK_IMPORTED_MODULE_13__["OrganizationService"]],
+            providers: [
+                _auth_auth_service__WEBPACK_IMPORTED_MODULE_1__["AuthService"],
+                _auth_admin_guard_service__WEBPACK_IMPORTED_MODULE_0__["AdminGuard"],
+                _shared_services_user_service__WEBPACK_IMPORTED_MODULE_11__["UserService"],
+                _shared_services_report_service__WEBPACK_IMPORTED_MODULE_12__["ReportService"],
+                _shared_services_organization_service__WEBPACK_IMPORTED_MODULE_13__["OrganizationService"]
+            ],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"]]
         })
     ], AppModule);
@@ -450,205 +443,6 @@ var LoginComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [])
     ], LoginComponent);
     return LoginComponent;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/shared/common-view/report-details/report-details.component.html":
-/*!*********************************************************************************!*\
-  !*** ./src/app/shared/common-view/report-details/report-details.component.html ***!
-  \*********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "<p>\r\n  report-details works!\r\n</p>\r\n"
-
-/***/ }),
-
-/***/ "./src/app/shared/common-view/report-details/report-details.component.scss":
-/*!*********************************************************************************!*\
-  !*** ./src/app/shared/common-view/report-details/report-details.component.scss ***!
-  \*********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = ""
-
-/***/ }),
-
-/***/ "./src/app/shared/common-view/report-details/report-details.component.ts":
-/*!*******************************************************************************!*\
-  !*** ./src/app/shared/common-view/report-details/report-details.component.ts ***!
-  \*******************************************************************************/
-/*! exports provided: ReportDetailsComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReportDetailsComponent", function() { return ReportDetailsComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-var ReportDetailsComponent = /** @class */ (function () {
-    function ReportDetailsComponent() {
-    }
-    ReportDetailsComponent.prototype.ngOnInit = function () {
-    };
-    ReportDetailsComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'app-report-details',
-            template: __webpack_require__(/*! ./report-details.component.html */ "./src/app/shared/common-view/report-details/report-details.component.html"),
-            styles: [__webpack_require__(/*! ./report-details.component.scss */ "./src/app/shared/common-view/report-details/report-details.component.scss")]
-        }),
-        __metadata("design:paramtypes", [])
-    ], ReportDetailsComponent);
-    return ReportDetailsComponent;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/shared/common-view/report-list/report-list.component.html":
-/*!***************************************************************************!*\
-  !*** ./src/app/shared/common-view/report-list/report-list.component.html ***!
-  \***************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "<p>\r\n  report-list works!\r\n</p>\r\n"
-
-/***/ }),
-
-/***/ "./src/app/shared/common-view/report-list/report-list.component.scss":
-/*!***************************************************************************!*\
-  !*** ./src/app/shared/common-view/report-list/report-list.component.scss ***!
-  \***************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = ""
-
-/***/ }),
-
-/***/ "./src/app/shared/common-view/report-list/report-list.component.ts":
-/*!*************************************************************************!*\
-  !*** ./src/app/shared/common-view/report-list/report-list.component.ts ***!
-  \*************************************************************************/
-/*! exports provided: ReportListComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReportListComponent", function() { return ReportListComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-var ReportListComponent = /** @class */ (function () {
-    function ReportListComponent() {
-    }
-    ReportListComponent.prototype.ngOnInit = function () {
-    };
-    ReportListComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'app-report-list',
-            template: __webpack_require__(/*! ./report-list.component.html */ "./src/app/shared/common-view/report-list/report-list.component.html"),
-            styles: [__webpack_require__(/*! ./report-list.component.scss */ "./src/app/shared/common-view/report-list/report-list.component.scss")]
-        }),
-        __metadata("design:paramtypes", [])
-    ], ReportListComponent);
-    return ReportListComponent;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/shared/common-view/user-list/user-list.component.html":
-/*!***********************************************************************!*\
-  !*** ./src/app/shared/common-view/user-list/user-list.component.html ***!
-  \***********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "<p>\r\n  user-list works!\r\n</p>\r\n"
-
-/***/ }),
-
-/***/ "./src/app/shared/common-view/user-list/user-list.component.scss":
-/*!***********************************************************************!*\
-  !*** ./src/app/shared/common-view/user-list/user-list.component.scss ***!
-  \***********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = ""
-
-/***/ }),
-
-/***/ "./src/app/shared/common-view/user-list/user-list.component.ts":
-/*!*********************************************************************!*\
-  !*** ./src/app/shared/common-view/user-list/user-list.component.ts ***!
-  \*********************************************************************/
-/*! exports provided: UserListComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserListComponent", function() { return UserListComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/user.service */ "./src/app/shared/services/user.service.ts");
-/* harmony import */ var _view_models_filter_viewmodel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../view-models/filter.viewmodel */ "./src/app/shared/view-models/filter.viewmodel.ts");
-/* harmony import */ var _view_models_filter_viewmodel__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_view_models_filter_viewmodel__WEBPACK_IMPORTED_MODULE_2__);
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-var UserListComponent = /** @class */ (function () {
-    function UserListComponent(userService) {
-        this.userService = userService;
-    }
-    UserListComponent.prototype.ngOnInit = function () {
-    };
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])('filters'),
-        __metadata("design:type", Object)
-    ], UserListComponent.prototype, "filters", void 0);
-    UserListComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'app-user-list',
-            template: __webpack_require__(/*! ./user-list.component.html */ "./src/app/shared/common-view/user-list/user-list.component.html"),
-            styles: [__webpack_require__(/*! ./user-list.component.scss */ "./src/app/shared/common-view/user-list/user-list.component.scss")]
-        }),
-        __metadata("design:paramtypes", [_services_user_service__WEBPACK_IMPORTED_MODULE_1__["UserService"]])
-    ], UserListComponent);
-    return UserListComponent;
 }());
 
 
@@ -1001,17 +795,6 @@ var UserService = /** @class */ (function () {
     ], UserService);
     return UserService;
 }());
-
-
-
-/***/ }),
-
-/***/ "./src/app/shared/view-models/filter.viewmodel.ts":
-/*!********************************************************!*\
-  !*** ./src/app/shared/view-models/filter.viewmodel.ts ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
 
 
 

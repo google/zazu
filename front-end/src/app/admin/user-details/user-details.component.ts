@@ -34,6 +34,7 @@ export class UserDetailsComponent implements OnInit {
     this.sub =  this.route.params.subscribe(params => {
       this.orgID = params['id'];
       this.userID =  params['userID'];
+      console.log(params['id']);
     });
     this.organization = await this.organizationService.getOrganizationById(this.orgID);
     this.user = await this.userService.getUser(this.userID);

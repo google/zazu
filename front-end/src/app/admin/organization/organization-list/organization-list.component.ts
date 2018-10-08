@@ -1,7 +1,7 @@
-import { OrganizationService } from './../../shared/services/organization.service';
+import { OrganizationService } from './../../../shared/services/organization.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import * as OrganizationViewModel from '../../shared/view-models/organization.viewmodel';
+import * as OrganizationViewModel from '../../../shared/view-models/organization.viewmodel';
 
 @Component({
   selector: 'app-organization-list',

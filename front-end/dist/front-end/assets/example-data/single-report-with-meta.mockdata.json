@@ -10,7 +10,7 @@
       "id": 3,
       "name": "Company Name"
     },
-    "accesses": [{
+    "accessedBy": [{
       "id": 0,
       "name": "Phop Ice"
     },

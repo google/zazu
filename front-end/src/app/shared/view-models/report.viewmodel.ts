@@ -31,5 +31,5 @@ export interface ReportWithMetaData {
   date: Date;
   createdBy: string;
   updatedBy: string;
-  accessed: UserViewModel.SimpleUserView[];
+  accessedBy: UserViewModel.SimpleUserView[];
 }

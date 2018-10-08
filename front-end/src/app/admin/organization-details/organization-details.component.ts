@@ -2,10 +2,7 @@ import { OrganizationService } from './../../shared/services/organization.servic
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as OrganizationViewModel from '../../shared/view-models/organization.viewmodel';
-import { UserService } from '../../shared/services/user.service';
-import * as UserViewModel from '../../shared/view-models/user.viewmodel';
-import { ReportService } from '../../shared/services/report.service';
-import * as ReportViewModel from '../../shared/view-models/report.viewmodel';
+import * as Filter from '../../shared/view-models/filter.viewmodel';
 
 @Component({
   selector: 'app-organization-details',
@@ -17,27 +14,49 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private organizationService: OrganizationService,
-    private userService: UserService,
-    private reportService: ReportService
   ) {}
+  // Subscription for route
+  sub: any;
   // Organization Object
   organization: OrganizationViewModel.OrganizationDetails;
-  // List of users in this organization
-  users: UserViewModel.SimpleUserView[];
-  reports: ReportViewModel.SimpleReport[];
+  // Filter for  Users
+  userListFilter: Filter.UserFilter = {
+    name: '',
+    organizationID: '',
+    role: 'VIEWER',
+    sort: ''
+  };
+  // Filter for Report
+  reportListFilter: Filter.ReportFilter = {
+    name: '',
+    organizationID: '',
+    sort: ''
+  };
+  // Organization ID
+  organizationID: string;
   async ngOnInit() {
     try {
-      this.organization = await this.organizationService.getOrganizationById('id');
-      this.users = await this.userService.getUsersByOrganization('orgID');
-      this.reports = await this.reportService.getReportByOrganization('orgID');
+      this.sub = this.route.params.subscribe(params => {
+        this.organizationID = params['id'];
+        console.log(params['id']);
+        // Initiate User filter
+        this.userListFilter.organizationID = params['id'];
+        // Initiate Report Filter
+        this.reportListFilter = params['id'];
+
+      });
+      // gets organization info
+      this.organization = await this.organizationService.getOrganizationById(
+        this.organizationID
+      );
+
     } catch (error) {
       console.log(error);
     }
   }
 
-
-
   ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   goToUser(userId) {
