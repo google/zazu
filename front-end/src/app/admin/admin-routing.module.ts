@@ -31,7 +31,7 @@ const adminRoutes: Routes = [
           {
             path: ':id/u/:userID/r/:reportID',
             component: AdminReportDetailsComponent
-          }
+          },
         ]
       },
       {

@@ -1,15 +1,40 @@
 <div *ngIf="organization != null">
-  <div class="breadcrumb">
-    <p> <span routerLink="../"> Organization List </span> >> {{organization.name}} </p>
+  <div class="breadcrumb-container">
+    <div> <span routerLink="../"><i  class="material-icons"> business </i> Organization List </span> &nbsp;&nbsp;>>&nbsp;&nbsp; <span class="active">{{organization.name}}  </span> </div>
   </div>
 
-  <div style="padding-top: 50px">
-    <h2>{{organization.name}}</h2>
+  <div class="main-content-view">
+    <div class="details">
+      <div class="card">
+        <div class="container">
+          <h2 class="title">{{organization.name}}</h2>
+          <h4 class="secondary"><span *ngFor="let category of organization.categories">{{category}} &nbsp; </span> </h4>
+          <p class="stats">
+            <span class="left"><i class="material-icons">
+                assessment
+              </i> {{organization.reportsCount}} Reports</span>
+            <span class="middle"> <i class="material-icons">
+                person_outline
+              </i>{{organization.usersCount}} Users</span>
+            <span class="right"> <i class="material-icons">
+                dns
+              </i> {{organization.datarulesCount}} Data Rules</span>
+          </p>
+        </div>
+      </div>
 
-    <app-user-list [filters]= "userListFilter" (userID)="goToUser($event)"></app-user-list>
-    <app-report-list [filters] = "reportListFilter" (reportID)="goToReport($event)"></app-report-list>
-
-
+      <div class="tabs">
+        <mat-tab-group>
+          <mat-tab label="Reports">
+            <app-report-list [filters]="reportListFilter" (reportID)="goToReport($event)"></app-report-list>
+          </mat-tab>
+          <mat-tab label="Users">
+            <app-user-list [filters]="userListFilter" (userID)="goToUser($event)"></app-user-list>
+          </mat-tab>
+          <mat-tab label="Data Rules"> Content 3 </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
   </div>
 </div>
 

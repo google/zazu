@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"(organization != null && user!= null && report != null) || (organization != null && !userView && report != null)\">\r\n\r\n  <div class=\"breadcrumb\">\r\n    <p *ngIf=\"!userView && organizationID != undefined\"> <span routerLink=\"../../../\"> Organization List </span> >> <span routerLink=\"../../\">\r\n        {{organization.name}}</span>\r\n      >> <span> {{report.name}} </span> </p>\r\n    <p *ngIf=\"userView && organizationID != undefined\"> <span routerLink=\"../../../../../\"> Organization List </span> >> <span routerLink=\"../../../../\">\r\n        {{organization.name}}</span>\r\n      >> <span routerLink=\"../../\"> {{user.name}} </span> >> <span> {{report.name}} ({{report.organization.name}})</span></p>\r\n      <p *ngIf=\"organizationID === undefined && userID != undefined\"> <span routerLink=\"../../../../\"> User List </span> >> <span routerLink=\"../../\"> {{user.name}} </span> >> <span> {{report.name}} ({{report.organization.name}})</span></p>\r\n\r\n      <p *ngIf=\"organizationID === undefined && userID === undefined\"> <span routerLink=\"../../\"> Report List </span>   >> <span> {{report.name}} ({{report.organization.name}})</span> </p>\r\n  </div>\r\n\r\n\r\n  <div style=\"padding-top: 60px\">\r\n    <h3> {{report.name}}</h3>\r\n    <p>{{report.organization.name}}</p>\r\n    <p>{{report.date | date }}</p>\r\n    <p>{{report.datasource}}</p>\r\n    <p>{{report.link}}</p>\r\n    <hr>\r\n    <h4>Meta Data</h4>\r\n    <p>Created By: {{ report.createdBy}}</p>\r\n    <p>Updated By: {{ report.updatedBy}}</p>\r\n    <h5>Accessed By</h5>\r\n    <p *ngFor=\"let user of report.accessedBy\"> {{user.name}}</p>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div *ngIf=\"(organization != null && user!= null && report != null) || (organization != null && !userView && report != null)\">\r\n\r\n  <div class=\"breadcrumb-container\">\r\n    <!-- Breadcrumbs for report when navigation from organization list -->\r\n    <div class=\"breadcrumb\" *ngIf=\"!userView && organizationID != undefined\"> <span routerLink=\"../../../\"> <i class=\"material-icons\">\r\n          business </i> Organization List </span> &nbsp;&nbsp;>>&nbsp;&nbsp; <span routerLink=\"../../\">\r\n        {{organization.name}}</span>\r\n      &nbsp;&nbsp;>>&nbsp;&nbsp; <span class=\"active\"> {{report.name}}   ({{report.organization.name}})</span> </div>\r\n\r\n    <!-- Breadcrumbs for report when navigation from user under organization list -->\r\n    <div class=\"breadcrumb\" *ngIf=\"userView && organizationID != undefined\"> <span routerLink=\"../../../../../\"> <i class=\"material-icons\">\r\n        business </i> Organization List </span>\r\n      &nbsp;&nbsp;>>&nbsp;&nbsp; <span routerLink=\"../../../../\">\r\n        {{organization.name}}</span>\r\n      &nbsp;&nbsp;>>&nbsp;&nbsp; <span routerLink=\"../../\"> {{user.name}} </span> &nbsp;&nbsp;>>&nbsp;&nbsp; <span class=\"active\"> {{report.name}}\r\n        ({{report.organization.name}})</span></div>\r\n\r\n    <!-- Breadcrumbs for report when navigation from user under user list -->\r\n    <div class=\"breadcrumb\" *ngIf=\"organizationID === undefined && userID != undefined\"> <span routerLink=\"../../../../\"> <i class=\"material-icons\">\r\n        person_outline </i> User List </span>\r\n      &nbsp;&nbsp;>>&nbsp;&nbsp; <span routerLink=\"../../\"> {{user.name}} </span> &nbsp;&nbsp;>>&nbsp;&nbsp; <span class=\"active\"> {{report.name}}\r\n        ({{report.organization.name}})</span></div>\r\n\r\n    <!-- Breadcrumbs for report when navigation from report list -->\r\n    <div class=\"breadcrumb\" *ngIf=\"organizationID === undefined && userID === undefined\"> <span routerLink=\"../../\"> <i class=\"material-icons\">\r\n        assessment </i>  Report List </span>\r\n      &nbsp;&nbsp;>>&nbsp;&nbsp; <span class=\"active\"> {{report.name}} ({{report.organization.name}})</span> </div>\r\n  </div>\r\n\r\n\r\n  <div class=\"main-content-view\">\r\n    <h3> {{report.name}}</h3>\r\n    <p>{{report.organization.name}}</p>\r\n    <p>{{report.date | date }}</p>\r\n    <p>{{report.datasource}}</p>\r\n    <p>{{report.link}}</p>\r\n    <hr>\r\n    <h4>Meta Data</h4>\r\n    <p>Created By: {{ report.createdBy}}</p>\r\n    <p>Updated By: {{ report.updatedBy}}</p>\r\n    <h5>Accessed By</h5>\r\n    <p *ngFor=\"let user of report.accessedBy\"> {{user.name}}</p>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -210,7 +210,7 @@ var adminRoutes = [
                     {
                         path: ':id/u/:userID/r/:reportID',
                         component: _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_5__["AdminReportDetailsComponent"]
-                    }
+                    },
                 ]
             },
             {
@@ -275,7 +275,7 @@ module.exports = "<div class=\"main\">\n\n  <!-- Side Navigation Menu-->\n  <div
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/*********** LIST CARD VARIABLES  ***********/\n.side-nav {\n  width: 190px;\n  height: 100%;\n  background-color: #323232;\n  position: fixed;\n  transition: padding-left 0.5s;\n  /* For Safari 3.1 to 6.0 */\n  transition: width 0.5s;\n  overflow: hidden;\n  z-index: 40; }\n.company {\n  height: 64px; }\n.company .icon-container {\n    height: 64px;\n    width: 64px;\n    position: relative; }\n.company .icon-container img {\n      height: 45px;\n      width: 45px;\n      position: absolute;\n      right: 0;\n      left: 0;\n      top: 0;\n      bottom: 0;\n      margin: auto auto; }\n.company .name {\n    position: absolute;\n    top: 22px;\n    font-size: 20px;\n    font-weight: bold;\n    color: white;\n    left: 70px; }\n.menu-container {\n  position: relative; }\n.menu-container .menu-active {\n    background-color: #555555; }\n.menu-container .menu:hover {\n    cursor: pointer; }\n.menu-container .menu {\n    height: 50px;\n    color: white; }\n.menu-container .menu .material-icons {\n      font-size: 30px;\n      position: relative;\n      top: 11px;\n      left: 16px; }\n.menu-container .menu .text {\n      position: absolute;\n      font-size: 17px;\n      left: 64px;\n      margin-top: 17px; }\n.side-nav-minimized {\n  width: 64px !important; }\n.toolbar {\n  background-color: #616161;\n  color: white;\n  z-index: 20;\n  position: fixed; }\n.toolbar .menu-icon {\n    min-width: unset;\n    padding: 0; }\n.toolbar .menu-icon i {\n      font-size: 2.5em; }\n.right-content {\n  margin-left: 190px;\n  transition: margin-left 0.5s; }\n.main-content {\n  background-color: #f5f5f5;\n  min-height: calc(100vh - 64px);\n  padding-top: 64px; }\n.right-content-minimized {\n  margin-left: 64px !important; }\n"
+module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n.side-nav {\n  width: 190px;\n  height: 100%;\n  background-color: #323232;\n  position: fixed;\n  transition: padding-left 0.5s;\n  /* For Safari 3.1 to 6.0 */\n  transition: width 0.5s;\n  overflow: hidden;\n  z-index: 40; }\n.company {\n  height: 64px; }\n.company .icon-container {\n    height: 64px;\n    width: 64px;\n    position: relative; }\n.company .icon-container img {\n      height: 45px;\n      width: 45px;\n      position: absolute;\n      right: 0;\n      left: 0;\n      top: 0;\n      bottom: 0;\n      margin: auto auto; }\n.company .name {\n    position: absolute;\n    top: 22px;\n    font-size: 20px;\n    font-weight: bold;\n    color: white;\n    left: 70px; }\n.menu-container {\n  position: relative; }\n.menu-container .menu-active {\n    background-color: #555555; }\n.menu-container .menu:hover {\n    cursor: pointer; }\n.menu-container .menu {\n    height: 50px;\n    color: white; }\n.menu-container .menu .material-icons {\n      font-size: 30px;\n      position: relative;\n      top: 11px;\n      left: 16px; }\n.menu-container .menu .text {\n      position: absolute;\n      font-size: 17px;\n      left: 64px;\n      margin-top: 17px; }\n.side-nav-minimized {\n  width: 64px !important; }\n.toolbar {\n  background-color: #616161;\n  color: white;\n  z-index: 20;\n  position: fixed; }\n.toolbar .menu-icon {\n    min-width: unset;\n    padding: 0; }\n.toolbar .menu-icon i {\n      font-size: 2.5em; }\n.right-content {\n  margin-left: 190px;\n  transition: margin-left 0.5s; }\n.main-content {\n  background-color: #f5f5f5;\n  min-height: calc(100vh - 64px);\n  padding-top: 64px; }\n.right-content-minimized {\n  margin-left: 64px !important; }\n"
 
 /***/ }),
 
@@ -414,7 +414,7 @@ var AdminModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"breadcrumb\">\n    <p>Report List</p>\n  </div>\n  <div style=\"margin-top: 60px\">\n      <app-report-list [filters] = \"reportListFilter\" (reportID)=\"goToReport($event)\"></app-report-list>\n\n  </div>\n"
+module.exports = "<div class=\"breadcrumb-container\">\n    <div class=\"breadcrumb\"> <span class=\"active\"><i class=\"material-icons\">\n        assessment </i> Report List</span></div>\n  </div>\n\n  <div class=\"main-content-view\">\n      <app-report-list [filters] = \"reportListFilter\" (reportID)=\"goToReport($event)\"></app-report-list>\n\n  </div>\n"
 
 /***/ }),
 
@@ -558,7 +558,7 @@ var AllReportsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"breadcrumb\">\n  <p>User List</p>\n</div>\n<app-user-list [filters]= \"filters\" (userID)=\"goToUser($event)\"></app-user-list>\n"
+module.exports = "<div class=\"breadcrumb-container\">\n  <div class=\"breadcrumb\"> <span class=\"active\"> <i class=\"material-icons\">\n        person_outline </i> User List</span></div>\n</div>\n\n<div class=\"main-content-view\">\n  <app-user-list [filters]=\"filters\" (userID)=\"goToUser($event)\"></app-user-list>\n</div>\n"
 
 /***/ }),
 
@@ -710,7 +710,7 @@ var AllUsersComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"organization != null\">\r\n  <div class=\"breadcrumb\">\r\n    <p> <span routerLink=\"../\"> Organization List </span> >> {{organization.name}} </p>\r\n  </div>\r\n\r\n  <div style=\"padding-top: 50px\">\r\n    <h2>{{organization.name}}</h2>\r\n\r\n    <app-user-list [filters]= \"userListFilter\" (userID)=\"goToUser($event)\"></app-user-list>\r\n    <app-report-list [filters] = \"reportListFilter\" (reportID)=\"goToReport($event)\"></app-report-list>\r\n\r\n\r\n  </div>\r\n</div>\r\n\r\n<div *ngIf=\"organization == null\">\r\n  <mat-spinner></mat-spinner>\r\n</div>\r\n"
+module.exports = "<div *ngIf=\"organization != null\">\r\n  <div class=\"breadcrumb-container\">\r\n    <div> <span routerLink=\"../\"><i  class=\"material-icons\"> business </i> Organization List </span> &nbsp;&nbsp;>>&nbsp;&nbsp; <span class=\"active\">{{organization.name}}  </span> </div>\r\n  </div>\r\n\r\n  <div class=\"main-content-view\">\r\n    <div class=\"details\">\r\n      <div class=\"card\">\r\n        <div class=\"container\">\r\n          <h2 class=\"title\">{{organization.name}}</h2>\r\n          <h4 class=\"secondary\"><span *ngFor=\"let category of organization.categories\">{{category}} &nbsp; </span> </h4>\r\n          <p class=\"stats\">\r\n            <span class=\"left\"><i class=\"material-icons\">\r\n                assessment\r\n              </i> {{organization.reportsCount}} Reports</span>\r\n            <span class=\"middle\"> <i class=\"material-icons\">\r\n                person_outline\r\n              </i>{{organization.usersCount}} Users</span>\r\n            <span class=\"right\"> <i class=\"material-icons\">\r\n                dns\r\n              </i> {{organization.datarulesCount}} Data Rules</span>\r\n          </p>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"tabs\">\r\n        <mat-tab-group>\r\n          <mat-tab label=\"Reports\">\r\n            <app-report-list [filters]=\"reportListFilter\" (reportID)=\"goToReport($event)\"></app-report-list>\r\n          </mat-tab>\r\n          <mat-tab label=\"Users\">\r\n            <app-user-list [filters]=\"userListFilter\" (userID)=\"goToUser($event)\"></app-user-list>\r\n          </mat-tab>\r\n          <mat-tab label=\"Data Rules\"> Content 3 </mat-tab>\r\n        </mat-tab-group>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div *ngIf=\"organization == null\">\r\n  <mat-spinner></mat-spinner>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -721,7 +721,7 @@ module.exports = "<div *ngIf=\"organization != null\">\r\n  <div class=\"breadcr
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n.tabs {\n  background-color: white;\n  margin: 20px 0;\n  box-shadow: 2px 3px 4px rgba(101, 101, 101, 0.5); }\n::ng-deep .tabs .mat-tab-header {\n  box-shadow: 0 1px 4px rgba(101, 101, 101, 0.7) !important;\n  border-bottom: none !important; }\n::ng-deep .tabs .mat-tab-label {\n  color: #3E3E3E;\n  opacity: 1;\n  font-size: 17px; }\n::ng-deep .tabs .mat-tab-label-active {\n  color: #0865EE; }\n::ng-deep .tabs .mat-tab-body {\n  padding: 10px; }\n::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, ::ng-deep .mat-tab-nav-bar.mat-primary .mat-ink-bar {\n  background: #0865EE;\n  height: 3px; }\n"
 
 /***/ }),
 
@@ -814,7 +814,6 @@ var OrganizationDetailsComponent = /** @class */ (function () {
                         _b.trys.push([0, 2, , 3]);
                         this.sub = this.route.params.subscribe(function (params) {
                             _this.organizationID = params['id'];
-                            console.log(params['id']);
                             // Initiate User filter
                             _this.userListFilter.organizationID = params['id'];
                             // Initiate Report Filter
@@ -869,7 +868,7 @@ var OrganizationDetailsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"breadcrumb\">\r\n  <p>Organization List</p>\r\n</div>\r\n\r\n<div style=\"padding-top: 50px\">\r\n  <div class=\"list\">\r\n      <p *ngFor=\"let organization of organizations\" class=\"card\">\r\n          <button mat-button (click)=\"goToDetails(organization.id)\">\r\n            <p>{{organization.name}}({{organization.id}})</p>\r\n            <p><span *ngFor=\"let category of organization.categories\">{{category}}</span>  </p>\r\n          </button>\r\n        </p>\r\n  </div>\r\n\r\n</div>\r\n"
+module.exports = "<div class=\"breadcrumb-container\">\r\n  <div class=\"breadcrumb\"> <span class=\"active\"> <i  class=\"material-icons\"> business </i> Organization List </span></div>\r\n</div>\r\n\r\n<div class=\"main-content-view\">\r\n  <div class=\"list\">\r\n    <div *ngFor=\"let organization of organizations\" class=\"card\">\r\n      <div class=\"container\" (click)=\"goToDetails(organization.id)\">\r\n        <h2 class=\"title\">{{organization.name}}</h2>\r\n        <h4 class=\"secondary\"><span *ngFor=\"let category of organization.categories\">{{category}} &nbsp; </span> </h4>\r\n        <p class=\"stats\">\r\n          <span class=\"left\"><i class=\"material-icons\">\r\n              assessment\r\n            </i> {{organization.reportsCount}} Reports</span>\r\n          <span class=\"middle\"> <i class=\"material-icons\">\r\n              person_outline\r\n            </i>{{organization.usersCount}} Users</span>\r\n          <span class=\"right\"> <i class=\"material-icons\">\r\n              dns\r\n            </i> {{organization.datarulesCount}} Data Rules</span>\r\n        </p>\r\n      </div>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1061,7 +1060,7 @@ var OrganizationComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"organization != null && user != null\">\r\n\r\n  <div class=\"breadcrumb\">\r\n    <div *ngIf=\"this.orgID === undefined\">\r\n        <p> <span routerLink=\"../../\"> User List </span> >> <span> {{user.name}} </span> </p>\r\n    </div>\r\n    <div *ngIf=\"this.orgID != undefined\">\r\n      <p> <span routerLink=\"../../../\"> Organization List </span> >> <span routerLink=\"../../\"> {{organization.name}}</span>\r\n        >> <span> {{user.name}} </span> </p>\r\n    </div>\r\n\r\n  </div>\r\n\r\n  <div style=\"padding-top: 60px\">\r\n    <p> {{user.name}} </p>\r\n    <p> {{user.googleId }}</p>\r\n    <p> {{user.secondaryEmail }} </p>\r\n    <p> <strong>Accesses: </strong></p>\r\n    <p *ngFor=\"let org of user.organizations\"> {{org.name}} </p>\r\n  </div>\r\n\r\n  <div *ngIf=\"reports != null\">\r\n    <h4>Report List</h4>\r\n\r\n    <button *ngFor=\"let report of reports\" mat-button style=\"border: 1px solid rgba(240,240,240); box-shadow: 2px 2px 4px rgb(185, 185, 185); margin: 10px 10px; border-radius: 5px; background-color: white\">\r\n      <div (click)=\"goToReport(report.id)\">\r\n        <p>{{report.name}}</p>\r\n        <p> {{report.organization.name}} </p>\r\n        <p>{{report.date | date}}</p>\r\n\r\n      </div>\r\n    </button>\r\n  </div>\r\n\r\n</div>\r\n"
+module.exports = "<div *ngIf=\"organization != null && user != null\">\r\n\r\n  <div class=\"breadcrumb-container\">\r\n    <!-- Breadcrumbs for user details under user list-->\r\n    <div *ngIf=\"this.orgID === undefined\">\r\n      <div class=\"breadcrumb\"> <span routerLink=\"../../\"><i class=\"material-icons\">\r\n            person_outline </i> User List </span> &nbsp;&nbsp;>>&nbsp;&nbsp; <span class=\"active\"> {{user.name}} </span> </div>\r\n    </div>\r\n\r\n    <!-- Breadcrumbs for user details under organization list-->\r\n    <div *ngIf=\"this.orgID != undefined\">\r\n      <div class=\"breadcrumb\"> <span routerLink=\"../../../\"><i class=\"material-icons\">\r\n            business </i> Organization List </span> &nbsp;&nbsp;>>&nbsp;&nbsp; <span routerLink=\"../../\"> {{organization.name}}</span>\r\n        &nbsp;&nbsp;>>&nbsp;&nbsp; <span class=\"active\"> {{user.name}} </span> </div>\r\n    </div>\r\n\r\n  </div>\r\n\r\n  <div class=\"main-content-view\">\r\n    <div class=\"details\">\r\n      <div class=\"card\">\r\n        <div class=\"container\">\r\n          <h2 class=\"title\"> {{user.name}}</h2>\r\n          <h4 class=\"secondary\">Viewer</h4>\r\n          <p class=\"content\">Email: {{user.googleId}}</p>\r\n          <p class=\"content\">Secondary Email:  {{user.secondaryEmail }}}</p>\r\n          <p class=\"content\"> Accesses: <span  *ngFor=\"let org of user.organizations\"> {{org.name}} </span></p>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div>\r\n      <h3 class=\"list-title\">Report List</h3>\r\n      <app-report-list [filters]=\"reportListFilter\" (reportID)=\"goToReport($event)\"></app-report-list>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1072,7 +1071,7 @@ module.exports = "<div *ngIf=\"organization != null && user != null\">\r\n\r\n  
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n.list-title {\n  color: #3e3e3e;\n  margin-bottom: 5px; }\n"
 
 /***/ }),
 
@@ -1086,11 +1085,10 @@ module.exports = ""
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserDetailsComponent", function() { return UserDetailsComponent; });
-/* harmony import */ var _shared_services_report_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/services/report.service */ "./src/app/shared/services/report.service.ts");
-/* harmony import */ var _shared_services_organization_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../shared/services/organization.service */ "./src/app/shared/services/organization.service.ts");
-/* harmony import */ var _shared_services_user_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../shared/services/user.service */ "./src/app/shared/services/user.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _shared_services_organization_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/services/organization.service */ "./src/app/shared/services/organization.service.ts");
+/* harmony import */ var _shared_services_user_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../shared/services/user.service */ "./src/app/shared/services/user.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1139,39 +1137,32 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
-
 var UserDetailsComponent = /** @class */ (function () {
-    function UserDetailsComponent(router, route, userService, organizationService, reportService) {
+    function UserDetailsComponent(router, route, userService, organizationService) {
         this.router = router;
         this.route = route;
         this.userService = userService;
         this.organizationService = organizationService;
-        this.reportService = reportService;
     }
     UserDetailsComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var _a, _b, _c;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
+            var _a, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
                         this.sub = this.route.params.subscribe(function (params) {
                             _this.orgID = params['id'];
                             _this.userID = params['userID'];
-                            console.log(params['id']);
                         });
                         _a = this;
                         return [4 /*yield*/, this.organizationService.getOrganizationById(this.orgID)];
                     case 1:
-                        _a.organization = _d.sent();
+                        _a.organization = _c.sent();
                         _b = this;
                         return [4 /*yield*/, this.userService.getUser(this.userID)];
                     case 2:
-                        _b.user = _d.sent();
-                        _c = this;
-                        return [4 /*yield*/, this.reportService.getReportByOrganizations([])];
-                    case 3:
-                        _c.reports = _d.sent();
+                        _b.user = _c.sent();
                         return [2 /*return*/];
                 }
             });
@@ -1189,16 +1180,15 @@ var UserDetailsComponent = /** @class */ (function () {
         this.router.navigate(['./r', reportID], { relativeTo: this.route });
     };
     UserDetailsComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Component"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
             selector: 'app-user-details',
             template: __webpack_require__(/*! ./user-details.component.html */ "./src/app/admin/user-details/user-details.component.html"),
             styles: [__webpack_require__(/*! ./user-details.component.scss */ "./src/app/admin/user-details/user-details.component.scss")]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"],
-            _shared_services_user_service__WEBPACK_IMPORTED_MODULE_2__["UserService"],
-            _shared_services_organization_service__WEBPACK_IMPORTED_MODULE_1__["OrganizationService"],
-            _shared_services_report_service__WEBPACK_IMPORTED_MODULE_0__["ReportService"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"],
+            _shared_services_user_service__WEBPACK_IMPORTED_MODULE_1__["UserService"],
+            _shared_services_organization_service__WEBPACK_IMPORTED_MODULE_0__["OrganizationService"]])
     ], UserDetailsComponent);
     return UserDetailsComponent;
 }());
@@ -1214,7 +1204,7 @@ var UserDetailsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"reports != null\">\r\n  <h4>Report List</h4>\r\n\r\n  <button *ngFor=\"let report of reports\" mat-button style=\"border: 1px solid rgba(240,240,240); box-shadow: 2px 2px 4px rgb(185, 185, 185); margin: 10px 10px; border-radius: 5px; background-color: white\">\r\n    <div (click)=\"reportClicked(report.id)\">\r\n      <p>{{report.name}}</p>\r\n      <p> {{report.organization.name}} </p>\r\n      <p>{{report.date | date}}</p>\r\n\r\n    </div>\r\n  </button>\r\n</div>\r\n"
+module.exports = "<div *ngIf=\"reports != null\">\r\n  <div class=\"list\">\r\n    <div *ngFor=\"let report of reports\" class=\"card\">\r\n      <div class=\"container\" (click)=\"reportClicked(report.id)\">\r\n        <h4 class=\"title\" ><strong> {{report.name}}</strong></h4>\r\n        <p class=\"secondary\">{{report.organization.name}}</p>\r\n        <p class=\"content\"> {{report.date | date}} </p>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1349,7 +1339,7 @@ var ReportListComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\r\n <div *ngIf=\"users != null\">\r\n  <h4>User List</h4>\r\n\r\n  <button *ngFor=\"let user of users\" mat-button style=\"border: 1px solid rgba(240,240,240); box-shadow: 2px 2px 4px rgb(185, 185, 185); margin: 10px 10px; border-radius: 5px; background-color: white\">\r\n    <div (click)=\"userClicked(user.id)\">\r\n      <p>{{user.name}}</p>\r\n      <p> Viewer : <span *ngFor=\"let org of user.organizations\">\r\n          {{org.name}}\r\n        </span> </p>\r\n\r\n    </div>\r\n  </button>\r\n</div>\r\n"
+module.exports = "<div *ngIf=\"users != null\">\r\n  <div class=\"list\">\r\n    <div *ngFor=\"let user of users\" class=\"card\">\r\n      <div class=\"container\"  (click)=\"userClicked(user.id)\">\r\n        <h4 class=\"title\" style=\"font-weight: bold\">{{user.name}}</h4>\r\n        <p class=\"secondary\"> Viewer : <span *ngFor=\"let org of user.organizations; let i = index\">\r\n            {{org.name}}<span *ngIf=\"i < user.organizations.length-1\">, </span> </span> </p>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1441,6 +1431,7 @@ var UserListComponent = /** @class */ (function () {
                         return [4 /*yield*/, this.userService.getUsersByOrganization(this.filters.organizationID)];
                     case 1:
                         _a.users = _b.sent();
+                        console.log(this.users[1].organizations.length);
                         return [3 /*break*/, 3];
                     case 2:
                         error_1 = _b.sent();

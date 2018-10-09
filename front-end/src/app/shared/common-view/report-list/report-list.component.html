@@ -1,12 +1,11 @@
 <div *ngIf="reports != null">
-  <h4>Report List</h4>
-
-  <button *ngFor="let report of reports" mat-button style="border: 1px solid rgba(240,240,240); box-shadow: 2px 2px 4px rgb(185, 185, 185); margin: 10px 10px; border-radius: 5px; background-color: white">
-    <div (click)="reportClicked(report.id)">
-      <p>{{report.name}}</p>
-      <p> {{report.organization.name}} </p>
-      <p>{{report.date | date}}</p>
-
+  <div class="list">
+    <div *ngFor="let report of reports" class="card">
+      <div class="container" (click)="reportClicked(report.id)">
+        <h4 class="title" ><strong> {{report.name}}</strong></h4>
+        <p class="secondary">{{report.organization.name}}</p>
+        <p class="content"> {{report.date | date}} </p>
+      </div>
     </div>
-  </button>
+  </div>
 </div>

@@ -1,14 +1,11 @@
-
- <div *ngIf="users != null">
-  <h4>User List</h4>
-
-  <button *ngFor="let user of users" mat-button style="border: 1px solid rgba(240,240,240); box-shadow: 2px 2px 4px rgb(185, 185, 185); margin: 10px 10px; border-radius: 5px; background-color: white">
-    <div (click)="userClicked(user.id)">
-      <p>{{user.name}}</p>
-      <p> Viewer : <span *ngFor="let org of user.organizations">
-          {{org.name}}
-        </span> </p>
-
+<div *ngIf="users != null">
+  <div class="list">
+    <div *ngFor="let user of users" class="card">
+      <div class="container"  (click)="userClicked(user.id)">
+        <h4 class="title" style="font-weight: bold">{{user.name}}</h4>
+        <p class="secondary"> Viewer : <span *ngFor="let org of user.organizations; let i = index">
+            {{org.name}}<span *ngIf="i < user.organizations.length-1">, </span> </span> </p>
+      </div>
     </div>
-  </button>
+  </div>
 </div>

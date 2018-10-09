@@ -1,4 +1,8 @@
-<div class="breadcrumb">
-  <p>User List</p>
+<div class="breadcrumb-container">
+  <div class="breadcrumb"> <span class="active"> <i class="material-icons">
+        person_outline </i> User List</span></div>
 </div>
-<app-user-list [filters]= "filters" (userID)="goToUser($event)"></app-user-list>
+
+<div class="main-content-view">
+  <app-user-list [filters]="filters" (userID)="goToUser($event)"></app-user-list>
+</div>

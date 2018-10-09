@@ -1,0 +1,32 @@
+@import "main-style-variables.scss";
+
+
+.tabs {
+  background-color: white;
+  margin: 20px 0;
+  box-shadow: $card-box-shadow;
+}
+
+::ng-deep .tabs .mat-tab-header  {
+  box-shadow: 0 1px 4px rgba(101, 101, 101, .7) !important;
+  border-bottom: none !important;
+}
+
+::ng-deep .tabs .mat-tab-label {
+  color: #3E3E3E;
+  opacity: 1;
+  font-size: 17px;
+}
+
+::ng-deep .tabs .mat-tab-label-active {
+  color: $tab-active-color;
+}
+
+::ng-deep .tabs .mat-tab-body {
+  padding: 10px;
+}
+
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,::ng-deep .mat-tab-nav-bar.mat-primary .mat-ink-bar{
+  background: $tab-active-color;
+  height: 3px;
+}

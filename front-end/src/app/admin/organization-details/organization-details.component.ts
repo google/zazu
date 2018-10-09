@@ -38,7 +38,6 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     try {
       this.sub = this.route.params.subscribe(params => {
         this.organizationID = params['id'];
-        console.log(params['id']);
         // Initiate User filter
         this.userListFilter.organizationID = params['id'];
         // Initiate Report Filter

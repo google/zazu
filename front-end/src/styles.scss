@@ -4,37 +4,241 @@
 
 html,
 body {
-  height: 100%;
+  min-height: 100vh;
 }
 
 body {
   margin: 0;
-  font-family: 'Helvetica';
+  font-family: 'Roboto', sans-serif;
+}
+
+/******** COMMON STYLES & MEDIA QUERIES ****/
+
+html,
+body {
+  font-size: 14px !important;
+}
+
+h1 {
+  font-size: 1.5em;
+}
+
+h2 {
+  font-size: 1.424em;
+}
+
+h3 {
+  font-size: 1.266em;
+}
+
+h4 {
+  font-size: 1.125em;
+}
+
+h5 {
+  font-size: 0.889em;
+}
+
+h6 {
+  font-size: 0.79em;
+}
+
+.display-1 {
+  font-size: 3.906em;
+}
+
+.display-2 {
+  font-size: 3.125em;
+}
+
+.display-3 {
+  font-size: 2.5em;
+}
+
+.display-4 {
+  font-size: 2em;
+}
+
+
+@media (min-width: 48em) {
+  h1 {
+    font-size: 2em;
+  }
+
+  h2 {
+    font-size: 1.5em;
+  }
+
+  h3 {
+    font-size: 1.2em;
+  }
+
+  h4 {
+    font-size: 1.0em;
+  }
+
+  .display-1 {
+    font-size: 6em;
+  }
+
+  .display-2 {
+    font-size: 5.5em;
+  }
+
+  .display-3 {
+    font-size: 4.5em;
+  }
+
+  .display-4 {
+    font-size: 3.5em;
+  }
+}
+
+@media (min-width: 62em) {
+
+  html,
+  body {
+    font-size: 16px !important;
+  }
+}
+
+@media (min-width: 75em) {
+
+  html,
+  body {
+    font-size: 18px !important;
+  }
 }
 
 
 
-// Breadcrumbs styling
+/****** BREADCRUMBS STYLES *****/
 
-.breadcrumb {
+.breadcrumb-container {
   width: 100%;
   background-color: white;
   box-shadow: 0 1px 2px gray;
   height: 50px;
   position: fixed;
-  z-index: 20
+  z-index: 20;
+  font-size: 15px;
+  line-height: 50px;
+  font-weight: 500;
+  padding-left: 30px;
+  color: $breadcrumb-non-active;
+
+  span:hover {
+    cursor: pointer;
+    color: $breadcrumb-hover;
+  }
+
+  i {
+    position: relative;
+    top: 5px;
+  }
+
+  .breadcrumb {
+    margin: auto;
+  }
+
+  .active,
+  .active:hover {
+    color: $breadcrumb-active;
+    cursor: initial;
+  }
+
 }
 
-/******** LIST CARD STYLES *****/
+// the contents below breadcrumbs
+.main-content-view {
+  padding-top: 60px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+/******** CARD STYLES *****/
 .list {
-  //
   .card {
-    border: $card-border;
-    box-shadow: $card-box-shadow;
-    margin: 20px 20px;
     border-radius: $card-border-radius;
-    background-color: $card-background-color;
-    width: 100%;
+    border: $card-border;
     max-width: 1080px;
+    .container {
+        padding: 10px 20px;
+    }
+
+  }
+
+  .card:hover {
+    cursor: pointer;
+    border-color: $card-color-hover;
+  }
+}
+
+.details {
+  .container {
+    max-width: 500px;
+    padding: 10px 20px;
+  }
+}
+
+.card {
+  margin: 12px 0;
+  box-shadow: $card-box-shadow;
+  background-color: $card-background-color;
+  width: calc(100%-20px);
+
+  .container {
+    max-width: 500px;
+  }
+
+  .title {
+    color: $card-title-color;
+    margin: 0;
+    font-weight: black;
+  }
+
+  p.secondary,
+  p.content {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+
+  .secondary {
+    color: $card-secondary-color;
+    margin: 2.5px 0;
+  }
+
+  .content {
+    color: $card-content-color;
+    margin: 0;
+  }
+
+  .stats {
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    color: $card-tertiary-color;
+    font-weight: 500;
+    font-size: 18px;
+
+    i {
+      position: relative;
+      top: 5px;
+
+    }
+
+    .left {
+      float: left;
+    }
+
+    .middle {
+      text-align: center;
+      width: 100%;
+    }
+
+    .right {
+      float: right;
+    }
   }
 }

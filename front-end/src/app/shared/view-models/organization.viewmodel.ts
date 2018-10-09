@@ -21,6 +21,6 @@ export interface OrganizationDetails {
   categories: String[];
   reportsCount: string;
   usersCount: string;
-  datasourceCount: string;
+  datarulesCount: string;
 }
 

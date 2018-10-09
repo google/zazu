@@ -4,26 +4,26 @@
   "categories": ["Toy Company"],
   "reportsCount": "5",
   "usersCount": "5",
-  "datasourceCount": "2"
+  "datarulesCount": "2"
 }, {
   "id": "2",
   "name": "Company Name",
   "categories": ["Toy Company"],
   "reportsCount": "5",
   "usersCount": "5",
-  "datasourceCount": "2"
+  "datarulesCount": "2"
 }, {
   "id": "3",
   "name": "Company Name",
   "categories": ["Toy Company"],
   "reportsCount": "5",
   "usersCount": "5",
-  "datasourceCount": "2"
+  "datarulesCount": "2"
 }, {
   "id": "4",
   "name": "Company Name",
   "categories": ["Toy Company", "Electronics"],
   "reportsCount": "5",
   "usersCount": "5",
-  "datasourceCount": "2"
+  "datarulesCount": "2"
 }]

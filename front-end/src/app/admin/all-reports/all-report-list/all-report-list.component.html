@@ -1,7 +1,9 @@
-<div class="breadcrumb">
-    <p>Report List</p>
+<div class="breadcrumb-container">
+    <div class="breadcrumb"> <span class="active"><i class="material-icons">
+        assessment </i> Report List</span></div>
   </div>
-  <div style="margin-top: 60px">
+
+  <div class="main-content-view">
       <app-report-list [filters] = "reportListFilter" (reportID)="goToReport($event)"></app-report-list>
 
   </div>

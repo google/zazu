@@ -1,15 +1,24 @@
-<div class="breadcrumb">
-  <p>Organization List</p>
+<div class="breadcrumb-container">
+  <div class="breadcrumb"> <span class="active"> <i  class="material-icons"> business </i> Organization List </span></div>
 </div>
 
-<div style="padding-top: 50px">
+<div class="main-content-view">
   <div class="list">
-      <p *ngFor="let organization of organizations" class="card">
-          <button mat-button (click)="goToDetails(organization.id)">
-            <p>{{organization.name}}({{organization.id}})</p>
-            <p><span *ngFor="let category of organization.categories">{{category}}</span>  </p>
-          </button>
+    <div *ngFor="let organization of organizations" class="card">
+      <div class="container" (click)="goToDetails(organization.id)">
+        <h2 class="title">{{organization.name}}</h2>
+        <h4 class="secondary"><span *ngFor="let category of organization.categories">{{category}} &nbsp; </span> </h4>
+        <p class="stats">
+          <span class="left"><i class="material-icons">
+              assessment
+            </i> {{organization.reportsCount}} Reports</span>
+          <span class="middle"> <i class="material-icons">
+              person_outline
+            </i>{{organization.usersCount}} Users</span>
+          <span class="right"> <i class="material-icons">
+              dns
+            </i> {{organization.datarulesCount}} Data Rules</span>
         </p>
-  </div>
-
+      </div>
+    </div>
 </div>

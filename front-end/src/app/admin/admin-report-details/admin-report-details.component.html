@@ -1,19 +1,34 @@
 <div *ngIf="(organization != null && user!= null && report != null) || (organization != null && !userView && report != null)">
 
-  <div class="breadcrumb">
-    <p *ngIf="!userView && organizationID != undefined"> <span routerLink="../../../"> Organization List </span> >> <span routerLink="../../">
+  <div class="breadcrumb-container">
+    <!-- Breadcrumbs for report when navigation from organization list -->
+    <div class="breadcrumb" *ngIf="!userView && organizationID != undefined"> <span routerLink="../../../"> <i class="material-icons">
+          business </i> Organization List </span> &nbsp;&nbsp;>>&nbsp;&nbsp; <span routerLink="../../">
         {{organization.name}}</span>
-      >> <span> {{report.name}} </span> </p>
-    <p *ngIf="userView && organizationID != undefined"> <span routerLink="../../../../../"> Organization List </span> >> <span routerLink="../../../../">
-        {{organization.name}}</span>
-      >> <span routerLink="../../"> {{user.name}} </span> >> <span> {{report.name}} ({{report.organization.name}})</span></p>
-      <p *ngIf="organizationID === undefined && userID != undefined"> <span routerLink="../../../../"> User List </span> >> <span routerLink="../../"> {{user.name}} </span> >> <span> {{report.name}} ({{report.organization.name}})</span></p>
+      &nbsp;&nbsp;>>&nbsp;&nbsp; <span class="active"> {{report.name}}   ({{report.organization.name}})</span> </div>
 
-      <p *ngIf="organizationID === undefined && userID === undefined"> <span routerLink="../../"> Report List </span>   >> <span> {{report.name}} ({{report.organization.name}})</span> </p>
+    <!-- Breadcrumbs for report when navigation from user under organization list -->
+    <div class="breadcrumb" *ngIf="userView && organizationID != undefined"> <span routerLink="../../../../../"> <i class="material-icons">
+        business </i> Organization List </span>
+      &nbsp;&nbsp;>>&nbsp;&nbsp; <span routerLink="../../../../">
+        {{organization.name}}</span>
+      &nbsp;&nbsp;>>&nbsp;&nbsp; <span routerLink="../../"> {{user.name}} </span> &nbsp;&nbsp;>>&nbsp;&nbsp; <span class="active"> {{report.name}}
+        ({{report.organization.name}})</span></div>
+
+    <!-- Breadcrumbs for report when navigation from user under user list -->
+    <div class="breadcrumb" *ngIf="organizationID === undefined && userID != undefined"> <span routerLink="../../../../"> <i class="material-icons">
+        person_outline </i> User List </span>
+      &nbsp;&nbsp;>>&nbsp;&nbsp; <span routerLink="../../"> {{user.name}} </span> &nbsp;&nbsp;>>&nbsp;&nbsp; <span class="active"> {{report.name}}
+        ({{report.organization.name}})</span></div>
+
+    <!-- Breadcrumbs for report when navigation from report list -->
+    <div class="breadcrumb" *ngIf="organizationID === undefined && userID === undefined"> <span routerLink="../../"> <i class="material-icons">
+        assessment </i>  Report List </span>
+      &nbsp;&nbsp;>>&nbsp;&nbsp; <span class="active"> {{report.name}} ({{report.organization.name}})</span> </div>
   </div>
 
 
-  <div style="padding-top: 60px">
+  <div class="main-content-view">
     <h3> {{report.name}}</h3>
     <p>{{report.organization.name}}</p>
     <p>{{report.date | date }}</p>

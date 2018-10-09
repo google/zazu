@@ -1,3 +1,4 @@
+import { OrganizationDetails } from './../../../shared/view-models/organization.viewmodel';
 import { OrganizationService } from './../../../shared/services/organization.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -16,7 +17,7 @@ export class OrganizationListComponent implements OnInit {
   ) {}
 
   // Array of all organizations
-  organizations: OrganizationViewModel.Organization[];
+  organizations: OrganizationViewModel.OrganizationDetails[];
 
 
 
