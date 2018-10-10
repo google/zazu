@@ -1,28 +1,35 @@
 [{
   "id": "1",
-  "name": "Company Name",
+  "name": "The Lego Group",
   "categories": ["Toy Company"],
   "reportsCount": "5",
   "usersCount": "5",
   "datarulesCount": "2"
 }, {
   "id": "2",
-  "name": "Company Name",
-  "categories": ["Toy Company"],
+  "name": "No Name",
+  "categories": ["Groceries"],
   "reportsCount": "5",
   "usersCount": "5",
   "datarulesCount": "2"
 }, {
   "id": "3",
-  "name": "Company Name",
-  "categories": ["Toy Company"],
+  "name": "The Old Navy",
+  "categories": ["Apparel"],
   "reportsCount": "5",
   "usersCount": "5",
   "datarulesCount": "2"
 }, {
   "id": "4",
-  "name": "Company Name",
+  "name": "VTech",
   "categories": ["Toy Company", "Electronics"],
+  "reportsCount": "5",
+  "usersCount": "5",
+  "datarulesCount": "2"
+}, {
+  "id": "5",
+  "name": "Nintendo",
+  "categories": ["Electronics"],
   "reportsCount": "5",
   "usersCount": "5",
   "datarulesCount": "2"

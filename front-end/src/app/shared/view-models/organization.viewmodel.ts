@@ -7,7 +7,7 @@ export interface Organization {
 }
 
 
-// This is used for users & reports
+// This is used for users , reports & data rules
 export interface SimpleOrganization {
   id: string;
   name: string;

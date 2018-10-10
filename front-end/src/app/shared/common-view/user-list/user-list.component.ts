@@ -21,7 +21,6 @@ export class UserListComponent implements OnInit {
       this.users = await this.userService.getUsersByOrganization(
         this.filters.organizationID
       );
-      console.log(this.users[1].organizations.length);
     } catch (error) {
       console.log(error);
     }

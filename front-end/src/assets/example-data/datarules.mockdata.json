@@ -1,0 +1,86 @@
+[
+  {
+    "id": "5bbe46202c17b5a06d9a92f5",
+    "organization": {
+      "id": "randomID",
+      "name": "Company Name"
+    },
+    "name": "Data Rule 0 ",
+    "datasource": "Data Source 2",
+    "identifier": "identifier",
+    "condition": "condition",
+    "token": "token"
+  },
+  {
+    "id": "5bbe4620dc1e5e83baf2676c",
+    "organization": {
+      "id": "randomID",
+      "name": "Company Name"
+    },
+    "name": "Data Rule 1 ",
+    "datasource": "Data Source 1",
+    "identifier": "identifier",
+    "condition": "condition",
+    "token": "token"
+  },
+  {
+    "id": "5bbe4620e93295d6176ed525",
+    "organization": {
+      "id": "randomID",
+      "name": "Company Name"
+    },
+    "name": "Data Rule 2 ",
+    "datasource": "Data Source 2",
+    "identifier": "identifier",
+    "condition": "condition",
+    "token": "token"
+  },
+  {
+    "id": "5bbe462054d03f0d93bf4041",
+    "organization": {
+      "id": "randomID",
+      "name": "Company Name"
+    },
+    "name": "Data Rule 3 ",
+    "datasource": "Data Source 2",
+    "identifier": "identifier",
+    "condition": "condition",
+    "token": "token"
+  },
+  {
+    "id": "5bbe46205f8b8a0eb9e89bad",
+    "organization": {
+      "id": "randomID",
+      "name": "Company Name"
+    },
+    "name": "Data Rule 4 ",
+    "datasource": "Data Source 1",
+    "identifier": "identifier",
+    "condition": "condition",
+    "token": "token"
+  },
+  {
+    "id": "5bbe4620179c746f87c89673",
+    "organization": {
+      "id": "randomID",
+      "name": "Company Name"
+    },
+    "name": "Data Rule 5 ",
+    "datasource": "Data Source 2",
+    "identifier": "identifier",
+    "condition": "condition",
+    "token": "token"
+  },
+  {
+    "id": "5bbe46203483d3a37bb44426",
+    "organization": {
+      "id": "randomID",
+      "name": "Company Name"
+    },
+    "name": "Data Rule 6 ",
+    "datasource": "Data Source 2",
+    "identifier": "identifier",
+    "condition": "condition",
+    "token": "token"
+  }
+]

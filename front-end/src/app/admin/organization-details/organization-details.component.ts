@@ -1,8 +1,10 @@
+import { DatarulesService } from './../../shared/services/datarules.service';
 import { OrganizationService } from './../../shared/services/organization.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as OrganizationViewModel from '../../shared/view-models/organization.viewmodel';
 import * as Filter from '../../shared/view-models/filter.viewmodel';
+import * as DataViewModel from '../../shared/view-models/data.viewmodel';
 
 @Component({
   selector: 'app-organization-details',
@@ -14,6 +16,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private organizationService: OrganizationService,
+    private dataruleService: DatarulesService
   ) {}
   // Subscription for route
   sub: any;
@@ -34,6 +37,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
   };
   // Organization ID
   organizationID: string;
+  rules: DataViewModel.DataRule[];
   async ngOnInit() {
     try {
       this.sub = this.route.params.subscribe(params => {
@@ -42,13 +46,14 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
         this.userListFilter.organizationID = params['id'];
         // Initiate Report Filter
         this.reportListFilter = params['id'];
-
       });
       // gets organization info
       this.organization = await this.organizationService.getOrganizationById(
         this.organizationID
       );
-
+      // gets data rules for this company
+      this.rules = await this.dataruleService.getDataRules(this.organizationID);
+      console.log(this.rules);
     } catch (error) {
       console.log(error);
     }

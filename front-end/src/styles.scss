@@ -1,5 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "main-style-variables.scss";
 
 html,
@@ -10,6 +9,218 @@ body {
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
+}
+
+
+/****** BREADCRUMBS STYLES *****/
+
+.breadcrumb-container {
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 1px 2px gray;
+  height: 50px;
+  position: fixed;
+  z-index: 20;
+  font-size: 15px;
+  line-height: 50px;
+  font-weight: 500;
+  padding-left: 30px;
+  color: $breadcrumb-non-active;
+
+  span:hover {
+    cursor: pointer;
+    color: $breadcrumb-hover;
+  }
+
+  i {
+    position: relative;
+    top: 5px;
+  }
+
+  .arrow {
+    font-size: 20px;
+    top: 4px;
+  }
+
+  .breadcrumb {
+    margin: auto;
+  }
+
+  .active,
+  .active:hover {
+    color: $breadcrumb-active;
+    cursor: initial;
+  }
+
+}
+
+// the contents below breadcrumbs
+.main-content-view {
+  padding-top: 60px;
+  padding-left: 30px;
+  padding-right: 30px;
+
+  .left-main-content-view {
+    width: 65%;
+    float: left;
+  }
+
+  .right-main-content-view {
+    width: 35%;
+    float: right;
+  }
+}
+
+/******** CARD STYLES *****/
+.list {
+  .card {
+    border-radius: $card-border-radius;
+    border: $card-border;
+    max-width: 1080px;
+
+    .container {
+      padding: 10px 20px;
+    }
+
+  }
+
+  .card:hover {
+    cursor: pointer;
+    border-color: $card-color-hover;
+  }
+}
+
+.details {
+  .container {
+    max-width: 500px;
+    padding: 10px 20px;
+  }
+}
+
+.card {
+  margin: 12px 0;
+  box-shadow: $card-box-shadow;
+  background-color: $card-background-color;
+  width: calc(100%-20px);
+
+  .container {
+    max-width: 500px;
+  }
+
+  .title {
+    color: $card-title-color;
+    margin: 0;
+    font-weight: black;
+  }
+
+  p.secondary,
+  p.content {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+
+  .secondary {
+    color: $card-secondary-color;
+    margin: 2.5px 0;
+  }
+
+  .content {
+    color: $card-content-color;
+    margin: 0;
+  }
+
+  .stats {
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    color: $card-tertiary-color;
+    font-weight: 500;
+    font-size: 18px;
+
+    i {
+      position: relative;
+      top: 5px;
+
+    }
+
+    .left {
+      float: left;
+    }
+
+    .middle {
+      text-align: center;
+      width: 100%;
+    }
+
+    .right {
+      float: right;
+    }
+  }
+}
+
+
+/***** SORT AND FILTER STYLE *****/
+.right-main-content-view {
+  .filter,
+  .sort {
+    padding: 15px;
+    background-color: white;
+    margin-top: 13px;
+    margin-left: 15px;
+    max-width: 300px;
+
+    .title {
+      margin: 0;
+      margin-bottom: 10px;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .checkbox,
+    .radio {
+      font-size: 13px;
+      width: 100%;
+      padding-left: 30px;
+      margin: 5px 0;
+      font-weight: 500;
+    }
+  }
+
+  .filter {
+    .search {
+      font-size: 14px;
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+
+}
+
+/****** FORMS STYLE ******/
+.mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: $checkbox-active !important;
+}
+
+.mat-ripple-element {
+  background: $form-ripple-color !important;
+}
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: $radio-button-active;
+}
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: $radio-button-active;
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline {
+  color: $form-field-focused !important;
+}
+
+.label-color {
+  color: $mat-label-color !important;
 }
 
 /******** COMMON STYLES & MEDIA QUERIES ****/
@@ -107,138 +318,5 @@ h6 {
   html,
   body {
     font-size: 18px !important;
-  }
-}
-
-
-
-/****** BREADCRUMBS STYLES *****/
-
-.breadcrumb-container {
-  width: 100%;
-  background-color: white;
-  box-shadow: 0 1px 2px gray;
-  height: 50px;
-  position: fixed;
-  z-index: 20;
-  font-size: 15px;
-  line-height: 50px;
-  font-weight: 500;
-  padding-left: 30px;
-  color: $breadcrumb-non-active;
-
-  span:hover {
-    cursor: pointer;
-    color: $breadcrumb-hover;
-  }
-
-  i {
-    position: relative;
-    top: 5px;
-  }
-
-  .breadcrumb {
-    margin: auto;
-  }
-
-  .active,
-  .active:hover {
-    color: $breadcrumb-active;
-    cursor: initial;
-  }
-
-}
-
-// the contents below breadcrumbs
-.main-content-view {
-  padding-top: 60px;
-  padding-left: 30px;
-  padding-right: 30px;
-}
-
-/******** CARD STYLES *****/
-.list {
-  .card {
-    border-radius: $card-border-radius;
-    border: $card-border;
-    max-width: 1080px;
-    .container {
-        padding: 10px 20px;
-    }
-
-  }
-
-  .card:hover {
-    cursor: pointer;
-    border-color: $card-color-hover;
-  }
-}
-
-.details {
-  .container {
-    max-width: 500px;
-    padding: 10px 20px;
-  }
-}
-
-.card {
-  margin: 12px 0;
-  box-shadow: $card-box-shadow;
-  background-color: $card-background-color;
-  width: calc(100%-20px);
-
-  .container {
-    max-width: 500px;
-  }
-
-  .title {
-    color: $card-title-color;
-    margin: 0;
-    font-weight: black;
-  }
-
-  p.secondary,
-  p.content {
-    font-size: 14px;
-    font-weight: 500;
-  }
-
-
-  .secondary {
-    color: $card-secondary-color;
-    margin: 2.5px 0;
-  }
-
-  .content {
-    color: $card-content-color;
-    margin: 0;
-  }
-
-  .stats {
-    width: 100%;
-    text-align: center;
-    margin: 0;
-    color: $card-tertiary-color;
-    font-weight: 500;
-    font-size: 18px;
-
-    i {
-      position: relative;
-      top: 5px;
-
-    }
-
-    .left {
-      float: left;
-    }
-
-    .middle {
-      text-align: center;
-      width: 100%;
-    }
-
-    .right {
-      float: right;
-    }
   }
 }

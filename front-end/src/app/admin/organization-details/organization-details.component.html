@@ -1,6 +1,7 @@
 <div *ngIf="organization != null">
   <div class="breadcrumb-container">
-    <div> <span routerLink="../"><i  class="material-icons"> business </i> Organization List </span> &nbsp;&nbsp;>>&nbsp;&nbsp; <span class="active">{{organization.name}}  </span> </div>
+    <div> <span routerLink="../"><i class="material-icons"> business </i> Organization List </span> &nbsp;&nbsp;   <i class="material-icons arrow">     keyboard_arrow_right   </i>   <i style="margin-left: -14px" class="material-icons arrow">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span class="active">{{organization.name}}
+      </span> </div>
   </div>
 
   <div class="main-content-view">
@@ -31,7 +32,36 @@
           <mat-tab label="Users">
             <app-user-list [filters]="userListFilter" (userID)="goToUser($event)"></app-user-list>
           </mat-tab>
-          <mat-tab label="Data Rules"> Content 3 </mat-tab>
+          <mat-tab label="Data Rules">
+            <div class="data-rules-section">
+              <mat-accordion *ngFor="let rule of rules; let i = index">
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                     <h4 class="title">{{rule.name}}</h4><br>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        <h5>{{rule.datasource}}</h5>
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <hr>
+                  <p>Identifier: {{rule.identifier}}</p>
+                  <p>Condition: {{rule.condition}}</p>
+                  <p>Token: {{rule.token}}</p>
+                  <div class="buttons">
+                      <button mat-button color="danger" >Delete</button>
+                      <button mat-button color="primary" >Edit</button>
+
+                  </div>
+
+                </mat-expansion-panel>
+
+                <br>
+
+              </mat-accordion>
+
+            </div>
+          </mat-tab>
         </mat-tab-group>
       </div>
     </div>

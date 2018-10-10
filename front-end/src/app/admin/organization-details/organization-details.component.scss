@@ -13,7 +13,7 @@
 }
 
 ::ng-deep .tabs .mat-tab-label {
-  color: #3E3E3E;
+  color: $tab-text-color;
   opacity: 1;
   font-size: 17px;
 }
@@ -29,4 +29,33 @@
 ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,::ng-deep .mat-tab-nav-bar.mat-primary .mat-ink-bar{
   background: $tab-active-color;
   height: 3px;
+}
+
+.data-rules-section{
+  padding: 5px;
+  max-width: 1080px;
+  p {
+    margin: 0;
+    color: $card-secondary-color;
+    font-weight: 500;
+  }
+  .buttons {
+    text-align: right;
+  }
+  hr {
+    border-top: 1px solid $card-tertiary-color;
+    margin-top: -10px;
+  }
+  .title {
+    color: $card-title-color;
+  }
+
+  .mat-expansion-panel-content{
+    padding-top: 5px;
+    border-top: 1px solid rgba(0,0,0,.12);
+  }
+
+  .mat-expansion-panel {
+    border-radius: 3px;
+  }
 }

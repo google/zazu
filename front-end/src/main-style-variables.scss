@@ -24,7 +24,9 @@ $sidenav-active-color: rgb(85, 85, 85);
 
 
 /********* ORGANIZATION DETAILS VARIABLES **********/
-$tab-active-color: #0865EE;
+$tab-active-color: rgb(8, 101, 238);
+
+$tab-text-color: #3E3E3E;
 
 
 /*********** LIST CARD VARIABLES  ***********/
@@ -53,3 +55,15 @@ $breadcrumb-non-active: #b4b4b4;
 $breadcrumb-active: #6296e6;
 
 $breadcrumb-hover: #3e3e3e;
+
+/******* FORMS STYLING ******/
+
+$checkbox-active: #757575;
+
+$form-ripple-color: rgba(75,75,75, 0.4);
+
+$radio-button-active: #757575;
+
+$form-field-focused: #757575;
+
+$mat-label-color: #757575;

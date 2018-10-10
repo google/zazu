@@ -14,6 +14,7 @@ import { AllUsersComponent } from './all-users/all-users.component';
 import { AllReportsComponent } from './all-reports/all-reports.component';
 import { AllUserListComponent } from './all-users/all-user-list/all-user-list.component';
 import { AllReportListComponent } from './all-reports/all-report-list/all-report-list.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,10 +29,10 @@ import { AllReportListComponent } from './all-reports/all-report-list/all-report
     AllUsersComponent,
     AllReportsComponent,
     AllUserListComponent,
-    AllReportListComponent
+    AllReportListComponent,
+
 
   ],
-  imports: [CommonModule, AdminRoutingModule, AngularMaterialModule],
-  providers: []
+  imports: [CommonModule, AdminRoutingModule, AngularMaterialModule, FormsModule, ReactiveFormsModule]
 })
 export class AdminModule {}

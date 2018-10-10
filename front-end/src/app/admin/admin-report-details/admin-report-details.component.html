@@ -3,28 +3,28 @@
   <div class="breadcrumb-container">
     <!-- Breadcrumbs for report when navigation from organization list -->
     <div class="breadcrumb" *ngIf="!userView && organizationID != undefined"> <span routerLink="../../../"> <i class="material-icons">
-          business </i> Organization List </span> &nbsp;&nbsp;>>&nbsp;&nbsp; <span routerLink="../../">
+          business </i> Organization List </span> &nbsp;&nbsp;   <i class="material-icons arrow">     keyboard_arrow_right   </i>   <i style="margin-left: -14px" class="material-icons arrow">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span routerLink="../../">
         {{organization.name}}</span>
-      &nbsp;&nbsp;>>&nbsp;&nbsp; <span class="active"> {{report.name}}   ({{report.organization.name}})</span> </div>
+      &nbsp;&nbsp;   <i class="material-icons arrow">     keyboard_arrow_right   </i>   <i style="margin-left: -14px" class="material-icons arrow">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span class="active"> {{report.name}}   ({{report.organization.name}})</span> </div>
 
     <!-- Breadcrumbs for report when navigation from user under organization list -->
     <div class="breadcrumb" *ngIf="userView && organizationID != undefined"> <span routerLink="../../../../../"> <i class="material-icons">
         business </i> Organization List </span>
-      &nbsp;&nbsp;>>&nbsp;&nbsp; <span routerLink="../../../../">
+      &nbsp;&nbsp;   <i class="material-icons arrow">     keyboard_arrow_right   </i>   <i style="margin-left: -14px" class="material-icons arrow">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span routerLink="../../../../">
         {{organization.name}}</span>
-      &nbsp;&nbsp;>>&nbsp;&nbsp; <span routerLink="../../"> {{user.name}} </span> &nbsp;&nbsp;>>&nbsp;&nbsp; <span class="active"> {{report.name}}
+      &nbsp;&nbsp;   <i class="material-icons arrow">     keyboard_arrow_right   </i>   <i style="margin-left: -14px" class="material-icons arrow">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span routerLink="../../"> {{user.name}} </span> &nbsp;&nbsp;   <i class="material-icons arrow">     keyboard_arrow_right   </i>   <i style="margin-left: -14px" class="material-icons arrow">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span class="active"> {{report.name}}
         ({{report.organization.name}})</span></div>
 
     <!-- Breadcrumbs for report when navigation from user under user list -->
     <div class="breadcrumb" *ngIf="organizationID === undefined && userID != undefined"> <span routerLink="../../../../"> <i class="material-icons">
         person_outline </i> User List </span>
-      &nbsp;&nbsp;>>&nbsp;&nbsp; <span routerLink="../../"> {{user.name}} </span> &nbsp;&nbsp;>>&nbsp;&nbsp; <span class="active"> {{report.name}}
+      &nbsp;&nbsp;   <i class="material-icons arrow">     keyboard_arrow_right   </i>   <i style="margin-left: -14px" class="material-icons arrow">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span routerLink="../../"> {{user.name}} </span> &nbsp;&nbsp;   <i class="material-icons arrow">     keyboard_arrow_right   </i>   <i style="margin-left: -14px" class="material-icons arrow">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span class="active"> {{report.name}}
         ({{report.organization.name}})</span></div>
 
     <!-- Breadcrumbs for report when navigation from report list -->
     <div class="breadcrumb" *ngIf="organizationID === undefined && userID === undefined"> <span routerLink="../../"> <i class="material-icons">
         assessment </i>  Report List </span>
-      &nbsp;&nbsp;>>&nbsp;&nbsp; <span class="active"> {{report.name}} ({{report.organization.name}})</span> </div>
+      &nbsp;&nbsp;   <i class="material-icons arrow">     keyboard_arrow_right   </i>   <i style="margin-left: -14px" class="material-icons arrow">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span class="active"> {{report.name}} ({{report.organization.name}})</span> </div>
   </div>
 
 

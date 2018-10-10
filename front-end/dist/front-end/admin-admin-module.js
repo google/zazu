@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"(organization != null && user!= null && report != null) || (organization != null && !userView && report != null)\">\r\n\r\n  <div class=\"breadcrumb-container\">\r\n    <!-- Breadcrumbs for report when navigation from organization list -->\r\n    <div class=\"breadcrumb\" *ngIf=\"!userView && organizationID != undefined\"> <span routerLink=\"../../../\"> <i class=\"material-icons\">\r\n          business </i> Organization List </span> &nbsp;&nbsp;>>&nbsp;&nbsp; <span routerLink=\"../../\">\r\n        {{organization.name}}</span>\r\n      &nbsp;&nbsp;>>&nbsp;&nbsp; <span class=\"active\"> {{report.name}}   ({{report.organization.name}})</span> </div>\r\n\r\n    <!-- Breadcrumbs for report when navigation from user under organization list -->\r\n    <div class=\"breadcrumb\" *ngIf=\"userView && organizationID != undefined\"> <span routerLink=\"../../../../../\"> <i class=\"material-icons\">\r\n        business </i> Organization List </span>\r\n      &nbsp;&nbsp;>>&nbsp;&nbsp; <span routerLink=\"../../../../\">\r\n        {{organization.name}}</span>\r\n      &nbsp;&nbsp;>>&nbsp;&nbsp; <span routerLink=\"../../\"> {{user.name}} </span> &nbsp;&nbsp;>>&nbsp;&nbsp; <span class=\"active\"> {{report.name}}\r\n        ({{report.organization.name}})</span></div>\r\n\r\n    <!-- Breadcrumbs for report when navigation from user under user list -->\r\n    <div class=\"breadcrumb\" *ngIf=\"organizationID === undefined && userID != undefined\"> <span routerLink=\"../../../../\"> <i class=\"material-icons\">\r\n        person_outline </i> User List </span>\r\n      &nbsp;&nbsp;>>&nbsp;&nbsp; <span routerLink=\"../../\"> {{user.name}} </span> &nbsp;&nbsp;>>&nbsp;&nbsp; <span class=\"active\"> {{report.name}}\r\n        ({{report.organization.name}})</span></div>\r\n\r\n    <!-- Breadcrumbs for report when navigation from report list -->\r\n    <div class=\"breadcrumb\" *ngIf=\"organizationID === undefined && userID === undefined\"> <span routerLink=\"../../\"> <i class=\"material-icons\">\r\n        assessment </i>  Report List </span>\r\n      &nbsp;&nbsp;>>&nbsp;&nbsp; <span class=\"active\"> {{report.name}} ({{report.organization.name}})</span> </div>\r\n  </div>\r\n\r\n\r\n  <div class=\"main-content-view\">\r\n    <h3> {{report.name}}</h3>\r\n    <p>{{report.organization.name}}</p>\r\n    <p>{{report.date | date }}</p>\r\n    <p>{{report.datasource}}</p>\r\n    <p>{{report.link}}</p>\r\n    <hr>\r\n    <h4>Meta Data</h4>\r\n    <p>Created By: {{ report.createdBy}}</p>\r\n    <p>Updated By: {{ report.updatedBy}}</p>\r\n    <h5>Accessed By</h5>\r\n    <p *ngFor=\"let user of report.accessedBy\"> {{user.name}}</p>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div *ngIf=\"(organization != null && user!= null && report != null) || (organization != null && !userView && report != null)\">\r\n\r\n  <div class=\"breadcrumb-container\">\r\n    <!-- Breadcrumbs for report when navigation from organization list -->\r\n    <div class=\"breadcrumb\" *ngIf=\"!userView && organizationID != undefined\"> <span routerLink=\"../../../\"> <i class=\"material-icons\">\r\n          business </i> Organization List </span> &nbsp;&nbsp;   <i class=\"material-icons arrow\">     keyboard_arrow_right   </i>   <i style=\"margin-left: -14px\" class=\"material-icons arrow\">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span routerLink=\"../../\">\r\n        {{organization.name}}</span>\r\n      &nbsp;&nbsp;   <i class=\"material-icons arrow\">     keyboard_arrow_right   </i>   <i style=\"margin-left: -14px\" class=\"material-icons arrow\">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span class=\"active\"> {{report.name}}   ({{report.organization.name}})</span> </div>\r\n\r\n    <!-- Breadcrumbs for report when navigation from user under organization list -->\r\n    <div class=\"breadcrumb\" *ngIf=\"userView && organizationID != undefined\"> <span routerLink=\"../../../../../\"> <i class=\"material-icons\">\r\n        business </i> Organization List </span>\r\n      &nbsp;&nbsp;   <i class=\"material-icons arrow\">     keyboard_arrow_right   </i>   <i style=\"margin-left: -14px\" class=\"material-icons arrow\">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span routerLink=\"../../../../\">\r\n        {{organization.name}}</span>\r\n      &nbsp;&nbsp;   <i class=\"material-icons arrow\">     keyboard_arrow_right   </i>   <i style=\"margin-left: -14px\" class=\"material-icons arrow\">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span routerLink=\"../../\"> {{user.name}} </span> &nbsp;&nbsp;   <i class=\"material-icons arrow\">     keyboard_arrow_right   </i>   <i style=\"margin-left: -14px\" class=\"material-icons arrow\">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span class=\"active\"> {{report.name}}\r\n        ({{report.organization.name}})</span></div>\r\n\r\n    <!-- Breadcrumbs for report when navigation from user under user list -->\r\n    <div class=\"breadcrumb\" *ngIf=\"organizationID === undefined && userID != undefined\"> <span routerLink=\"../../../../\"> <i class=\"material-icons\">\r\n        person_outline </i> User List </span>\r\n      &nbsp;&nbsp;   <i class=\"material-icons arrow\">     keyboard_arrow_right   </i>   <i style=\"margin-left: -14px\" class=\"material-icons arrow\">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span routerLink=\"../../\"> {{user.name}} </span> &nbsp;&nbsp;   <i class=\"material-icons arrow\">     keyboard_arrow_right   </i>   <i style=\"margin-left: -14px\" class=\"material-icons arrow\">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span class=\"active\"> {{report.name}}\r\n        ({{report.organization.name}})</span></div>\r\n\r\n    <!-- Breadcrumbs for report when navigation from report list -->\r\n    <div class=\"breadcrumb\" *ngIf=\"organizationID === undefined && userID === undefined\"> <span routerLink=\"../../\"> <i class=\"material-icons\">\r\n        assessment </i>  Report List </span>\r\n      &nbsp;&nbsp;   <i class=\"material-icons arrow\">     keyboard_arrow_right   </i>   <i style=\"margin-left: -14px\" class=\"material-icons arrow\">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span class=\"active\"> {{report.name}} ({{report.organization.name}})</span> </div>\r\n  </div>\r\n\r\n\r\n  <div class=\"main-content-view\">\r\n    <h3> {{report.name}}</h3>\r\n    <p>{{report.organization.name}}</p>\r\n    <p>{{report.date | date }}</p>\r\n    <p>{{report.datasource}}</p>\r\n    <p>{{report.link}}</p>\r\n    <hr>\r\n    <h4>Meta Data</h4>\r\n    <p>Created By: {{ report.createdBy}}</p>\r\n    <p>Updated By: {{ report.updatedBy}}</p>\r\n    <h5>Accessed By</h5>\r\n    <p *ngFor=\"let user of report.accessedBy\"> {{user.name}}</p>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -275,7 +275,7 @@ module.exports = "<div class=\"main\">\n\n  <!-- Side Navigation Menu-->\n  <div
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n.side-nav {\n  width: 190px;\n  height: 100%;\n  background-color: #323232;\n  position: fixed;\n  transition: padding-left 0.5s;\n  /* For Safari 3.1 to 6.0 */\n  transition: width 0.5s;\n  overflow: hidden;\n  z-index: 40; }\n.company {\n  height: 64px; }\n.company .icon-container {\n    height: 64px;\n    width: 64px;\n    position: relative; }\n.company .icon-container img {\n      height: 45px;\n      width: 45px;\n      position: absolute;\n      right: 0;\n      left: 0;\n      top: 0;\n      bottom: 0;\n      margin: auto auto; }\n.company .name {\n    position: absolute;\n    top: 22px;\n    font-size: 20px;\n    font-weight: bold;\n    color: white;\n    left: 70px; }\n.menu-container {\n  position: relative; }\n.menu-container .menu-active {\n    background-color: #555555; }\n.menu-container .menu:hover {\n    cursor: pointer; }\n.menu-container .menu {\n    height: 50px;\n    color: white; }\n.menu-container .menu .material-icons {\n      font-size: 30px;\n      position: relative;\n      top: 11px;\n      left: 16px; }\n.menu-container .menu .text {\n      position: absolute;\n      font-size: 17px;\n      left: 64px;\n      margin-top: 17px; }\n.side-nav-minimized {\n  width: 64px !important; }\n.toolbar {\n  background-color: #616161;\n  color: white;\n  z-index: 20;\n  position: fixed; }\n.toolbar .menu-icon {\n    min-width: unset;\n    padding: 0; }\n.toolbar .menu-icon i {\n      font-size: 2.5em; }\n.right-content {\n  margin-left: 190px;\n  transition: margin-left 0.5s; }\n.main-content {\n  background-color: #f5f5f5;\n  min-height: calc(100vh - 64px);\n  padding-top: 64px; }\n.right-content-minimized {\n  margin-left: 64px !important; }\n"
+module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n/******* FORMS STYLING ******/\n.side-nav {\n  width: 190px;\n  height: 100%;\n  background-color: #323232;\n  position: fixed;\n  transition: padding-left 0.5s;\n  /* For Safari 3.1 to 6.0 */\n  transition: width 0.5s;\n  overflow: hidden;\n  z-index: 40; }\n.company {\n  height: 64px; }\n.company .icon-container {\n    height: 64px;\n    width: 64px;\n    position: relative; }\n.company .icon-container img {\n      height: 45px;\n      width: 45px;\n      position: absolute;\n      right: 0;\n      left: 0;\n      top: 0;\n      bottom: 0;\n      margin: auto auto; }\n.company .name {\n    position: absolute;\n    top: 22px;\n    font-size: 20px;\n    font-weight: bold;\n    color: white;\n    left: 70px; }\n.menu-container {\n  position: relative; }\n.menu-container .menu-active {\n    background-color: #555555; }\n.menu-container .menu:hover {\n    cursor: pointer; }\n.menu-container .menu {\n    height: 50px;\n    color: white; }\n.menu-container .menu .material-icons {\n      font-size: 30px;\n      position: relative;\n      top: 11px;\n      left: 16px; }\n.menu-container .menu .text {\n      position: absolute;\n      font-size: 17px;\n      left: 64px;\n      margin-top: 17px; }\n.side-nav-minimized {\n  width: 64px !important; }\n.toolbar {\n  background-color: #616161;\n  color: white;\n  z-index: 20;\n  position: fixed; }\n.toolbar .menu-icon {\n    min-width: unset;\n    padding: 0; }\n.toolbar .menu-icon i {\n      font-size: 2.5em; }\n.right-content {\n  margin-left: 190px;\n  transition: margin-left 0.5s; }\n.main-content {\n  background-color: #f5f5f5;\n  min-height: calc(100vh - 64px);\n  padding-top: 64px; }\n.right-content-minimized {\n  margin-left: 64px !important; }\n"
 
 /***/ }),
 
@@ -355,12 +355,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _all_reports_all_reports_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./all-reports/all-reports.component */ "./src/app/admin/all-reports/all-reports.component.ts");
 /* harmony import */ var _all_users_all_user_list_all_user_list_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./all-users/all-user-list/all-user-list.component */ "./src/app/admin/all-users/all-user-list/all-user-list.component.ts");
 /* harmony import */ var _all_reports_all_report_list_all_report_list_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./all-reports/all-report-list/all-report-list.component */ "./src/app/admin/all-reports/all-report-list/all-report-list.component.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -394,10 +396,9 @@ var AdminModule = /** @class */ (function () {
                 _all_users_all_users_component__WEBPACK_IMPORTED_MODULE_12__["AllUsersComponent"],
                 _all_reports_all_reports_component__WEBPACK_IMPORTED_MODULE_13__["AllReportsComponent"],
                 _all_users_all_user_list_all_user_list_component__WEBPACK_IMPORTED_MODULE_14__["AllUserListComponent"],
-                _all_reports_all_report_list_all_report_list_component__WEBPACK_IMPORTED_MODULE_15__["AllReportListComponent"]
+                _all_reports_all_report_list_all_report_list_component__WEBPACK_IMPORTED_MODULE_15__["AllReportListComponent"],
             ],
-            imports: [_angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"], _admin_routing_module__WEBPACK_IMPORTED_MODULE_5__["AdminRoutingModule"], _angular_material_angular_material_module__WEBPACK_IMPORTED_MODULE_4__["AngularMaterialModule"]],
-            providers: []
+            imports: [_angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"], _admin_routing_module__WEBPACK_IMPORTED_MODULE_5__["AdminRoutingModule"], _angular_material_angular_material_module__WEBPACK_IMPORTED_MODULE_4__["AngularMaterialModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_16__["FormsModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_16__["ReactiveFormsModule"]]
         })
     ], AdminModule);
     return AdminModule;
@@ -710,7 +711,7 @@ var AllUsersComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"organization != null\">\r\n  <div class=\"breadcrumb-container\">\r\n    <div> <span routerLink=\"../\"><i  class=\"material-icons\"> business </i> Organization List </span> &nbsp;&nbsp;>>&nbsp;&nbsp; <span class=\"active\">{{organization.name}}  </span> </div>\r\n  </div>\r\n\r\n  <div class=\"main-content-view\">\r\n    <div class=\"details\">\r\n      <div class=\"card\">\r\n        <div class=\"container\">\r\n          <h2 class=\"title\">{{organization.name}}</h2>\r\n          <h4 class=\"secondary\"><span *ngFor=\"let category of organization.categories\">{{category}} &nbsp; </span> </h4>\r\n          <p class=\"stats\">\r\n            <span class=\"left\"><i class=\"material-icons\">\r\n                assessment\r\n              </i> {{organization.reportsCount}} Reports</span>\r\n            <span class=\"middle\"> <i class=\"material-icons\">\r\n                person_outline\r\n              </i>{{organization.usersCount}} Users</span>\r\n            <span class=\"right\"> <i class=\"material-icons\">\r\n                dns\r\n              </i> {{organization.datarulesCount}} Data Rules</span>\r\n          </p>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"tabs\">\r\n        <mat-tab-group>\r\n          <mat-tab label=\"Reports\">\r\n            <app-report-list [filters]=\"reportListFilter\" (reportID)=\"goToReport($event)\"></app-report-list>\r\n          </mat-tab>\r\n          <mat-tab label=\"Users\">\r\n            <app-user-list [filters]=\"userListFilter\" (userID)=\"goToUser($event)\"></app-user-list>\r\n          </mat-tab>\r\n          <mat-tab label=\"Data Rules\"> Content 3 </mat-tab>\r\n        </mat-tab-group>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div *ngIf=\"organization == null\">\r\n  <mat-spinner></mat-spinner>\r\n</div>\r\n"
+module.exports = "<div *ngIf=\"organization != null\">\r\n  <div class=\"breadcrumb-container\">\r\n    <div> <span routerLink=\"../\"><i class=\"material-icons\"> business </i> Organization List </span> &nbsp;&nbsp;   <i class=\"material-icons arrow\">     keyboard_arrow_right   </i>   <i style=\"margin-left: -14px\" class=\"material-icons arrow\">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span class=\"active\">{{organization.name}}\r\n      </span> </div>\r\n  </div>\r\n\r\n  <div class=\"main-content-view\">\r\n    <div class=\"details\">\r\n      <div class=\"card\">\r\n        <div class=\"container\">\r\n          <h2 class=\"title\">{{organization.name}}</h2>\r\n          <h4 class=\"secondary\"><span *ngFor=\"let category of organization.categories\">{{category}} &nbsp; </span> </h4>\r\n          <p class=\"stats\">\r\n            <span class=\"left\"><i class=\"material-icons\">\r\n                assessment\r\n              </i> {{organization.reportsCount}} Reports</span>\r\n            <span class=\"middle\"> <i class=\"material-icons\">\r\n                person_outline\r\n              </i>{{organization.usersCount}} Users</span>\r\n            <span class=\"right\"> <i class=\"material-icons\">\r\n                dns\r\n              </i> {{organization.datarulesCount}} Data Rules</span>\r\n          </p>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"tabs\">\r\n        <mat-tab-group>\r\n          <mat-tab label=\"Reports\">\r\n            <app-report-list [filters]=\"reportListFilter\" (reportID)=\"goToReport($event)\"></app-report-list>\r\n          </mat-tab>\r\n          <mat-tab label=\"Users\">\r\n            <app-user-list [filters]=\"userListFilter\" (userID)=\"goToUser($event)\"></app-user-list>\r\n          </mat-tab>\r\n          <mat-tab label=\"Data Rules\">\r\n            <div class=\"data-rules-section\">\r\n              <mat-accordion *ngFor=\"let rule of rules; let i = index\">\r\n                <mat-expansion-panel>\r\n                  <mat-expansion-panel-header>\r\n                    <mat-panel-title>\r\n                     <h4 class=\"title\">{{rule.name}}</h4><br>\r\n                    </mat-panel-title>\r\n                    <mat-panel-description>\r\n                        <h5>{{rule.datasource}}</h5>\r\n                    </mat-panel-description>\r\n                  </mat-expansion-panel-header>\r\n                  <hr>\r\n                  <p>Identifier: {{rule.identifier}}</p>\r\n                  <p>Condition: {{rule.condition}}</p>\r\n                  <p>Token: {{rule.token}}</p>\r\n                  <div class=\"buttons\">\r\n                      <button mat-button color=\"danger\" >Delete</button>\r\n                      <button mat-button color=\"primary\" >Edit</button>\r\n\r\n                  </div>\r\n\r\n                </mat-expansion-panel>\r\n\r\n                <br>\r\n\r\n              </mat-accordion>\r\n\r\n            </div>\r\n          </mat-tab>\r\n        </mat-tab-group>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div *ngIf=\"organization == null\">\r\n  <mat-spinner></mat-spinner>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -721,7 +722,7 @@ module.exports = "<div *ngIf=\"organization != null\">\r\n  <div class=\"breadcr
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n.tabs {\n  background-color: white;\n  margin: 20px 0;\n  box-shadow: 2px 3px 4px rgba(101, 101, 101, 0.5); }\n::ng-deep .tabs .mat-tab-header {\n  box-shadow: 0 1px 4px rgba(101, 101, 101, 0.7) !important;\n  border-bottom: none !important; }\n::ng-deep .tabs .mat-tab-label {\n  color: #3E3E3E;\n  opacity: 1;\n  font-size: 17px; }\n::ng-deep .tabs .mat-tab-label-active {\n  color: #0865EE; }\n::ng-deep .tabs .mat-tab-body {\n  padding: 10px; }\n::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, ::ng-deep .mat-tab-nav-bar.mat-primary .mat-ink-bar {\n  background: #0865EE;\n  height: 3px; }\n"
+module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n/******* FORMS STYLING ******/\n.tabs {\n  background-color: white;\n  margin: 20px 0;\n  box-shadow: 2px 3px 4px rgba(101, 101, 101, 0.5); }\n::ng-deep .tabs .mat-tab-header {\n  box-shadow: 0 1px 4px rgba(101, 101, 101, 0.7) !important;\n  border-bottom: none !important; }\n::ng-deep .tabs .mat-tab-label {\n  color: #3E3E3E;\n  opacity: 1;\n  font-size: 17px; }\n::ng-deep .tabs .mat-tab-label-active {\n  color: #0865ee; }\n::ng-deep .tabs .mat-tab-body {\n  padding: 10px; }\n::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, ::ng-deep .mat-tab-nav-bar.mat-primary .mat-ink-bar {\n  background: #0865ee;\n  height: 3px; }\n.data-rules-section {\n  padding: 5px;\n  max-width: 1080px; }\n.data-rules-section p {\n    margin: 0;\n    color: #3e3e3e;\n    font-weight: 500; }\n.data-rules-section .buttons {\n    text-align: right; }\n.data-rules-section hr {\n    border-top: 1px solid #b4b4b4;\n    margin-top: -10px; }\n.data-rules-section .title {\n    color: #E7554B; }\n.data-rules-section .mat-expansion-panel-content {\n    padding-top: 5px;\n    border-top: 1px solid rgba(0, 0, 0, 0.12); }\n.data-rules-section .mat-expansion-panel {\n    border-radius: 3px; }\n"
 
 /***/ }),
 
@@ -735,9 +736,10 @@ module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*******
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrganizationDetailsComponent", function() { return OrganizationDetailsComponent; });
-/* harmony import */ var _shared_services_organization_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/services/organization.service */ "./src/app/shared/services/organization.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _shared_services_datarules_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/services/datarules.service */ "./src/app/shared/services/datarules.service.ts");
+/* harmony import */ var _shared_services_organization_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../shared/services/organization.service */ "./src/app/shared/services/organization.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -785,11 +787,13 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 var OrganizationDetailsComponent = /** @class */ (function () {
-    function OrganizationDetailsComponent(route, router, organizationService) {
+    function OrganizationDetailsComponent(route, router, organizationService, dataruleService) {
         this.route = route;
         this.router = router;
         this.organizationService = organizationService;
+        this.dataruleService = dataruleService;
         // Filter for  Users
         this.userListFilter = {
             name: '',
@@ -807,11 +811,11 @@ var OrganizationDetailsComponent = /** @class */ (function () {
     OrganizationDetailsComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var _a, error_1;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var _a, _b, error_1;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
-                        _b.trys.push([0, 2, , 3]);
+                        _c.trys.push([0, 3, , 4]);
                         this.sub = this.route.params.subscribe(function (params) {
                             _this.organizationID = params['id'];
                             // Initiate User filter
@@ -824,13 +828,20 @@ var OrganizationDetailsComponent = /** @class */ (function () {
                         return [4 /*yield*/, this.organizationService.getOrganizationById(this.organizationID)];
                     case 1:
                         // gets organization info
-                        _a.organization = _b.sent();
-                        return [3 /*break*/, 3];
+                        _a.organization = _c.sent();
+                        // gets data rules for this company
+                        _b = this;
+                        return [4 /*yield*/, this.dataruleService.getDataRules(this.organizationID)];
                     case 2:
-                        error_1 = _b.sent();
+                        // gets data rules for this company
+                        _b.rules = _c.sent();
+                        console.log(this.rules);
+                        return [3 /*break*/, 4];
+                    case 3:
+                        error_1 = _c.sent();
                         console.log(error_1);
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
@@ -845,14 +856,15 @@ var OrganizationDetailsComponent = /** @class */ (function () {
         this.router.navigate(['./r', reportID], { relativeTo: this.route });
     };
     OrganizationDetailsComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
             selector: 'app-organization-details',
             template: __webpack_require__(/*! ./organization-details.component.html */ "./src/app/admin/organization-details/organization-details.component.html"),
             styles: [__webpack_require__(/*! ./organization-details.component.scss */ "./src/app/admin/organization-details/organization-details.component.scss")]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
-            _shared_services_organization_service__WEBPACK_IMPORTED_MODULE_0__["OrganizationService"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
+            _shared_services_organization_service__WEBPACK_IMPORTED_MODULE_1__["OrganizationService"],
+            _shared_services_datarules_service__WEBPACK_IMPORTED_MODULE_0__["DatarulesService"]])
     ], OrganizationDetailsComponent);
     return OrganizationDetailsComponent;
 }());
@@ -868,7 +880,7 @@ var OrganizationDetailsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"breadcrumb-container\">\r\n  <div class=\"breadcrumb\"> <span class=\"active\"> <i  class=\"material-icons\"> business </i> Organization List </span></div>\r\n</div>\r\n\r\n<div class=\"main-content-view\">\r\n  <div class=\"list\">\r\n    <div *ngFor=\"let organization of organizations\" class=\"card\">\r\n      <div class=\"container\" (click)=\"goToDetails(organization.id)\">\r\n        <h2 class=\"title\">{{organization.name}}</h2>\r\n        <h4 class=\"secondary\"><span *ngFor=\"let category of organization.categories\">{{category}} &nbsp; </span> </h4>\r\n        <p class=\"stats\">\r\n          <span class=\"left\"><i class=\"material-icons\">\r\n              assessment\r\n            </i> {{organization.reportsCount}} Reports</span>\r\n          <span class=\"middle\"> <i class=\"material-icons\">\r\n              person_outline\r\n            </i>{{organization.usersCount}} Users</span>\r\n          <span class=\"right\"> <i class=\"material-icons\">\r\n              dns\r\n            </i> {{organization.datarulesCount}} Data Rules</span>\r\n        </p>\r\n      </div>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div class=\"breadcrumb-container\">\r\n  <div class=\"breadcrumb\"> <span class=\"active\"> <i class=\"material-icons\"> business </i> Organization List </span></div>\r\n</div>\r\n\r\n<div class=\"main-content-view\">\r\n  <div class=\"left-main-content-view\">\r\n    <div class=\"list\">\r\n      <div *ngFor=\"let organization of organizations\" class=\"card\">\r\n        <div class=\"container\" (click)=\"goToDetails(organization.id)\">\r\n          <h2 class=\"title\">{{organization.name}}</h2>\r\n          <h4 class=\"secondary\"><span *ngFor=\"let category of organization.categories, let i = index\">{{category}}<span *ngIf=\"i < organization.categories.length -1\">,&nbsp;&nbsp;</span>\r\n            </span> </h4>\r\n          <p class=\"stats\">\r\n            <span class=\"left\"><i class=\"material-icons\">\r\n                assessment\r\n              </i> {{organization.reportsCount}} Reports</span>\r\n            <span class=\"middle\"> <i class=\"material-icons\">\r\n                person_outline\r\n              </i>{{organization.usersCount}} Users</span>\r\n            <span class=\"right\"> <i class=\"material-icons\">\r\n                dns\r\n              </i> {{organization.datarulesCount}} Data Rules</span>\r\n          </p>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"right-main-content-view\">\r\n    <div class=\"filter\" style=\"margin-top: 13px\">\r\n      <form [formGroup]=\"searchForm\">\r\n        <p class=\"title\"> Filter by</p>\r\n        <mat-form-field appearance=\"outline\" class=\"search\">\r\n          <mat-label class=\"label-color\">Search Name</mat-label>\r\n          <input matInput type=\"text\" placeholder=\"Search Name\">\r\n        </mat-form-field>\r\n        <p class=\"title\"> Company Type</p>\r\n        <div class=\"checkbox\" *ngFor=\"let category of categories\">\r\n          <mat-checkbox>{{category}}</mat-checkbox>\r\n        </div>\r\n      </form>\r\n    </div>\r\n\r\n    <div class=\"sort\">\r\n      <p class=\"title\"> Sort By</p>\r\n      <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\r\n        <mat-radio-button class=\"example-radio-button radio\">\r\n          Alphabetical\r\n        </mat-radio-button>\r\n        <mat-radio-button class=\"example-radio-button radio\">\r\n          Most Reports\r\n        </mat-radio-button>\r\n        <mat-radio-button class=\"example-radio-button radio\">\r\n          Most Users\r\n        </mat-radio-button>\r\n        <mat-radio-button class=\"example-radio-button radio\">\r\n          Most Data Rules\r\n        </mat-radio-button>\r\n      </mat-radio-group>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -896,6 +908,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_services_organization_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../../shared/services/organization.service */ "./src/app/shared/services/organization.service.ts");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -943,11 +956,19 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 var OrganizationListComponent = /** @class */ (function () {
     function OrganizationListComponent(router, route, organizationService) {
         this.router = router;
         this.route = route;
         this.organizationService = organizationService;
+        this.searchValue = '';
+        this.sortValue = 'Alphabetical';
+        this.categories = [];
+        this.searchForm = new _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormGroup"]({
+            name: new _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormControl"](''),
+            companyType: new _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormControl"](''),
+        });
     }
     OrganizationListComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -955,23 +976,36 @@ var OrganizationListComponent = /** @class */ (function () {
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _b.trys.push([0, 2, , 3]);
+                        _b.trys.push([0, 3, , 4]);
                         _a = this;
                         return [4 /*yield*/, this.organizationService.getAllOrganizations()];
                     case 1:
                         _a.organizations = _b.sent();
-                        return [3 /*break*/, 3];
+                        return [4 /*yield*/, this.getAllCategories(this.organizations)];
                     case 2:
+                        _b.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
                         error_1 = _b.sent();
                         console.log(error_1);
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
     };
     OrganizationListComponent.prototype.goToDetails = function (id) {
         this.router.navigate(['../', id], { relativeTo: this.route });
+    };
+    OrganizationListComponent.prototype.getAllCategories = function (orgs) {
+        var _this = this;
+        orgs.forEach(function (org) {
+            org.categories.forEach(function (category) {
+                if (!_this.categories.includes(category)) {
+                    _this.categories.push(category);
+                }
+            });
+        });
     };
     OrganizationListComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -1060,7 +1094,7 @@ var OrganizationComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"organization != null && user != null\">\r\n\r\n  <div class=\"breadcrumb-container\">\r\n    <!-- Breadcrumbs for user details under user list-->\r\n    <div *ngIf=\"this.orgID === undefined\">\r\n      <div class=\"breadcrumb\"> <span routerLink=\"../../\"><i class=\"material-icons\">\r\n            person_outline </i> User List </span> &nbsp;&nbsp;>>&nbsp;&nbsp; <span class=\"active\"> {{user.name}} </span> </div>\r\n    </div>\r\n\r\n    <!-- Breadcrumbs for user details under organization list-->\r\n    <div *ngIf=\"this.orgID != undefined\">\r\n      <div class=\"breadcrumb\"> <span routerLink=\"../../../\"><i class=\"material-icons\">\r\n            business </i> Organization List </span> &nbsp;&nbsp;>>&nbsp;&nbsp; <span routerLink=\"../../\"> {{organization.name}}</span>\r\n        &nbsp;&nbsp;>>&nbsp;&nbsp; <span class=\"active\"> {{user.name}} </span> </div>\r\n    </div>\r\n\r\n  </div>\r\n\r\n  <div class=\"main-content-view\">\r\n    <div class=\"details\">\r\n      <div class=\"card\">\r\n        <div class=\"container\">\r\n          <h2 class=\"title\"> {{user.name}}</h2>\r\n          <h4 class=\"secondary\">Viewer</h4>\r\n          <p class=\"content\">Email: {{user.googleId}}</p>\r\n          <p class=\"content\">Secondary Email:  {{user.secondaryEmail }}}</p>\r\n          <p class=\"content\"> Accesses: <span  *ngFor=\"let org of user.organizations\"> {{org.name}} </span></p>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div>\r\n      <h3 class=\"list-title\">Report List</h3>\r\n      <app-report-list [filters]=\"reportListFilter\" (reportID)=\"goToReport($event)\"></app-report-list>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div *ngIf=\"organization != null && user != null\">\r\n\r\n  <div class=\"breadcrumb-container\">\r\n    <!-- Breadcrumbs for user details under user list-->\r\n    <div *ngIf=\"this.orgID === undefined\">\r\n      <div class=\"breadcrumb\"> <span routerLink=\"../../\"><i class=\"material-icons\">\r\n            person_outline </i> User List </span> &nbsp;&nbsp;   <i class=\"material-icons arrow\">     keyboard_arrow_right   </i>   <i style=\"margin-left: -14px\" class=\"material-icons arrow\">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span class=\"active\"> {{user.name}} </span> </div>\r\n    </div>\r\n\r\n    <!-- Breadcrumbs for user details under organization list-->\r\n    <div *ngIf=\"this.orgID != undefined\">\r\n      <div class=\"breadcrumb\"> <span routerLink=\"../../../\"><i class=\"material-icons\">\r\n            business </i> Organization List </span> &nbsp;&nbsp;   <i class=\"material-icons arrow\">     keyboard_arrow_right   </i>   <i style=\"margin-left: -14px\" class=\"material-icons arrow\">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span routerLink=\"../../\"> {{organization.name}}</span>\r\n        &nbsp;&nbsp;   <i class=\"material-icons arrow\">     keyboard_arrow_right   </i>   <i style=\"margin-left: -14px\" class=\"material-icons arrow\">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span class=\"active\"> {{user.name}} </span> </div>\r\n    </div>\r\n\r\n  </div>\r\n\r\n  <div class=\"main-content-view\">\r\n    <div class=\"details\">\r\n      <div class=\"card\">\r\n        <div class=\"container\">\r\n          <h2 class=\"title\"> {{user.name}}</h2>\r\n          <h4 class=\"secondary\">Viewer</h4>\r\n          <p class=\"content\">Email: {{user.googleId}}</p>\r\n          <p class=\"content\">Secondary Email:  {{user.secondaryEmail }}}</p>\r\n          <p class=\"content\"> Accesses: <span  *ngFor=\"let org of user.organizations\"> {{org.name}} </span></p>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div>\r\n      <h3 class=\"list-title\">Report List</h3>\r\n      <app-report-list [filters]=\"reportListFilter\" (reportID)=\"goToReport($event)\"></app-report-list>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1071,7 +1105,7 @@ module.exports = "<div *ngIf=\"organization != null && user != null\">\r\n\r\n  
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n.list-title {\n  color: #3e3e3e;\n  margin-bottom: 5px; }\n"
+module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n/******* FORMS STYLING ******/\n.list-title {\n  color: #3e3e3e;\n  margin-bottom: 5px; }\n"
 
 /***/ }),
 
@@ -1431,7 +1465,6 @@ var UserListComponent = /** @class */ (function () {
                         return [4 /*yield*/, this.userService.getUsersByOrganization(this.filters.organizationID)];
                     case 1:
                         _a.users = _b.sent();
-                        console.log(this.users[1].organizations.length);
                         return [3 /*break*/, 3];
                     case 2:
                         error_1 = _b.sent();
@@ -1462,6 +1495,95 @@ var UserListComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [_services_user_service__WEBPACK_IMPORTED_MODULE_1__["UserService"]])
     ], UserListComponent);
     return UserListComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/services/datarules.service.ts":
+/*!******************************************************!*\
+  !*** ./src/app/shared/services/datarules.service.ts ***!
+  \******************************************************/
+/*! exports provided: DatarulesService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DatarulesService", function() { return DatarulesService; });
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+
+
+var DatarulesService = /** @class */ (function () {
+    function DatarulesService(http) {
+        this.http = http;
+    }
+    /**
+     * Gets all the data source for a specific organization
+     * @param organizationID - ID of the organization you want to get the data source for
+     */
+    DatarulesService.prototype.getDataRules = function (organizationID) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, ((this.http.get('../../../assets/example-data/datarules.mockdata.json')).toPromise())];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    DatarulesService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"]])
+    ], DatarulesService);
+    return DatarulesService;
 }());
 
 
