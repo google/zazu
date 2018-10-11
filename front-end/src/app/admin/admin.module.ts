@@ -1,3 +1,5 @@
+import { OrgCategoryPipe } from './../shared/pipes/org-category.pipe';
+import { SearchNamePipe } from './../shared/pipes/search-name.pipe';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminComponent } from './admin.component';
@@ -15,6 +17,7 @@ import { AllReportsComponent } from './all-reports/all-reports.component';
 import { AllUserListComponent } from './all-users/all-user-list/all-user-list.component';
 import { AllReportListComponent } from './all-reports/all-report-list/all-report-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { OrgSortPipe } from '../shared/pipes/org-sort.pipe';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AllReportsComponent,
     AllUserListComponent,
     AllReportListComponent,
+    SearchNamePipe,
+    OrgCategoryPipe,
+    OrgSortPipe
 
 
   ],

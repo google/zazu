@@ -59,15 +59,14 @@ body {
   padding-top: 60px;
   padding-left: 30px;
   padding-right: 30px;
+  display:flex;
 
   .left-main-content-view {
     width: 65%;
-    float: left;
   }
 
   .right-main-content-view {
-    width: 35%;
-    float: right;
+
   }
 }
 
@@ -193,6 +192,25 @@ body {
       width: 100%;
       max-width: 300px;
     }
+
+    .mat-stroked-button.reset {
+      min-height: 23px !important;
+      min-width: 46px !important;
+      font-size: 12px !important;
+      line-height: 0px;
+      color: $filter-reset-button-color;
+      border-color: $filter-reset-button-color;
+      border-radius: 2px;
+      float:right;
+      margin-top: -5px;
+
+    }
+
+    .mat-raised-button.search{
+      border:  $filter-seach-button-border;
+      border-radius: 2px;
+    }
+
   }
 
 }

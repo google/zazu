@@ -3,7 +3,7 @@
 export interface Organization {
   id: string;
   name: string;
-  categories: String[];
+  categories: string[];
 }
 
 
@@ -18,7 +18,7 @@ export interface SimpleOrganization {
 export interface OrganizationDetails {
   id: string;
   name: string;
-  categories: String[];
+  categories: string[];
   reportsCount: string;
   usersCount: string;
   datarulesCount: string;

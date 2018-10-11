@@ -53,7 +53,6 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
       );
       // gets data rules for this company
       this.rules = await this.dataruleService.getDataRules(this.organizationID);
-      console.log(this.rules);
     } catch (error) {
       console.log(error);
     }
