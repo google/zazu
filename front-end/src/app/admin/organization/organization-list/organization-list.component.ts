@@ -71,9 +71,9 @@ export class OrganizationListComponent implements OnInit, OnDestroy {
   }
 
   // changes sort preferences
-  async changeSort(sort) {
-    this.paginationService.changePage(1);
+  changeSort(sort) {
     this.sortValue = sort;
+    this.paginationService.changePage(1);
   }
 
   // On Search, will search stuff

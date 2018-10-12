@@ -1,17 +1,27 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { PaginationService } from '../services/pagination.service';
 @Pipe({
   name: 'reportList'
 })
 export class ReportListPipe implements PipeTransform {
-
+  constructor(private paginationService: PaginationService) {}
   transform(
     reportList: any[],
+    searchName: string,
     organization: string,
     sort: string,
+    page: number
   ): any {
     let currentList = reportList;
     // If there's a reportList
     if (reportList) {
+      // If there's a search
+      if (searchName) {
+        searchName = searchName.toLowerCase();
+        currentList = currentList.filter(
+          (el: any) => el.name.toLowerCase().indexOf(searchName) > -1
+        );
+      }
 
       // if there's a organization
       if (organization) {
@@ -45,7 +55,19 @@ export class ReportListPipe implements PipeTransform {
           currentList = sorted;
         }
       }
+      this.paginationService.changeTotalPages(
+        Math.ceil(
+          currentList.length / this.paginationService.pagination.itemsPerPage
+        )
+      );
 
+      return currentList.slice(
+        this.paginationService.pagination.currentPage *
+          this.paginationService.pagination.itemsPerPage -
+          this.paginationService.pagination.itemsPerPage,
+        this.paginationService.pagination.itemsPerPage *
+          this.paginationService.pagination.currentPage
+      );
     }
 
     return currentList;

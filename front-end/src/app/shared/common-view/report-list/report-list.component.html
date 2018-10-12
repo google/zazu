@@ -1,7 +1,7 @@
 <div class="left-main-content-view" >
   <div *ngIf="reports != null">
     <div class="list">
-      <div *ngFor="let report of reports | searchName: searchName | reportList: selectedOrganization : sortValue| pagination:  pagination.currentPage" class="card">
+      <div *ngFor="let report of reports | reportList: searchName: selectedOrganization : sortValue :  pagination.currentPage" class="card">
         <div class="container" (click)="reportClicked(report.id)">
           <h4 class="title"><strong> {{report.name}}</strong></h4>
           <p class="secondary">{{report.organization.name}}</p>

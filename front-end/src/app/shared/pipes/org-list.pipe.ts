@@ -4,17 +4,26 @@ import { PaginationService } from '../services/pagination.service';
   name: 'orgList'
 })
 export class OrgListPipe implements PipeTransform {
+
   constructor(private paginationService: PaginationService) {}
 
   transform(
     organization: any,
+    searchName: string,
     categories: string[],
     sort: string,
+    page: number,
   ): any {
-    if (organization != null) {
+    if (organization) {
       let currentList = organization;
-      // If There's a search name
 
+      // If there's a search
+      if (searchName) {
+        searchName = searchName.toLowerCase();
+        currentList = currentList.filter(
+          (el: any) => el.name.toLowerCase().indexOf(searchName) > -1
+        );
+      }
 
       // If there's a category
       if (categories.length > 0) {
@@ -24,7 +33,9 @@ export class OrgListPipe implements PipeTransform {
       }
       // If there's a sort
       if (sort) {
+
         if (sort === 'Alphabetical') {
+          console.log('Alpha called');
           const sorted = currentList.sort(
             (a, b) => (a.name > b.name ? 1 : a.name === b.name ? 0 : -1)
           );
@@ -67,7 +78,22 @@ export class OrgListPipe implements PipeTransform {
           currentList = sorted;
         }
       }
-      return currentList;
+
+      this.paginationService.changeTotalPages(
+        Math.ceil(
+          currentList.length / this.paginationService.pagination.itemsPerPage
+        )
+      );
+
+      return currentList.slice(
+        this.paginationService.pagination.currentPage *
+          this.paginationService.pagination.itemsPerPage -
+          this.paginationService.pagination.itemsPerPage,
+        this.paginationService.pagination.itemsPerPage *
+          this.paginationService.pagination.currentPage
+      );
+
     }
+    return organization;
   }
 }

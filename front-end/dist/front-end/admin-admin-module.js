@@ -275,7 +275,7 @@ module.exports = "<div class=\"main\">\n\n  <!-- Side Navigation Menu-->\n  <div
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n/******* FORMS STYLING & FILTERS ******/\n.side-nav {\n  width: 190px;\n  height: 100%;\n  background-color: #323232;\n  position: fixed;\n  transition: padding-left 0.5s;\n  /* For Safari 3.1 to 6.0 */\n  transition: width 0.5s;\n  overflow: hidden;\n  z-index: 40; }\n.company {\n  height: 64px; }\n.company .icon-container {\n    height: 64px;\n    width: 64px;\n    position: relative; }\n.company .icon-container img {\n      height: 45px;\n      width: 45px;\n      position: absolute;\n      right: 0;\n      left: 0;\n      top: 0;\n      bottom: 0;\n      margin: auto auto; }\n.company .name {\n    position: absolute;\n    top: 22px;\n    font-size: 20px;\n    font-weight: bold;\n    color: white;\n    left: 70px; }\n.menu-container {\n  position: relative; }\n.menu-container .menu-active {\n    background-color: #555555; }\n.menu-container .menu:hover {\n    cursor: pointer; }\n.menu-container .menu {\n    height: 50px;\n    color: white; }\n.menu-container .menu .material-icons {\n      font-size: 30px;\n      position: relative;\n      top: 11px;\n      left: 16px; }\n.menu-container .menu .text {\n      position: absolute;\n      font-size: 17px;\n      left: 64px;\n      margin-top: 17px; }\n.side-nav-minimized {\n  width: 64px !important; }\n.toolbar {\n  background-color: #616161;\n  color: white;\n  z-index: 20;\n  position: fixed; }\n.toolbar .menu-icon {\n    min-width: unset;\n    padding: 0; }\n.toolbar .menu-icon i {\n      font-size: 2.5em; }\n.right-content {\n  margin-left: 190px;\n  transition: margin-left 0.5s; }\n.main-content {\n  background-color: #f5f5f5;\n  min-height: calc(100vh - 64px);\n  padding-top: 64px;\n  height: 100%;\n  height: auto; }\n.right-content-minimized {\n  margin-left: 64px !important; }\n"
+module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n/******* FORMS STYLING & FILTERS ******/\n/***** Filter Card ***/\n.side-nav {\n  width: 190px;\n  height: 100%;\n  background-color: #323232;\n  position: fixed;\n  transition: padding-left 0.5s;\n  /* For Safari 3.1 to 6.0 */\n  transition: width 0.5s;\n  overflow: hidden;\n  z-index: 40; }\n.company {\n  height: 64px; }\n.company .icon-container {\n    height: 64px;\n    width: 64px;\n    position: relative; }\n.company .icon-container img {\n      height: 45px;\n      width: 45px;\n      position: absolute;\n      right: 0;\n      left: 0;\n      top: 0;\n      bottom: 0;\n      margin: auto auto; }\n.company .name {\n    position: absolute;\n    top: 22px;\n    font-size: 20px;\n    font-weight: bold;\n    color: white;\n    left: 70px; }\n.menu-container {\n  position: relative; }\n.menu-container .menu-active {\n    background-color: #555555; }\n.menu-container .menu:hover {\n    cursor: pointer; }\n.menu-container .menu {\n    height: 50px;\n    color: white; }\n.menu-container .menu .material-icons {\n      font-size: 30px;\n      position: relative;\n      top: 11px;\n      left: 16px; }\n.menu-container .menu .text {\n      position: absolute;\n      font-size: 17px;\n      left: 64px;\n      margin-top: 17px; }\n.side-nav-minimized {\n  width: 64px !important; }\n.toolbar {\n  background-color: #616161;\n  color: white;\n  z-index: 20;\n  position: fixed; }\n.toolbar .menu-icon {\n    min-width: unset;\n    padding: 0; }\n.toolbar .menu-icon i {\n      font-size: 2.5em; }\n.right-content {\n  margin-left: 190px;\n  transition: margin-left 0.5s; }\n.main-content {\n  background-color: #f5f5f5;\n  min-height: calc(100vh - 64px);\n  padding-top: 64px;\n  height: 100%;\n  height: auto; }\n.right-content-minimized {\n  margin-left: 64px !important; }\n"
 
 /***/ }),
 
@@ -358,16 +358,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _all_users_all_user_list_all_user_list_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./all-users/all-user-list/all-user-list.component */ "./src/app/admin/all-users/all-user-list/all-user-list.component.ts");
 /* harmony import */ var _all_reports_all_report_list_all_report_list_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./all-reports/all-report-list/all-report-list.component */ "./src/app/admin/all-reports/all-report-list/all-report-list.component.ts");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _shared_pipes_org_sort_pipe__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../shared/pipes/org-sort.pipe */ "./src/app/shared/pipes/org-sort.pipe.ts");
-/* harmony import */ var _shared_pipes_pagination_pipe__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../shared/pipes/pagination.pipe */ "./src/app/shared/pipes/pagination.pipe.ts");
-/* harmony import */ var _shared_pipes_org_list_pipe__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../shared/pipes/org-list.pipe */ "./src/app/shared/pipes/org-list.pipe.ts");
+/* harmony import */ var _shared_pipes_pagination_pipe__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../shared/pipes/pagination.pipe */ "./src/app/shared/pipes/pagination.pipe.ts");
+/* harmony import */ var _shared_pipes_org_list_pipe__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../shared/pipes/org-list.pipe */ "./src/app/shared/pipes/org-list.pipe.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-
 
 
 
@@ -408,9 +406,8 @@ var AdminModule = /** @class */ (function () {
                 _all_users_all_user_list_all_user_list_component__WEBPACK_IMPORTED_MODULE_16__["AllUserListComponent"],
                 _all_reports_all_report_list_all_report_list_component__WEBPACK_IMPORTED_MODULE_17__["AllReportListComponent"],
                 _shared_pipes_search_name_pipe__WEBPACK_IMPORTED_MODULE_1__["SearchNamePipe"],
-                _shared_pipes_org_sort_pipe__WEBPACK_IMPORTED_MODULE_19__["OrgSortPipe"],
-                _shared_pipes_pagination_pipe__WEBPACK_IMPORTED_MODULE_20__["PaginationPipe"],
-                _shared_pipes_org_list_pipe__WEBPACK_IMPORTED_MODULE_21__["OrgListPipe"],
+                _shared_pipes_pagination_pipe__WEBPACK_IMPORTED_MODULE_19__["PaginationPipe"],
+                _shared_pipes_org_list_pipe__WEBPACK_IMPORTED_MODULE_20__["OrgListPipe"],
                 _shared_pipes_report_list_pipe__WEBPACK_IMPORTED_MODULE_0__["ReportListPipe"]
             ],
             imports: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["CommonModule"], _admin_routing_module__WEBPACK_IMPORTED_MODULE_7__["AdminRoutingModule"], _angular_material_angular_material_module__WEBPACK_IMPORTED_MODULE_6__["AngularMaterialModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_18__["FormsModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_18__["ReactiveFormsModule"]]
@@ -783,7 +780,7 @@ module.exports = "<div *ngIf=\"organization != null\">\r\n  <div class=\"breadcr
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n/******* FORMS STYLING & FILTERS ******/\n.tabs {\n  background-color: white;\n  margin: 20px 0;\n  box-shadow: 2px 3px 4px rgba(101, 101, 101, 0.5); }\n::ng-deep .tabs .mat-tab-header {\n  box-shadow: 0 1px 4px rgba(101, 101, 101, 0.7) !important;\n  border-bottom: none !important; }\n::ng-deep .tabs .mat-tab-label {\n  color: #3E3E3E;\n  opacity: 1;\n  font-size: 17px; }\n::ng-deep .tabs .mat-tab-label-active {\n  color: #0865ee; }\n::ng-deep .tabs .mat-tab-body {\n  padding: 10px; }\n::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, ::ng-deep .mat-tab-nav-bar.mat-primary .mat-ink-bar {\n  background: #0865ee;\n  height: 3px; }\n.data-rules-section {\n  padding: 5px;\n  max-width: 1080px; }\n.data-rules-section p {\n    margin: 0;\n    color: #3e3e3e;\n    font-weight: 500; }\n.data-rules-section .buttons {\n    text-align: right; }\n.data-rules-section hr {\n    border-top: 1px solid #b4b4b4;\n    margin-top: -10px; }\n.data-rules-section .title {\n    color: #E7554B; }\n.data-rules-section .mat-expansion-panel-content {\n    padding-top: 5px;\n    border-top: 1px solid rgba(0, 0, 0, 0.12); }\n.data-rules-section .mat-expansion-panel {\n    border-radius: 3px; }\n"
+module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n/******* FORMS STYLING & FILTERS ******/\n/***** Filter Card ***/\n.tabs {\n  background-color: white;\n  margin: 20px 0;\n  box-shadow: 2px 3px 4px rgba(101, 101, 101, 0.5); }\n::ng-deep .tabs .mat-tab-header {\n  box-shadow: 0 1px 4px rgba(101, 101, 101, 0.7) !important;\n  border-bottom: none !important; }\n::ng-deep .tabs .mat-tab-label {\n  color: #3E3E3E;\n  opacity: 1;\n  font-size: 17px; }\n::ng-deep .tabs .mat-tab-label-active {\n  color: #0865ee; }\n::ng-deep .tabs .mat-tab-body {\n  padding: 10px; }\n::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, ::ng-deep .mat-tab-nav-bar.mat-primary .mat-ink-bar {\n  background: #0865ee;\n  height: 3px; }\n.data-rules-section {\n  padding: 5px;\n  max-width: 1080px; }\n.data-rules-section p {\n    margin: 0;\n    color: #3e3e3e;\n    font-weight: 500; }\n.data-rules-section .buttons {\n    text-align: right; }\n.data-rules-section hr {\n    border-top: 1px solid #b4b4b4;\n    margin-top: -10px; }\n.data-rules-section .title {\n    color: #E7554B; }\n.data-rules-section .mat-expansion-panel-content {\n    padding-top: 5px;\n    border-top: 1px solid rgba(0, 0, 0, 0.12); }\n.data-rules-section .mat-expansion-panel {\n    border-radius: 3px; }\n"
 
 /***/ }),
 
@@ -948,7 +945,7 @@ var OrganizationDetailsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"breadcrumb-container\">\r\n  <div class=\"breadcrumb\"> <span class=\"active\"> <i class=\"material-icons\"> business </i> Organization List </span></div>\r\n</div>\r\n\r\n<div class=\"main-content-view\">\r\n  <div class=\"left-main-content-view\">\r\n    <div class=\"list\" *ngIf=\"pagination\">\r\n      <div  *ngFor=\"let organization of organizations | searchName: search | orgList:  selectedCategories : sortValue| pagination: pagination.currentPage \" class=\"card\">\r\n        <div class=\"container\" (click)=\"goToDetails(organization.id)\">\r\n          <h2 class=\"title\">{{organization.name}}</h2>\r\n          <h4 class=\"secondary\"><span *ngFor=\"let category of organization.categories, let i = index\">{{category}}<span *ngIf=\"i < organization.categories.length -1\">,&nbsp;&nbsp;</span>\r\n            </span> </h4>\r\n          <p class=\"stats\">\r\n            <span class=\"left\"><i class=\"material-icons\">\r\n                assessment\r\n              </i> {{organization.reportsCount}} Reports</span>\r\n            <span class=\"middle\"> <i class=\"material-icons\">\r\n                person_outline\r\n              </i>{{organization.usersCount}} Users</span>\r\n            <span class=\"right\"> <i class=\"material-icons\">\r\n                dns\r\n              </i> {{organization.datarulesCount}} Data Rules</span>\r\n          </p>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"right-main-content-view\">\r\n    <div class=\"filter\" style=\"margin-top: 13px\">\r\n      <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\r\n        <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\r\n        <p class=\"title\"> Filter by</p>\r\n        <mat-form-field appearance=\"outline\" class=\"search\">\r\n          <mat-label class=\"label-color\">Name</mat-label>\r\n          <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\r\n        </mat-form-field>\r\n        <p class=\"title\"> Company Type</p>\r\n        <div class=\"checkbox\" *ngFor=\"let category of categories\">\r\n          <mat-checkbox value=\"{{category}}\" formControlName=\"{{category}}\">{{category}}</mat-checkbox>\r\n        </div>\r\n        <br>\r\n        <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\r\n      </form>\r\n    </div>\r\n\r\n    <div class=\"sort\">\r\n      <p class=\"title\"> Sort By</p>\r\n      <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\r\n        <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\r\n          {{sort}}\r\n        </mat-radio-button>\r\n      </mat-radio-group>\r\n      <p *ngIf=\"this.pagination\"> {{this.pagination.currentPage}}/{{this.pagination.totalPages}}</p>\r\n      <button mat-raised-button (click)=\"previousPage()\">Previous Page</button>\r\n      <button mat-raised-button (click)=\"nextPage()\">Next Page</button>\r\n\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"breadcrumb-container\">\r\n  <div class=\"breadcrumb\"> <span class=\"active\"> <i class=\"material-icons\"> business </i> Organization List </span></div>\r\n</div>\r\n\r\n<div class=\"main-content-view\">\r\n  <div class=\"left-main-content-view\">\r\n    <div class=\"list\" *ngIf=\"pagination\">\r\n      <div  *ngFor=\"let organization of organizations  |   orgList:  search: selectedCategories : sortValue: pagination.currentPage \" class=\"card\">\r\n        <div class=\"container\" (click)=\"goToDetails(organization.id)\">\r\n          <h2 class=\"title\">{{organization.name}}</h2>\r\n          <h4 class=\"secondary\"><span *ngFor=\"let category of organization.categories, let i = index\">{{category}}<span *ngIf=\"i < organization.categories.length -1\">,&nbsp;&nbsp;</span>\r\n            </span> </h4>\r\n          <p class=\"stats\">\r\n            <span class=\"left\"><i class=\"material-icons\">\r\n                assessment\r\n              </i> {{organization.reportsCount}} Reports</span>\r\n            <span class=\"middle\"> <i class=\"material-icons\">\r\n                person_outline\r\n              </i>{{organization.usersCount}} Users</span>\r\n            <span class=\"right\"> <i class=\"material-icons\">\r\n                dns\r\n              </i> {{organization.datarulesCount}} Data Rules</span>\r\n          </p>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"right-main-content-view\">\r\n    <div class=\"filter\" style=\"margin-top: 13px\">\r\n      <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\r\n        <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\r\n        <p class=\"title\"> Filter by</p>\r\n        <mat-form-field appearance=\"outline\" class=\"search\">\r\n          <mat-label class=\"label-color\">Name</mat-label>\r\n          <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\r\n        </mat-form-field>\r\n        <p class=\"title\"> Company Type</p>\r\n        <div class=\"checkbox\" *ngFor=\"let category of categories\">\r\n          <mat-checkbox value=\"{{category}}\" formControlName=\"{{category}}\">{{category}}</mat-checkbox>\r\n        </div>\r\n        <br>\r\n        <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\r\n      </form>\r\n    </div>\r\n\r\n    <div class=\"sort\">\r\n      <p class=\"title\"> Sort By</p>\r\n      <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\r\n        <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\r\n          {{sort}}\r\n        </mat-radio-button>\r\n      </mat-radio-group>\r\n      <p *ngIf=\"this.pagination\"> {{this.pagination.currentPage}}/{{this.pagination.totalPages}}</p>\r\n      <button mat-raised-button (click)=\"previousPage()\">Previous Page</button>\r\n      <button mat-raised-button (click)=\"nextPage()\">Next Page</button>\r\n\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1096,13 +1093,8 @@ var OrganizationListComponent = /** @class */ (function () {
     };
     // changes sort preferences
     OrganizationListComponent.prototype.changeSort = function (sort) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                this.paginationService.changePage(1);
-                this.sortValue = sort;
-                return [2 /*return*/];
-            });
-        });
+        this.sortValue = sort;
+        this.paginationService.changePage(1);
     };
     // On Search, will search stuff
     OrganizationListComponent.prototype.onSearch = function () {
@@ -1236,7 +1228,7 @@ module.exports = "<div *ngIf=\"organization != null && user != null\">\r\n\r\n  
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n/******* FORMS STYLING & FILTERS ******/\n.list-title {\n  color: #3e3e3e;\n  margin-bottom: 5px; }\n"
+module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n/******* FORMS STYLING & FILTERS ******/\n/***** Filter Card ***/\n.list-title {\n  color: #3e3e3e;\n  margin-bottom: 5px; }\n"
 
 /***/ }),
 
@@ -1383,7 +1375,7 @@ var UserDetailsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"left-main-content-view\" >\r\n  <div *ngIf=\"reports != null\">\r\n    <div class=\"list\">\r\n      <div *ngFor=\"let report of reports | searchName: searchName | reportList: selectedOrganization : sortValue| pagination:  pagination.currentPage\" class=\"card\">\r\n        <div class=\"container\" (click)=\"reportClicked(report.id)\">\r\n          <h4 class=\"title\"><strong> {{report.name}}</strong></h4>\r\n          <p class=\"secondary\">{{report.organization.name}}</p>\r\n          <p class=\"content\"> {{report.date | date}} </p>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"right-main-content-view\" *ngIf=\"formInitialize\">\r\n  <div class=\"filter\" style=\"margin-top: 13px\">\r\n    <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\r\n      <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\r\n      <p class=\"title\"> Filter by</p>\r\n      <mat-form-field appearance=\"outline\" class=\"search\">\r\n        <mat-label class=\"label-color\">Name</mat-label>\r\n        <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\r\n      </mat-form-field>\r\n      <p class=\"title\" *ngIf=\"!organizationID\"> Organization</p>\r\n      <mat-form-field *ngIf=\"!organizationID\">\r\n        <mat-select  formControlName=\"selectedOrganization\">\r\n          <mat-option value=\"All\" >All</mat-option>\r\n          <mat-option *ngFor=\"let organization of organizations\" value=\"{{organization.id}}\">{{organization.name}}</mat-option>\r\n        </mat-select>\r\n      </mat-form-field>\r\n      <br>\r\n      <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\r\n    </form>\r\n  </div>\r\n\r\n  <div class=\"sort\">\r\n    <p class=\"title\"> Sort By</p>\r\n    <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\r\n      <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\r\n        {{sort}}\r\n      </mat-radio-button>\r\n    </mat-radio-group>\r\n    <p *ngIf=\"this.pagination\"> {{this.pagination.currentPage}}/{{this.pagination.totalPages}}</p>\r\n    <button mat-raised-button (click)=\"previousPage()\">Previous Page</button>\r\n    <button mat-raised-button (click)=\"nextPage()\">Next Page</button>\r\n\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"left-main-content-view\" >\r\n  <div *ngIf=\"reports != null\">\r\n    <div class=\"list\">\r\n      <div *ngFor=\"let report of reports | reportList: searchName: selectedOrganization : sortValue :  pagination.currentPage\" class=\"card\">\r\n        <div class=\"container\" (click)=\"reportClicked(report.id)\">\r\n          <h4 class=\"title\"><strong> {{report.name}}</strong></h4>\r\n          <p class=\"secondary\">{{report.organization.name}}</p>\r\n          <p class=\"content\"> {{report.date | date}} </p>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"right-main-content-view\" *ngIf=\"formInitialize\">\r\n  <div class=\"filter\" style=\"margin-top: 13px\">\r\n    <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\r\n      <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\r\n      <p class=\"title\"> Filter by</p>\r\n      <mat-form-field appearance=\"outline\" class=\"search\">\r\n        <mat-label class=\"label-color\">Name</mat-label>\r\n        <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\r\n      </mat-form-field>\r\n      <p class=\"title\" *ngIf=\"!organizationID\"> Organization</p>\r\n      <mat-form-field *ngIf=\"!organizationID\">\r\n        <mat-select  formControlName=\"selectedOrganization\">\r\n          <mat-option value=\"All\" >All</mat-option>\r\n          <mat-option *ngFor=\"let organization of organizations\" value=\"{{organization.id}}\">{{organization.name}}</mat-option>\r\n        </mat-select>\r\n      </mat-form-field>\r\n      <br>\r\n      <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\r\n    </form>\r\n  </div>\r\n\r\n  <div class=\"sort\">\r\n    <p class=\"title\"> Sort By</p>\r\n    <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\r\n      <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\r\n        {{sort}}\r\n      </mat-radio-button>\r\n    </mat-radio-group>\r\n    <p *ngIf=\"this.pagination\"> {{this.pagination.currentPage}}/{{this.pagination.totalPages}}</p>\r\n    <button mat-raised-button (click)=\"previousPage()\">Previous Page</button>\r\n    <button mat-raised-button (click)=\"nextPage()\">Next Page</button>\r\n\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1732,10 +1724,14 @@ var OrgListPipe = /** @class */ (function () {
     function OrgListPipe(paginationService) {
         this.paginationService = paginationService;
     }
-    OrgListPipe.prototype.transform = function (organization, categories, sort) {
-        if (organization != null) {
+    OrgListPipe.prototype.transform = function (organization, searchName, categories, sort, page) {
+        if (organization) {
             var currentList = organization;
-            // If There's a search name
+            // If there's a search
+            if (searchName) {
+                searchName = searchName.toLowerCase();
+                currentList = currentList.filter(function (el) { return el.name.toLowerCase().indexOf(searchName) > -1; });
+            }
             // If there's a category
             if (categories.length > 0) {
                 currentList = currentList.filter(function (element) {
@@ -1745,6 +1741,7 @@ var OrgListPipe = /** @class */ (function () {
             // If there's a sort
             if (sort) {
                 if (sort === 'Alphabetical') {
+                    console.log('Alpha called');
                     var sorted = currentList.sort(function (a, b) { return (a.name > b.name ? 1 : a.name === b.name ? 0 : -1); });
                     if (sort.charAt(0) === '-') {
                         sorted.reverse();
@@ -1782,8 +1779,13 @@ var OrgListPipe = /** @class */ (function () {
                     currentList = sorted;
                 }
             }
-            return currentList;
+            this.paginationService.changeTotalPages(Math.ceil(currentList.length / this.paginationService.pagination.itemsPerPage));
+            return currentList.slice(this.paginationService.pagination.currentPage *
+                this.paginationService.pagination.itemsPerPage -
+                this.paginationService.pagination.itemsPerPage, this.paginationService.pagination.itemsPerPage *
+                this.paginationService.pagination.currentPage);
         }
+        return organization;
     };
     OrgListPipe = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"])({
@@ -1792,62 +1794,6 @@ var OrgListPipe = /** @class */ (function () {
         __metadata("design:paramtypes", [_services_pagination_service__WEBPACK_IMPORTED_MODULE_1__["PaginationService"]])
     ], OrgListPipe);
     return OrgListPipe;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/shared/pipes/org-sort.pipe.ts":
-/*!***********************************************!*\
-  !*** ./src/app/shared/pipes/org-sort.pipe.ts ***!
-  \***********************************************/
-/*! exports provided: OrgSortPipe */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrgSortPipe", function() { return OrgSortPipe; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-var OrgSortPipe = /** @class */ (function () {
-    function OrgSortPipe() {
-    }
-    OrgSortPipe.prototype.transform = function (value, input) {
-        if (value != null) {
-            if (input === 'Alphabetical') {
-                var sorted = value.sort(function (a, b) { return a.name > b.name ? 1 : a.name === b.name ? 0 : -1; });
-                if (input.charAt(0) === '-') {
-                    sorted.reverse();
-                }
-                return sorted;
-            }
-            if (input === 'Most Reports') {
-                var sorted = value.sort(function (a, b) { return Number(a.reportsCount) < Number(b.reportsCount) ? 1 : Number(a.reportsCount) === Number(b.reportsCount) ? 0 : -1; });
-                return sorted;
-            }
-            if (input === 'Most Users') {
-                var sorted = value.sort(function (a, b) { return Number(a.usersCount) < Number(b.usersCount) ? 1 : Number(a.usersCount) === Number(b.usersCount) ? 0 : -1; });
-                return sorted;
-            }
-            if (input === 'Most Data Rules') {
-                var sorted = value.sort(function (a, b) { return Number(a.datarulesCount) < Number(b.datarulesCount) ? 1 : Number(a.datarulesCount) === Number(b.datarulesCount) ? 0 : -1; });
-                return sorted;
-            }
-        }
-    };
-    OrgSortPipe = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"])({
-            name: 'orgSort'
-        })
-    ], OrgSortPipe);
-    return OrgSortPipe;
 }());
 
 
@@ -1882,6 +1828,7 @@ var PaginationPipe = /** @class */ (function () {
         this.paginationService = paginationService;
     }
     PaginationPipe.prototype.transform = function (currentList, page) {
+        console.log('pagination called');
         this.paginationService.changeTotalPages(Math.ceil(currentList.length / this.paginationService.pagination.itemsPerPage));
         return currentList.slice(this.paginationService.pagination.currentPage *
             this.paginationService.pagination.itemsPerPage -
@@ -1912,20 +1859,31 @@ var PaginationPipe = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReportListPipe", function() { return ReportListPipe; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services_pagination_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/pagination.service */ "./src/app/shared/services/pagination.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
 
 var ReportListPipe = /** @class */ (function () {
-    function ReportListPipe() {
+    function ReportListPipe(paginationService) {
+        this.paginationService = paginationService;
     }
-    ReportListPipe.prototype.transform = function (reportList, organization, sort) {
+    ReportListPipe.prototype.transform = function (reportList, searchName, organization, sort, page) {
         var currentList = reportList;
         // If there's a reportList
         if (reportList) {
+            // If there's a search
+            if (searchName) {
+                searchName = searchName.toLowerCase();
+                currentList = currentList.filter(function (el) { return el.name.toLowerCase().indexOf(searchName) > -1; });
+            }
             // if there's a organization
             if (organization) {
                 if (organization !== 'All') {
@@ -1953,13 +1911,19 @@ var ReportListPipe = /** @class */ (function () {
                     currentList = sorted;
                 }
             }
+            this.paginationService.changeTotalPages(Math.ceil(currentList.length / this.paginationService.pagination.itemsPerPage));
+            return currentList.slice(this.paginationService.pagination.currentPage *
+                this.paginationService.pagination.itemsPerPage -
+                this.paginationService.pagination.itemsPerPage, this.paginationService.pagination.itemsPerPage *
+                this.paginationService.pagination.currentPage);
         }
         return currentList;
     };
     ReportListPipe = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"])({
             name: 'reportList'
-        })
+        }),
+        __metadata("design:paramtypes", [_services_pagination_service__WEBPACK_IMPORTED_MODULE_1__["PaginationService"]])
     ], ReportListPipe);
     return ReportListPipe;
 }());
@@ -1990,11 +1954,15 @@ var SearchNamePipe = /** @class */ (function () {
     function SearchNamePipe() {
     }
     SearchNamePipe.prototype.transform = function (value, input) {
+        console.log('searchName');
         if (value) {
             if (input) {
                 input = input.toLowerCase();
-                return value.filter(function (el) { return el.name.toLowerCase().indexOf(input) > -1; });
+                var temp = value.filter(function (el) { return el.name.toLowerCase().indexOf(input) > -1; });
+                console.log(temp.length);
+                return temp;
             }
+            return value;
         }
         return value;
     };

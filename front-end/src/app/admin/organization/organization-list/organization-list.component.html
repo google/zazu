@@ -5,7 +5,7 @@
 <div class="main-content-view">
   <div class="left-main-content-view">
     <div class="list" *ngIf="pagination">
-      <div  *ngFor="let organization of organizations | searchName: search | orgList:  selectedCategories : sortValue| pagination: pagination.currentPage " class="card">
+      <div  *ngFor="let organization of organizations  |   orgList:  search: selectedCategories : sortValue: pagination.currentPage " class="card">
         <div class="container" (click)="goToDetails(organization.id)">
           <h2 class="title">{{organization.name}}</h2>
           <h4 class="secondary"><span *ngFor="let category of organization.categories, let i = index">{{category}}<span *ngIf="i < organization.categories.length -1">,&nbsp;&nbsp;</span>

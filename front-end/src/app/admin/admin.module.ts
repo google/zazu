@@ -17,7 +17,6 @@ import { AllReportsComponent } from './all-reports/all-reports.component';
 import { AllUserListComponent } from './all-users/all-user-list/all-user-list.component';
 import { AllReportListComponent } from './all-reports/all-report-list/all-report-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { OrgSortPipe } from '../shared/pipes/org-sort.pipe';
 import { PaginationPipe } from '../shared/pipes/pagination.pipe';
 import { OrgListPipe } from '../shared/pipes/org-list.pipe';
 
@@ -36,7 +35,6 @@ import { OrgListPipe } from '../shared/pipes/org-list.pipe';
     AllUserListComponent,
     AllReportListComponent,
     SearchNamePipe,
-    OrgSortPipe,
     PaginationPipe,
     OrgListPipe,
     ReportListPipe
