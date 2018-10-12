@@ -1,3 +1,4 @@
+import { PaginationService } from './shared/services/pagination.service';
 import { AdminGuard } from './auth/admin-guard.service';
 import { AuthService } from './auth/auth.service';
 import { AppRoutingModule } from './app-routing.module';
@@ -27,7 +28,8 @@ import { OrganizationService } from './shared/services/organization.service';
     AdminGuard,
     UserService,
     ReportService,
-    OrganizationService
+    OrganizationService,
+    PaginationService
   ],
   bootstrap: [AppComponent]
 })

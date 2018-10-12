@@ -1,4 +1,4 @@
-import { OrgCategoryPipe } from './../shared/pipes/org-category.pipe';
+import { ReportListPipe } from './../shared/pipes/report-list.pipe';
 import { SearchNamePipe } from './../shared/pipes/search-name.pipe';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -18,6 +18,8 @@ import { AllUserListComponent } from './all-users/all-user-list/all-user-list.co
 import { AllReportListComponent } from './all-reports/all-report-list/all-report-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OrgSortPipe } from '../shared/pipes/org-sort.pipe';
+import { PaginationPipe } from '../shared/pipes/pagination.pipe';
+import { OrgListPipe } from '../shared/pipes/org-list.pipe';
 
 @NgModule({
   declarations: [
@@ -34,8 +36,10 @@ import { OrgSortPipe } from '../shared/pipes/org-sort.pipe';
     AllUserListComponent,
     AllReportListComponent,
     SearchNamePipe,
-    OrgCategoryPipe,
-    OrgSortPipe
+    OrgSortPipe,
+    PaginationPipe,
+    OrgListPipe,
+    ReportListPipe
 
 
   ],

@@ -4,15 +4,15 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'searchName'
 })
 export class SearchNamePipe implements PipeTransform {
-
   transform(value: any, input: string) {
-    if (input) {
+    if (value) {
+      if (input) {
         input = input.toLowerCase();
-        return value.filter(function (el: any) {
-            return el.name.toLowerCase().indexOf(input) > -1;
-        });
+        return value.filter(
+          (el: any) => el.name.toLowerCase().indexOf(input) > -1
+        );
+      }
     }
     return value;
   }
-
 }

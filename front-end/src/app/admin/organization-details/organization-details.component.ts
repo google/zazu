@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as OrganizationViewModel from '../../shared/view-models/organization.viewmodel';
 import * as Filter from '../../shared/view-models/filter.viewmodel';
 import * as DataViewModel from '../../shared/view-models/data.viewmodel';
+import { ReportService } from '../../shared/services/report.service';
+import * as ReportViewModel from '../../shared/view-models/report.viewmodel';
 
 @Component({
   selector: 'app-organization-details',
@@ -16,7 +18,8 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private organizationService: OrganizationService,
-    private dataruleService: DatarulesService
+    private dataruleService: DatarulesService,
+    private reportSerivce: ReportService
   ) {}
   // Subscription for route
   sub: any;
@@ -37,6 +40,8 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
   };
   // Organization ID
   organizationID: string;
+  // reports
+  reports: ReportViewModel.SimpleReport[];
   rules: DataViewModel.DataRule[];
   async ngOnInit() {
     try {
@@ -51,6 +56,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
       this.organization = await this.organizationService.getOrganizationById(
         this.organizationID
       );
+      this.reports = await this.reportSerivce.getReportByOrganization('orgID');
       // gets data rules for this company
       this.rules = await this.dataruleService.getDataRules(this.organizationID);
     } catch (error) {

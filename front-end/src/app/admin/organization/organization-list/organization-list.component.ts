@@ -1,26 +1,24 @@
+import { PaginationService } from './../../../shared/services/pagination.service';
 import { OrganizationService } from './../../../shared/services/organization.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as OrganizationViewModel from '../../../shared/view-models/organization.viewmodel';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-organization-list',
   templateUrl: './organization-list.component.html',
   styleUrls: ['./organization-list.component.scss']
 })
-export class OrganizationListComponent implements OnInit {
+export class OrganizationListComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private organizationService: OrganizationService
+    private organizationService: OrganizationService,
+    private paginationService: PaginationService
   ) {}
-  sorts = [
-    'Alphabetical',
-    'Most Reports',
-    'Most Users',
-    'Most Data Rules'
-  ];
+  sorts = ['Alphabetical', 'Most Reports', 'Most Users', 'Most Data Rules'];
   // Array of all organizations
   organizations: OrganizationViewModel.OrganizationDetails[];
   searchValue = '';
@@ -29,15 +27,15 @@ export class OrganizationListComponent implements OnInit {
   categories: string[] = [];
   search = '';
   selectedCategories: string[] = [];
+  viewChange = false;
 
-
+  pagination;
+  pageSubscription: Subscription;
 
   // form group for filter
   filterForm = new FormGroup({
-    name: new FormControl(''),
+    name: new FormControl('')
   });
-
-
 
   async ngOnInit() {
     // Gets all organizations OnInit
@@ -45,8 +43,12 @@ export class OrganizationListComponent implements OnInit {
       this.organizations = await this.organizationService.getAllOrganizations();
       await this.getAllCategories(this.organizations);
       for (const category of this.categories) {
-        this.filterForm.addControl(category , new FormControl(''));
+        this.filterForm.addControl(category, new FormControl(''));
       }
+      this.pageSubscription = this.paginationService.paginationChanged.subscribe((pagination) => {
+        this.pagination = pagination;
+      });
+      this.paginationService.getPagination();
     } catch (error) {
       console.log(error);
     }
@@ -59,48 +61,20 @@ export class OrganizationListComponent implements OnInit {
 
   // Get all categories with no repetition
   getAllCategories(orgs: OrganizationViewModel.OrganizationDetails[]) {
-    orgs.forEach( (org) => {
-      org.categories.forEach ((category) => {
-        if (!this.categories.includes(category) ) {
+    orgs.forEach(org => {
+      org.categories.forEach(category => {
+        if (!this.categories.includes(category)) {
           this.categories.push(category);
         }
       });
     });
   }
 
-
   // changes sort preferences
-  changeSort(sort) {
+  async changeSort(sort) {
+    this.paginationService.changePage(1);
     this.sortValue = sort;
-    console.log(this.sortValue);
   }
-
-  // currently done in pipes
-  /*
-  public sortOrganization(prop) {
-    if (prop === 'Alphabetical') {
-      const sorted = this.organizations.sort((a, b) => a.name > b.name ? 1 : a.name === b.name ? 0 : -1);
-      if (prop.charAt(0) === '-') { sorted.reverse(); }
-      this.organizations = sorted;
-    }
-    if (prop === 'Most Reports') {
-      const sorted = this.organizations.sort((a, b) => Number(a.reportsCount) < Number(b.reportsCount) ? 1 : Number(a.reportsCount) === Number(b.reportsCount) ? 0 : -1);
-      this.organizations = sorted;
-    }
-
-    if (prop === 'Most Users') {
-      const sorted = this.organizations.sort((a, b) => Number(a.usersCount) < Number(b.usersCount) ? 1 : Number(a.usersCount) === Number(b.usersCount) ? 0 : -1);
-      this.organizations = sorted;
-    }
-
-    if (prop === 'Most Data Rules') {
-      const sorted = this.organizations.sort((a, b) => Number(a.datarulesCount) < Number(b.datarulesCount) ? 1 : Number(a.datarulesCount) === Number(b.datarulesCount) ? 0 : -1);
-      this.organizations = sorted;
-    }
-
-  }
-
-  */
 
   // On Search, will search stuff
   onSearch() {
@@ -108,17 +82,34 @@ export class OrganizationListComponent implements OnInit {
     console.log(this.filterForm.value);
     const temp = this.filterForm.value;
     for (const category of this.categories) {
-        if (category in temp) {
-          if (temp[category]) {
-            this.selectedCategories.push(category);
-          }
+      if (category in temp) {
+        if (temp[category]) {
+          this.selectedCategories.push(category);
         }
+      }
     }
     this.search = temp.name;
-    console.log(this.selectedCategories);
+    this.paginationService.changePage(1);
   }
 
   searchFormReset() {
     this.filterForm.reset();
+  }
+
+  // Pagination Methods
+  nextPage() {
+    if (this.pagination.currentPage < this.pagination.totalPages) {
+      this.paginationService.changePage(this.pagination.currentPage + 1);
+    }
+  }
+
+  previousPage() {
+    if (this.pagination.currentPage > 1) {
+      this.paginationService.changePage(this.pagination.currentPage - 1);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.pageSubscription.unsubscribe();
   }
 }

@@ -4,34 +4,41 @@
     <!-- Breadcrumbs for user details under user list-->
     <div *ngIf="this.orgID === undefined">
       <div class="breadcrumb"> <span routerLink="../../"><i class="material-icons">
-            person_outline </i> User List </span> &nbsp;&nbsp;   <i class="material-icons arrow">     keyboard_arrow_right   </i>   <i style="margin-left: -14px" class="material-icons arrow">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span class="active"> {{user.name}} </span> </div>
+            person_outline </i> User List </span> &nbsp;&nbsp; <i class="material-icons arrow"> keyboard_arrow_right </i> <i style="margin-left: -14px"
+          class="material-icons arrow"> keyboard_arrow_right </i>&nbsp;&nbsp; <span class="active"> {{user.name}} </span> </div>
     </div>
 
     <!-- Breadcrumbs for user details under organization list-->
     <div *ngIf="this.orgID != undefined">
       <div class="breadcrumb"> <span routerLink="../../../"><i class="material-icons">
-            business </i> Organization List </span> &nbsp;&nbsp;   <i class="material-icons arrow">     keyboard_arrow_right   </i>   <i style="margin-left: -14px" class="material-icons arrow">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span routerLink="../../"> {{organization.name}}</span>
-        &nbsp;&nbsp;   <i class="material-icons arrow">     keyboard_arrow_right   </i>   <i style="margin-left: -14px" class="material-icons arrow">     keyboard_arrow_right   </i>&nbsp;&nbsp; <span class="active"> {{user.name}} </span> </div>
+            business </i> Organization List </span> &nbsp;&nbsp; <i class="material-icons arrow"> keyboard_arrow_right </i> <i style="margin-left: -14px"
+          class="material-icons arrow"> keyboard_arrow_right </i>&nbsp;&nbsp; <span routerLink="../../"> {{organization.name}}</span>
+        &nbsp;&nbsp; <i class="material-icons arrow"> keyboard_arrow_right </i> <i style="margin-left: -14px" class="material-icons arrow">
+          keyboard_arrow_right </i>&nbsp;&nbsp; <span class="active"> {{user.name}} </span> </div>
     </div>
 
   </div>
 
   <div class="main-content-view">
-    <div class="details">
-      <div class="card">
-        <div class="container">
-          <h2 class="title"> {{user.name}}</h2>
-          <h4 class="secondary">Viewer</h4>
-          <p class="content">Email: {{user.googleId}}</p>
-          <p class="content">Secondary Email:  {{user.secondaryEmail }}}</p>
-          <p class="content"> Accesses: <span  *ngFor="let org of user.organizations"> {{org.name}} </span></p>
+    <div class="full-content-view">
+
+
+      <div class="details">
+        <div class="card">
+          <div class="container">
+            <h2 class="title"> {{user.name}}</h2>
+            <h4 class="secondary">Viewer</h4>
+            <p class="content">Email: {{user.googleId}}</p>
+            <p class="content">Secondary Email: {{user.secondaryEmail }}}</p>
+            <p class="content"> Accesses: <span *ngFor="let org of user.organizations"> {{org.name}} </span></p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div>
-      <h3 class="list-title">Report List</h3>
-      <app-report-list [filters]="reportListFilter" (reportID)="goToReport($event)"></app-report-list>
+      <div>
+        <h3 class="list-title">Report List</h3>
+        <app-report-list style="display:flex; width: 100%;" [reports]="reports" (reportID)="goToReport($event)"></app-report-list>
+      </div>
     </div>
   </div>
 </div>

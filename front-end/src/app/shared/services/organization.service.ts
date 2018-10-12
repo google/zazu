@@ -9,6 +9,13 @@ import * as OrganizationViewModel from '../view-models/organization.viewmodel';
 export class OrganizationService {
 
   constructor(private http: HttpClient) {}
+
+
+  public async getAllOrganizationsWithNoDetails(): Promise<OrganizationViewModel.SimpleOrganization[]> {
+    return await ((this.http.get<OrganizationViewModel.OrganizationDetails[]>('../../../assets/example-data/organizations.mockdata.json')).toPromise());
+  }
+
+
   /**
    * Method for getting all of the organizations
    */
@@ -16,13 +23,6 @@ export class OrganizationService {
     return await ((this.http.get<OrganizationViewModel.OrganizationDetails[]>('../../../assets/example-data/organizations.mockdata.json')).toPromise());
   }
 
-  /**
-   *  Method for getting organization with filters
-   *  ********** MUST CONSULT HOW TO DO THIS *******
-   */
-  public getOrganizationsWithFilter(filter): OrganizationViewModel.OrganizationDetails[] {
-    return null;
-  }
   /**
    *  Method for getting Organization object with ID
    */

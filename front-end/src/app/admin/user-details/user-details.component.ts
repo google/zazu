@@ -1,10 +1,11 @@
-import { ReportService } from './../../shared/services/report.service';
+import { ReportService} from './../../shared/services/report.service';
 import { OrganizationService } from './../../shared/services/organization.service';
 import { UserService } from './../../shared/services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as UserViewModel from '../../shared/view-models/user.viewmodel';
 import * as OrganizationViewModel from '../../shared/view-models/organization.viewmodel';
+import * as ReportViewModel from '../../shared/view-models/report.viewmodel';
 
 
 @Component({
@@ -18,22 +19,30 @@ export class UserDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService,
     private organizationService: OrganizationService,
+    private reportService: ReportService
   ) {}
 
   sub: any;
   userID: string;
   orgID: string;
+  reports: ReportViewModel.SimpleReport[];
 
   organization: OrganizationViewModel.SimpleOrganization; // Name of the org from previous view for breadcrumbs purposes
   user: UserViewModel.User;
 
  async ngOnInit() {
+   try{
     this.sub =  this.route.params.subscribe(params => {
       this.orgID = params['id'];
       this.userID =  params['userID'];
     });
     this.organization = await this.organizationService.getOrganizationById(this.orgID);
     this.user = await this.userService.getUser(this.userID);
+    this.reports = await this.reportService.getReportByOrganizations(['orgIDs']);
+   } catch (error) {
+     console.log(error);
+   }
+
   }
 
   // Gets the name of the organization for breadcrumbs & user acceses
