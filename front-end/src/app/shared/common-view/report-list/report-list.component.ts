@@ -28,8 +28,8 @@ export class ReportListComponent implements OnInit, OnDestroy {
   @Input()
   reports: ReportViewModel.SimpleReport[];
   @Output()
-  sub: any;
   reportID = new EventEmitter<string>();
+  sub: any;
   pageSubscription: Subscription;
   organizations: OrganizationViewModel.SimpleOrganization[];
   pagination;

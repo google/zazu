@@ -649,7 +649,7 @@ var PaginationService = /** @class */ (function () {
         this.paginationChanged = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
         this.pagination = {
             currentPage: 1,
-            itemsPerPage: 3,
+            itemsPerPage: 5,
             totalPages: 1
         };
     }

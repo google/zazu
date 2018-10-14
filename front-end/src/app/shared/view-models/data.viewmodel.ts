@@ -19,4 +19,5 @@ export interface DataRule {
   identifier: string;
   condition: string;
   token: string;
+  date: Date;
 }

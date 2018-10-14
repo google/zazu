@@ -6,8 +6,7 @@ import * as DataViewModel from '../view-models/data.viewmodel';
   providedIn: 'root'
 })
 export class DatarulesService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   dataRules: DataViewModel.DataRule[];
 
@@ -15,7 +14,23 @@ export class DatarulesService {
    * Gets all the data source for a specific organization
    * @param organizationID - ID of the organization you want to get the data source for
    */
-  public async getDataRules(organizationID: string): Promise<DataViewModel.DataRule[]> {
-    return await ((this.http.get<DataViewModel.DataRule[]>('../../../assets/example-data/datarules.mockdata.json')).toPromise());
+  public async getDataRules(
+    organizationID: string
+  ): Promise<DataViewModel.DataRule[]> {
+    return await this.http
+      .get<DataViewModel.DataRule[]>(
+        '../../../assets/example-data/datarules.mockdata.json'
+      )
+      .toPromise();
+  }
+
+  public async getAllDataSourceForOrganization(
+    orgID: string
+  ): Promise<DataViewModel.DataSource[]> {
+    return await this.http
+      .get<DataViewModel.DataSource[]>(
+        '../../../assets/example-data/datasources.mockdata.json'
+      )
+      .toPromise();
   }
 }

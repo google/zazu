@@ -1,15 +1,18 @@
-[
-  {
+[{
     "id": "5bbe46202c17b5a06d9a92f5",
     "organization": {
       "id": "randomID",
       "name": "Company Name"
     },
-    "name": "Data Rule 0 ",
-    "datasource": "Data Source 2",
+    "name": "No Jeniffer Data Rule",
+    "datasource": {
+      "id": "0",
+      "name": "Data Source 1"
+    },
     "identifier": "identifier",
     "condition": "condition",
-    "token": "token"
+    "token": "token",
+    "date": "Wed Oct 08 1980 11:59:28 GMT-0400 (Eastern Daylight Time)"
   },
   {
     "id": "5bbe4620dc1e5e83baf2676c",
@@ -17,11 +20,15 @@
       "id": "randomID",
       "name": "Company Name"
     },
-    "name": "Data Rule 1 ",
-    "datasource": "Data Source 1",
+    "name": "No Toy Sales Rules",
+    "datasource": {
+      "id": "1",
+      "name": "Data Source 2"
+    },
     "identifier": "identifier",
     "condition": "condition",
-    "token": "token"
+    "token": "token",
+    "date": "Mon Feb 20 2012 23:08:43 GMT-0500 (Eastern Standard Time)"
   },
   {
     "id": "5bbe4620e93295d6176ed525",
@@ -29,11 +36,15 @@
       "id": "randomID",
       "name": "Company Name"
     },
-    "name": "Data Rule 2 ",
-    "datasource": "Data Source 2",
+    "name": "All Annual Sales Rule",
+    "datasource": {
+      "id": "0",
+      "name": "Data Source 1"
+    },
     "identifier": "identifier",
     "condition": "condition",
-    "token": "token"
+    "token": "token",
+    "date": "Sat Aug 25 1973 10:35:38 GMT-0400 (Eastern Daylight Time)"
   },
   {
     "id": "5bbe462054d03f0d93bf4041",
@@ -41,11 +52,15 @@
       "id": "randomID",
       "name": "Company Name"
     },
-    "name": "Data Rule 3 ",
-    "datasource": "Data Source 2",
+    "name": "Never Gonna Rule",
+    "datasource": {
+      "id": "1",
+      "name": "Data Source 2"
+    },
     "identifier": "identifier",
     "condition": "condition",
-    "token": "token"
+    "token": "token",
+    "date": "Mon Jun 01 1992 10:31:02 GMT-0400 (Eastern Daylight Time)"
   },
   {
     "id": "5bbe46205f8b8a0eb9e89bad",
@@ -53,11 +68,15 @@
       "id": "randomID",
       "name": "Company Name"
     },
-    "name": "Data Rule 4 ",
-    "datasource": "Data Source 1",
+    "name": "Data Rule Example ",
+    "datasource": {
+      "id": "1",
+      "name": "Data Source 2"
+    },
     "identifier": "identifier",
     "condition": "condition",
-    "token": "token"
+    "token": "token",
+    "date": "Sat Oct 31 1992 07:40:35 GMT-0500 (Eastern Standard Time)"
   },
   {
     "id": "5bbe4620179c746f87c89673",
@@ -65,11 +84,15 @@
       "id": "randomID",
       "name": "Company Name"
     },
-    "name": "Data Rule 5 ",
-    "datasource": "Data Source 2",
+    "name": "Assest Margin Rule",
+    "datasource": {
+      "id": "1",
+      "name": "Data Source 2"
+    },
     "identifier": "identifier",
     "condition": "condition",
-    "token": "token"
+    "token": "token",
+    "date": "Fri Oct 20 1989 07:50:35 GMT-0400 (Eastern Daylight Time)"
   },
   {
     "id": "5bbe46203483d3a37bb44426",
@@ -77,10 +100,13 @@
       "id": "randomID",
       "name": "Company Name"
     },
-    "name": "Data Rule 6 ",
-    "datasource": "Data Source 2",
-    "identifier": "identifier",
+    "name": "Random Fancy Word Rule",
+    "datasource": {
+      "id": "0",
+      "name": "Data Source 1"
+    },
     "condition": "condition",
-    "token": "token"
+    "token": "token",
+    "date": "Mon May 08 1972 03:34:56 GMT-0400 (Eastern Daylight Time)"
   }
 ]

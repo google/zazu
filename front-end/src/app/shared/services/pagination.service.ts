@@ -19,7 +19,7 @@ export class PaginationService {
 
  pagination: Pagination = {
     currentPage: 1,
-    itemsPerPage: 3,
+    itemsPerPage: 5,
     totalPages: 1
   };
 

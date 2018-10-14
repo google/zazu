@@ -173,7 +173,6 @@ body {
     margin-left: 15px;
     max-width: 300px;
     box-shadow: $filter-box-shadow;
-
     .title {
       margin: 0;
       margin-bottom: 10px;
@@ -192,11 +191,13 @@ body {
   }
 
   .filter {
-    .search {
-      font-size: 14px;
+    .search, .select {
+      font-size: 12px;
       width: 100%;
       max-width: 300px;
     }
+
+
 
     .mat-stroked-button.reset {
       min-height: 23px !important;

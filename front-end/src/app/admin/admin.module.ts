@@ -19,6 +19,8 @@ import { AllReportListComponent } from './all-reports/all-report-list/all-report
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaginationPipe } from '../shared/pipes/pagination.pipe';
 import { OrgListPipe } from '../shared/pipes/org-list.pipe';
+import { UserListPipe } from '../shared/pipes/user-list.pipe';
+import { DataRulesListPipe } from '../shared/pipes/datarules-list.pipe';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { OrgListPipe } from '../shared/pipes/org-list.pipe';
     SearchNamePipe,
     PaginationPipe,
     OrgListPipe,
-    ReportListPipe
+    ReportListPipe,
+    UserListPipe,
+    DataRulesListPipe
 
 
   ],

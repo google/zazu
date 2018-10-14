@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import * as Filters from '../../../shared/view-models/filter.viewmodel';
 import { Router, ActivatedRoute } from '@angular/router';
+import { UserService } from '../../../shared/services/user.service';
+import * as UserViewModel from '../../../shared/view-models/user.viewmodel';
 
 @Component({
   selector: 'app-all-user-list',
@@ -8,20 +9,24 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./all-user-list.component.scss']
 })
 export class AllUserListComponent implements OnInit {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private userService: UserService
+  ) {}
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
-  filters: Filters.UserFilter;
-  ngOnInit() {
-    this.filters = {
-      name: '',
-      organizationID: 'ALL',
-      role: '',
-      sort: ''
-    };
+  users: UserViewModel.SimpleUserView[];
+  async ngOnInit() {
+    try {
+      this.users = await this.userService.getUsersByOrganization('All');
+    } catch (error) {
+      console.log('error');
+    }
   }
 
   goToUser(userId) {
-    this.router.navigate(['/admin/users/u', userId], { relativeTo: this.route });
+    this.router.navigate(['/admin/users/u', userId], {
+      relativeTo: this.route
+    });
   }
-
 }

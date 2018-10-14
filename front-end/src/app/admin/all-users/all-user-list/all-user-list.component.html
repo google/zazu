@@ -4,5 +4,5 @@
 </div>
 
 <div class="main-content-view">
-  <app-user-list [filters]="filters" (userID)="goToUser($event)"></app-user-list>
+  <app-user-list [users]="users" (userID)="goToUser($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-user-list>
 </div>

@@ -360,12 +360,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _shared_pipes_pagination_pipe__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../shared/pipes/pagination.pipe */ "./src/app/shared/pipes/pagination.pipe.ts");
 /* harmony import */ var _shared_pipes_org_list_pipe__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../shared/pipes/org-list.pipe */ "./src/app/shared/pipes/org-list.pipe.ts");
+/* harmony import */ var _shared_pipes_user_list_pipe__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../shared/pipes/user-list.pipe */ "./src/app/shared/pipes/user-list.pipe.ts");
+/* harmony import */ var _shared_pipes_datarules_list_pipe__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../shared/pipes/datarules-list.pipe */ "./src/app/shared/pipes/datarules-list.pipe.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -408,7 +412,9 @@ var AdminModule = /** @class */ (function () {
                 _shared_pipes_search_name_pipe__WEBPACK_IMPORTED_MODULE_1__["SearchNamePipe"],
                 _shared_pipes_pagination_pipe__WEBPACK_IMPORTED_MODULE_19__["PaginationPipe"],
                 _shared_pipes_org_list_pipe__WEBPACK_IMPORTED_MODULE_20__["OrgListPipe"],
-                _shared_pipes_report_list_pipe__WEBPACK_IMPORTED_MODULE_0__["ReportListPipe"]
+                _shared_pipes_report_list_pipe__WEBPACK_IMPORTED_MODULE_0__["ReportListPipe"],
+                _shared_pipes_user_list_pipe__WEBPACK_IMPORTED_MODULE_21__["UserListPipe"],
+                _shared_pipes_datarules_list_pipe__WEBPACK_IMPORTED_MODULE_22__["DataRulesListPipe"]
             ],
             imports: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["CommonModule"], _admin_routing_module__WEBPACK_IMPORTED_MODULE_7__["AdminRoutingModule"], _angular_material_angular_material_module__WEBPACK_IMPORTED_MODULE_6__["AngularMaterialModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_18__["FormsModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_18__["ReactiveFormsModule"]]
         })
@@ -427,7 +433,7 @@ var AdminModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"breadcrumb-container\">\n    <div class=\"breadcrumb\"> <span class=\"active\"><i class=\"material-icons\">\n        assessment </i> Report List</span></div>\n  </div>\n\n  <div class=\"main-content-view\">\n      <app-report-list [reports] = \"reports\" (reportID)=\"goToReport($event)\" style=\"display:flex; width: 100%;\"></app-report-list>\n\n  </div>\n"
+module.exports = "<div class=\"breadcrumb-container\">\n    <div class=\"breadcrumb\"> <span class=\"active\"><i class=\"material-icons\">\n        assessment </i> Report List</span></div>\n  </div>\n\n  <div class=\"main-content-view\">\n      <app-report-list [reports] = \"reports\" (reportID)=\"goToReport($event)\" style=\"display:flex; width: 100%; margin-bottom: 10px;\"></app-report-list>\n\n  </div>\n"
 
 /***/ }),
 
@@ -617,7 +623,7 @@ var AllReportsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"breadcrumb-container\">\n  <div class=\"breadcrumb\"> <span class=\"active\"> <i class=\"material-icons\">\n        person_outline </i> User List</span></div>\n</div>\n\n<div class=\"main-content-view\">\n  <app-user-list [filters]=\"filters\" (userID)=\"goToUser($event)\"></app-user-list>\n</div>\n"
+module.exports = "<div class=\"breadcrumb-container\">\n  <div class=\"breadcrumb\"> <span class=\"active\"> <i class=\"material-icons\">\n        person_outline </i> User List</span></div>\n</div>\n\n<div class=\"main-content-view\">\n  <app-user-list [users]=\"users\" (userID)=\"goToUser($event)\" style=\"display:flex; width: 100%; margin-bottom: 10px;\"></app-user-list>\n</div>\n"
 
 /***/ }),
 
@@ -644,6 +650,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AllUserListComponent", function() { return AllUserListComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _shared_services_user_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../shared/services/user.service */ "./src/app/shared/services/user.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -653,23 +660,75 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+
 
 
 var AllUserListComponent = /** @class */ (function () {
-    function AllUserListComponent(router, route) {
+    function AllUserListComponent(router, route, userService) {
         this.router = router;
         this.route = route;
+        this.userService = userService;
     }
     AllUserListComponent.prototype.ngOnInit = function () {
-        this.filters = {
-            name: '',
-            organizationID: 'ALL',
-            role: '',
-            sort: ''
-        };
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, error_1;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        _a = this;
+                        return [4 /*yield*/, this.userService.getUsersByOrganization('All')];
+                    case 1:
+                        _a.users = _b.sent();
+                        return [3 /*break*/, 3];
+                    case 2:
+                        error_1 = _b.sent();
+                        console.log('error');
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
     };
     AllUserListComponent.prototype.goToUser = function (userId) {
-        this.router.navigate(['/admin/users/u', userId], { relativeTo: this.route });
+        this.router.navigate(['/admin/users/u', userId], {
+            relativeTo: this.route
+        });
     };
     AllUserListComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -677,7 +736,9 @@ var AllUserListComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./all-user-list.component.html */ "./src/app/admin/all-users/all-user-list/all-user-list.component.html"),
             styles: [__webpack_require__(/*! ./all-user-list.component.scss */ "./src/app/admin/all-users/all-user-list/all-user-list.component.scss")]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"], _angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"],
+            _shared_services_user_service__WEBPACK_IMPORTED_MODULE_2__["UserService"]])
     ], AllUserListComponent);
     return AllUserListComponent;
 }());
@@ -769,7 +830,7 @@ var AllUsersComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"organization != null\">\r\n  <div class=\"breadcrumb-container\">\r\n    <div> <span routerLink=\"../\"><i class=\"material-icons\"> business </i> Organization List </span> &nbsp;&nbsp; <i class=\"material-icons arrow\">\r\n        keyboard_arrow_right </i> <i style=\"margin-left: -14px\" class=\"material-icons arrow\"> keyboard_arrow_right </i>&nbsp;&nbsp; <span\r\n        class=\"active\">{{organization.name}}\r\n      </span> </div>\r\n  </div>\r\n\r\n  <div class=\"main-content-view\">\r\n    <div class=\"full-content-view\">\r\n      <div class=\"details\">\r\n        <div class=\"card\">\r\n          <div class=\"container\">\r\n            <h2 class=\"title\">{{organization.name}}</h2>\r\n            <h4 class=\"secondary\"><span *ngFor=\"let category of organization.categories\">{{category}} &nbsp; </span> </h4>\r\n            <p class=\"stats\">\r\n              <span class=\"left\"><i class=\"material-icons\">\r\n                  assessment\r\n                </i> {{organization.reportsCount}} Reports</span>\r\n              <span class=\"middle\"> <i class=\"material-icons\">\r\n                  person_outline\r\n                </i>{{organization.usersCount}} Users</span>\r\n              <span class=\"right\"> <i class=\"material-icons\">\r\n                  dns\r\n                </i> {{organization.datarulesCount}} Data Rules</span>\r\n            </p>\r\n          </div>\r\n        </div>\r\n\r\n        <div class=\"tabs\">\r\n          <mat-tab-group>\r\n            <mat-tab label=\"Reports\">\r\n              <app-report-list [reports]=\"reports\" (reportID)=\"goToReport($event)\" style=\"display:flex; width: 100%;\"></app-report-list >\r\n            </mat-tab>\r\n            <mat-tab label=\"Users\">\r\n              <app-user-list [filters]=\"userListFilter\" (userID)=\"goToUser($event)\"></app-user-list>\r\n            </mat-tab>\r\n            <mat-tab label=\"Data Rules\">\r\n              <div class=\"data-rules-section\">\r\n                <mat-accordion *ngFor=\"let rule of rules; let i = index\">\r\n                  <mat-expansion-panel>\r\n                    <mat-expansion-panel-header>\r\n                      <mat-panel-title>\r\n                        <h4 class=\"title\">{{rule.name}}</h4><br>\r\n                      </mat-panel-title>\r\n                      <mat-panel-description>\r\n                        <h5>{{rule.datasource}}</h5>\r\n                      </mat-panel-description>\r\n                    </mat-expansion-panel-header>\r\n                    <hr>\r\n                    <p>Identifier: {{rule.identifier}}</p>\r\n                    <p>Condition: {{rule.condition}}</p>\r\n                    <p>Token: {{rule.token}}</p>\r\n                    <div class=\"buttons\">\r\n                      <button mat-button color=\"danger\">Delete</button>\r\n                      <button mat-button color=\"primary\">Edit</button>\r\n\r\n                    </div>\r\n\r\n                  </mat-expansion-panel>\r\n\r\n                  <br>\r\n\r\n                </mat-accordion>\r\n\r\n              </div>\r\n            </mat-tab>\r\n          </mat-tab-group>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div *ngIf=\"organization == null\">\r\n  <mat-spinner></mat-spinner>\r\n</div>\r\n"
+module.exports = "<div *ngIf=\"organization != null\">\r\n  <div class=\"breadcrumb-container\">\r\n    <div> <span routerLink=\"../\"><i class=\"material-icons\"> business </i> Organization List </span> &nbsp;&nbsp; <i class=\"material-icons arrow\">\r\n        keyboard_arrow_right </i> <i style=\"margin-left: -14px\" class=\"material-icons arrow\"> keyboard_arrow_right </i>&nbsp;&nbsp; <span\r\n        class=\"active\">{{organization.name}}\r\n      </span> </div>\r\n  </div>\r\n\r\n  <div class=\"main-content-view\">\r\n    <div class=\"full-content-view\">\r\n      <div class=\"details\">\r\n        <div class=\"card\">\r\n          <div class=\"container\">\r\n            <h2 class=\"title\">{{organization.name}}</h2>\r\n            <h4 class=\"secondary\"><span *ngFor=\"let category of organization.categories\">{{category}} &nbsp; </span> </h4>\r\n            <p class=\"stats\">\r\n              <span class=\"left\"><i class=\"material-icons\">\r\n                  assessment\r\n                </i> {{organization.reportsCount}} Reports</span>\r\n              <span class=\"middle\"> <i class=\"material-icons\">\r\n                  person_outline\r\n                </i>{{organization.usersCount}} Users</span>\r\n              <span class=\"right\"> <i class=\"material-icons\">\r\n                  dns\r\n                </i> {{organization.datarulesCount}} Data Rules</span>\r\n            </p>\r\n          </div>\r\n        </div>\r\n\r\n        <div class=\"tabs\">\r\n          <mat-tab-group (selectedIndexChange)=\"selected($event)\">\r\n            <mat-tab label=\"Reports\">\r\n              <app-report-list *ngIf=\"selectedTab === 0\" [reports]=\"reports\" (reportID)=\"goToReport($event)\" style=\"display:flex; width: 100%; margin-bottom: 10px;\"></app-report-list>\r\n            </mat-tab>\r\n            <mat-tab label=\"Users\">\r\n              <app-user-list *ngIf=\"selectedTab === 1\" [users]=\"users\" (userID)=\"goToUser($event)\" style=\"display:flex; width: 100%; margin-bottom: 10px;\"></app-user-list>\r\n            </mat-tab>\r\n            <mat-tab label=\"Data Rules\">\r\n              <div class=\"data-rules-section\" *ngIf=\"selectedTab === 2\">\r\n                <div class=\"left-main-content-view\">\r\n                  <mat-accordion *ngFor=\"let rule of rules | datarulesList : searchName : selectedDataSource : sortValue : pagination.currentPage; let i = index\">\r\n                    <mat-expansion-panel class=\"data-rules-card\">\r\n                      <mat-expansion-panel-header>\r\n                        <mat-panel-title>\r\n                          <h4 class=\"title\">{{rule.name}}</h4><br>\r\n                        </mat-panel-title>\r\n                        <mat-panel-description>\r\n                          <h5>{{rule.datasource.name}}</h5>\r\n                        </mat-panel-description>\r\n                      </mat-expansion-panel-header>\r\n                      <hr>\r\n                      <p>Created At: {{rule.date | date }}</p>\r\n                      <p>Identifier: {{rule.identifier}}</p>\r\n                      <p>Condition: {{rule.condition}}</p>\r\n                      <p>Token: {{rule.token}}</p>\r\n                      <div class=\"buttons\">\r\n                        <button mat-button color=\"danger\">Delete</button>\r\n                        <button mat-button color=\"primary\">Edit</button>\r\n                      </div>\r\n                    </mat-expansion-panel>\r\n                    <br>\r\n                  </mat-accordion>\r\n                </div>\r\n                <div class=\"right-main-content-view\">\r\n                  <!-- Filters -->\r\n                  <div class=\"filter\" >\r\n                      <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\r\n                        <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\r\n                        <p class=\"title\"> Filter by</p>\r\n                        <mat-form-field appearance=\"outline\" class=\"search\">\r\n                          <mat-label class=\"label-color\">Name</mat-label>\r\n                          <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\r\n                        </mat-form-field>\r\n                        <p class=\"title\" > Data Source</p>\r\n                        <mat-form-field  appearance=\"outline\"  class=\"select\">\r\n                          <mat-select  formControlName=\"selectedDataSource\">\r\n                            <mat-option value=\"All\" >All</mat-option>\r\n                            <mat-option *ngFor=\"let datasource of dataSources\" value=\"{{datasource.id}}\">{{datasource.name}}</mat-option>\r\n                          </mat-select>\r\n                        </mat-form-field>\r\n                        <br>\r\n                        <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\r\n                      </form>\r\n                    </div>\r\n\r\n                    <div class=\"sort\">\r\n                      <p class=\"title\"> Sort By</p>\r\n                      <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\r\n                        <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\r\n                          {{sort}}\r\n                        </mat-radio-button>\r\n                      </mat-radio-group>\r\n                      <p *ngIf=\"this.pagination\"> {{this.pagination.currentPage}}/{{this.pagination.totalPages}}</p>\r\n                      <button mat-raised-button (click)=\"previousPage()\">Previous Page</button>\r\n                      <button mat-raised-button (click)=\"nextPage()\">Next Page</button>\r\n\r\n                    </div>\r\n                </div>\r\n              </div>\r\n            </mat-tab>\r\n          </mat-tab-group>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div *ngIf=\"organization == null\">\r\n  <mat-spinner></mat-spinner>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -780,7 +841,7 @@ module.exports = "<div *ngIf=\"organization != null\">\r\n  <div class=\"breadcr
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n/******* FORMS STYLING & FILTERS ******/\n/***** Filter Card ***/\n.tabs {\n  background-color: white;\n  margin: 20px 0;\n  box-shadow: 2px 3px 4px rgba(101, 101, 101, 0.5); }\n::ng-deep .tabs .mat-tab-header {\n  box-shadow: 0 1px 4px rgba(101, 101, 101, 0.7) !important;\n  border-bottom: none !important; }\n::ng-deep .tabs .mat-tab-label {\n  color: #3E3E3E;\n  opacity: 1;\n  font-size: 17px; }\n::ng-deep .tabs .mat-tab-label-active {\n  color: #0865ee; }\n::ng-deep .tabs .mat-tab-body {\n  padding: 10px; }\n::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, ::ng-deep .mat-tab-nav-bar.mat-primary .mat-ink-bar {\n  background: #0865ee;\n  height: 3px; }\n.data-rules-section {\n  padding: 5px;\n  max-width: 1080px; }\n.data-rules-section p {\n    margin: 0;\n    color: #3e3e3e;\n    font-weight: 500; }\n.data-rules-section .buttons {\n    text-align: right; }\n.data-rules-section hr {\n    border-top: 1px solid #b4b4b4;\n    margin-top: -10px; }\n.data-rules-section .title {\n    color: #E7554B; }\n.data-rules-section .mat-expansion-panel-content {\n    padding-top: 5px;\n    border-top: 1px solid rgba(0, 0, 0, 0.12); }\n.data-rules-section .mat-expansion-panel {\n    border-radius: 3px; }\n"
+module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n/******* FORMS STYLING & FILTERS ******/\n/***** Filter Card ***/\n.tabs {\n  background-color: white;\n  margin: 20px 0;\n  box-shadow: 2px 3px 4px rgba(101, 101, 101, 0.5); }\n::ng-deep .tabs .mat-tab-header {\n  box-shadow: 0 1px 4px rgba(101, 101, 101, 0.7) !important;\n  border-bottom: none !important; }\n::ng-deep .tabs .mat-tab-label {\n  color: #3E3E3E;\n  opacity: 1;\n  font-size: 17px; }\n::ng-deep .tabs .mat-tab-label-active {\n  color: #0865ee; }\n::ng-deep .tabs .mat-tab-body {\n  padding: 10px; }\n::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,\n::ng-deep .mat-tab-nav-bar.mat-primary .mat-ink-bar {\n  background: #0865ee;\n  height: 3px; }\n.data-rules-card {\n  border: 1px solid #D7D7D7;\n  border-radius: 5px; }\n.mat-tab {\n  padding: 5px; }\n.data-rules-section {\n  max-width: 1080px;\n  margin-bottom: 10px;\n  display: flex; }\n.data-rules-section .left-main-content-view {\n    margin-top: 10px; }\n.data-rules-section .left-main-content-view p {\n      margin: 0;\n      color: #3e3e3e;\n      font-weight: 500; }\n.data-rules-section .left-main-content-view .buttons {\n      text-align: right; }\n.data-rules-section .left-main-content-view hr {\n      border-top: 1px solid #b4b4b4;\n      margin-top: -10px; }\n.data-rules-section .left-main-content-view .title {\n      color: #E7554B; }\n.data-rules-section .left-main-content-view .mat-expansion-panel-content {\n      padding-top: 5px;\n      border-top: 1px solid rgba(0, 0, 0, 0.12); }\n.data-rules-section .left-main-content-view .mat-expansion-panel {\n      border-radius: 3px; }\n"
 
 /***/ }),
 
@@ -799,6 +860,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _shared_services_report_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../shared/services/report.service */ "./src/app/shared/services/report.service.ts");
+/* harmony import */ var _shared_services_user_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../shared/services/user.service */ "./src/app/shared/services/user.service.ts");
+/* harmony import */ var _shared_services_pagination_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../shared/services/pagination.service */ "./src/app/shared/services/pagination.service.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -848,76 +912,127 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
+
+
 var OrganizationDetailsComponent = /** @class */ (function () {
-    function OrganizationDetailsComponent(route, router, organizationService, dataruleService, reportSerivce) {
+    function OrganizationDetailsComponent(route, router, organizationService, dataruleService, reportService, userService, paginationService) {
         this.route = route;
         this.router = router;
         this.organizationService = organizationService;
         this.dataruleService = dataruleService;
-        this.reportSerivce = reportSerivce;
-        // Filter for  Users
-        this.userListFilter = {
-            name: '',
-            organizationID: '',
-            role: 'VIEWER',
-            sort: ''
-        };
-        // Filter for Report
-        this.reportListFilter = {
-            name: '',
-            organizationID: '',
-            sort: ''
-        };
+        this.reportService = reportService;
+        this.userService = userService;
+        this.paginationService = paginationService;
+        this.selectedTab = 0;
+        this.filterForm = new _angular_forms__WEBPACK_IMPORTED_MODULE_7__["FormGroup"]({
+            name: new _angular_forms__WEBPACK_IMPORTED_MODULE_7__["FormControl"](''),
+            selectedDataSource: new _angular_forms__WEBPACK_IMPORTED_MODULE_7__["FormControl"]('All')
+        });
+        this.formInitialize = false;
+        this.sorts = ['Latest', 'Alphabetical'];
+        this.sortValue = this.sorts[0];
+        this.selectedDataSource = 'All';
     }
     OrganizationDetailsComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var _a, _b, _c, error_1;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
+            var _a, _b, _c, _d, _e, error_1;
+            return __generator(this, function (_f) {
+                switch (_f.label) {
                     case 0:
-                        _d.trys.push([0, 4, , 5]);
+                        _f.trys.push([0, 6, , 7]);
                         this.sub = this.route.params.subscribe(function (params) {
                             _this.organizationID = params['id'];
-                            // Initiate User filter
-                            _this.userListFilter.organizationID = params['id'];
-                            // Initiate Report Filter
-                            _this.reportListFilter = params['id'];
                         });
                         // gets organization info
                         _a = this;
                         return [4 /*yield*/, this.organizationService.getOrganizationById(this.organizationID)];
                     case 1:
                         // gets organization info
-                        _a.organization = _d.sent();
+                        _a.organization = _f.sent();
+                        // gets reports for this organization
                         _b = this;
-                        return [4 /*yield*/, this.reportSerivce.getReportByOrganization('orgID')];
+                        return [4 /*yield*/, this.reportService.getReportByOrganization('orgID')];
                     case 2:
-                        _b.reports = _d.sent();
-                        // gets data rules for this company
+                        // gets reports for this organization
+                        _b.reports = _f.sent();
+                        // gets data rules for this organization
                         _c = this;
                         return [4 /*yield*/, this.dataruleService.getDataRules(this.organizationID)];
                     case 3:
-                        // gets data rules for this company
-                        _c.rules = _d.sent();
-                        return [3 /*break*/, 5];
+                        // gets data rules for this organization
+                        _c.rules = _f.sent();
+                        // gets users for this organization
+                        _d = this;
+                        return [4 /*yield*/, this.userService.getUsersByOrganization('orgID')];
                     case 4:
-                        error_1 = _d.sent();
+                        // gets users for this organization
+                        _d.users = _f.sent();
+                        // get all data sources for this organization
+                        _e = this;
+                        return [4 /*yield*/, this.dataruleService.getAllDataSourceForOrganization('orgID')];
+                    case 5:
+                        // get all data sources for this organization
+                        _e.dataSources = _f.sent();
+                        this.pageSubscription = this.paginationService.paginationChanged.subscribe(function (pagination) {
+                            _this.pagination = pagination;
+                        });
+                        return [3 /*break*/, 7];
+                    case 6:
+                        error_1 = _f.sent();
                         console.log(error_1);
-                        return [3 /*break*/, 5];
-                    case 5: return [2 /*return*/];
+                        return [3 /*break*/, 7];
+                    case 7: return [2 /*return*/];
                 }
             });
         });
     };
+    OrganizationDetailsComponent.prototype.selected = function (event) {
+        this.selectedTab = event;
+        if (event === 2) {
+            this.paginationService.resetPage();
+        }
+    };
     OrganizationDetailsComponent.prototype.ngOnDestroy = function () {
         this.sub.unsubscribe();
+        if (this.pageSubscription) {
+            this.pageSubscription.unsubscribe();
+        }
     };
     OrganizationDetailsComponent.prototype.goToUser = function (userId) {
         this.router.navigate(['./u', userId], { relativeTo: this.route });
     };
     OrganizationDetailsComponent.prototype.goToReport = function (reportID) {
         this.router.navigate(['./r', reportID], { relativeTo: this.route });
+    };
+    OrganizationDetailsComponent.prototype.changeSort = function (sort) {
+        this.paginationService.resetPage();
+        this.sortValue = sort;
+    };
+    OrganizationDetailsComponent.prototype.onSearch = function () {
+        console.log(this.filterForm.value);
+        this.paginationService.resetPage();
+        var temp = this.filterForm.value;
+        this.searchName = temp.name;
+        this.selectedDataSource = temp.selectedDataSource;
+    };
+    OrganizationDetailsComponent.prototype.searchFormReset = function () {
+        this.filterForm.reset();
+        this.paginationService.resetPage();
+        this.filterForm.patchValue({ selectedDataSource: 'All' });
+    };
+    // Pagination Methods
+    OrganizationDetailsComponent.prototype.nextPage = function () {
+        if (this.pagination.currentPage < this.pagination.totalPages) {
+            this.paginationService.changePage(this.pagination.currentPage + 1);
+        }
+    };
+    // Pagination Methods
+    OrganizationDetailsComponent.prototype.previousPage = function () {
+        if (this.pagination.currentPage > 1) {
+            this.paginationService.changePage(this.pagination.currentPage - 1);
+        }
     };
     OrganizationDetailsComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
@@ -929,7 +1044,9 @@ var OrganizationDetailsComponent = /** @class */ (function () {
             _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
             _shared_services_organization_service__WEBPACK_IMPORTED_MODULE_1__["OrganizationService"],
             _shared_services_datarules_service__WEBPACK_IMPORTED_MODULE_0__["DatarulesService"],
-            _shared_services_report_service__WEBPACK_IMPORTED_MODULE_4__["ReportService"]])
+            _shared_services_report_service__WEBPACK_IMPORTED_MODULE_4__["ReportService"],
+            _shared_services_user_service__WEBPACK_IMPORTED_MODULE_5__["UserService"],
+            _shared_services_pagination_service__WEBPACK_IMPORTED_MODULE_6__["PaginationService"]])
     ], OrganizationDetailsComponent);
     return OrganizationDetailsComponent;
 }());
@@ -1375,7 +1492,7 @@ var UserDetailsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"left-main-content-view\" >\r\n  <div *ngIf=\"reports != null\">\r\n    <div class=\"list\">\r\n      <div *ngFor=\"let report of reports | reportList: searchName: selectedOrganization : sortValue :  pagination.currentPage\" class=\"card\">\r\n        <div class=\"container\" (click)=\"reportClicked(report.id)\">\r\n          <h4 class=\"title\"><strong> {{report.name}}</strong></h4>\r\n          <p class=\"secondary\">{{report.organization.name}}</p>\r\n          <p class=\"content\"> {{report.date | date}} </p>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"right-main-content-view\" *ngIf=\"formInitialize\">\r\n  <div class=\"filter\" style=\"margin-top: 13px\">\r\n    <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\r\n      <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\r\n      <p class=\"title\"> Filter by</p>\r\n      <mat-form-field appearance=\"outline\" class=\"search\">\r\n        <mat-label class=\"label-color\">Name</mat-label>\r\n        <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\r\n      </mat-form-field>\r\n      <p class=\"title\" *ngIf=\"!organizationID\"> Organization</p>\r\n      <mat-form-field *ngIf=\"!organizationID\">\r\n        <mat-select  formControlName=\"selectedOrganization\">\r\n          <mat-option value=\"All\" >All</mat-option>\r\n          <mat-option *ngFor=\"let organization of organizations\" value=\"{{organization.id}}\">{{organization.name}}</mat-option>\r\n        </mat-select>\r\n      </mat-form-field>\r\n      <br>\r\n      <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\r\n    </form>\r\n  </div>\r\n\r\n  <div class=\"sort\">\r\n    <p class=\"title\"> Sort By</p>\r\n    <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\r\n      <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\r\n        {{sort}}\r\n      </mat-radio-button>\r\n    </mat-radio-group>\r\n    <p *ngIf=\"this.pagination\"> {{this.pagination.currentPage}}/{{this.pagination.totalPages}}</p>\r\n    <button mat-raised-button (click)=\"previousPage()\">Previous Page</button>\r\n    <button mat-raised-button (click)=\"nextPage()\">Next Page</button>\r\n\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"left-main-content-view\" >\r\n  <div *ngIf=\"reports != null\">\r\n    <div class=\"list\">\r\n      <div *ngFor=\"let report of reports | reportList: searchName: selectedOrganization : sortValue :  pagination.currentPage\" class=\"card\">\r\n        <div class=\"container\" (click)=\"reportClicked(report.id)\">\r\n          <h4 class=\"title\"><strong> {{report.name}}</strong></h4>\r\n          <p class=\"secondary\">{{report.organization.name}}</p>\r\n          <p class=\"content\"> {{report.date | date}} </p>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"right-main-content-view\" *ngIf=\"formInitialize\">\r\n  <div class=\"filter\" >\r\n    <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\r\n      <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\r\n      <p class=\"title\"> Filter by</p>\r\n      <mat-form-field appearance=\"outline\" class=\"search\">\r\n        <mat-label class=\"label-color\">Name</mat-label>\r\n        <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\r\n      </mat-form-field>\r\n      <p class=\"title\" *ngIf=\"!organizationID\"> Organization</p>\r\n      <mat-form-field  appearance=\"outline\"  class=\"select\"  *ngIf=\"!organizationID\">\r\n        <mat-select  formControlName=\"selectedOrganization\">\r\n          <mat-option value=\"All\" >All</mat-option>\r\n          <mat-option *ngFor=\"let organization of organizations\" value=\"{{organization.id}}\">{{organization.name}}</mat-option>\r\n        </mat-select>\r\n      </mat-form-field>\r\n      <br>\r\n      <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\r\n    </form>\r\n  </div>\r\n\r\n  <div class=\"sort\">\r\n    <p class=\"title\"> Sort By</p>\r\n    <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\r\n      <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\r\n        {{sort}}\r\n      </mat-radio-button>\r\n    </mat-radio-group>\r\n    <p *ngIf=\"this.pagination\"> {{this.pagination.currentPage}}/{{this.pagination.totalPages}}</p>\r\n    <button mat-raised-button (click)=\"previousPage()\">Previous Page</button>\r\n    <button mat-raised-button (click)=\"nextPage()\">Next Page</button>\r\n\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1544,7 +1661,7 @@ var ReportListComponent = /** @class */ (function () {
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"])(),
         __metadata("design:type", Object)
-    ], ReportListComponent.prototype, "sub", void 0);
+    ], ReportListComponent.prototype, "reportID", void 0);
     ReportListComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
             selector: 'app-report-list',
@@ -1569,7 +1686,7 @@ var ReportListComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"users != null\">\r\n  <div class=\"list\">\r\n    <div *ngFor=\"let user of users\" class=\"card\">\r\n      <div class=\"container\"  (click)=\"userClicked(user.id)\">\r\n        <h4 class=\"title\" style=\"font-weight: bold\">{{user.name}}</h4>\r\n        <p class=\"secondary\"> Viewer : <span *ngFor=\"let org of user.organizations; let i = index\">\r\n            {{org.name}}<span *ngIf=\"i < user.organizations.length-1\">, </span> </span> </p>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"left-main-content-view\">\r\n  <div *ngIf=\"users != null\">\r\n    <div class=\"list\">\r\n      <div *ngFor=\"let user of users | userList: searchName: selectedRole: selectedOrganization : sortValue :  pagination.currentPage\" class=\"card\">\r\n        <div class=\"container\" (click)=\"userClicked(user.id)\">\r\n          <h4 class=\"title\" style=\"font-weight: bold\">{{user.firstName}} {{user.lastName}}</h4>\r\n          <p class=\"secondary\"> Viewer : <span *ngFor=\"let org of user.organizations; let i = index\">\r\n              {{org.name}}<span *ngIf=\"i < user.organizations.length-1\">, </span> </span> </p>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"right-main-content-view\"  *ngIf=\"formInitialize\">\r\n  <div class=\"filter\" >\r\n    <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\r\n      <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\r\n      <p class=\"title\"> Filter by</p>\r\n      <mat-form-field appearance=\"outline\" class=\"search\">\r\n        <mat-label class=\"label-color\">Name</mat-label>\r\n        <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\r\n      </mat-form-field>\r\n      <p class=\"title\" *ngIf=\"!organizationID\"> Role</p>\r\n      <mat-form-field  appearance=\"outline\" class=\"select\" *ngIf=\"!organizationID\">\r\n        <mat-select formControlName=\"selectedRole\">\r\n          <mat-option value=\"All\">All</mat-option>\r\n          <mat-option value=\"Admin\">Admin</mat-option>\r\n          <mat-option value=\"Viewer\">Viewer</mat-option>\r\n        </mat-select>\r\n      </mat-form-field>\r\n      <p class=\"title\" *ngIf=\"!organizationID\"> Organization</p>\r\n      <mat-form-field class=\"select\" appearance=\"outline\" *ngIf=\"!organizationID\">\r\n        <mat-select    formControlName=\"selectedOrganization\">\r\n          <mat-option value=\"All\">All</mat-option>\r\n          <mat-option *ngFor=\"let organization of organizations\" value=\"{{organization.id}}\">{{organization.name}}</mat-option>\r\n        </mat-select>\r\n      </mat-form-field>\r\n      <br>\r\n      <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\r\n    </form>\r\n  </div>\r\n\r\n  <div class=\"sort\">\r\n    <p class=\"title\"> Sort By</p>\r\n    <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\r\n      <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\r\n        {{sort}}\r\n      </mat-radio-button>\r\n    </mat-radio-group>\r\n    <p *ngIf=\"this.pagination\"> {{this.pagination.currentPage}}/{{this.pagination.totalPages}}</p>\r\n    <button mat-raised-button (click)=\"previousPage()\">Previous Page</button>\r\n    <button mat-raised-button (click)=\"nextPage()\">Next Page</button>\r\n\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1594,10 +1711,11 @@ module.exports = ""
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserListComponent", function() { return UserListComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _services_user_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/user.service */ "./src/app/shared/services/user.service.ts");
-/* harmony import */ var _view_models_filter_viewmodel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../view-models/filter.viewmodel */ "./src/app/shared/view-models/filter.viewmodel.ts");
-/* harmony import */ var _view_models_filter_viewmodel__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_view_models_filter_viewmodel__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _services_organization_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../services/organization.service */ "./src/app/shared/services/organization.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services_pagination_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/pagination.service */ "./src/app/shared/services/pagination.service.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1645,28 +1763,55 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
+
 var UserListComponent = /** @class */ (function () {
-    function UserListComponent(userService) {
-        this.userService = userService;
-        this.userID = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+    function UserListComponent(organizationService, paginationService, route) {
+        this.organizationService = organizationService;
+        this.paginationService = paginationService;
+        this.route = route;
+        this.userID = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
+        this.selectedOrganization = '';
+        this.selectedRole = '';
+        this.sorts = ['First Name', 'Last Name'];
+        this.sortValue = this.sorts[0];
+        this.filterForm = new _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormGroup"]({
+            name: new _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormControl"](''),
+            selectedRole: new _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormControl"]('All')
+        });
+        this.formInitialize = false;
     }
     UserListComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             var _a, error_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _b.trys.push([0, 2, , 3]);
+                        _b.trys.push([0, 3, , 4]);
+                        this.paginationService.resetPage();
+                        this.sub = this.route.params.subscribe(function (params) {
+                            _this.organizationID = params['id'];
+                        });
+                        this.pageSubscription = this.paginationService.paginationChanged.subscribe(function (pagination) {
+                            _this.pagination = pagination;
+                        });
+                        this.paginationService.getPagination();
+                        if (!!this.organizationID) return [3 /*break*/, 2];
                         _a = this;
-                        return [4 /*yield*/, this.userService.getUsersByOrganization(this.filters.organizationID)];
+                        return [4 /*yield*/, this.organizationService.getAllOrganizationsWithNoDetails()];
                     case 1:
-                        _a.users = _b.sent();
-                        return [3 /*break*/, 3];
+                        _a.organizations = _b.sent();
+                        this.filterForm.addControl('selectedOrganization', new _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormControl"]('All'));
+                        _b.label = 2;
                     case 2:
+                        this.formInitialize = true;
+                        return [3 /*break*/, 4];
+                    case 3:
                         error_1 = _b.sent();
                         console.log(error_1);
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
@@ -1674,23 +1819,140 @@ var UserListComponent = /** @class */ (function () {
     UserListComponent.prototype.userClicked = function (id) {
         this.userID.emit(id);
     };
+    UserListComponent.prototype.changeSort = function (sort) {
+        this.paginationService.resetPage();
+        this.sortValue = sort;
+    };
+    UserListComponent.prototype.onSearch = function () {
+        console.log(this.filterForm.value);
+        this.paginationService.resetPage();
+        var temp = this.filterForm.value;
+        this.searchName = temp.name;
+        this.selectedOrganization = temp.selectedOrganization;
+        this.selectedRole = temp.selectedRole;
+    };
+    UserListComponent.prototype.searchFormReset = function () {
+        this.filterForm.reset();
+        this.filterForm.patchValue({ selectedRole: 'All' });
+        this.filterForm.patchValue({ selectedOrganization: 'All' });
+        this.paginationService.resetPage();
+    };
+    // Pagination Methods
+    UserListComponent.prototype.nextPage = function () {
+        if (this.pagination.currentPage < this.pagination.totalPages) {
+            this.paginationService.changePage(this.pagination.currentPage + 1);
+        }
+    };
+    // Pagination Methods
+    UserListComponent.prototype.previousPage = function () {
+        if (this.pagination.currentPage > 1) {
+            this.paginationService.changePage(this.pagination.currentPage - 1);
+        }
+    };
+    UserListComponent.prototype.ngOnDestroy = function () {
+        this.pageSubscription.unsubscribe();
+    };
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", Object)
-    ], UserListComponent.prototype, "filters", void 0);
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
+        __metadata("design:type", Array)
+    ], UserListComponent.prototype, "users", void 0);
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])(),
         __metadata("design:type", Object)
     ], UserListComponent.prototype, "userID", void 0);
     UserListComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-user-list',
             template: __webpack_require__(/*! ./user-list.component.html */ "./src/app/shared/common-view/user-list/user-list.component.html"),
             styles: [__webpack_require__(/*! ./user-list.component.scss */ "./src/app/shared/common-view/user-list/user-list.component.scss")]
         }),
-        __metadata("design:paramtypes", [_services_user_service__WEBPACK_IMPORTED_MODULE_1__["UserService"]])
+        __metadata("design:paramtypes", [_services_organization_service__WEBPACK_IMPORTED_MODULE_0__["OrganizationService"],
+            _services_pagination_service__WEBPACK_IMPORTED_MODULE_2__["PaginationService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"]])
     ], UserListComponent);
     return UserListComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/pipes/datarules-list.pipe.ts":
+/*!*****************************************************!*\
+  !*** ./src/app/shared/pipes/datarules-list.pipe.ts ***!
+  \*****************************************************/
+/*! exports provided: DataRulesListPipe */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DataRulesListPipe", function() { return DataRulesListPipe; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services_pagination_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/pagination.service */ "./src/app/shared/services/pagination.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var DataRulesListPipe = /** @class */ (function () {
+    function DataRulesListPipe(paginationService) {
+        this.paginationService = paginationService;
+    }
+    DataRulesListPipe.prototype.transform = function (rules, searchName, datasource, sort, page) {
+        if (rules) {
+            var currentList = rules;
+            // If there's a search
+            if (searchName) {
+                searchName = searchName.toLowerCase();
+                currentList = currentList.filter(function (el) { return el.name.toLowerCase().indexOf(searchName) > -1; });
+            }
+            // if there's a organization
+            if (datasource) {
+                if (datasource !== 'All') {
+                    currentList = currentList.filter(function (element) { return element.datasource.id === datasource; });
+                }
+            }
+            // if there's a sort
+            if (sort) {
+                if (sort === 'Alphabetical') {
+                    var sorted = currentList.sort(function (a, b) { return (a.name > b.name ? 1 : a.name === b.name ? 0 : -1); });
+                    if (sort.charAt(0) === '-') {
+                        sorted.reverse();
+                    }
+                    currentList = sorted;
+                }
+                if (sort === 'Latest') {
+                    var sorted = currentList.sort(function (a, b) {
+                        return new Date(a.date) < new Date(b.date)
+                            ? 1
+                            : new Date(a.date) === new Date(b.date)
+                                ? 0
+                                : -1;
+                    });
+                    currentList = sorted;
+                }
+            }
+            this.paginationService.changeTotalPages(Math.ceil(currentList.length / this.paginationService.pagination.itemsPerPage));
+            return currentList.slice(this.paginationService.pagination.currentPage *
+                this.paginationService.pagination.itemsPerPage -
+                this.paginationService.pagination.itemsPerPage, this.paginationService.pagination.itemsPerPage *
+                this.paginationService.pagination.currentPage);
+        }
+        return rules;
+    };
+    DataRulesListPipe = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"])({
+            name: 'datarulesList'
+        }),
+        __metadata("design:paramtypes", [_services_pagination_service__WEBPACK_IMPORTED_MODULE_1__["PaginationService"]])
+    ], DataRulesListPipe);
+    return DataRulesListPipe;
 }());
 
 
@@ -1978,6 +2240,101 @@ var SearchNamePipe = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/shared/pipes/user-list.pipe.ts":
+/*!************************************************!*\
+  !*** ./src/app/shared/pipes/user-list.pipe.ts ***!
+  \************************************************/
+/*! exports provided: UserListPipe */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserListPipe", function() { return UserListPipe; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _services_pagination_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/pagination.service */ "./src/app/shared/services/pagination.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var UserListPipe = /** @class */ (function () {
+    function UserListPipe(paginationService) {
+        this.paginationService = paginationService;
+    }
+    UserListPipe.prototype.transform = function (userList, searchName, role, organization, sort, page) {
+        var currentList = userList;
+        // If there's a reportList
+        if (userList) {
+            // If there's a search
+            if (searchName) {
+                searchName = searchName.toLowerCase();
+                currentList = currentList.filter(function (el) {
+                    return (el.firstName + ' ' + el.lastName)
+                        .toLowerCase()
+                        .indexOf(searchName) > -1;
+                });
+            }
+            // if there's a organization
+            if (organization) {
+                if (organization !== 'All') {
+                    currentList = currentList.filter(function (element) {
+                        return element.organizations.filter(function (org) {
+                            console.log(org);
+                            return org.id === organization;
+                        }).length > 0;
+                    });
+                }
+            }
+            // checks for role
+            if (role !== 'All' && role) {
+                currentList = currentList.filter(function (element) { return element.role === role; });
+            }
+            // if there's a sort
+            if (sort) {
+                if (sort === 'First Name') {
+                    var sorted = currentList.sort(function (a, b) {
+                        return a.firstName > b.firstName
+                            ? 1
+                            : a.firstName === b.firstName
+                                ? 0
+                                : -1;
+                    });
+                    currentList = sorted;
+                }
+                if (sort === 'Last Name') {
+                    var sorted = currentList.sort(function (a, b) {
+                        return a.lastName > b.lastName ? 1 : a.lastName === b.lastName ? 0 : -1;
+                    });
+                    currentList = sorted;
+                }
+            }
+            this.paginationService.changeTotalPages(Math.ceil(currentList.length / this.paginationService.pagination.itemsPerPage));
+            return currentList.slice(this.paginationService.pagination.currentPage *
+                this.paginationService.pagination.itemsPerPage -
+                this.paginationService.pagination.itemsPerPage, this.paginationService.pagination.itemsPerPage *
+                this.paginationService.pagination.currentPage);
+        }
+        return currentList;
+    };
+    UserListPipe = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"])({
+            name: 'userList'
+        }),
+        __metadata("design:paramtypes", [_services_pagination_service__WEBPACK_IMPORTED_MODULE_1__["PaginationService"]])
+    ], UserListPipe);
+    return UserListPipe;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/shared/services/datarules.service.ts":
 /*!******************************************************!*\
   !*** ./src/app/shared/services/datarules.service.ts ***!
@@ -2048,7 +2405,21 @@ var DatarulesService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, ((this.http.get('../../../assets/example-data/datarules.mockdata.json')).toPromise())];
+                    case 0: return [4 /*yield*/, this.http
+                            .get('../../../assets/example-data/datarules.mockdata.json')
+                            .toPromise()];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    DatarulesService.prototype.getAllDataSourceForOrganization = function (orgID) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.http
+                            .get('../../../assets/example-data/datasources.mockdata.json')
+                            .toPromise()];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -2062,17 +2433,6 @@ var DatarulesService = /** @class */ (function () {
     ], DatarulesService);
     return DatarulesService;
 }());
-
-
-
-/***/ }),
-
-/***/ "./src/app/shared/view-models/filter.viewmodel.ts":
-/*!********************************************************!*\
-  !*** ./src/app/shared/view-models/filter.viewmodel.ts ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
 
 
 

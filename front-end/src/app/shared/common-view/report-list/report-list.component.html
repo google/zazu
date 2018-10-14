@@ -12,7 +12,7 @@
   </div>
 </div>
 <div class="right-main-content-view" *ngIf="formInitialize">
-  <div class="filter" style="margin-top: 13px">
+  <div class="filter" >
     <form [formGroup]="filterForm" (ngSubmit)="onSearch()">
       <button class="reset" mat-stroked-button (click)="searchFormReset()">RESET</button>
       <p class="title"> Filter by</p>
@@ -21,7 +21,7 @@
         <input matInput type="text" placeholder="Search Name" formControlName="name">
       </mat-form-field>
       <p class="title" *ngIf="!organizationID"> Organization</p>
-      <mat-form-field *ngIf="!organizationID">
+      <mat-form-field  appearance="outline"  class="select"  *ngIf="!organizationID">
         <mat-select  formControlName="selectedOrganization">
           <mat-option value="All" >All</mat-option>
           <mat-option *ngFor="let organization of organizations" value="{{organization.id}}">{{organization.name}}</mat-option>

@@ -4,7 +4,8 @@ import * as OrganizationViewModel from '../../shared/view-models/organization.vi
 // Will be used on User Details View
 export interface User {
   id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   googleId: string;
   secondaryEmail: string;
   /* Organizations is just a string of organizations ID that the user have access to */
@@ -16,7 +17,8 @@ export interface User {
 // Will be used on the User List Cards
 export interface SimpleUserView {
   id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   organizations: OrganizationViewModel.SimpleOrganization[];
   role: string;
 }
