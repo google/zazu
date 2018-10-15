@@ -14,7 +14,7 @@ export class ReportService {
    * Gets all the reports for all organizations
    */
   public async getAllReports(): Promise<ReportViewModel.SimpleReport[]> {
-  return await (this.http.get<ReportViewModel.SimpleReport[]>( URL + 'reports.mockdata.json')).toPromise();
+  return await (this.http.get<ReportViewModel.SimpleReport[]>( this.URL + 'reports.mockdata.json')).toPromise();
   }
 
   /**
@@ -22,7 +22,7 @@ export class ReportService {
    * @param id - ID of the specific reprot
    */
   public async getReport(id): Promise<ReportViewModel.ReportWithMetaData> {
-    return await (this.http.get<ReportViewModel.ReportWithMetaData>( URL + 'single-report-with-meta.mockdata.json')).toPromise();
+    return await (this.http.get<ReportViewModel.ReportWithMetaData>( this.URL + 'single-report-with-meta.mockdata.json')).toPromise();
   }
 
  /**
@@ -30,7 +30,7 @@ export class ReportService {
    * @param orgIDs ID of a specific organization
    */
   public async getReportByOrganization(orgIDs: string): Promise<ReportViewModel.SimpleReport[]> {
-    return await (this.http.get<ReportViewModel.SimpleReport[]>( URL + 'reports.mockdata.json')).toPromise();
+    return await (this.http.get<ReportViewModel.SimpleReport[]>( this.URL + 'reports.mockdata.json')).toPromise();
   }
 
 
@@ -39,7 +39,7 @@ export class ReportService {
    * @param orgIDs Array of the Organization IDs
    */
   public async getReportByOrganizations(orgIDs: string[]): Promise<ReportViewModel.SimpleReport[]> {
-    return await (this.http.get<ReportViewModel.SimpleReport[]>( URL + 'reports.mockdata.json')).toPromise();
+    return await (this.http.get<ReportViewModel.SimpleReport[]>( this.URL + 'reports.mockdata.json')).toPromise();
   }
 
   /**

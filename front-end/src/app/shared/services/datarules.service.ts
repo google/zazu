@@ -20,7 +20,7 @@ export class DatarulesService {
     organizationID: string
   ): Promise<DataViewModel.DataRule[]> {
     return await this.http
-      .get<DataViewModel.DataRule[]>( URL +
+      .get<DataViewModel.DataRule[]>( this.URL +
         'datarules.mockdata.json'
       )
       .toPromise();
@@ -34,7 +34,7 @@ export class DatarulesService {
     orgID: string
   ): Promise<DataViewModel.DataSource[]> {
     return await this.http
-      .get<DataViewModel.DataSource[]>(URL +
+      .get<DataViewModel.DataSource[]>(this.URL +
         'datasources.mockdata.json'
       )
       .toPromise();

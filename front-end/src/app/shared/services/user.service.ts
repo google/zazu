@@ -18,7 +18,7 @@ export class UserService {
    */
   public async getAllUsers(): Promise<UserViewModel.SimpleUserView[]> {
     console.log('getting all users');
-    return await ((this.http.get<UserViewModel.SimpleUserView[]>( URL + 'user-list.mockdata.json')).toPromise());
+    return await ((this.http.get<UserViewModel.SimpleUserView[]>( this.URL + 'user-list.mockdata.json')).toPromise());
   }
 
   /**
@@ -26,7 +26,7 @@ export class UserService {
    * @param id - id of the user you want to get information
    */
   public async getUser(id): Promise<UserViewModel.User> {
-    return await ((this.http.get<UserViewModel.User>( URL +  'single-user.mockdata.json')).toPromise());
+    return await ((this.http.get<UserViewModel.User>( this.URL +  'single-user.mockdata.json')).toPromise());
   }
 
   /**
@@ -34,7 +34,7 @@ export class UserService {
    * @param orgId -  ID of the organization you want to get all users
    */
   public async getUsersByOrganization(orgId): Promise<UserViewModel.SimpleUserView[]> {
-    return await ((this.http.get<UserViewModel.SimpleUserView[]>(URL + 'user-list.mockdata.json')).toPromise());
+    return await ((this.http.get<UserViewModel.SimpleUserView[]>(this.URL + 'user-list.mockdata.json')).toPromise());
   }
 
   /**

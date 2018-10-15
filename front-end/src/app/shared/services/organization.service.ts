@@ -17,7 +17,7 @@ export class OrganizationService {
    *  Primarily used in filters and breadcrumbs
    */
   public async getAllOrganizationsWithNoDetails(): Promise<OrganizationViewModel.SimpleOrganization[]> {
-    return await ((this.http.get<OrganizationViewModel.OrganizationDetails[]>( URL + 'organizations.mockdata.json')).toPromise());
+    return await ((this.http.get<OrganizationViewModel.OrganizationDetails[]>( this.URL + 'organizations.mockdata.json')).toPromise());
   }
 
 
@@ -25,7 +25,7 @@ export class OrganizationService {
    * Method for getting all of the organizations with all the details
    */
   public async getAllOrganizations(): Promise<OrganizationViewModel.OrganizationDetails[]> {
-    return await ((this.http.get<OrganizationViewModel.OrganizationDetails[]>( URL + 'organizations.mockdata.json')).toPromise());
+    return await ((this.http.get<OrganizationViewModel.OrganizationDetails[]>( this.URL + 'organizations.mockdata.json')).toPromise());
   }
 
  /**
@@ -33,7 +33,7 @@ export class OrganizationService {
   * @param id - ID of the organization
   */
   public async getOrganizationById(id): Promise<OrganizationViewModel.OrganizationDetails> {
-    return await  await ((this.http.get<OrganizationViewModel.OrganizationDetails>( URL + 'single-organization.mockup.json')).toPromise());
+    return await  await ((this.http.get<OrganizationViewModel.OrganizationDetails>( this.URL + 'single-organization.mockup.json')).toPromise());
   }
 
   /**
