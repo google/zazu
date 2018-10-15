@@ -1,4 +1,4 @@
-# Zazu - Vendor Coop Reporting [in alpha]
+# Zazu - Vendor Coop Reporting [in Alpha]
 An unopinionated, scalable reporting application built on [Google Cloud Platform](http://nodejs.org) and [Data Studio](https://www.google.com/analytics/data-studio/) for vendor-coop reporting.
 
 ## What is Vendor-Coop?
