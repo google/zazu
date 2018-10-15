@@ -1,3 +1,4 @@
+/********* THIS IS FOR FRONT END STUFF ONLY  **********/
 
 /**
  * If OrganizationID === ALL, will show all users,
@@ -16,5 +17,6 @@ export interface ReportFilter {
   organizationID: string;
   sort: string;
 }
+
 
 

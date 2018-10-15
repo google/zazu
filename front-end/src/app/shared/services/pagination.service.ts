@@ -7,19 +7,26 @@ export interface Pagination {
   totalPages: number;
 }
 
-
 @Injectable({
   providedIn: 'root'
 })
+
+/**
+ * This is a service used for paginating the list
+ */
 export class PaginationService {
 
   constructor() { }
 
   paginationChanged = new Subject <Pagination>();
 
- pagination: Pagination = {
+  // Max number of items in list per page
+  // Edit this to show more items in list
+  ITEMS_PER_PAGE = 5;
+
+  pagination: Pagination = {
     currentPage: 1,
-    itemsPerPage: 5,
+    itemsPerPage: this.ITEMS_PER_PAGE,
     totalPages: 1
   };
 

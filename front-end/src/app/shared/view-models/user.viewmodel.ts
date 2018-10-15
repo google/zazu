@@ -23,3 +23,28 @@ export interface SimpleUserView {
   role: string;
 }
 
+// View Model for creating new user
+export interface CreateNewUser {
+  firstName: string;
+  lastName: string;
+  googleId: string;
+  secondaryEmail: string;
+  organization: OrganizationViewModel.SimpleOrganization[];
+  role: string;
+}
+
+// View model for editing a user
+export interface EditUser {
+  id: string;
+  firstName: string;
+  lastName: string;
+  googleId: string;
+  secondaryEmail: string;
+  organization: OrganizationViewModel.SimpleOrganization[];
+  role: string;
+}
+
+// View Model for deleting a user
+export interface DeleteUser {
+  id: string;
+}

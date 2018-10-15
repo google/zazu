@@ -10,25 +10,54 @@ export class OrganizationService {
 
   constructor(private http: HttpClient) {}
 
+  URL = '../../../assets/example-data/';
 
+  /**
+   *  Method for getting all organizations with just name and ID
+   *  Primarily used in filters and breadcrumbs
+   */
   public async getAllOrganizationsWithNoDetails(): Promise<OrganizationViewModel.SimpleOrganization[]> {
-    return await ((this.http.get<OrganizationViewModel.OrganizationDetails[]>('../../../assets/example-data/organizations.mockdata.json')).toPromise());
+    return await ((this.http.get<OrganizationViewModel.OrganizationDetails[]>( URL + 'organizations.mockdata.json')).toPromise());
   }
 
 
   /**
-   * Method for getting all of the organizations
+   * Method for getting all of the organizations with all the details
    */
   public async getAllOrganizations(): Promise<OrganizationViewModel.OrganizationDetails[]> {
-    return await ((this.http.get<OrganizationViewModel.OrganizationDetails[]>('../../../assets/example-data/organizations.mockdata.json')).toPromise());
+    return await ((this.http.get<OrganizationViewModel.OrganizationDetails[]>( URL + 'organizations.mockdata.json')).toPromise());
+  }
+
+ /**
+  * Method for getting details of a specific organization
+  * @param id - ID of the organization
+  */
+  public async getOrganizationById(id): Promise<OrganizationViewModel.OrganizationDetails> {
+    return await  await ((this.http.get<OrganizationViewModel.OrganizationDetails>( URL + 'single-organization.mockup.json')).toPromise());
   }
 
   /**
-   *  Method for getting Organization object with ID
+   * Method for creating new orgnization
+   * @param organization - organization object
    */
-  public async getOrganizationById(id): Promise<OrganizationViewModel.OrganizationDetails> {
-    return await  await ((this.http.get<OrganizationViewModel.OrganizationDetails>('../../../assets/example-data/single-organization.mockup.json')).toPromise());
+  public async CreateNewOrganization(organization: OrganizationViewModel.CreateNewOrganization) {
+    return await null;
   }
 
+  /**
+   * Method for editing organization
+   * @param organization - organiztion object
+   */
+  public async EditOrganization(organization: OrganizationViewModel.EditOrganization) {
+    return await null;
+  }
+
+  /**
+   * Method for deleting organization
+   * @param organizationID - ID of the organization you want to delete
+   */
+  public async DeleteOrganization(organizationID: string) {
+    return await null;
+  }
 
 }

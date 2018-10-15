@@ -9,7 +9,7 @@ export interface DataSource {
 }
 
 /**
- * Data Rule
+ * View model that i used for listing data rule
  */
 export interface DataRule {
   id: string;
@@ -20,4 +20,32 @@ export interface DataRule {
   condition: string;
   token: string;
   date: Date;
+}
+
+// View Model for creating new DataRule
+export interface CreateNewDataRule {
+  name: string;
+  organizationID: string;
+  datasourceID: string;
+  identifier: string;
+  condition: string;
+  token: string;
+}
+
+// View Model for Editing Data Rule
+// ????????????? Do we need to specify the organization ID for this? Since we already know its for a specific organization anyway.
+// ????????????? I think all we need is the data rule id?
+export interface EditDataRule {
+  id: string;
+  name: string;
+  organizationID: string;
+  datasourceID: string;
+  identifier: string;
+  condition: string;
+  token: string;
+}
+
+// View Model for deleting data rule
+export interface DeleteDataRule {
+  id: string;
 }
