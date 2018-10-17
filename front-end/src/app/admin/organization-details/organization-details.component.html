@@ -10,6 +10,16 @@
     <div class="full-content-view">
       <div class="details">
         <div class="card">
+          <div class="more-button">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon color="more-color">more_vert</mat-icon>
+            </button>
+
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>Edit</button>
+              <button mat-menu-item>Delete</button>
+            </mat-menu>
+          </div>
           <div class="container">
             <h2 class="title">{{organization.name}}</h2>
             <h4 class="secondary"><span *ngFor="let category of organization.categories">{{category}} &nbsp; </span> </h4>
@@ -24,7 +34,9 @@
                   dns
                 </i> {{organization.datarulesCount}} Data Rules</span>
             </p>
+
           </div>
+
         </div>
 
         <div class="tabs">
@@ -63,38 +75,43 @@
                 </div>
                 <div class="right-main-content-view">
                   <!-- Filters -->
-                  <div class="filter" >
-                      <form [formGroup]="filterForm" (ngSubmit)="onSearch()">
-                        <button class="reset" mat-stroked-button (click)="searchFormReset()">RESET</button>
-                        <p class="title"> Filter by</p>
-                        <mat-form-field appearance="outline" class="search">
-                          <mat-label class="label-color">Name</mat-label>
-                          <input matInput type="text" placeholder="Search Name" formControlName="name">
-                        </mat-form-field>
-                        <p class="title" > Data Source</p>
-                        <mat-form-field  appearance="outline"  class="select">
-                          <mat-select  formControlName="selectedDataSource">
-                            <mat-option value="All" >All</mat-option>
-                            <mat-option *ngFor="let datasource of dataSources" value="{{datasource.id}}">{{datasource.name}}</mat-option>
-                          </mat-select>
-                        </mat-form-field>
-                        <br>
-                        <button mat-raised-button class="search" type="submit">Search</button>
-                      </form>
-                    </div>
+                  <div class="filter">
+                    <form [formGroup]="filterForm" (ngSubmit)="onSearch()">
+                      <button class="reset" mat-stroked-button (click)="searchFormReset()">RESET</button>
+                      <p class="title"> Filter by</p>
+                      <mat-form-field appearance="outline" class="search">
+                        <mat-label class="label-color">Name</mat-label>
+                        <input matInput type="text" placeholder="Search Name" formControlName="name">
+                      </mat-form-field>
+                      <p class="title"> Data Source</p>
+                      <mat-form-field appearance="outline" class="select">
+                        <mat-select formControlName="selectedDataSource">
+                          <mat-option value="All">All</mat-option>
+                          <mat-option *ngFor="let datasource of dataSources" value="{{datasource.id}}">{{datasource.name}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <br>
+                      <button mat-raised-button class="search" type="submit">Search</button>
+                    </form>
+                  </div>
 
-                    <div class="sort">
-                      <p class="title"> Sort By</p>
-                      <mat-radio-group class="example-radio-group" [(ngModel)]="sortValue">
-                        <mat-radio-button *ngFor="let sort of sorts" value="{{sort}}" (click)="changeSort(sort)" class="radio">
-                          {{sort}}
-                        </mat-radio-button>
-                      </mat-radio-group>
-                      <p *ngIf="this.pagination"> {{this.pagination.currentPage}}/{{this.pagination.totalPages}}</p>
-                      <button mat-raised-button (click)="previousPage()">Previous Page</button>
-                      <button mat-raised-button (click)="nextPage()">Next Page</button>
+                  <div class="sort">
+                    <p class="title"> Sort By</p>
+                    <mat-radio-group class="example-radio-group" [(ngModel)]="sortValue">
+                      <mat-radio-button *ngFor="let sort of sorts" value="{{sort}}" (click)="changeSort(sort)" class="radio">
+                        {{sort}}
+                      </mat-radio-button>
+                    </mat-radio-group>
+                    <p *ngIf="this.pagination"> {{this.pagination.currentPage}}/{{this.pagination.totalPages}}</p>
+                    <button mat-raised-button (click)="previousPage()">Previous Page</button>
+                    <button mat-raised-button (click)="nextPage()">Next Page</button>
 
-                    </div>
+                  </div>
+                  <div class="add-button">
+                    <button mat-fab class="button-fab" color="primary-button"> <i class="material-icons">
+                        add
+                      </i></button>
+                  </div>
                 </div>
               </div>
             </mat-tab>

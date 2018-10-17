@@ -7,7 +7,8 @@ import {
   Input,
   Output,
   EventEmitter,
-  OnDestroy
+  OnDestroy,
+  OnChanges
 } from '@angular/core';
 import * as ReportViewModel from '../../view-models/report.viewmodel';
 import { PaginationService } from '../../services/pagination.service';
@@ -19,7 +20,7 @@ import { FormControl, FormGroup } from '@angular/forms';
   templateUrl: './report-list.component.html',
   styleUrls: ['./report-list.component.scss']
 })
-export class ReportListComponent implements OnInit, OnDestroy {
+export class ReportListComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     private paginationService: PaginationService,
     private organizationService: OrganizationService,
@@ -31,7 +32,7 @@ export class ReportListComponent implements OnInit, OnDestroy {
   reportID = new EventEmitter<string>();
   sub: any;
   pageSubscription: Subscription;
-  organizations: OrganizationViewModel.SimpleOrganization[];
+  organizations: OrganizationViewModel.SimpleOrganization[] = [];
   pagination;
   sorts = ['Latest', 'Alphabetical'];
   selectedOrganization = '';
@@ -55,16 +56,25 @@ export class ReportListComponent implements OnInit, OnDestroy {
         }
       );
       this.paginationService.getPagination();
-      if (!this.organizationID) {
-        this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async ngOnChanges() {
+    if (this.reports != null && this.organizations != null) {
+      for (const report of this.reports) {
+        if (!this.organizations.includes(report.organization)) {
+          this.organizations.push(report.organization);
+        }
+      }
+      if (this.organizations.length > 1) {
         this.filterForm.addControl(
           'selectedOrganization',
           new FormControl('All')
         );
       }
       this.formInitialize = true;
-    } catch (error) {
-      console.log(error);
     }
   }
 
@@ -78,7 +88,6 @@ export class ReportListComponent implements OnInit, OnDestroy {
   }
 
   onSearch() {
-    console.log(this.filterForm.value);
     this.paginationService.resetPage();
     const temp = this.filterForm.value;
     this.searchName = temp.name;

@@ -35,7 +35,6 @@ export class OrgListPipe implements PipeTransform {
       if (sort) {
 
         if (sort === 'Alphabetical') {
-          console.log('Alpha called');
           const sorted = currentList.sort(
             (a, b) => (a.name > b.name ? 1 : a.name === b.name ? 0 : -1)
           );

@@ -5,7 +5,7 @@
     <div *ngIf="this.orgID === undefined">
       <div class="breadcrumb"> <span routerLink="../../"><i class="material-icons">
             person_outline </i> User List </span> &nbsp;&nbsp; <i class="material-icons arrow"> keyboard_arrow_right </i> <i style="margin-left: -14px"
-          class="material-icons arrow"> keyboard_arrow_right </i>&nbsp;&nbsp; <span class="active"> {{user.name}} </span> </div>
+          class="material-icons arrow"> keyboard_arrow_right </i>&nbsp;&nbsp; <span class="active"> {{user.firstName}} {{user.lastName}}  </span> </div>
     </div>
 
     <!-- Breadcrumbs for user details under organization list-->
@@ -14,7 +14,7 @@
             business </i> Organization List </span> &nbsp;&nbsp; <i class="material-icons arrow"> keyboard_arrow_right </i> <i style="margin-left: -14px"
           class="material-icons arrow"> keyboard_arrow_right </i>&nbsp;&nbsp; <span routerLink="../../"> {{organization.name}}</span>
         &nbsp;&nbsp; <i class="material-icons arrow"> keyboard_arrow_right </i> <i style="margin-left: -14px" class="material-icons arrow">
-          keyboard_arrow_right </i>&nbsp;&nbsp; <span class="active"> {{user.name}} </span> </div>
+          keyboard_arrow_right </i>&nbsp;&nbsp; <span class="active"> {{user.firstName}} {{user.lastName}} </span> </div>
     </div>
 
   </div>
@@ -24,9 +24,19 @@
 
 
       <div class="details">
+        <div class="more-button">
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon color="more-color">more_vert</mat-icon>
+          </button>
+
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>Edit</button>
+            <button mat-menu-item>Delete</button>
+          </mat-menu>
+        </div>
         <div class="card">
           <div class="container">
-            <h2 class="title"> {{user.name}}</h2>
+            <h2 class="title"> {{user.firstName}} {{user.lastName}}</h2>
             <h4 class="secondary">Viewer</h4>
             <p class="content">Email: {{user.googleId}}</p>
             <p class="content">Secondary Email: {{user.secondaryEmail }}}</p>

@@ -59,10 +59,18 @@ body {
   padding-top: 60px;
   padding-left: 30px;
   padding-right: 30px;
-  display:flex;
+  display: flex;
 
-  .full-content-view{
+  .full-content-view {
     width: 100%;
+
+    .more-button {
+      float: right;
+      .mat-more-color {
+        color: #757575;
+      }
+    }
+
   }
 
   .left-main-content-view {
@@ -70,7 +78,8 @@ body {
   }
 
   .right-main-content-view {
-
+    margin-left: auto;
+    margin-right: 10px;
   }
 }
 
@@ -80,6 +89,8 @@ body {
     border-radius: $card-border-radius;
     border: $card-border;
     max-width: 1080px;
+
+
 
     .container {
       padding: 10px 20px;
@@ -165,6 +176,7 @@ body {
 
 /***** SORT AND FILTER STYLE *****/
 .right-main-content-view {
+
   .filter,
   .sort {
     padding: 15px;
@@ -173,6 +185,8 @@ body {
     margin-left: 15px;
     max-width: 300px;
     box-shadow: $filter-box-shadow;
+    border: $filter-card-border-color;
+
     .title {
       margin: 0;
       margin-bottom: 10px;
@@ -191,7 +205,9 @@ body {
   }
 
   .filter {
-    .search, .select {
+
+    .search,
+    .select {
       font-size: 12px;
       width: 100%;
       max-width: 300px;
@@ -207,16 +223,57 @@ body {
       color: $filter-reset-button-color;
       border-color: $filter-reset-button-color;
       border-radius: 2px;
-      float:right;
+      float: right;
       margin-top: -5px;
 
     }
 
-    .mat-raised-button.search{
-      border:  $filter-seach-button-border;
+    .mat-raised-button.search {
+      border: $filter-search-button-border;
       border-radius: 2px;
     }
 
+  }
+
+  .mat-primary-button {
+    background-color: $primary-button-color !important;
+  }
+
+  .add-button {
+    /*
+    position: fixed;
+    z-index: 999;
+    bottom: 2.5%;
+    right: 2.5%;
+    */
+    float: right;
+    margin: 40px 20px;
+
+
+    .button-fab {
+      width: 90px;
+      height: 90px;
+      line-height: 14px;
+      font-size: 50px;
+      color: white;
+
+      i {
+        font-size: 40px;
+        font-weight: bold;
+      }
+
+      &::ng-deep .mat-button-wrapper {
+        line-height: 14px;
+        padding: 0;
+
+        .mat-icon {
+          font-size: 54px;
+          padding-right: 4px;
+          padding-top: 4px;
+          color: white;
+        }
+      }
+    }
   }
 
 }

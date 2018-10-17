@@ -26,7 +26,6 @@ export class ReportListPipe implements PipeTransform {
       // if there's a organization
       if (organization) {
         if (organization !== 'All') {
-          console.log(currentList);
           currentList = currentList.filter(
             element => element.organization.id === organization
           );

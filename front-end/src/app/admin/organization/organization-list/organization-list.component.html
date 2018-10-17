@@ -53,7 +53,11 @@
       <p *ngIf="this.pagination"> {{this.pagination.currentPage}}/{{this.pagination.totalPages}}</p>
       <button mat-raised-button (click)="previousPage()">Previous Page</button>
       <button mat-raised-button (click)="nextPage()">Next Page</button>
-
+    </div>
+    <div class="add-button">
+        <button mat-fab class="button-fab" color="primary-button"> <i class="material-icons">
+            add
+            </i></button>
     </div>
   </div>
 </div>

@@ -1,5 +1,5 @@
 <div class="left-main-content-view" >
-  <div *ngIf="reports != null">
+  <div *ngIf="reports != null ">
     <div class="list">
       <div *ngFor="let report of reports | reportList: searchName: selectedOrganization : sortValue :  pagination.currentPage" class="card">
         <div class="container" (click)="reportClicked(report.id)">
@@ -20,8 +20,8 @@
         <mat-label class="label-color">Name</mat-label>
         <input matInput type="text" placeholder="Search Name" formControlName="name">
       </mat-form-field>
-      <p class="title" *ngIf="!organizationID"> Organization</p>
-      <mat-form-field  appearance="outline"  class="select"  *ngIf="!organizationID">
+      <p class="title" *ngIf="organizations.length > 1"> Organization</p>
+      <mat-form-field  appearance="outline"  class="select"  *ngIf="organizations.length > 1">
         <mat-select  formControlName="selectedOrganization">
           <mat-option value="All" >All</mat-option>
           <mat-option *ngFor="let organization of organizations" value="{{organization.id}}">{{organization.name}}</mat-option>
@@ -43,5 +43,10 @@
     <button mat-raised-button (click)="previousPage()">Previous Page</button>
     <button mat-raised-button (click)="nextPage()">Next Page</button>
 
+  </div>
+  <div class="add-button">
+      <button mat-fab class="button-fab" color="primary-button"> <i class="material-icons">
+          add
+          </i></button>
   </div>
 </div>
