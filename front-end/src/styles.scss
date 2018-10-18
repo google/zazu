@@ -66,6 +66,7 @@ body {
 
     .more-button {
       float: right;
+
       .mat-more-color {
         color: #757575;
       }
@@ -192,6 +193,7 @@ body {
       margin-bottom: 10px;
       font-size: 15px;
       font-weight: 500;
+      color: initial;
     }
 
     .checkbox,
@@ -240,12 +242,6 @@ body {
   }
 
   .add-button {
-    /*
-    position: fixed;
-    z-index: 999;
-    bottom: 2.5%;
-    right: 2.5%;
-    */
     float: right;
     margin: 40px 20px;
 
@@ -300,8 +296,110 @@ body {
   color: $form-field-focused !important;
 }
 
+
+
 .label-color {
   color: $mat-label-color !important;
+}
+
+.form-container {
+  padding: 30px;
+  max-width: 900px;
+  width: 75%;
+
+  .form {
+    padding: 20px 20px;
+  }
+
+  .row {
+    width: 100%;
+  }
+
+  hr {
+    border-top: 1px solid #d8d8d8;
+  }
+
+  .add-another {
+    max-width: 500px;
+    margin-left: 34px;
+    margin-right: 34px;
+    width: 100%;
+  }
+
+
+  .form-icon {
+    color: $form-icon-color;
+    padding-right: 10px;
+  }
+
+  .info-icon {
+    color: $info-icon-color;
+    padding-left: 10px;
+  }
+
+  .buttons {
+    padding-top: 15px;
+    text-align: right;
+
+    .done {
+      margin-left: 10px;
+    }
+  }
+
+  .mat-form-field {
+    max-width: 500px;
+    font-size: 15px;
+    color: #565d61;
+  }
+
+  .input-header {
+    margin: 0;
+    margin-bottom: 10px;
+    color: $input-header-color;
+  }
+
+  .description {
+    color: $input-header-color;
+    font-weight: 400;
+    margin: 0px;
+  }
+
+  button .done {
+    background-color: $primary-button-color;
+  }
+
+  .create-new-text {
+    color: $input-header-color;
+    margin: 0;
+    .create-new-button {
+      color: $primary-button-color;
+    }
+  }
+
+
+
+
+
+
+  .mat-form-field-empty.mat-form-field-label {
+    color: $form-field-focused;
+  }
+
+  .mat-form-field.mat-focused .mat-form-field-label {
+    color: $form-active-text-color !important;
+  }
+
+  .mat-form-field-appearance-fill .mat-form-field-ripple {
+    background-color: $form-active-underline-color;
+  }
+
+  .mat-form-field-appearance-fill.mat-focused .mat-form-field-ripple {
+    background-color: $form-active-underline-color;
+  }
+
+  .add-another {}
+
+
 }
 
 /******** COMMON STYLES & MEDIA QUERIES ****/

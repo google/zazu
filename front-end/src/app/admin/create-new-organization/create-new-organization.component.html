@@ -1,0 +1,46 @@
+<div class="form-container">
+  <div class="card">
+    <div class="form">
+      <form>
+        <h2 class="title"> Create New Organization</h2>
+        <hr>
+        <br>
+        <div class="row">
+          <i class="material-icons form-icon">
+            business
+          </i>
+          <mat-form-field appearance="fill" style="width:80%">
+            <mat-label>Organization Name</mat-label>
+            <input matInput placeholder="Placeholder">
+          </mat-form-field>
+          <i class="material-icons info-icon">
+            info
+          </i>
+        </div>
+        <div class="row">
+          <i class="material-icons form-icon">
+            book
+          </i>
+          <mat-form-field appearance="fill" style="width:80%">
+            <mat-label>Category</mat-label>
+            <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <i class="material-icons info-icon">
+            info
+          </i>
+        </div>
+        <div class="row">
+          <button mat-stroked-button class="add-another">Add Another Category</button>
+        </div>
+        <div class="buttons">
+            <button mat-button>Cancel</button><button class="done" mat-flat-button>Done</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

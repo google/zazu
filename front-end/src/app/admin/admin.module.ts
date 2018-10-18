@@ -21,6 +21,10 @@ import { PaginationPipe } from '../shared/pipes/pagination.pipe';
 import { OrgListPipe } from '../shared/pipes/org-list.pipe';
 import { UserListPipe } from '../shared/pipes/user-list.pipe';
 import { DataRulesListPipe } from '../shared/pipes/datarules-list.pipe';
+import { CreateNewOrganizationComponent } from './create-new-organization/create-new-organization.component';
+import { CreateNewReportComponent } from './create-new-report/create-new-report.component';
+import { CreateNewDataruleComponent } from './create-new-datarule/create-new-datarule.component';
+import { CreateNewUserComponent } from './create-new-user/create-new-user.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +45,11 @@ import { DataRulesListPipe } from '../shared/pipes/datarules-list.pipe';
     OrgListPipe,
     ReportListPipe,
     UserListPipe,
-    DataRulesListPipe
+    DataRulesListPipe,
+    CreateNewOrganizationComponent,
+    CreateNewReportComponent,
+    CreateNewDataruleComponent,
+    CreateNewUserComponent
 
 
   ],

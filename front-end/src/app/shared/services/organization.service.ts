@@ -37,6 +37,22 @@ export class OrganizationService {
   }
 
   /**
+   * Method for getting all current directory
+   */
+  public async getAllCategories(): Promise<string[]> {
+    const categories = [];
+    const orgs = await this.getAllOrganizations();
+    orgs.forEach(org => {
+      org.categories.forEach(category => {
+        if (!categories.includes(category)) {
+          categories.push(category);
+        }
+      });
+    });
+    return categories;
+  }
+
+  /**
    * Method for creating new orgnization
    * @param organization - organization object
    */
