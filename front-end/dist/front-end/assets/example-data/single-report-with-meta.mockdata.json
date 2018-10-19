@@ -12,19 +12,24 @@
     },
     "accessedBy": [{
       "id": 0,
-      "name": "Phop Ice"
+      "firstName": "Phop",
+      "lastName": "Ice"
     },
     {
       "id": 2,
-      "name": "Wen Dees"
+      "firstName": "Wen",
+      "lastName": "Dees"
     },{
       "id": 3,
-      "name": "Mack Donald"
+      "firstName": "Mack",
+      "lastName": "Donald"
     },{
       "id": 4,
-      "name": "Kay-ef Si"
+      "firstName": "Kay-ef",
+      "lastName": "Si"
     },{
       "id": 5,
-      "name": "Estar Bhuks"
+      "firstName": "Estar",
+      "lastName": "Bhuks"
     }]
   }

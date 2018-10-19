@@ -158,6 +158,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _user_user_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./user/user.component */ "./src/app/user/user.component.ts");
+/* harmony import */ var _auth_login_login_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./auth/login/login.component */ "./src/app/auth/login/login.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -169,19 +170,31 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 var routes = [
     {
         path: '',
-        component: _app_component__WEBPACK_IMPORTED_MODULE_1__["AppComponent"]
-    },
-    {
-        path: 'admin',
-        loadChildren: './admin/admin.module#AdminModule',
-        canActivate: [_auth_admin_guard_service__WEBPACK_IMPORTED_MODULE_0__["AdminGuard"]]
-    },
-    {
-        path: 'user',
-        component: _user_user_component__WEBPACK_IMPORTED_MODULE_4__["UserComponent"]
+        component: _app_component__WEBPACK_IMPORTED_MODULE_1__["AppComponent"],
+        children: [
+            {
+                path: '',
+                redirectTo: 'login',
+                pathMatch: 'full'
+            },
+            {
+                path: 'login',
+                component: _auth_login_login_component__WEBPACK_IMPORTED_MODULE_5__["LoginComponent"]
+            },
+            {
+                path: 'admin',
+                loadChildren: './admin/admin.module#AdminModule',
+                canActivate: [_auth_admin_guard_service__WEBPACK_IMPORTED_MODULE_0__["AdminGuard"]]
+            },
+            {
+                path: 'user',
+                component: _user_user_component__WEBPACK_IMPORTED_MODULE_4__["UserComponent"]
+            }
+        ]
     }
 ];
 var AppRoutingModule = /** @class */ (function () {
@@ -208,7 +221,7 @@ var AppRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n\n\n\n<div>\n  <router-outlet></router-outlet>\n</div>\n<div class=\"row\" style=\"width: 50%; padding: 20px; margin: auto;\">\n  <button mat-button routerLink=\"admin\" >Admin</button>\n  <button mat-button routerLink=\"user\" >User</button>\n</div>\n\n\n"
+module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n\n\n\n<div>\n  <router-outlet></router-outlet>\n</div>\n\n\n\n"
 
 /***/ }),
 
@@ -444,7 +457,7 @@ var AuthService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  login works!\n</p>\n"
+module.exports = "<div class=\"row\" style=\"width: 50%; padding: 20px; margin: auto;\">\n    <button mat-button routerLink=\"../admin\" >Admin</button>\n    <button mat-button routerLink=\"../user\" >User</button>\n  </div>\n"
 
 /***/ }),
 
@@ -490,9 +503,11 @@ var LoginComponent = /** @class */ (function () {
         this.router = router;
     }
     LoginComponent.prototype.ngOnInit = function () {
+        /*
         if (this.authService.isAuthenticated() && this.authService.isAdmin()) {
-            this.router.navigate(['/admin']);
+          this.router.navigate(['/admin']);
         }
+        */
     };
     LoginComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -570,40 +585,113 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 var OrganizationService = /** @class */ (function () {
     function OrganizationService(http) {
         this.http = http;
+        this.URL = '../../../assets/example-data/';
     }
+    /**
+     *  Method for getting all organizations with just name and ID
+     *  Primarily used in filters and breadcrumbs
+     */
     OrganizationService.prototype.getAllOrganizationsWithNoDetails = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, ((this.http.get('../../../assets/example-data/organizations.mockdata.json')).toPromise())];
+                    case 0: return [4 /*yield*/, ((this.http.get(this.URL + 'organizations.mockdata.json')).toPromise())];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
     /**
-     * Method for getting all of the organizations
+     * Method for getting all of the organizations with all the details
      */
     OrganizationService.prototype.getAllOrganizations = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, ((this.http.get('../../../assets/example-data/organizations.mockdata.json')).toPromise())];
+                    case 0: return [4 /*yield*/, ((this.http.get(this.URL + 'organizations.mockdata.json')).toPromise())];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
     /**
-     *  Method for getting Organization object with ID
+     * Method for getting details of a specific organization
+     * @param id - ID of the organization
      */
     OrganizationService.prototype.getOrganizationById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, ((this.http.get('../../../assets/example-data/single-organization.mockup.json')).toPromise())];
+                    case 0: return [4 /*yield*/, ((this.http.get(this.URL + 'single-organization.mockup.json')).toPromise())];
                     case 1: return [4 /*yield*/, _a.sent()];
                     case 2: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /**
+     * Method for getting all current directory
+     */
+    OrganizationService.prototype.getAllCategories = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var categories, orgs;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        categories = [];
+                        return [4 /*yield*/, this.getAllOrganizations()];
+                    case 1:
+                        orgs = _a.sent();
+                        orgs.forEach(function (org) {
+                            org.categories.forEach(function (category) {
+                                if (!categories.includes(category)) {
+                                    categories.push(category);
+                                }
+                            });
+                        });
+                        return [2 /*return*/, categories];
+                }
+            });
+        });
+    };
+    /**
+     * Method for creating new orgnization
+     * @param organization - organization object
+     */
+    OrganizationService.prototype.CreateNewOrganization = function (organization) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, null];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /**
+     * Method for editing organization
+     * @param organization - organiztion object
+     */
+    OrganizationService.prototype.EditOrganization = function (organization) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, null];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /**
+     * Method for deleting organization
+     * @param organizationID - ID of the organization you want to delete
+     */
+    OrganizationService.prototype.DeleteOrganization = function (organizationID) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, null];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
@@ -647,9 +735,12 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 var PaginationService = /** @class */ (function () {
     function PaginationService() {
         this.paginationChanged = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
+        // Max number of items in list per page
+        // Edit this to show more items in list
+        this.ITEMS_PER_PAGE = 5;
         this.pagination = {
             currentPage: 1,
-            itemsPerPage: 5,
+            itemsPerPage: this.ITEMS_PER_PAGE,
             totalPages: 1
         };
     }
@@ -671,7 +762,11 @@ var PaginationService = /** @class */ (function () {
     PaginationService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
             providedIn: 'root'
-        }),
+        })
+        /**
+         * This is a service used for paginating the list
+         */
+        ,
         __metadata("design:paramtypes", [])
     ], PaginationService);
     return PaginationService;
@@ -742,6 +837,7 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 var ReportService = /** @class */ (function () {
     function ReportService(http) {
         this.http = http;
+        this.URL = '../../../assets/example-data/';
     }
     /**
      * Gets all the reports for all organizations
@@ -750,7 +846,7 @@ var ReportService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, (this.http.get('../../../assets/example-data/reports.mockdata.json')).toPromise()];
+                    case 0: return [4 /*yield*/, (this.http.get(this.URL + 'reports.mockdata.json')).toPromise()];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -764,7 +860,7 @@ var ReportService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, (this.http.get('../../../assets/example-data/single-report-with-meta.mockdata.json')).toPromise()];
+                    case 0: return [4 /*yield*/, (this.http.get(this.URL + 'single-report-with-meta.mockdata.json')).toPromise()];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -778,7 +874,7 @@ var ReportService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, (this.http.get('../../../assets/example-data/reports.mockdata.json')).toPromise()];
+                    case 0: return [4 /*yield*/, (this.http.get(this.URL + 'reports.mockdata.json')).toPromise()];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -792,7 +888,49 @@ var ReportService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, (this.http.get('../../../assets/example-data/reports.mockdata.json')).toPromise()];
+                    case 0: return [4 /*yield*/, (this.http.get(this.URL + 'reports.mockdata.json')).toPromise()];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /**
+     * Create new Report
+     * @param report - report object
+     */
+    ReportService.prototype.CreateNewReport = function (report) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, null];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /**
+     * Editing Report
+     * @param report - report object
+     */
+    ReportService.prototype.EditReport = function (report) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, null];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /**
+     * Delete Report
+     * @param reportID - ID of the report you want to delete
+     */
+    ReportService.prototype.DeleteReport = function (reportID) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, null];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -874,37 +1012,88 @@ var UserService = /** @class */ (function () {
         this.http = http;
         this.VIEWACCESS = 'VIEWACCESS';
         this.ADMIN = 'ADMIN';
+        this.URL = '../../../assets/example-data/';
     }
-    // Method for getting all users
+    /**
+     *  Method for getting all users for all organizations
+     */
     UserService.prototype.getAllUsers = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         console.log('getting all users');
-                        return [4 /*yield*/, ((this.http.get('../../../assets/example-data/user-list.mockdata.json')).toPromise())];
+                        return [4 /*yield*/, ((this.http.get(this.URL + 'user-list.mockdata.json')).toPromise())];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    // Getting user with Id
+    /**
+     * Getting specific user using user ID
+     * @param id - id of the user you want to get information
+     */
     UserService.prototype.getUser = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, ((this.http.get('../../../assets/example-data/single-user.mockdata.json')).toPromise())];
+                    case 0: return [4 /*yield*/, ((this.http.get(this.URL + 'single-user.mockdata.json')).toPromise())];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    // Filtering users by organization
+    /**
+     * Getting all user for specific organization
+     * @param orgId -  ID of the organization you want to get all users
+     */
     UserService.prototype.getUsersByOrganization = function (orgId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, ((this.http.get('../../../assets/example-data/user-list.mockdata.json')).toPromise())];
+                    case 0: return [4 /*yield*/, ((this.http.get(this.URL + 'user-list.mockdata.json')).toPromise())];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /**
+     * Create new user
+     * @param user - user object for creating new user
+     */
+    UserService.prototype.createNewUser = function (user) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, null];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /**
+     * Edit user
+     * @param user - user object for editing user
+     */
+    UserService.prototype.editUser = function (user) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, null];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /**
+     * Delete user
+     * @param userID - ID of the user you want to delete
+     */
+    UserService.prototype.deleteUser = function (userID) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, null];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });

@@ -5,7 +5,7 @@
       <form [formGroup]="orgForm" (ngSubmit)="onSubmit()">
         <h2 class="title"> Create New Organization</h2>
         <hr>
-        <h4 class="input-header"> Please enter organization name </h4>
+        <h4 class="input-header"> Please enter organization information </h4>
         <div class="row">
           <i class="material-icons form-icon">
             business
@@ -43,6 +43,9 @@
                 <mat-error>
                   Category name is <strong>required</strong>
                 </mat-error>
+                <mat-error *ngIf="orgForm.get('itemRows').getError('duplicate')">
+                  Duplicated Category
+                </mat-error>
               </mat-form-field>
               <i class="material-icons close-icon" *ngIf="orgForm.controls.itemRows.controls.length > 1" (click)="deleteRow(i)">
                 close
@@ -50,10 +53,12 @@
             </div>
           </div>
         </div>
+        <p class="custom-error" *ngIf="orgForm.get('itemRows').getError('duplicate')">
+            Cannot have duplicate categories </p>
         <p class="add-row" (click)="addNewRow()">+ Add another category</p>
         <div class="buttons">
-          <button mat-button>Cancel</button>
-          <button class="done primary" [disabled]="!orgForm.valid" [ngClass]="{'button-disabled': !orgForm.valid}" mat-flat-button type="submit" >Done
+          <button mat-button routerLink="../list">Cancel</button>
+          <button class="done primary" [disabled]="!orgForm.valid" [ngClass]="{'button-disabled': !orgForm.valid}" mat-flat-button type="submit">Done
           </button>
         </div>
       </form>

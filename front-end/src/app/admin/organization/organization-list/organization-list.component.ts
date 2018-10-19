@@ -49,6 +49,7 @@ export class OrganizationListComponent implements OnInit, OnDestroy {
         this.pagination = pagination;
       });
       this.paginationService.getPagination();
+      this.paginationService.changePage(1);
     } catch (error) {
       console.log(error);
     }

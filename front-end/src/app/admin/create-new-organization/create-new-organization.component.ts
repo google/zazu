@@ -1,5 +1,5 @@
 import { OrganizationService } from './../../shared/services/organization.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import {
   FormControl,
   FormBuilder,
@@ -9,16 +9,16 @@ import {
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
+import { templateJitUrl } from '@angular/compiler';
 
 @Component({
   selector: 'app-create-new-organization',
   templateUrl: './create-new-organization.component.html',
   styleUrls: ['./create-new-organization.component.scss']
 })
-export class CreateNewOrganizationComponent implements OnInit {
+export class CreateNewOrganizationComponent implements OnInit{
   constructor(
     private organizatinonService: OrganizationService,
-    private fb: FormBuilder,
     private _fb: FormBuilder
   ) {}
   options = [];
@@ -40,13 +40,17 @@ export class CreateNewOrganizationComponent implements OnInit {
         map(value => this._filter(value))
       );
       this.orgForm = this._fb.group({
-        orgName: new FormControl('', [ Validators.required, this.noWhitespaceValidator]),
-        itemRows: this._fb.array([this.initItemRows()])
+        orgName: new FormControl('', [
+          Validators.required,
+          this.noWhitespaceValidator
+        ]),
+        itemRows: this._fb.array([this.initItemRows()], this.noDuplicate )
       });
     } catch (error) {
       console.log(error);
     }
   }
+
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
@@ -60,15 +64,10 @@ export class CreateNewOrganizationComponent implements OnInit {
     this.selectedCategories.push('');
   }
 
-  print() {
-    console.log(this.orgForm.value);
-    console.log(this.orgForm.controls.orgName);
-    console.log(this.orgForm.valid);
-  }
 
   initItemRows() {
     return this._fb.group({
-      itemname: ['', [ Validators.required, this.noWhitespaceValidator]]
+      itemname: ['', [Validators.required, this.noWhitespaceValidator]]
     });
   }
 
@@ -87,19 +86,42 @@ export class CreateNewOrganizationComponent implements OnInit {
   }
 
   onSubmit() {
-    const categories = [];
-    console.log(this.orgForm.value);
+    const temp = [];
+
     for (const itemname of this.orgForm.value.itemRows) {
-      categories.push(itemname.itemname);
+      temp.push(itemname.itemname);
     }
-    console.log(categories);
-
-
+    const org = {
+      name: this.orgForm.value.orgName,
+      categories: temp
+    };
+    console.log(org);
   }
 
   public noWhitespaceValidator(control: FormControl) {
     const isWhitespace = (control.value || '').trim().length === 0;
     const isValid = !isWhitespace;
     return isValid ? null : { whitespace: true };
+  }
+
+  public getForm() {
+    return this.orgForm;
+  }
+
+  public noDuplicate(array): Validators {
+    if (array.errors) {
+      console.log(array.errors.duplicate);
+    }
+    if (array.value) {
+      const temp = [];
+      for (const itemname of array.value) {
+        if (!temp.includes(itemname.itemname)) {
+          temp.push(itemname.itemname);
+        } else {
+          return { duplicate: true};
+        }
+      }
+    }
+    return null;
   }
 }

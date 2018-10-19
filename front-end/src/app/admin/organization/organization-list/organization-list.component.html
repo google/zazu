@@ -24,6 +24,15 @@
         </div>
       </div>
     </div>
+    <p class="pagination" *ngIf="this.pagination" style="text-align: center"> <button mat-mini-fab (click)="previousPage()" color="white"
+      [disabled]="pagination.currentPage===1"> <i class="material-icons">
+        chevron_left
+      </i> </button>
+    {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)="nextPage() " [disabled]="pagination.currentPage === pagination.totalPages"
+      color="white"> <i class="material-icons">
+        chevron_right
+      </i> </button>
+  </p>
   </div>
   <div class="right-main-content-view">
     <div class="filter" style="margin-top: 13px">
@@ -50,10 +59,8 @@
           {{sort}}
         </mat-radio-button>
       </mat-radio-group>
-      <p *ngIf="this.pagination"> {{this.pagination.currentPage}}/{{this.pagination.totalPages}}</p>
-      <button mat-raised-button (click)="previousPage()">Previous Page</button>
-      <button mat-raised-button (click)="nextPage()">Next Page</button>
     </div>
+
     <div class="add-button">
       <button routerLink="../new-organization" mat-fab class="button-fab" color="primary-button"> <i class="material-icons">
           add

@@ -7,6 +7,10 @@
   box-shadow: $card-box-shadow;
 }
 
+::ng-deep .mat-tab-body .mat-tab-body-content {
+  overflow: hidden;
+}
+
 ::ng-deep .tabs .mat-tab-header {
   box-shadow: 0 1px 4px rgba(101, 101, 101, .7) !important;
   border-bottom: none !important;

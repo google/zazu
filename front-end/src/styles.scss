@@ -5,10 +5,23 @@
   background-color: $primary-button-color !important;
 }
 
-
+/**** BUTTONS STUFF   */
 .button-disabled {
   opacity: 0.5;
   color: white !important;
+}
+
+
+/******* PAGINATION STYLES *****/
+
+.pagination {
+
+  .mat-white {
+    background-color: white;
+  }
+  button {
+    color: grey;
+  }
 }
 
 
@@ -71,20 +84,15 @@ body {
   padding-left: 30px;
   padding-right: 30px;
   display: flex;
-
+  .full-content-view {
+    width: 100%;
+  }
   .more-button {
     float: right;
 
     .mat-more-color {
       color: #757575;
     }
-
-    .full-content-view {
-      width: 100%;
-
-
-    }
-
   }
 
   .left-main-content-view {
@@ -361,6 +369,15 @@ body {
     font-weight: 500;
     padding-left: 32px;
     color: $primary-button-color;
+  }
+
+  .custom-error {
+    margin: 0;
+    margin-bottom: 5px;
+    font-size: 15px;
+    font-weight: 500;
+    padding-left: 32px;
+    color: $danger-color;
   }
 
   .add-row:hover {

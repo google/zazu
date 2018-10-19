@@ -1,7 +1,8 @@
 <div class="left-main-content-view">
   <div *ngIf="users != null">
     <div class="list">
-      <div *ngFor="let user of users | userList: searchName: selectedRole: selectedOrganization : sortValue :  pagination.currentPage" class="card">
+      <div *ngFor="let user of users | userList: searchName: selectedRole: selectedOrganization : sortValue :  pagination.currentPage"
+        class="card">
         <div class="container" (click)="userClicked(user.id)">
           <h4 class="title" style="font-weight: bold">{{user.firstName}} {{user.lastName}}</h4>
           <p class="secondary"> Viewer : <span *ngFor="let org of user.organizations; let i = index">
@@ -10,9 +11,18 @@
       </div>
     </div>
   </div>
+  <p class="pagination" *ngIf="this.pagination" style="text-align: center"> <button mat-mini-fab (click)="previousPage()" color="white"
+    [disabled]="pagination.currentPage===1"> <i class="material-icons">
+      chevron_left
+    </i> </button>
+  {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)="nextPage() " [disabled]="pagination.currentPage === pagination.totalPages"
+    color="white"> <i class="material-icons">
+      chevron_right
+    </i> </button>
+</p>
 </div>
-<div class="right-main-content-view"  *ngIf="formInitialize">
-  <div class="filter" >
+<div class="right-main-content-view" *ngIf="formInitialize">
+  <div class="filter">
     <form [formGroup]="filterForm" (ngSubmit)="onSearch()">
       <button class="reset" mat-stroked-button (click)="searchFormReset()">RESET</button>
       <p class="title"> Filter by</p>
@@ -21,7 +31,7 @@
         <input matInput type="text" placeholder="Search Name" formControlName="name">
       </mat-form-field>
       <p class="title" *ngIf="!organizationID"> Role</p>
-      <mat-form-field  appearance="outline" class="select" *ngIf="!organizationID">
+      <mat-form-field appearance="outline" class="select" *ngIf="!organizationID">
         <mat-select formControlName="selectedRole">
           <mat-option value="All">All</mat-option>
           <mat-option value="Admin">Admin</mat-option>
@@ -30,7 +40,7 @@
       </mat-form-field>
       <p class="title" *ngIf="!organizationID"> Organization</p>
       <mat-form-field class="select" appearance="outline" *ngIf="!organizationID">
-        <mat-select    formControlName="selectedOrganization">
+        <mat-select formControlName="selectedOrganization">
           <mat-option value="All">All</mat-option>
           <mat-option *ngFor="let organization of organizations" value="{{organization.id}}">{{organization.name}}</mat-option>
         </mat-select>
@@ -47,14 +57,12 @@
         {{sort}}
       </mat-radio-button>
     </mat-radio-group>
-    <p *ngIf="this.pagination"> {{this.pagination.currentPage}}/{{this.pagination.totalPages}}</p>
-    <button mat-raised-button (click)="previousPage()">Previous Page</button>
-    <button mat-raised-button (click)="nextPage()">Next Page</button>
 
   </div>
+
   <div class="add-button">
-      <button mat-fab class="button-fab" color="primary-button"> <i class="material-icons">
-          add
-          </i></button>
+    <button mat-fab class="button-fab" color="primary-button"> <i class="material-icons">
+        add
+      </i></button>
   </div>
 </div>
