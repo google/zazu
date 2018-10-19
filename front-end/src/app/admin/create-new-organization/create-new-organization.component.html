@@ -1,44 +1,60 @@
 <div class="form-container">
   <div class="card">
-    <div class="form">
-      <form>
+    <div class="form" *ngIf="orgForm">
+      <!-- *********************************  -->
+      <form [formGroup]="orgForm" (ngSubmit)="onSubmit()">
         <h2 class="title"> Create New Organization</h2>
         <hr>
-        <br>
+        <h4 class="input-header"> Please enter organization name </h4>
         <div class="row">
           <i class="material-icons form-icon">
             business
           </i>
           <mat-form-field appearance="fill" style="width:80%">
             <mat-label>Organization Name</mat-label>
-            <input matInput placeholder="Placeholder">
+            <input matInput type="text" id="name" placeholder="Enter Name" formControlName="orgName">
+            <mat-error>
+              Organization name is <strong>required</strong>
+            </mat-error>
           </mat-form-field>
-          <i class="material-icons info-icon">
+          <i class="material-icons info-icon" matTooltip="{{orgNameTooltip}}">
             info
           </i>
         </div>
-        <div class="row">
-          <i class="material-icons form-icon">
-            book
-          </i>
-          <mat-form-field appearance="fill" style="width:80%">
-            <mat-label>Category</mat-label>
-            <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
-            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                {{option}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-          <i class="material-icons info-icon">
-            info
-          </i>
+        <h4 class="input-header">Categories <span style="position: relative;top: 6px; left: -10px;">
+            <i class="material-icons info-icon" matTooltip="{{orgNameTooltip}}">
+              info
+            </i> </span>
+        </h4>
+        <div formArrayName="itemRows">
+          <div *ngFor="let itemrow of orgForm.controls.itemRows.controls; let i=index" [formGroupName]="i">
+            <div class="row">
+              <i class="material-icons form-icon">
+                book
+              </i>
+              <mat-form-field appearance="fill" style="width:80%">
+                <mat-label>Category </mat-label>
+                <input type="text" placeholder="Pick one" aria-label="Number" matInput formControlName="itemname" [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                    <span>{{option}} </span>
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-error>
+                  Category name is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              <i class="material-icons close-icon" *ngIf="orgForm.controls.itemRows.controls.length > 1" (click)="deleteRow(i)">
+                close
+              </i>
+            </div>
+          </div>
         </div>
-        <div class="row">
-          <button mat-stroked-button class="add-another">Add Another Category</button>
-        </div>
+        <p class="add-row" (click)="addNewRow()">+ Add another category</p>
         <div class="buttons">
-            <button mat-button>Cancel</button><button class="done" mat-flat-button>Done</button>
+          <button mat-button>Cancel</button>
+          <button class="done primary" [disabled]="!orgForm.valid" [ngClass]="{'button-disabled': !orgForm.valid}" mat-flat-button type="submit" >Done
+          </button>
         </div>
       </form>
     </div>

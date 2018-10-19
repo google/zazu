@@ -1,6 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 @import "main-style-variables.scss";
 
+.primary {
+  background-color: $primary-button-color !important;
+}
+
+
+.button-disabled {
+  opacity: 0.5;
+  color: white !important;
+}
+
+
 html,
 body {
   min-height: 100vh;
@@ -61,15 +72,17 @@ body {
   padding-right: 30px;
   display: flex;
 
-  .full-content-view {
-    width: 100%;
+  .more-button {
+    float: right;
 
-    .more-button {
-      float: right;
+    .mat-more-color {
+      color: #757575;
+    }
 
-      .mat-more-color {
-        color: #757575;
-      }
+    .full-content-view {
+      width: 100%;
+
+
     }
 
   }
@@ -337,6 +350,29 @@ body {
     padding-left: 10px;
   }
 
+  .close-icon {
+    color: $form-icon-color;
+    padding-left: 10px;
+  }
+
+  .add-row {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 500;
+    padding-left: 32px;
+    color: $primary-button-color;
+  }
+
+  .add-row:hover {
+    cursor: pointer;
+  }
+
+
+  .close-icon:hover {
+    color: $info-icon-color;
+    cursor: pointer;
+  }
+
   .buttons {
     padding-top: 15px;
     text-align: right;
@@ -371,6 +407,7 @@ body {
   .create-new-text {
     color: $input-header-color;
     margin: 0;
+
     .create-new-button {
       color: $primary-button-color;
     }
@@ -397,7 +434,16 @@ body {
     background-color: $form-active-underline-color;
   }
 
-  .add-another {}
+  .mat-form-field-appearance-fill.mat-form-field-invalid .mat-form-field-ripple {
+    background-color: $form-error-color;
+  }
+
+  .mat-form-field.mat-focused.mat-form-field-invalid .mat-form-field-label {
+    color: $form-error-color !important;
+  }
+
+
+
 
 
 }

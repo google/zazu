@@ -39,16 +39,46 @@
 
 
   <div class="main-content-view">
-    <h3> {{report.name}}</h3>
-    <p>{{report.organization.name}}</p>
-    <p>{{report.date | date }}</p>
-    <p>{{report.datasource}}</p>
-    <p>{{report.link}}</p>
-    <hr>
-    <h4>Meta Data</h4>
-    <p>Created By: {{ report.createdBy}}</p>
-    <p>Updated By: {{ report.updatedBy}}</p>
-    <h5>Accessed By</h5>
-    <p *ngFor="let user of report.accessedBy"> {{user.firstName}} {{user.lastName}}</p>
+    <div class="left-main-content-view">
+      <iframe class="report" src="https://datastudio.google.com/embed/reporting/1XuwM0G2Rx55jEWX_Rus05td2IHN0PnQI/page/1M" frameborder="0"
+        style="border:0" allowfullscreen></iframe>
+    </div>
+    <div class="right-main-content-view">
+      <div class="filter information">
+        <div class="more-button" style="margin-top: -10px">
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon color="more-color">more_vert</mat-icon>
+          </button>
+
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>Edit</button>
+            <button mat-menu-item>Delete</button>
+          </mat-menu>
+        </div>
+        <h4 class="info-title"> Report Information</h4>
+        <p> Name: <span class="info">{{report.name}} </span></p>
+        <p> Organization: <span class="info">{{report.organization.name}} </span></p>
+        <p>Datasource: <span class="info">{{report.datasource}} </span></p>
+        <p>Date: <span class="info"> {{report.date | date }}</span> </p>
+        <p>Datastudio Link: <span class="info"> {{report.link}}</span></p>
+      </div>
+
+      <div class="metadata">
+        <mat-accordion>
+          <mat-expansion-panel style="box-shadow:none">
+            <mat-expansion-panel-header style="padding: 0">
+              <mat-panel-title>
+                <h4 class="info-title" style="padding-top: 10px;"> Metadata</h4>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>Created By: <span class="info">{{ report.createdBy}}</span> </p>
+            <p>Updated By: <span class="info">{{ report.updatedBy}}</span></p>
+            <p>Who can see it: </p>
+            <p *ngFor="let user of report.accessedBy"> <span class="info"> &nbsp;&nbsp;&#9679; &nbsp;{{user.firstName}} {{user.lastName}} </span></p>
+            <br>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </div>
   </div>
 </div>

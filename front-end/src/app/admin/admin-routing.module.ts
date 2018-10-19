@@ -27,12 +27,12 @@ const adminRoutes: Routes = [
         path: 'o',
         component: OrganizationComponent,
         children: [
-          { path: '', redirectTo: 'new-report' },
+          { path: '', redirectTo: 'new-organization' },
           { path: 'list', component: OrganizationListComponent },
           { path: 'new-organization', component: CreateNewOrganizationComponent},
           { path: 'new-user', component: CreateNewUserComponent},
           { path: 'new-data-rule', component: CreateNewDataruleComponent},
-          { path: 'new-report', component: CreateNewReportComponent}
+          { path: 'new-report', component: CreateNewReportComponent},
           { path: ':id', component: OrganizationDetailsComponent },
           { path: ':id/u/:userID', component: UserDetailsComponent },
           { path: ':id/r/:reportID', component: AdminReportDetailsComponent },
