@@ -29,7 +29,7 @@ export interface CreateNewUser {
   lastName: string;
   googleId: string;
   secondaryEmail: string;
-  organization: OrganizationViewModel.SimpleOrganization[];
+  organizations: string[];
   role: string;
 }
 

@@ -111,6 +111,9 @@ export class OrganizationListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.pageSubscription.unsubscribe();
+    if (this.pageSubscription) {
+      this.pageSubscription.unsubscribe();
+
+    }
   }
 }

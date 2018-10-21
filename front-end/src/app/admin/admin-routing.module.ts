@@ -27,7 +27,7 @@ const adminRoutes: Routes = [
         path: 'o',
         component: OrganizationComponent,
         children: [
-          { path: '', redirectTo: 'list' },
+          { path: '', redirectTo: 'new-user' },
           { path: 'list', component: OrganizationListComponent },
           { path: 'new-organization', component: CreateNewOrganizationComponent},
           { path: 'new-user', component: CreateNewUserComponent},
@@ -73,6 +73,7 @@ const adminRoutes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(adminRoutes)],
+
   exports: [RouterModule]
 })
 export class AdminRoutingModule {}

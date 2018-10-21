@@ -24,7 +24,7 @@ import { DataRulesListPipe } from '../shared/pipes/datarules-list.pipe';
 import { CreateNewOrganizationComponent } from './create-new-organization/create-new-organization.component';
 import { CreateNewReportComponent } from './create-new-report/create-new-report.component';
 import { CreateNewDataruleComponent } from './create-new-datarule/create-new-datarule.component';
-import { CreateNewUserComponent } from './create-new-user/create-new-user.component';
+import { CreateNewUserComponent, NewUserOrganizationConfirmation } from './create-new-user/create-new-user.component';
 
 @NgModule({
   declarations: [
@@ -49,10 +49,12 @@ import { CreateNewUserComponent } from './create-new-user/create-new-user.compon
     CreateNewOrganizationComponent,
     CreateNewReportComponent,
     CreateNewDataruleComponent,
-    CreateNewUserComponent
+    CreateNewUserComponent,
+    NewUserOrganizationConfirmation
 
 
   ],
-  imports: [CommonModule, AdminRoutingModule, AngularMaterialModule, FormsModule, ReactiveFormsModule]
+  imports: [CommonModule, AdminRoutingModule, AngularMaterialModule, FormsModule, ReactiveFormsModule],
+  entryComponents: [NewUserOrganizationConfirmation],
 })
 export class AdminModule {}

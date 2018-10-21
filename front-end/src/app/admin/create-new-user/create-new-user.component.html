@@ -1,93 +1,135 @@
 <div class="form-container">
   <div class="card">
     <div class="form">
-      <form>
-        <h2 class="title"> Create New User</h2>
-        <hr>
-        <div class="row">
-          <h4 class="input-header"> Please select role for new user <i class="material-icons info-icon">
-              info
-            </i></h4>
-          <i class="material-icons form-icon">
-            business
-          </i>
-          <mat-form-field appearance="fill" style="width:80%">
-            <mat-label>Organization Name</mat-label>
-            <input matInput placeholder="Placeholder">
-          </mat-form-field>
-        </div>
-        <div class="row">
-          <h4 class="input-header"> Please select organization(s) for new user <i class="material-icons info-icon">
-              info
-            </i></h4>
-          <i class="material-icons form-icon">
-            business
-          </i>
-          <mat-form-field appearance="fill" style="width:80%">
-            <mat-label>Select Organization(s)</mat-label>
-            <input matInput placeholder="Placeholder">
-          </mat-form-field>
-        </div>
-        <div class="row">
-          <p class="create-new-text">Organization not on the list? <span class="create-new-button">Create New Organization </span></p>
-        </div>
-        <div class="buttons">
-          <button mat-button>Cancel</button><button class="done" mat-flat-button>Next</button>
-        </div>
-      </form>
+      <h2 class="title"> Create New User</h2>
+      <hr>
+      <mat-horizontal-stepper linear #stepper *ngIf="firstFormGroup && secondFormGroup">
+        <!-- First Step-->
+        <mat-step [stepControl]="firstFormGroup">
+            <form [formGroup]="firstFormGroup">
+              <ng-template matStepLabel>Fill out your name</ng-template>
+              <div class="row">
+                <h4 class="input-header"> Please select role for new user <i class="material-icons info-icon">
+                    info
+                  </i></h4>
+                <i class="material-icons form-icon">
+                  business
+                </i>
+                <mat-form-field appearance="fill" style="width:80%">
+                  <mat-label>Role</mat-label>
+                  <mat-select formControlName="role" [(value)]="roleSelected" >
+                    <mat-option value="admin" (click)="checkRole()">Admin</mat-option>
+                    <mat-option value="viewer" (click)="checkRole()">Viewer</mat-option>
+                  </mat-select>
+                  <mat-error>
+                      Role is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="row" *ngIf="roleSelected === 'viewer'">
+                <h4 class="input-header"> Please select organization(s) for new user <i class="material-icons info-icon">
+                    info
+                  </i></h4>
+                <i class="material-icons form-icon">
+                  business
+                </i>
+                <mat-form-field appearance="fill" style="width:80%">
+                  <mat-label>Select Organization(s)</mat-label>
+                  <mat-select  formControlName="organizations" [(value)]="selectedOrganizationIds" multiple>
+                    <mat-option *ngFor="let organization of organizations" value="{{organization.id}}">{{organization.name}}</mat-option>
+                  </mat-select>
+                  <mat-error>
+                      Organization is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+                <p class="create-new-text">Organization not on the list? <span class="create-new-button" routerLink="/admin/o/new-organization">Create
+                    New Organization </span></p>
+              </div>
+              <div class="buttons">
+                <button mat-button type='button'>Back</button>
+                <button mat-button type='button' mat-flat-button class="done primary" [disabled]="!firstFormGroup.valid" [ngClass]="{'button-disabled': !firstFormGroup.valid}" (click)="openDialog()">Next</button>
+              </div>
+            </form>
+        </mat-step>
+        <!-- Second Step-->
+        <mat-step [stepControl]="secondFormGroup">
+          <form [formGroup]="secondFormGroup" (ngSubmit)="onSubmit()">
+            <p class="description" *ngIf="roleSelected === 'admin'"> New Admin user</p>
+            <p class="description" *ngIf="roleSelected === 'viewer'"> New Viewer for <span *ngFor="let org of selectedOrganizationNames; let i = index">{{org.name}}<span *ngIf="i < selectedOrganizationNames.length - 1">,</span>&nbsp;</span></p>
+            <h4 class="input-header"> Please enter user information </h4>
+            <div class="row">
+              <i class="material-icons form-icon">
+                  person_outline
+              </i>
+              <mat-form-field appearance="fill" style="width:80%">
+                <mat-label   >First Name</mat-label>
+                <input formControlName="firstName" matInput placeholder="">
+                <mat-error>
+                  First Name is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              <i class="material-icons info-icon">
+                info
+              </i>
+            </div>
+            <div class="row">
+              <i class="material-icons form-icon">
+                person_outline
+              </i>
+              <mat-form-field appearance="fill" style="width:80%">
+                <mat-label >Last Name</mat-label>
+                <input formControlName="lastName" matInput placeholder="">
+                <mat-error>
+                  Last Name is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              <i class="material-icons info-icon">
+                info
+              </i>
+            </div>
+            <div class="row">
+              <i class="material-icons form-icon">
+                email
+              </i>
+              <mat-form-field appearance="fill" style="width:80%">
+                <mat-label>Email</mat-label>
+                <input  type="email" formControlName="email" matInput placeholder="">
+                <mat-error *ngIf="secondFormGroup?.controls.email?.errors?.required ">
+                  Email is <strong>required</strong>
+                </mat-error>
+                <mat-error *ngIf="secondFormGroup?.controls.email?.errors?.email ">
+                 Must be in email format
+                </mat-error>
+              </mat-form-field>
+              <i class="material-icons info-icon">
+                info
+              </i>
+            </div>
+            <div class="row" *ngIf="allowSecondaryEmail">
+              <i class="material-icons form-icon">
+                alternate_email
+              </i>
+              <mat-form-field appearance="fill" style="width:80%">
+                <mat-label  >Secondary Email</mat-label>
+                <input formControlName="secondaryEmail" type="email" matInput placeholder="">
+                <mat-hint>Not Required</mat-hint>
+                <mat-error *ngIf="secondFormGroup?.controls.secondaryEmail?.errors?.email ">
+                  Must be in email format
+                 </mat-error>
+              </mat-form-field>
+              <i class="material-icons info-icon">
+                info
+              </i>
+            </div>
+            <p class="add-row"  *ngIf="!allowSecondaryEmail" (click)="addSecondaryEmail()">+ Add secondary email</p>
 
-
-      <!-- ADMIN ACCESS -->
-      <form>
-        <h2 class="title"> Create New User</h2>
-        <hr>
-        <p class="description"> New Admin user</p>
-        <p class="description"> New Viewer for *Organizations*</p>
-        <h4 class="input-header"> Please enter user information </h4>
-        <div class="row">
-          <i class="material-icons form-icon">
-            person-outline
-          </i>
-          <mat-form-field appearance="fill" style="width:80%">
-            <mat-label>First Name</mat-label>
-            <input matInput placeholder="">
-          </mat-form-field>
-          <i class="material-icons info-icon">
-            info
-          </i>
-        </div>
-        <div class="row">
-          <i class="material-icons form-icon">
-            person-outline
-          </i>
-          <mat-form-field appearance="fill" style="width:80%">
-            <mat-label>Last Name</mat-label>
-            <input matInput placeholder="">
-          </mat-form-field>
-          <i class="material-icons info-icon">
-            info
-          </i>
-        </div>
-        <div class="row">
-          <i class="material-icons form-icon">
-            person-outline
-          </i>
-          <mat-form-field appearance="fill" style="width:80%">
-            <mat-label>Email</mat-label>
-            <input matInput placeholder="">
-          </mat-form-field>
-          <i class="material-icons info-icon">
-            info
-          </i>
-        </div>
-        <div class="row">
-          <button mat-stroked-button class="add-another">Add Secondary Email</button>
-        </div>
-
-        <div class="buttons">
-          <button mat-button>Cancel</button><button class="done" mat-flat-button>Done</button>
-        </div>
-      </form>
+            <div class="buttons">
+              <button mat-button matStepperPrevious type="button">Cancel</button>
+              <button class="done primary" mat-flat-button  [disabled]="!secondFormGroup.valid" [ngClass]="{'button-disabled': !secondFormGroup.valid}" type="submit">Done</button>
+            </div>
+          </form>
+        </mat-step>
+      </mat-horizontal-stepper>
     </div>
   </div>
 </div>

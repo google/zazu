@@ -19,6 +19,7 @@
   .mat-white {
     background-color: white;
   }
+
   button {
     color: grey;
   }
@@ -84,9 +85,11 @@ body {
   padding-left: 30px;
   padding-right: 30px;
   display: flex;
+
   .full-content-view {
     width: 100%;
   }
+
   .more-button {
     float: right;
 
@@ -409,6 +412,12 @@ body {
     margin: 0;
     margin-bottom: 10px;
     color: $input-header-color;
+
+    .info-icon {
+      position: relative;
+      top: 6px;
+      padding-left: 5px;
+    }
   }
 
   .description {
@@ -458,12 +467,25 @@ body {
   .mat-form-field.mat-focused.mat-form-field-invalid .mat-form-field-label {
     color: $form-error-color !important;
   }
-
-
-
-
-
 }
+
+
+/****************** DIALOG ******************/
+.dialog {
+  .title {
+    color: $primary-button-color;
+    text-align: center;
+    font-weight: 500;
+    i {
+      position: relative;
+    top: 10px;
+    font-size: 40px;
+    margin-right: -40px;
+    right: 50px;
+    }
+  }
+}
+
 
 /******** COMMON STYLES & MEDIA QUERIES ****/
 
