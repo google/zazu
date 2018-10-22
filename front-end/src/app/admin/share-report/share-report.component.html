@@ -1,0 +1,94 @@
+<div class="form-container">
+  <div class="card">
+    <div class="form">
+      <h2 class="title"> Share Report</h2>
+      <hr>
+      <mat-horizontal-stepper #stepper>
+        <!-- First Step -->
+        <mat-step [stepControl]="orgForm" *ngIf="orgForm">
+          <form [formGroup]="orgForm">
+
+            <div class="row">
+              <h4 class="input-header"> Please select organization to share report <i class="material-icons info-icon">
+                  info
+                </i></h4>
+              <i class="material-icons form-icon">
+                business
+              </i>
+              <mat-form-field appearance="fill" style="width:80%">
+                <mat-label>Select Organization</mat-label>
+                <mat-select formControlName="organization">
+                  <mat-option (click)="selectOrg()" *ngFor="let organization of organizations" value="{{organization.id}}">{{organization.name}}</mat-option>
+                </mat-select>
+                <mat-error>
+                  Organization is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="row">
+
+              <p class="create-new-text">Organization not on the list? <span class="create-new-button">Create New Organization </span></p>
+            </div>
+            <div class="buttons">
+              <button mat-button type='button' routerLink="../">Cancel</button>
+              <button mat-button type='button' mat-flat-button class="done primary" [disabled]="!orgForm.valid" [ngClass]="{'button-disabled': !orgForm.valid}"
+                matStepperNext>Next</button>
+            </div>
+          </form>
+        </mat-step>
+        <!-- ***** 2nd step: Selecting from list-->
+        <mat-step *ngIf="reports && selectedOrg">
+          <!-- selecting report -->
+          <form>
+            <div class="row">
+              <h4 class="input-header"> Please Select a report to share to {{selectedOrg.name}} </h4>
+            </div>
+            <div class="main-content-view" style="padding:0">
+              <app-report-list [reports]="reports" [allowAdd]=false (reportID)="selectReport($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-report-list>
+            </div>
+            <div class="buttons">
+              <button mat-button matStepperPrevious>Cancel</button><button [disabled]="!selectedReport" [ngClass]="{'button-disabled': !selectedReport}"
+                (click)="selectStep(2)" class="done primary" mat-flat-button>Next</button>
+            </div>
+          </form>
+        </mat-step>
+
+        <mat-step *ngIf="selectedReport && selectedOrg">
+          <form *ngIf="selectedReport">
+
+            <div class="row">
+              <h4 class="input-header">New Report for {{selectedOrg.name}}</h4>
+            </div>
+            <div class="row">
+              <p style="margin:0">This report is currently being used by "2" other organizations:</p>
+              <ul>
+                <li>
+                  Org 1
+                </li>
+                <li>
+                  Org 2
+                </li>
+              </ul>
+            </div>
+            <div class="main-content-view" style="padding:0">
+              <div style="max-width:700px; width: 100%; margin-bottom: 10px;">
+                <div class="list">
+                  <div class="card">
+                    <div class="container">
+                      <h4 class="title"><strong> {{selectedReport.name}}</strong></h4>
+                      <p class="secondary">{{selectedReport.organization.name}}</p>
+                      <p class="content"> {{selectedReport.date | date}} </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="buttons">
+              <button mat-button matStepperPrevious>Cancel</button><button class="done primary" mat-flat-button>Done</button>
+            </div>
+          </form>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+  </div>
+</div>

@@ -61,8 +61,17 @@
   </div>
 
   <div class="add-button">
-    <button mat-fab class="button-fab" color="primary-button"> <i class="material-icons">
-        add
-      </i></button>
+    <button  *ngIf="organizationID" routerLink="./new-user" mat-fab class="button-fab" color="primary-button"> <i class="material-icons plus-icon">
+      add
+    </i>
+    <i class="material-icons back-icon">
+      person_outline
+    </i></button>
+    <button  *ngIf="!organizationID" routerLink="../new-user" mat-fab class="button-fab" color="primary-button"> <i class="material-icons plus-icon">
+      add
+    </i>
+    <i class="material-icons back-icon">
+      person_outline
+    </i></button>
   </div>
 </div>

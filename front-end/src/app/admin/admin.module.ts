@@ -25,6 +25,7 @@ import { CreateNewOrganizationComponent } from './create-new-organization/create
 import { CreateNewReportComponent } from './create-new-report/create-new-report.component';
 import { CreateNewDataruleComponent } from './create-new-datarule/create-new-datarule.component';
 import { CreateNewUserComponent, NewUserOrganizationConfirmation } from './create-new-user/create-new-user.component';
+import { ShareReportComponent } from './share-report/share-report.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { CreateNewUserComponent, NewUserOrganizationConfirmation } from './creat
     CreateNewReportComponent,
     CreateNewDataruleComponent,
     CreateNewUserComponent,
-    NewUserOrganizationConfirmation
+    NewUserOrganizationConfirmation,
+    ShareReportComponent
 
 
   ],

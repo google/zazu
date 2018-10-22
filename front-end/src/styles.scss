@@ -281,10 +281,27 @@ body {
       font-size: 50px;
       color: white;
 
-      i {
-        font-size: 40px;
-        font-weight: bold;
+      .plus-icon {
+        background-color: #0877c1;
+        position: relative;
+        top: 15px;
+        z-index: 20;
+        left: 25px;
+        font-size: 25px;
+        border-radius: 50%;
+        border: 4px solid white;
+        font-weight: normal;
       }
+
+      .back-icon {
+        position: relative;
+        margin-left: -25px;
+        font-size: 45px;
+        color: #ffffff;
+        font-weight: normal;
+        right: 5px;
+      }
+
 
       &::ng-deep .mat-button-wrapper {
         line-height: 14px;
@@ -460,7 +477,7 @@ body {
   .new-report-choice-text {
     color:
       $input-header-color;
-      font-weight: 500;
+    font-weight: 500;
   }
 
 

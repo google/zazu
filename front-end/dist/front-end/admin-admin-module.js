@@ -160,23 +160,24 @@ var AdminReportDetailsComponent = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AdminRoutingModule", function() { return AdminRoutingModule; });
-/* harmony import */ var _create_new_datarule_create_new_datarule_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./create-new-datarule/create-new-datarule.component */ "./src/app/admin/create-new-datarule/create-new-datarule.component.ts");
-/* harmony import */ var _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create-new-user/create-new-user.component */ "./src/app/admin/create-new-user/create-new-user.component.ts");
-/* harmony import */ var _all_reports_all_report_list_all_report_list_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./all-reports/all-report-list/all-report-list.component */ "./src/app/admin/all-reports/all-report-list/all-report-list.component.ts");
-/* harmony import */ var _organization_organization_list_organization_list_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./organization/organization-list/organization-list.component */ "./src/app/admin/organization/organization-list/organization-list.component.ts");
-/* harmony import */ var _all_users_all_user_list_all_user_list_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./all-users/all-user-list/all-user-list.component */ "./src/app/admin/all-users/all-user-list/all-user-list.component.ts");
-/* harmony import */ var _all_users_all_users_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./all-users/all-users.component */ "./src/app/admin/all-users/all-users.component.ts");
-/* harmony import */ var _auth_admin_guard_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../auth/admin-guard.service */ "./src/app/auth/admin-guard.service.ts");
-/* harmony import */ var _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./admin-report-details/admin-report-details.component */ "./src/app/admin/admin-report-details/admin-report-details.component.ts");
-/* harmony import */ var _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./user-details/user-details.component */ "./src/app/admin/user-details/user-details.component.ts");
-/* harmony import */ var _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./organization-details/organization-details.component */ "./src/app/admin/organization-details/organization-details.component.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _admin_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./admin.component */ "./src/app/admin/admin.component.ts");
-/* harmony import */ var _organization_organization_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./organization/organization.component */ "./src/app/admin/organization/organization.component.ts");
-/* harmony import */ var _all_reports_all_reports_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./all-reports/all-reports.component */ "./src/app/admin/all-reports/all-reports.component.ts");
-/* harmony import */ var _create_new_organization_create_new_organization_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./create-new-organization/create-new-organization.component */ "./src/app/admin/create-new-organization/create-new-organization.component.ts");
-/* harmony import */ var _create_new_report_create_new_report_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./create-new-report/create-new-report.component */ "./src/app/admin/create-new-report/create-new-report.component.ts");
+/* harmony import */ var _share_report_share_report_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./share-report/share-report.component */ "./src/app/admin/share-report/share-report.component.ts");
+/* harmony import */ var _create_new_datarule_create_new_datarule_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create-new-datarule/create-new-datarule.component */ "./src/app/admin/create-new-datarule/create-new-datarule.component.ts");
+/* harmony import */ var _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./create-new-user/create-new-user.component */ "./src/app/admin/create-new-user/create-new-user.component.ts");
+/* harmony import */ var _all_reports_all_report_list_all_report_list_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./all-reports/all-report-list/all-report-list.component */ "./src/app/admin/all-reports/all-report-list/all-report-list.component.ts");
+/* harmony import */ var _organization_organization_list_organization_list_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./organization/organization-list/organization-list.component */ "./src/app/admin/organization/organization-list/organization-list.component.ts");
+/* harmony import */ var _all_users_all_user_list_all_user_list_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./all-users/all-user-list/all-user-list.component */ "./src/app/admin/all-users/all-user-list/all-user-list.component.ts");
+/* harmony import */ var _all_users_all_users_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./all-users/all-users.component */ "./src/app/admin/all-users/all-users.component.ts");
+/* harmony import */ var _auth_admin_guard_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./../auth/admin-guard.service */ "./src/app/auth/admin-guard.service.ts");
+/* harmony import */ var _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./admin-report-details/admin-report-details.component */ "./src/app/admin/admin-report-details/admin-report-details.component.ts");
+/* harmony import */ var _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./user-details/user-details.component */ "./src/app/admin/user-details/user-details.component.ts");
+/* harmony import */ var _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./organization-details/organization-details.component */ "./src/app/admin/organization-details/organization-details.component.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _admin_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./admin.component */ "./src/app/admin/admin.component.ts");
+/* harmony import */ var _organization_organization_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./organization/organization.component */ "./src/app/admin/organization/organization.component.ts");
+/* harmony import */ var _all_reports_all_reports_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./all-reports/all-reports.component */ "./src/app/admin/all-reports/all-reports.component.ts");
+/* harmony import */ var _create_new_organization_create_new_organization_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./create-new-organization/create-new-organization.component */ "./src/app/admin/create-new-organization/create-new-organization.component.ts");
+/* harmony import */ var _create_new_report_create_new_report_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./create-new-report/create-new-report.component */ "./src/app/admin/create-new-report/create-new-report.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -200,54 +201,59 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 var adminRoutes = [
     {
         path: '',
-        component: _admin_component__WEBPACK_IMPORTED_MODULE_12__["AdminComponent"],
-        canActivate: [_auth_admin_guard_service__WEBPACK_IMPORTED_MODULE_6__["AdminGuard"]],
+        component: _admin_component__WEBPACK_IMPORTED_MODULE_13__["AdminComponent"],
+        canActivate: [_auth_admin_guard_service__WEBPACK_IMPORTED_MODULE_7__["AdminGuard"]],
         children: [
             {
                 path: 'o',
-                component: _organization_organization_component__WEBPACK_IMPORTED_MODULE_13__["OrganizationComponent"],
+                component: _organization_organization_component__WEBPACK_IMPORTED_MODULE_14__["OrganizationComponent"],
                 children: [
                     { path: '', redirectTo: 'list' },
-                    { path: 'list', component: _organization_organization_list_organization_list_component__WEBPACK_IMPORTED_MODULE_3__["OrganizationListComponent"] },
-                    { path: 'new-organization', component: _create_new_organization_create_new_organization_component__WEBPACK_IMPORTED_MODULE_15__["CreateNewOrganizationComponent"] },
-                    { path: 'new-user', component: _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_1__["CreateNewUserComponent"] },
-                    { path: 'new-data-rule', component: _create_new_datarule_create_new_datarule_component__WEBPACK_IMPORTED_MODULE_0__["CreateNewDataruleComponent"] },
-                    { path: 'new-report', component: _create_new_report_create_new_report_component__WEBPACK_IMPORTED_MODULE_16__["CreateNewReportComponent"] },
-                    { path: ':id', component: _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_9__["OrganizationDetailsComponent"] },
-                    { path: ':id/u/:userID', component: _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_8__["UserDetailsComponent"] },
-                    { path: ':id/r/:reportID', component: _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_7__["AdminReportDetailsComponent"] },
+                    { path: 'list', component: _organization_organization_list_organization_list_component__WEBPACK_IMPORTED_MODULE_4__["OrganizationListComponent"] },
+                    { path: 'new-organization', component: _create_new_organization_create_new_organization_component__WEBPACK_IMPORTED_MODULE_16__["CreateNewOrganizationComponent"] },
+                    { path: 'new-data-rule', component: _create_new_datarule_create_new_datarule_component__WEBPACK_IMPORTED_MODULE_1__["CreateNewDataruleComponent"] },
+                    { path: 'share-report', component: _share_report_share_report_component__WEBPACK_IMPORTED_MODULE_0__["ShareReportComponent"] },
+                    { path: ':id', component: _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_10__["OrganizationDetailsComponent"] },
+                    { path: ':id/new-user', component: _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_2__["CreateNewUserComponent"] },
+                    { path: ':id/new-report', component: _create_new_report_create_new_report_component__WEBPACK_IMPORTED_MODULE_17__["CreateNewReportComponent"] },
+                    { path: ':id/share-report', component: _share_report_share_report_component__WEBPACK_IMPORTED_MODULE_0__["ShareReportComponent"] },
+                    { path: ':id/u/:userID', component: _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_9__["UserDetailsComponent"] },
+                    { path: ':id/r/:reportID', component: _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_8__["AdminReportDetailsComponent"] },
                     {
                         path: ':id/u/:userID/r/:reportID',
-                        component: _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_7__["AdminReportDetailsComponent"]
+                        component: _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_8__["AdminReportDetailsComponent"]
                     },
                 ]
             },
             {
                 path: 'users',
-                component: _all_users_all_users_component__WEBPACK_IMPORTED_MODULE_5__["AllUsersComponent"],
+                component: _all_users_all_users_component__WEBPACK_IMPORTED_MODULE_6__["AllUsersComponent"],
                 children: [
                     { path: '', redirectTo: 'list' },
-                    { path: 'list', component: _all_users_all_user_list_all_user_list_component__WEBPACK_IMPORTED_MODULE_4__["AllUserListComponent"] },
+                    { path: 'list', component: _all_users_all_user_list_all_user_list_component__WEBPACK_IMPORTED_MODULE_5__["AllUserListComponent"] },
+                    { path: 'new-user', component: _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_2__["CreateNewUserComponent"] },
                     {
                         path: 'u/:userID',
-                        component: _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_8__["UserDetailsComponent"]
+                        component: _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_9__["UserDetailsComponent"]
                     },
                     {
                         path: 'u/:userID/r/:reportID',
-                        component: _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_7__["AdminReportDetailsComponent"]
+                        component: _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_8__["AdminReportDetailsComponent"]
                     }
                 ]
             },
             {
                 path: 'reports',
-                component: _all_reports_all_reports_component__WEBPACK_IMPORTED_MODULE_14__["AllReportsComponent"],
+                component: _all_reports_all_reports_component__WEBPACK_IMPORTED_MODULE_15__["AllReportsComponent"],
                 children: [
                     { path: '', redirectTo: 'list' },
-                    { path: 'list', component: _all_reports_all_report_list_all_report_list_component__WEBPACK_IMPORTED_MODULE_2__["AllReportListComponent"] },
-                    { path: 'r/:reportID', component: _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_7__["AdminReportDetailsComponent"] }
+                    { path: 'list', component: _all_reports_all_report_list_all_report_list_component__WEBPACK_IMPORTED_MODULE_3__["AllReportListComponent"] },
+                    { path: 'new-report', component: _create_new_report_create_new_report_component__WEBPACK_IMPORTED_MODULE_17__["CreateNewReportComponent"] },
+                    { path: 'r/:reportID', component: _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_8__["AdminReportDetailsComponent"] }
                 ]
             }
         ]
@@ -257,9 +263,9 @@ var AdminRoutingModule = /** @class */ (function () {
     function AdminRoutingModule() {
     }
     AdminRoutingModule = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_10__["NgModule"])({
-            imports: [_angular_router__WEBPACK_IMPORTED_MODULE_11__["RouterModule"].forChild(adminRoutes)],
-            exports: [_angular_router__WEBPACK_IMPORTED_MODULE_11__["RouterModule"]]
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_11__["NgModule"])({
+            imports: [_angular_router__WEBPACK_IMPORTED_MODULE_12__["RouterModule"].forChild(adminRoutes)],
+            exports: [_angular_router__WEBPACK_IMPORTED_MODULE_12__["RouterModule"]]
         })
     ], AdminRoutingModule);
     return AdminRoutingModule;
@@ -378,12 +384,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _create_new_report_create_new_report_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./create-new-report/create-new-report.component */ "./src/app/admin/create-new-report/create-new-report.component.ts");
 /* harmony import */ var _create_new_datarule_create_new_datarule_component__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./create-new-datarule/create-new-datarule.component */ "./src/app/admin/create-new-datarule/create-new-datarule.component.ts");
 /* harmony import */ var _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./create-new-user/create-new-user.component */ "./src/app/admin/create-new-user/create-new-user.component.ts");
+/* harmony import */ var _share_report_share_report_component__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./share-report/share-report.component */ "./src/app/admin/share-report/share-report.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -439,7 +447,8 @@ var AdminModule = /** @class */ (function () {
                 _create_new_report_create_new_report_component__WEBPACK_IMPORTED_MODULE_24__["CreateNewReportComponent"],
                 _create_new_datarule_create_new_datarule_component__WEBPACK_IMPORTED_MODULE_25__["CreateNewDataruleComponent"],
                 _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_26__["CreateNewUserComponent"],
-                _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_26__["NewUserOrganizationConfirmation"]
+                _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_26__["NewUserOrganizationConfirmation"],
+                _share_report_share_report_component__WEBPACK_IMPORTED_MODULE_27__["ShareReportComponent"]
             ],
             imports: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["CommonModule"], _admin_routing_module__WEBPACK_IMPORTED_MODULE_7__["AdminRoutingModule"], _angular_material_angular_material_module__WEBPACK_IMPORTED_MODULE_6__["AngularMaterialModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_18__["FormsModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_18__["ReactiveFormsModule"]],
             entryComponents: [_create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_26__["NewUserOrganizationConfirmation"]],
@@ -459,7 +468,7 @@ var AdminModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"breadcrumb-container\">\n    <div class=\"breadcrumb\"> <span class=\"active\"><i class=\"material-icons\">\n        assessment </i> Report List</span></div>\n  </div>\n\n  <div class=\"main-content-view\">\n      <app-report-list [reports] = \"reports\" (reportID)=\"goToReport($event)\" style=\"display:flex; width: 100%; margin-bottom: 10px;\"></app-report-list>\n\n  </div>\n"
+module.exports = "<div class=\"breadcrumb-container\">\n    <div class=\"breadcrumb\"> <span class=\"active\"><i class=\"material-icons\">\n        assessment </i> Report List</span></div>\n  </div>\n\n  <div class=\"main-content-view\">\n      <app-report-list [reports] = \"reports\" [allowAdd]=true (reportID)=\"goToReport($event)\" style=\"display:flex; width: 100%; margin-bottom: 10px;\"></app-report-list>\n\n  </div>\n"
 
 /***/ }),
 
@@ -1221,7 +1230,7 @@ var CreateNewOrganizationComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"form-container\">\n  <div class=\"card\">\n    <div class=\"form\">\n        <h2 class=\"title\"> Create New Report</h2>\n        <hr>\n      <mat-horizontal-stepper #stepper>\n        <!-- First Step -->\n        <mat-step [stepControl]=\"orgForm\" *ngIf=\"orgForm\">\n          <form [formGroup]=\"orgForm\">\n\n            <div class=\"row\">\n              <h4 class=\"input-header\"> Please select organization for new report <i class=\"material-icons info-icon\">\n                  info\n                </i></h4>\n              <i class=\"material-icons form-icon\">\n                business\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label>Select Organization</mat-label>\n                <mat-select formControlName=\"organization\">\n                  <mat-option (click)=\"selectOrg()\" *ngFor=\"let organization of organizations\" value=\"{{organization.id}}\">{{organization.name}}</mat-option>\n                </mat-select>\n                <mat-error>\n                  Organization is <strong>required</strong>\n                </mat-error>\n              </mat-form-field>\n            </div>\n            <div class=\"row\">\n\n              <p class=\"create-new-text\">Organization not on the list? <span class=\"create-new-button\">Create New Organization </span></p>\n            </div>\n            <div class=\"buttons\">\n              <button mat-button type='button'>Cancel</button>\n              <button mat-button type='button' mat-flat-button class=\"done primary\" [disabled]=\"!orgForm.valid\" [ngClass]=\"{'button-disabled': !orgForm.valid}\" matStepperNext >Next</button>\n            </div>\n          </form>\n        </mat-step>\n        <!-- Second Step -->\n        <mat-step *ngIf=\"orgForm && selectedOrg\">\n          <form>\n            <div class=\"row\">\n              <h4 class=\"input-header\"> New Report for {{selectedOrg.name}} <i class=\"material-icons info-icon\">\n                  info\n                </i></h4>\n            </div>\n            <div class=\"row\" style=\"display:flex\">\n              <div style=\"text-align: center; width: 50%\">\n                <button mat-fab class=\"new-report-fab plain\" (click)=\"selectStep(2)\"><i class=\"material-icons\">\n                    edit\n                  </i></button>\n                <p class=\"new-report-choice-text\">Create New Report</p>\n              </div>\n              <div style=\"text-align: center ; width: 50%\">\n                <button class=\"new-report-fab plain\" (click)=\"selectStep(3)\" mat-fab><i class=\"material-icons\">\n                    share\n                  </i> </button>\n                <p class=\"new-report-choice-text\">Share Existing Report</p>\n              </div>\n            </div>\n            <div class=\"buttons\">\n              <button mat-button matStepperPrevious>Cancel</button><button class=\"done\" mat-flat-button>Next</button>\n            </div>\n          </form>\n        </mat-step>\n        <!-- 3rd CREATE NEW -->\n        <mat-step [stepControl]=\"reportInfoForm\" *ngIf=\"reportInfoForm && selectedOrg\">\n          <form [formGroup]=\"reportInfoForm\">\n\n            <div class=\"row\">\n              <h4 class=\"input-header\">New Report for {{selectedOrg.name}} </h4>\n              <h4 class=\"input-header\">Please enter report information</h4>\n            </div>\n            <div class=\"row\">\n              <i class=\"material-icons form-icon\">\n                assessment\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label>Report Name</mat-label>\n                <input formControlName=\"name\" matInput placeholder=\"Report Name\">\n                <mat-error>\n                  Report name is <strong>required</strong>\n                </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <div class=\"row\">\n              <i class=\"material-icons form-icon\">\n                link\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label>Data Studio Link</mat-label>\n                <input formControlName=\"datastudioLink\" matInput placeholder=\"Data Studio Link\">\n                <mat-error>\n                  Data Studio Link is <strong>required</strong>\n                </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <div class=\"row\">\n              <i class=\"material-icons form-icon\">\n                class\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label>Data Studio ID</mat-label>\n                <input formControlName=\"datastudioId\" matInput placeholder=\"Data Studio ID\">\n                <mat-error>\n                  Data Studio ID is <strong>required</strong>\n                </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <div class=\"row\">\n              <i class=\"material-icons form-icon\">\n                storage\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label>Data Source(s)</mat-label>\n                <mat-select formControlName=\"datasources\" multiple>\n                  <mat-option *ngFor=\"let datasource of datasources\" value=\"{{datasource.id}}\">{{datasource.name}}</mat-option>\n                </mat-select>\n                <mat-error>\n                  At least one data source is <strong>required</strong>\n                </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <div class=\"buttons\">\n              <button mat-button type='button' (click)=\"selectStep(1)\">Cancel</button>\n              <button mat-button type='button' mat-flat-button class=\"done primary\" [disabled]=\"!reportInfoForm.valid\" [ngClass]=\"{'button-disabled': !reportInfoForm.valid}\">Done</button>\n            </div>\n          </form>\n        </mat-step>\n        <!-- ***** 4th step: Selecting from list-->\n        <mat-step *ngIf=\"reports && selectedOrg\">\n          <!-- selecting report -->\n          <form>\n            <div class=\"row\">\n              <h4 class=\"input-header\"> Please Select a report to share to {{selectedOrg.name}}  </h4>\n            </div>\n            <div class=\"main-content-view\" style=\"padding:0\">\n              <app-report-list [reports]=\"reports\" (reportID)=\"selectReport($event)\" style=\"display:flex; width: 100%; margin-bottom: 10px;\"></app-report-list>\n            </div>\n            <div class=\"buttons\">\n              <button mat-button (click)=\"selectStep(1)\">Cancel</button><button [disabled]=\"!selectedReport\" [ngClass]=\"{'button-disabled': !selectedReport}\" (click)=\"selectStep(4)\"class=\"done primary\" mat-flat-button>Next</button>\n            </div>\n          </form>\n        </mat-step>\n\n        <mat-step *ngIf=\"selectedReport && selectedOrg\">\n          <form *ngIf=\"selectedReport\">\n\n            <div class=\"row\">\n              <h4 class=\"input-header\">New Report for {{selectedOrg.name}}</h4>\n            </div>\n            <div class=\"row\">\n              <p style=\"margin:0\">This report is currently being used by \"2\" other organizations:</p>\n              <ul>\n                <li>\n                  Org 1\n                </li>\n                <li>\n                  Org 2\n                </li>\n              </ul>\n            </div>\n            <div class=\"main-content-view\" style=\"padding:0\">\n              <div style=\"max-width:700px; width: 100%; margin-bottom: 10px;\">\n                <div class=\"list\">\n                  <div class=\"card\">\n                    <div class=\"container\">\n                      <h4 class=\"title\"><strong> {{selectedReport.name}}</strong></h4>\n                      <p class=\"secondary\">{{selectedReport.organization.name}}</p>\n                      <p class=\"content\"> {{selectedReport.date | date}} </p>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"buttons\">\n              <button mat-button matStepperPrevious>Cancel</button><button class=\"done primary\" mat-flat-button>Done</button>\n            </div>\n          </form>\n        </mat-step>\n      </mat-horizontal-stepper>\n\n\n\n\n\n\n\n\n\n\n\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"form-container\">\n  <div class=\"card\">\n    <div class=\"form\">\n        <h2 class=\"title\"> Create New Report</h2>\n        <hr>\n      <mat-horizontal-stepper #stepper>\n        <!-- First Step -->\n        <mat-step [stepControl]=\"orgForm\" *ngIf=\"orgForm && !organizationID\">\n          <form [formGroup]=\"orgForm\">\n\n            <div class=\"row\">\n              <h4 class=\"input-header\"> Please select organization for new report <i class=\"material-icons info-icon\">\n                  info\n                </i></h4>\n              <i class=\"material-icons form-icon\">\n                business\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label>Select Organization</mat-label>\n                <mat-select formControlName=\"organization\">\n                  <mat-option (click)=\"selectOrg()\" *ngFor=\"let organization of organizations\" value=\"{{organization.id}}\">{{organization.name}}</mat-option>\n                </mat-select>\n                <mat-error>\n                  Organization is <strong>required</strong>\n                </mat-error>\n              </mat-form-field>\n            </div>\n            <div class=\"row\">\n\n              <p class=\"create-new-text\">Organization not on the list? <span class=\"create-new-button\">Create New Organization </span></p>\n            </div>\n            <div class=\"buttons\">\n              <button mat-button type='button' routerLink=\"../\">Cancel</button>\n              <button mat-button type='button' mat-flat-button class=\"done primary\" [disabled]=\"!orgForm.valid\" [ngClass]=\"{'button-disabled': !orgForm.valid}\" matStepperNext >Next</button>\n            </div>\n          </form>\n        </mat-step>\n\n        <!-- 2nd -->\n        <mat-step [stepControl]=\"reportInfoForm\" *ngIf=\"reportInfoForm && selectedOrg || reportInfoForm && organizationID\">\n          <form [formGroup]=\"reportInfoForm\" (ngSubmit)=\"onSubmit()\" >\n            <div class=\"row\">\n              <h4 class=\"input-header\">New Report for {{selectedOrg.name}} </h4>\n              <h4 class=\"input-header\">Please enter report information</h4>\n            </div>\n            <div class=\"row\">\n              <i class=\"material-icons form-icon\">\n                assessment\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label>Report Name</mat-label>\n                <input formControlName=\"name\" matInput placeholder=\"Report Name\">\n                <mat-error>\n                  Report name is <strong>required</strong>\n                </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <div class=\"row\">\n              <i class=\"material-icons form-icon\">\n                link\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label>Data Studio Link</mat-label>\n                <input formControlName=\"datastudioLink\" matInput placeholder=\"Data Studio Link\">\n                <mat-error>\n                  Data Studio Link is <strong>required</strong>\n                </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <div class=\"row\">\n              <i class=\"material-icons form-icon\">\n                class\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label>Data Studio ID</mat-label>\n                <input formControlName=\"datastudioId\" matInput placeholder=\"Data Studio ID\">\n                <mat-error>\n                  Data Studio ID is <strong>required</strong>\n                </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <div class=\"row\">\n              <i class=\"material-icons form-icon\">\n                storage\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label>Data Source(s)</mat-label>\n                <mat-select formControlName=\"datasources\" multiple>\n                  <mat-option *ngFor=\"let datasource of datasources\" value=\"{{datasource.id}}\">{{datasource.name}}</mat-option>\n                </mat-select>\n                <mat-error>\n                  At least one data source is <strong>required</strong>\n                </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <div class=\"buttons\">\n              <button mat-button type='button' *ngIf=\"!organizationID\" (click)=\"selectStep(0)\">Back</button>\n              <button mat-button type='button'  *ngIf=\"organizationID\"  routerLink=\"../\">Back</button>\n              <button mat-button type='submit' mat-flat-button class=\"done primary\" [disabled]=\"!reportInfoForm.valid\" [ngClass]=\"{'button-disabled': !reportInfoForm.valid}\">Done</button>\n            </div>\n          </form>\n        </mat-step>\n      </mat-horizontal-stepper>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -1247,12 +1256,11 @@ module.exports = ".create-new-button:hover {\n  cursor: pointer; }\n\n::ng-deep 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CreateNewReportComponent", function() { return CreateNewReportComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var src_app_shared_services_report_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/shared/services/report.service */ "./src/app/shared/services/report.service.ts");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var src_app_shared_services_organization_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/shared/services/organization.service */ "./src/app/shared/services/organization.service.ts");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var src_app_shared_services_datarules_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/shared/services/datarules.service */ "./src/app/shared/services/datarules.service.ts");
-/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var src_app_shared_services_organization_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/shared/services/organization.service */ "./src/app/shared/services/organization.service.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var src_app_shared_services_datarules_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/shared/services/datarules.service */ "./src/app/shared/services/datarules.service.ts");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1303,57 +1311,55 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
-
 var CreateNewReportComponent = /** @class */ (function () {
-    function CreateNewReportComponent(route, router, reportService, organizationService, formBuilder, datarulesService) {
+    function CreateNewReportComponent(route, router, organizationService, formBuilder, datarulesService) {
         this.route = route;
         this.router = router;
-        this.reportService = reportService;
         this.organizationService = organizationService;
         this.formBuilder = formBuilder;
         this.datarulesService = datarulesService;
     }
     CreateNewReportComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, _b, _c, error_1;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
+            var _this = this;
+            var _a, _b, error_1;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
-                        _d.trys.push([0, 4, , 5]);
+                        _c.trys.push([0, 3, , 4]);
                         _a = this;
-                        return [4 /*yield*/, this.reportService.getReportByOrganization('orgID')];
-                    case 1:
-                        _a.reports = _d.sent();
-                        _b = this;
                         return [4 /*yield*/, this.organizationService.getAllOrganizationsWithNoDetails()];
-                    case 2:
-                        _b.organizations = _d.sent();
-                        _c = this;
+                    case 1:
+                        _a.organizations = _c.sent();
+                        _b = this;
                         return [4 /*yield*/, this.datarulesService.getAllDataSourceForOrganization('id')];
-                    case 3:
-                        _c.datasources = _d.sent();
+                    case 2:
+                        _b.datasources = _c.sent();
                         this.orgForm = this.formBuilder.group({
-                            organization: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required]
+                            organization: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required]
                         });
                         this.reportInfoForm = this.formBuilder.group({
-                            name: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required],
-                            datastudioLink: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required],
-                            datastudioId: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required],
-                            datasources: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required]
+                            name: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
+                            datastudioLink: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
+                            datastudioId: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
+                            datasources: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required]
                         });
-                        return [3 /*break*/, 5];
-                    case 4:
-                        error_1 = _d.sent();
+                        this.sub = this.route.params.subscribe(function (params) {
+                            _this.organizationID = params['id'];
+                            if (_this.organizationID) {
+                                _this.selectedOrg = _this.organizations.find(function (org) {
+                                    return org.id === _this.organizationID;
+                                });
+                            }
+                        });
+                        return [3 /*break*/, 4];
+                    case 3:
+                        error_1 = _c.sent();
                         console.log(error_1);
-                        return [3 /*break*/, 5];
-                    case 5: return [2 /*return*/];
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
-        });
-    };
-    CreateNewReportComponent.prototype.selectReport = function (id) {
-        this.selectedReport = this.reports.find(function (report) {
-            return report.id === id;
         });
     };
     CreateNewReportComponent.prototype.selectStep = function (id) {
@@ -1365,9 +1371,27 @@ var CreateNewReportComponent = /** @class */ (function () {
             return org.id === _this.orgForm.value.organization;
         });
     };
+    CreateNewReportComponent.prototype.onSubmit = function () {
+        var organization;
+        if (this.organizationID) {
+            organization = this.organizationID;
+        }
+        else {
+            organization = this.orgForm.value.organization;
+        }
+        var rForm = this.reportInfoForm.value;
+        var report = {
+            name: rForm.name,
+            datastudioLink: rForm.datastudioLink,
+            datastudioId: rForm.datastudioId,
+            datasources: rForm.datasources,
+            organization: organization
+        };
+        console.log(report);
+    };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('stepper'),
-        __metadata("design:type", _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatStepper"])
+        __metadata("design:type", _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatStepper"])
     ], CreateNewReportComponent.prototype, "stepper", void 0);
     CreateNewReportComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1375,12 +1399,11 @@ var CreateNewReportComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./create-new-report.component.html */ "./src/app/admin/create-new-report/create-new-report.component.html"),
             styles: [__webpack_require__(/*! ./create-new-report.component.scss */ "./src/app/admin/create-new-report/create-new-report.component.scss")]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
-            src_app_shared_services_report_service__WEBPACK_IMPORTED_MODULE_1__["ReportService"],
-            src_app_shared_services_organization_service__WEBPACK_IMPORTED_MODULE_3__["OrganizationService"],
-            _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormBuilder"],
-            src_app_shared_services_datarules_service__WEBPACK_IMPORTED_MODULE_5__["DatarulesService"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
+            src_app_shared_services_organization_service__WEBPACK_IMPORTED_MODULE_2__["OrganizationService"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"],
+            src_app_shared_services_datarules_service__WEBPACK_IMPORTED_MODULE_4__["DatarulesService"]])
     ], CreateNewReportComponent);
     return CreateNewReportComponent;
 }());
@@ -1396,7 +1419,7 @@ var CreateNewReportComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"form-container\">\n  <div class=\"card\">\n    <div class=\"form\">\n      <h2 class=\"title\"> Create New User</h2>\n      <hr>\n      <mat-horizontal-stepper linear #stepper *ngIf=\"firstFormGroup && secondFormGroup\">\n        <!-- First Step-->\n        <mat-step [stepControl]=\"firstFormGroup\">\n            <form [formGroup]=\"firstFormGroup\">\n              <ng-template matStepLabel>Fill out your name</ng-template>\n              <div class=\"row\">\n                <h4 class=\"input-header\"> Please select role for new user <i class=\"material-icons info-icon\">\n                    info\n                  </i></h4>\n                <i class=\"material-icons form-icon\">\n                  business\n                </i>\n                <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                  <mat-label>Role</mat-label>\n                  <mat-select formControlName=\"role\" [(value)]=\"roleSelected\" >\n                    <mat-option value=\"admin\" (click)=\"checkRole()\">Admin</mat-option>\n                    <mat-option value=\"viewer\" (click)=\"checkRole()\">Viewer</mat-option>\n                  </mat-select>\n                  <mat-error>\n                      Role is <strong>required</strong>\n                    </mat-error>\n                </mat-form-field>\n              </div>\n              <div class=\"row\" *ngIf=\"roleSelected === 'viewer'\">\n                <h4 class=\"input-header\"> Please select organization(s) for new user <i class=\"material-icons info-icon\">\n                    info\n                  </i></h4>\n                <i class=\"material-icons form-icon\">\n                  business\n                </i>\n                <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                  <mat-label>Select Organization(s)</mat-label>\n                  <mat-select  formControlName=\"organizations\" [(value)]=\"selectedOrganizationIds\" multiple>\n                    <mat-option *ngFor=\"let organization of organizations\" value=\"{{organization.id}}\">{{organization.name}}</mat-option>\n                  </mat-select>\n                  <mat-error>\n                      Organization is <strong>required</strong>\n                    </mat-error>\n                </mat-form-field>\n                <p class=\"create-new-text\">Organization not on the list? <span class=\"create-new-button\" routerLink=\"/admin/o/new-organization\">Create\n                    New Organization </span></p>\n              </div>\n              <div class=\"buttons\">\n                <button mat-button type='button'>Back</button>\n                <button mat-button type='button' mat-flat-button class=\"done primary\" [disabled]=\"!firstFormGroup.valid\" [ngClass]=\"{'button-disabled': !firstFormGroup.valid}\" (click)=\"openDialog()\">Next</button>\n              </div>\n            </form>\n        </mat-step>\n        <!-- Second Step-->\n        <mat-step [stepControl]=\"secondFormGroup\">\n          <form [formGroup]=\"secondFormGroup\" (ngSubmit)=\"onSubmit()\">\n            <p class=\"description\" *ngIf=\"roleSelected === 'admin'\"> New Admin user</p>\n            <p class=\"description\" *ngIf=\"roleSelected === 'viewer'\"> New Viewer for <span *ngFor=\"let org of selectedOrganizationNames; let i = index\">{{org.name}}<span *ngIf=\"i < selectedOrganizationNames.length - 1\">,</span>&nbsp;</span></p>\n            <h4 class=\"input-header\"> Please enter user information </h4>\n            <div class=\"row\">\n              <i class=\"material-icons form-icon\">\n                  person_outline\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label   >First Name</mat-label>\n                <input formControlName=\"firstName\" matInput placeholder=\"\">\n                <mat-error>\n                  First Name is <strong>required</strong>\n                </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <div class=\"row\">\n              <i class=\"material-icons form-icon\">\n                person_outline\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label >Last Name</mat-label>\n                <input formControlName=\"lastName\" matInput placeholder=\"\">\n                <mat-error>\n                  Last Name is <strong>required</strong>\n                </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <div class=\"row\">\n              <i class=\"material-icons form-icon\">\n                email\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label>Email</mat-label>\n                <input  type=\"email\" formControlName=\"email\" matInput placeholder=\"\">\n                <mat-error *ngIf=\"secondFormGroup?.controls.email?.errors?.required \">\n                  Email is <strong>required</strong>\n                </mat-error>\n                <mat-error *ngIf=\"secondFormGroup?.controls.email?.errors?.email \">\n                 Must be in email format\n                </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <div class=\"row\" *ngIf=\"allowSecondaryEmail\">\n              <i class=\"material-icons form-icon\">\n                alternate_email\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label  >Secondary Email</mat-label>\n                <input formControlName=\"secondaryEmail\" type=\"email\" matInput placeholder=\"\">\n                <mat-hint>Not Required</mat-hint>\n                <mat-error *ngIf=\"secondFormGroup?.controls.secondaryEmail?.errors?.email \">\n                  Must be in email format\n                 </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <p class=\"add-row\"  *ngIf=\"!allowSecondaryEmail\" (click)=\"addSecondaryEmail()\">+ Add secondary email</p>\n\n            <div class=\"buttons\">\n              <button mat-button matStepperPrevious type=\"button\">Cancel</button>\n              <button class=\"done primary\" mat-flat-button  [disabled]=\"!secondFormGroup.valid\" [ngClass]=\"{'button-disabled': !secondFormGroup.valid}\" type=\"submit\">Done</button>\n            </div>\n          </form>\n        </mat-step>\n      </mat-horizontal-stepper>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"form-container\">\n  <div class=\"card\">\n    <div class=\"form\">\n      <h2 class=\"title\"> Create New User</h2>\n      <hr>\n      <mat-horizontal-stepper linear #stepper *ngIf=\"firstFormGroup && secondFormGroup\">\n        <!-- First Step-->\n        <mat-step [stepControl]=\"firstFormGroup\">\n            <form [formGroup]=\"firstFormGroup\">\n              <ng-template matStepLabel>Fill out your name</ng-template>\n              <div class=\"row\">\n                <h4 class=\"input-header\"> Please select role for new user <i class=\"material-icons info-icon\">\n                    info\n                  </i></h4>\n                <i class=\"material-icons form-icon\">\n                  business\n                </i>\n                <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                  <mat-label>Role</mat-label>\n                  <mat-select formControlName=\"role\" [(value)]=\"roleSelected\" >\n                    <mat-option value=\"admin\" (click)=\"checkRole()\">Admin</mat-option>\n                    <mat-option value=\"viewer\" (click)=\"checkRole()\">Viewer</mat-option>\n                  </mat-select>\n                  <mat-error>\n                      Role is <strong>required</strong>\n                    </mat-error>\n                </mat-form-field>\n              </div>\n              <div class=\"row\" *ngIf=\"roleSelected === 'viewer'\">\n                <h4 class=\"input-header\"> Please select organization(s) for new user <i class=\"material-icons info-icon\">\n                    info\n                  </i></h4>\n                <i class=\"material-icons form-icon\">\n                  business\n                </i>\n                <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                  <mat-label>Select Organization(s)</mat-label>\n                  <mat-select  formControlName=\"organizations\" [(value)]=\"selectedOrganizationIds\" multiple>\n                    <mat-option *ngFor=\"let organization of organizations\" value=\"{{organization.id}}\">{{organization.name}}</mat-option>\n                  </mat-select>\n                  <mat-error>\n                      Organization is <strong>required</strong>\n                    </mat-error>\n                </mat-form-field>\n                <p class=\"create-new-text\">Organization not on the list? <span class=\"create-new-button\" routerLink=\"/admin/o/new-organization\">Create\n                    New Organization </span></p>\n              </div>\n              <div class=\"buttons\">\n                <button mat-button type='button'  routerLink=\"../\">Cancel</button>\n                <button mat-button type='button' mat-flat-button class=\"done primary\" [disabled]=\"!firstFormGroup.valid\" [ngClass]=\"{'button-disabled': !firstFormGroup.valid}\" (click)=\"openDialog()\">Next</button>\n              </div>\n            </form>\n        </mat-step>\n        <!-- Second Step-->\n        <mat-step [stepControl]=\"secondFormGroup\">\n          <form [formGroup]=\"secondFormGroup\" (ngSubmit)=\"onSubmit()\">\n            <p class=\"description\" *ngIf=\"roleSelected === 'admin'\"> New Admin user</p>\n            <p class=\"description\" *ngIf=\"roleSelected === 'viewer'\"> New Viewer for <span *ngFor=\"let org of selectedOrganizationNames; let i = index\">{{org.name}}<span *ngIf=\"i < selectedOrganizationNames.length - 1\">,</span>&nbsp;</span></p>\n            <h4 class=\"input-header\"> Please enter user information </h4>\n            <div class=\"row\">\n              <i class=\"material-icons form-icon\">\n                  person_outline\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label   >First Name</mat-label>\n                <input formControlName=\"firstName\" matInput placeholder=\"\">\n                <mat-error>\n                  First Name is <strong>required</strong>\n                </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <div class=\"row\">\n              <i class=\"material-icons form-icon\">\n                person_outline\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label >Last Name</mat-label>\n                <input formControlName=\"lastName\" matInput placeholder=\"\">\n                <mat-error>\n                  Last Name is <strong>required</strong>\n                </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <div class=\"row\">\n              <i class=\"material-icons form-icon\">\n                email\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label>Email</mat-label>\n                <input  type=\"email\" formControlName=\"email\" matInput placeholder=\"\">\n                <mat-error *ngIf=\"secondFormGroup?.controls.email?.errors?.required \">\n                  Email is <strong>required</strong>\n                </mat-error>\n                <mat-error *ngIf=\"secondFormGroup?.controls.email?.errors?.email \">\n                 Must be in email format\n                </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <div class=\"row\" *ngIf=\"allowSecondaryEmail\">\n              <i class=\"material-icons form-icon\">\n                alternate_email\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label  >Secondary Email</mat-label>\n                <input formControlName=\"secondaryEmail\" type=\"email\" matInput placeholder=\"\">\n                <mat-hint>Not Required</mat-hint>\n                <mat-error *ngIf=\"secondFormGroup?.controls.secondaryEmail?.errors?.email \">\n                  Must be in email format\n                 </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <p class=\"add-row\"  *ngIf=\"!allowSecondaryEmail\" (click)=\"addSecondaryEmail()\">+ Add secondary email</p>\n\n            <div class=\"buttons\">\n              <button mat-button matStepperPrevious type=\"button\">Back</button>\n              <button class=\"done primary\" mat-flat-button  [disabled]=\"!secondFormGroup.valid\" [ngClass]=\"{'button-disabled': !secondFormGroup.valid}\" type=\"submit\">Done</button>\n            </div>\n          </form>\n        </mat-step>\n      </mat-horizontal-stepper>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -1422,10 +1445,11 @@ module.exports = ".create-new-button:hover {\n  cursor: pointer; }\n\n::ng-deep 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CreateNewUserComponent", function() { return CreateNewUserComponent; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NewUserOrganizationConfirmation", function() { return NewUserOrganizationConfirmation; });
-/* harmony import */ var _shared_services_organization_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/services/organization.service */ "./src/app/shared/services/organization.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _shared_services_organization_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../shared/services/organization.service */ "./src/app/shared/services/organization.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1477,15 +1501,18 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 var CreateNewUserComponent = /** @class */ (function () {
-    function CreateNewUserComponent(organizationService, formBuilder, dialog) {
+    function CreateNewUserComponent(organizationService, formBuilder, dialog, route) {
         this.organizationService = organizationService;
         this.formBuilder = formBuilder;
         this.dialog = dialog;
+        this.route = route;
         this.allowSecondaryEmail = false;
     }
     CreateNewUserComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             var _a, error_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
@@ -1496,13 +1523,16 @@ var CreateNewUserComponent = /** @class */ (function () {
                     case 1:
                         _a.organizations = _b.sent();
                         this.firstFormGroup = this.formBuilder.group({
-                            role: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]
+                            role: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required]
                         });
                         this.secondFormGroup = this.formBuilder.group({
-                            firstName: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
-                            lastName: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
-                            email: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].email]],
-                            secondaryEmail: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].email]
+                            firstName: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
+                            lastName: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
+                            email: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].email]],
+                            secondaryEmail: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].email]
+                        });
+                        this.sub = this.route.params.subscribe(function (params) {
+                            _this.organizationID = params['id'];
                         });
                         return [3 /*break*/, 3];
                     case 2:
@@ -1519,7 +1549,7 @@ var CreateNewUserComponent = /** @class */ (function () {
             this.firstFormGroup.removeControl('organizations');
         }
         if (this.roleSelected === 'viewer') {
-            this.firstFormGroup.addControl('organizations', new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required));
+            this.firstFormGroup.addControl('organizations', new _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormControl"]('', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required));
         }
     };
     /**
@@ -1563,18 +1593,19 @@ var CreateNewUserComponent = /** @class */ (function () {
         this.allowSecondaryEmail = true;
     };
     __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('stepper'),
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ViewChild"])('stepper'),
         __metadata("design:type", Object)
     ], CreateNewUserComponent.prototype, "stepper", void 0);
     CreateNewUserComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
             selector: 'app-create-new-user',
             template: __webpack_require__(/*! ./create-new-user.component.html */ "./src/app/admin/create-new-user/create-new-user.component.html"),
             styles: [__webpack_require__(/*! ./create-new-user.component.scss */ "./src/app/admin/create-new-user/create-new-user.component.scss")]
         }),
-        __metadata("design:paramtypes", [_shared_services_organization_service__WEBPACK_IMPORTED_MODULE_0__["OrganizationService"],
-            _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"],
-            _angular_material__WEBPACK_IMPORTED_MODULE_3__["MatDialog"]])
+        __metadata("design:paramtypes", [_shared_services_organization_service__WEBPACK_IMPORTED_MODULE_1__["OrganizationService"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"],
+            _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatDialog"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_0__["ActivatedRoute"]])
     ], CreateNewUserComponent);
     return CreateNewUserComponent;
 }());
@@ -1588,12 +1619,12 @@ var NewUserOrganizationConfirmation = /** @class */ (function () {
         this.dialogRef.close();
     };
     NewUserOrganizationConfirmation = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
             selector: 'new-user-organization-confirmation',
             template: __webpack_require__(/*! ./new-user-organization-confirmation.html */ "./src/app/admin/create-new-user/new-user-organization-confirmation.html")
         }),
-        __param(1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"])(_angular_material__WEBPACK_IMPORTED_MODULE_3__["MAT_DIALOG_DATA"])),
-        __metadata("design:paramtypes", [_angular_material__WEBPACK_IMPORTED_MODULE_3__["MatDialogRef"], Object])
+        __param(1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Inject"])(_angular_material__WEBPACK_IMPORTED_MODULE_4__["MAT_DIALOG_DATA"])),
+        __metadata("design:paramtypes", [_angular_material__WEBPACK_IMPORTED_MODULE_4__["MatDialogRef"], Object])
     ], NewUserOrganizationConfirmation);
     return NewUserOrganizationConfirmation;
 }());
@@ -1620,7 +1651,7 @@ module.exports = "<div class=\"dialog\" *ngIf=\"data.role === 'viewer'\">\r\n  <
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"organization != null\">\r\n  <div class=\"breadcrumb-container\">\r\n    <div> <span routerLink=\"../\"><i class=\"material-icons\"> business </i> Organization List </span> &nbsp;&nbsp; <i class=\"material-icons arrow\">\r\n        keyboard_arrow_right </i> <i style=\"margin-left: -14px\" class=\"material-icons arrow\"> keyboard_arrow_right </i>&nbsp;&nbsp; <span\r\n        class=\"active\">{{organization.name}}\r\n      </span> </div>\r\n  </div>\r\n\r\n  <div class=\"main-content-view\">\r\n    <div class=\"full-content-view\">\r\n      <div class=\"details\">\r\n        <div class=\"card\">\r\n          <div class=\"more-button\">\r\n            <button mat-icon-button [matMenuTriggerFor]=\"menu\">\r\n              <mat-icon color=\"more-color\">more_vert</mat-icon>\r\n            </button>\r\n\r\n            <mat-menu #menu=\"matMenu\">\r\n              <button mat-menu-item>Edit</button>\r\n              <button mat-menu-item>Delete</button>\r\n            </mat-menu>\r\n          </div>\r\n          <div class=\"container\">\r\n            <h2 class=\"title\">{{organization.name}}</h2>\r\n            <h4 class=\"secondary\"><span *ngFor=\"let category of organization.categories\">{{category}} &nbsp; </span> </h4>\r\n            <p class=\"stats\">\r\n              <span class=\"left\"><i class=\"material-icons\">\r\n                  assessment\r\n                </i> {{organization.reportsCount}} Reports</span>\r\n              <span class=\"middle\"> <i class=\"material-icons\">\r\n                  person_outline\r\n                </i>{{organization.usersCount}} Users</span>\r\n              <span class=\"right\"> <i class=\"material-icons\">\r\n                  dns\r\n                </i> {{organization.datarulesCount}} Data Rules</span>\r\n            </p>\r\n\r\n          </div>\r\n\r\n        </div>\r\n\r\n        <div class=\"tabs\">\r\n          <mat-tab-group (selectedIndexChange)=\"selected($event)\">\r\n            <mat-tab label=\"Reports\">\r\n              <app-report-list *ngIf=\"selectedTab === 0\" [reports]=\"reports\" (reportID)=\"goToReport($event)\" style=\"display:flex; width: 100%; margin-bottom: 10px;\"></app-report-list>\r\n            </mat-tab>\r\n            <mat-tab label=\"Users\">\r\n              <app-user-list *ngIf=\"selectedTab === 1\" [users]=\"users\" (userID)=\"goToUser($event)\" style=\"display:flex; width: 100%; margin-bottom: 10px;\"></app-user-list>\r\n            </mat-tab>\r\n            <mat-tab label=\"Data Rules\">\r\n              <div class=\"data-rules-section\" *ngIf=\"selectedTab === 2\">\r\n                <div class=\"left-main-content-view\">\r\n                  <mat-accordion *ngFor=\"let rule of rules | datarulesList : searchName : selectedDataSource : sortValue : pagination.currentPage; let i = index\">\r\n                    <mat-expansion-panel class=\"data-rules-card\">\r\n                      <mat-expansion-panel-header>\r\n                        <mat-panel-title>\r\n                          <h4 class=\"title\">{{rule.name}}</h4><br>\r\n                        </mat-panel-title>\r\n                        <mat-panel-description>\r\n                          <h5>{{rule.datasource.name}}</h5>\r\n                        </mat-panel-description>\r\n                      </mat-expansion-panel-header>\r\n                      <hr>\r\n                      <p>Created At: {{rule.date | date }}</p>\r\n                      <p>Identifier: {{rule.identifier}}</p>\r\n                      <p>Condition: {{rule.condition}}</p>\r\n                      <p>Token: {{rule.token}}</p>\r\n                      <div class=\"buttons\">\r\n                        <button mat-button color=\"danger\">Delete</button>\r\n                        <button mat-button color=\"primary\">Edit</button>\r\n                      </div>\r\n                    </mat-expansion-panel>\r\n                    <br>\r\n                  </mat-accordion>\r\n                  <p class=\"pagination\" *ngIf=\"this.pagination\" style=\"text-align: center\"> <button mat-mini-fab (click)=\"previousPage()\" color=\"white\"\r\n                    [disabled]=\"pagination.currentPage===1\"> <i class=\"material-icons\">\r\n                      chevron_left\r\n                    </i> </button>\r\n                  {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)=\"nextPage() \" [disabled]=\"pagination.currentPage === pagination.totalPages\"\r\n                    color=\"white\"> <i class=\"material-icons\">\r\n                      chevron_right\r\n                    </i> </button>\r\n                </p>\r\n                </div>\r\n                <div class=\"right-main-content-view\">\r\n                  <!-- Filters -->\r\n                  <div class=\"filter\">\r\n                    <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\r\n                      <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\r\n                      <p class=\"title\"> Filter by</p>\r\n                      <mat-form-field appearance=\"outline\" class=\"search\">\r\n                        <mat-label class=\"label-color\">Name</mat-label>\r\n                        <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\r\n                      </mat-form-field>\r\n                      <p class=\"title\"> Data Source</p>\r\n                      <mat-form-field appearance=\"outline\" class=\"select\">\r\n                        <mat-select formControlName=\"selectedDataSource\">\r\n                          <mat-option value=\"All\">All</mat-option>\r\n                          <mat-option *ngFor=\"let datasource of dataSources\" value=\"{{datasource.id}}\">{{datasource.name}}</mat-option>\r\n                        </mat-select>\r\n                      </mat-form-field>\r\n                      <br>\r\n                      <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\r\n                    </form>\r\n                  </div>\r\n                  <div class=\"sort\">\r\n                    <p class=\"title\"> Sort By</p>\r\n                    <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\r\n                      <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\r\n                        {{sort}}\r\n                      </mat-radio-button>\r\n                    </mat-radio-group>\r\n                  </div>\r\n                  <div class=\"add-button\">\r\n                    <button mat-fab class=\"button-fab\" color=\"primary-button\"> <i class=\"material-icons\">\r\n                        add\r\n                      </i></button>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </mat-tab>\r\n          </mat-tab-group>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div *ngIf=\"organization == null\">\r\n  <mat-spinner></mat-spinner>\r\n</div>\r\n"
+module.exports = "<div *ngIf=\"organization != null\">\r\n  <div class=\"breadcrumb-container\">\r\n    <div> <span routerLink=\"../\"><i class=\"material-icons\"> business </i> Organization List </span> &nbsp;&nbsp; <i class=\"material-icons arrow\">\r\n        keyboard_arrow_right </i> <i style=\"margin-left: -14px\" class=\"material-icons arrow\"> keyboard_arrow_right </i>&nbsp;&nbsp; <span\r\n        class=\"active\">{{organization.name}}\r\n      </span> </div>\r\n  </div>\r\n\r\n  <div class=\"main-content-view\">\r\n    <div class=\"full-content-view\">\r\n      <div class=\"details\">\r\n        <div class=\"card\">\r\n          <div class=\"more-button\">\r\n            <button mat-icon-button [matMenuTriggerFor]=\"menu\">\r\n              <mat-icon color=\"more-color\">more_vert</mat-icon>\r\n            </button>\r\n\r\n            <mat-menu #menu=\"matMenu\">\r\n              <button mat-menu-item>Edit</button>\r\n              <button mat-menu-item>Delete</button>\r\n            </mat-menu>\r\n          </div>\r\n          <div class=\"container\">\r\n            <h2 class=\"title\">{{organization.name}}</h2>\r\n            <h4 class=\"secondary\"><span *ngFor=\"let category of organization.categories\">{{category}} &nbsp; </span> </h4>\r\n            <p class=\"stats\">\r\n              <span class=\"left\"><i class=\"material-icons\">\r\n                  assessment\r\n                </i> {{organization.reportsCount}} Reports</span>\r\n              <span class=\"middle\"> <i class=\"material-icons\">\r\n                  person_outline\r\n                </i>{{organization.usersCount}} Users</span>\r\n              <span class=\"right\"> <i class=\"material-icons\">\r\n                  dns\r\n                </i> {{organization.datarulesCount}} Data Rules</span>\r\n            </p>\r\n\r\n          </div>\r\n\r\n        </div>\r\n\r\n        <div class=\"tabs\">\r\n          <mat-tab-group (selectedIndexChange)=\"selected($event)\">\r\n            <mat-tab label=\"Reports\">\r\n              <app-report-list [allowAdd]=true *ngIf=\"selectedTab === 0\" [reports]=\"reports\" (reportID)=\"goToReport($event)\" style=\"display:flex; width: 100%; margin-bottom: 10px;\"></app-report-list>\r\n            </mat-tab>\r\n            <mat-tab label=\"Users\">\r\n              <app-user-list *ngIf=\"selectedTab === 1\" [users]=\"users\" (userID)=\"goToUser($event)\" style=\"display:flex; width: 100%; margin-bottom: 10px;\"></app-user-list>\r\n            </mat-tab>\r\n            <mat-tab label=\"Data Rules\">\r\n              <div class=\"data-rules-section\" *ngIf=\"selectedTab === 2\">\r\n                <div class=\"left-main-content-view\">\r\n                  <mat-accordion *ngFor=\"let rule of rules | datarulesList : searchName : selectedDataSource : sortValue : pagination.currentPage; let i = index\">\r\n                    <mat-expansion-panel class=\"data-rules-card\">\r\n                      <mat-expansion-panel-header>\r\n                        <mat-panel-title>\r\n                          <h4 class=\"title\">{{rule.name}}</h4><br>\r\n                        </mat-panel-title>\r\n                        <mat-panel-description>\r\n                          <h5>{{rule.datasource.name}}</h5>\r\n                        </mat-panel-description>\r\n                      </mat-expansion-panel-header>\r\n                      <hr>\r\n                      <p>Created At: {{rule.date | date }}</p>\r\n                      <p>Identifier: {{rule.identifier}}</p>\r\n                      <p>Condition: {{rule.condition}}</p>\r\n                      <p>Token: {{rule.token}}</p>\r\n                      <div class=\"buttons\">\r\n                        <button mat-button color=\"danger\">Delete</button>\r\n                        <button mat-button color=\"primary\">Edit</button>\r\n                      </div>\r\n                    </mat-expansion-panel>\r\n                    <br>\r\n                  </mat-accordion>\r\n                  <p class=\"pagination\" *ngIf=\"this.pagination\" style=\"text-align: center\"> <button mat-mini-fab (click)=\"previousPage()\" color=\"white\"\r\n                    [disabled]=\"pagination.currentPage===1\"> <i class=\"material-icons\">\r\n                      chevron_left\r\n                    </i> </button>\r\n                  {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)=\"nextPage() \" [disabled]=\"pagination.currentPage === pagination.totalPages\"\r\n                    color=\"white\"> <i class=\"material-icons\">\r\n                      chevron_right\r\n                    </i> </button>\r\n                </p>\r\n                </div>\r\n                <div class=\"right-main-content-view\">\r\n                  <!-- Filters -->\r\n                  <div class=\"filter\">\r\n                    <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\r\n                      <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\r\n                      <p class=\"title\"> Filter by</p>\r\n                      <mat-form-field appearance=\"outline\" class=\"search\">\r\n                        <mat-label class=\"label-color\">Name</mat-label>\r\n                        <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\r\n                      </mat-form-field>\r\n                      <p class=\"title\"> Data Source</p>\r\n                      <mat-form-field appearance=\"outline\" class=\"select\">\r\n                        <mat-select formControlName=\"selectedDataSource\">\r\n                          <mat-option value=\"All\">All</mat-option>\r\n                          <mat-option *ngFor=\"let datasource of dataSources\" value=\"{{datasource.id}}\">{{datasource.name}}</mat-option>\r\n                        </mat-select>\r\n                      </mat-form-field>\r\n                      <br>\r\n                      <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\r\n                    </form>\r\n                  </div>\r\n                  <div class=\"sort\">\r\n                    <p class=\"title\"> Sort By</p>\r\n                    <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\r\n                      <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\r\n                        {{sort}}\r\n                      </mat-radio-button>\r\n                    </mat-radio-group>\r\n                  </div>\r\n                  <div class=\"add-button\">\r\n                    <button routerLink=\"../new-data-rule\" mat-fab class=\"button-fab\" color=\"primary-button\"> <i class=\"material-icons plus-icon\">\r\n                      add\r\n                    </i>\r\n                    <i class=\"material-icons back-icon\">\r\n                      dns\r\n                    </i></button>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </mat-tab>\r\n          </mat-tab-group>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div *ngIf=\"organization == null\">\r\n  <mat-spinner></mat-spinner>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1852,7 +1883,7 @@ var OrganizationDetailsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"breadcrumb-container\">\r\n  <div class=\"breadcrumb\"> <span class=\"active\"> <i class=\"material-icons\"> business </i> Organization List </span></div>\r\n</div>\r\n\r\n<div class=\"main-content-view\">\r\n  <div class=\"left-main-content-view\">\r\n    <div class=\"list\" *ngIf=\"pagination\">\r\n      <div *ngFor=\"let organization of organizations  |   orgList:  search: selectedCategories : sortValue: pagination.currentPage \" class=\"card\">\r\n        <div class=\"container\" (click)=\"goToDetails(organization.id)\">\r\n          <h2 class=\"title\">{{organization.name}}</h2>\r\n          <h4 class=\"secondary\"><span *ngFor=\"let category of organization.categories, let i = index\">{{category}}<span *ngIf=\"i < organization.categories.length -1\">,&nbsp;&nbsp;</span>\r\n            </span> </h4>\r\n          <p class=\"stats\">\r\n            <span class=\"left\"><i class=\"material-icons\">\r\n                assessment\r\n              </i> {{organization.reportsCount}} Reports</span>\r\n            <span class=\"middle\"> <i class=\"material-icons\">\r\n                person_outline\r\n              </i>{{organization.usersCount}} Users</span>\r\n            <span class=\"right\"> <i class=\"material-icons\">\r\n                dns\r\n              </i> {{organization.datarulesCount}} Data Rules</span>\r\n          </p>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <p class=\"pagination\" *ngIf=\"this.pagination\" style=\"text-align: center\"> <button mat-mini-fab (click)=\"previousPage()\" color=\"white\"\r\n      [disabled]=\"pagination.currentPage===1\"> <i class=\"material-icons\">\r\n        chevron_left\r\n      </i> </button>\r\n    {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)=\"nextPage() \" [disabled]=\"pagination.currentPage === pagination.totalPages\"\r\n      color=\"white\"> <i class=\"material-icons\">\r\n        chevron_right\r\n      </i> </button>\r\n  </p>\r\n  </div>\r\n  <div class=\"right-main-content-view\">\r\n    <div class=\"filter\" style=\"margin-top: 13px\">\r\n      <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\r\n        <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\r\n        <p class=\"title\"> Filter by</p>\r\n        <mat-form-field appearance=\"outline\" class=\"search\">\r\n          <mat-label class=\"label-color\">Name</mat-label>\r\n          <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\r\n        </mat-form-field>\r\n        <p class=\"title\"> Company Type</p>\r\n        <div class=\"checkbox\" *ngFor=\"let category of categories\">\r\n          <mat-checkbox value=\"{{category}}\" formControlName=\"{{category}}\">{{category}}</mat-checkbox>\r\n        </div>\r\n        <br>\r\n        <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\r\n      </form>\r\n    </div>\r\n\r\n    <div class=\"sort\">\r\n      <p class=\"title\"> Sort By</p>\r\n      <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\r\n        <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\r\n          {{sort}}\r\n        </mat-radio-button>\r\n      </mat-radio-group>\r\n    </div>\r\n\r\n    <div class=\"add-button\">\r\n      <button routerLink=\"../new-organization\" mat-fab class=\"button-fab\" color=\"primary-button\"> <i class=\"material-icons\">\r\n          add\r\n        </i></button>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"breadcrumb-container\">\r\n  <div class=\"breadcrumb\"> <span class=\"active\"> <i class=\"material-icons\"> business </i> Organization List </span></div>\r\n</div>\r\n\r\n<div class=\"main-content-view\">\r\n  <div class=\"left-main-content-view\">\r\n    <div class=\"list\" *ngIf=\"pagination\">\r\n      <div *ngFor=\"let organization of organizations  |   orgList:  search: selectedCategories : sortValue: pagination.currentPage \" class=\"card\">\r\n        <div class=\"container\" (click)=\"goToDetails(organization.id)\">\r\n          <h2 class=\"title\">{{organization.name}}</h2>\r\n          <h4 class=\"secondary\"><span *ngFor=\"let category of organization.categories, let i = index\">{{category}}<span *ngIf=\"i < organization.categories.length -1\">,&nbsp;&nbsp;</span>\r\n            </span> </h4>\r\n          <p class=\"stats\">\r\n            <span class=\"left\"><i class=\"material-icons\">\r\n                assessment\r\n              </i> {{organization.reportsCount}} Reports</span>\r\n            <span class=\"middle\"> <i class=\"material-icons\">\r\n                person_outline\r\n              </i>{{organization.usersCount}} Users</span>\r\n            <span class=\"right\"> <i class=\"material-icons\">\r\n                dns\r\n              </i> {{organization.datarulesCount}} Data Rules</span>\r\n          </p>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <p class=\"pagination\" *ngIf=\"this.pagination\" style=\"text-align: center\"> <button mat-mini-fab (click)=\"previousPage()\" color=\"white\"\r\n      [disabled]=\"pagination.currentPage===1\"> <i class=\"material-icons\">\r\n        chevron_left\r\n      </i> </button>\r\n    {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)=\"nextPage() \" [disabled]=\"pagination.currentPage === pagination.totalPages\"\r\n      color=\"white\"> <i class=\"material-icons\">\r\n        chevron_right\r\n      </i> </button>\r\n  </p>\r\n  </div>\r\n  <div class=\"right-main-content-view\">\r\n    <div class=\"filter\" style=\"margin-top: 13px\">\r\n      <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\r\n        <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\r\n        <p class=\"title\"> Filter by</p>\r\n        <mat-form-field appearance=\"outline\" class=\"search\">\r\n          <mat-label class=\"label-color\">Name</mat-label>\r\n          <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\r\n        </mat-form-field>\r\n        <p class=\"title\"> Company Type</p>\r\n        <div class=\"checkbox\" *ngFor=\"let category of categories\">\r\n          <mat-checkbox value=\"{{category}}\" formControlName=\"{{category}}\">{{category}}</mat-checkbox>\r\n        </div>\r\n        <br>\r\n        <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\r\n      </form>\r\n    </div>\r\n\r\n    <div class=\"sort\">\r\n      <p class=\"title\"> Sort By</p>\r\n      <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\r\n        <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\r\n          {{sort}}\r\n        </mat-radio-button>\r\n      </mat-radio-group>\r\n    </div>\r\n\r\n    <div class=\"add-button\">\r\n      <button routerLink=\"../new-organization\" mat-fab class=\"button-fab\" color=\"primary-button\"> <i class=\"material-icons plus-icon\">\r\n          add\r\n        </i>\r\n        <i class=\"material-icons back-icon\">\r\n          business\r\n        </i></button>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1863,7 +1894,7 @@ module.exports = "<div class=\"breadcrumb-container\">\r\n  <div class=\"breadcr
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ".plus-icon {\n  background-color: #0877c1;\n  position: relative;\n  top: 15px;\n  z-index: 20;\n  left: 30px;\n  font-size: 30px;\n  border-radius: 50%;\n  border: 4px solid white;\n  font-weight: normal; }\n\n.back-icon {\n  position: relative;\n  margin-left: -30px;\n  font-size: 55px;\n  color: #ffffff;\n  font-weight: normal;\n  right: 5px; }\n"
 
 /***/ }),
 
@@ -2120,6 +2151,179 @@ var OrganizationComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/admin/share-report/share-report.component.html":
+/*!****************************************************************!*\
+  !*** ./src/app/admin/share-report/share-report.component.html ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"form-container\">\n  <div class=\"card\">\n    <div class=\"form\">\n      <h2 class=\"title\"> Share Report</h2>\n      <hr>\n      <mat-horizontal-stepper #stepper>\n        <!-- First Step -->\n        <mat-step [stepControl]=\"orgForm\" *ngIf=\"orgForm\">\n          <form [formGroup]=\"orgForm\">\n\n            <div class=\"row\">\n              <h4 class=\"input-header\"> Please select organization to share report <i class=\"material-icons info-icon\">\n                  info\n                </i></h4>\n              <i class=\"material-icons form-icon\">\n                business\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label>Select Organization</mat-label>\n                <mat-select formControlName=\"organization\">\n                  <mat-option (click)=\"selectOrg()\" *ngFor=\"let organization of organizations\" value=\"{{organization.id}}\">{{organization.name}}</mat-option>\n                </mat-select>\n                <mat-error>\n                  Organization is <strong>required</strong>\n                </mat-error>\n              </mat-form-field>\n            </div>\n            <div class=\"row\">\n\n              <p class=\"create-new-text\">Organization not on the list? <span class=\"create-new-button\">Create New Organization </span></p>\n            </div>\n            <div class=\"buttons\">\n              <button mat-button type='button' routerLink=\"../\">Cancel</button>\n              <button mat-button type='button' mat-flat-button class=\"done primary\" [disabled]=\"!orgForm.valid\" [ngClass]=\"{'button-disabled': !orgForm.valid}\"\n                matStepperNext>Next</button>\n            </div>\n          </form>\n        </mat-step>\n        <!-- ***** 2nd step: Selecting from list-->\n        <mat-step *ngIf=\"reports && selectedOrg\">\n          <!-- selecting report -->\n          <form>\n            <div class=\"row\">\n              <h4 class=\"input-header\"> Please Select a report to share to {{selectedOrg.name}} </h4>\n            </div>\n            <div class=\"main-content-view\" style=\"padding:0\">\n              <app-report-list [reports]=\"reports\" [allowAdd]=false (reportID)=\"selectReport($event)\" style=\"display:flex; width: 100%; margin-bottom: 10px;\"></app-report-list>\n            </div>\n            <div class=\"buttons\">\n              <button mat-button matStepperPrevious>Cancel</button><button [disabled]=\"!selectedReport\" [ngClass]=\"{'button-disabled': !selectedReport}\"\n                (click)=\"selectStep(2)\" class=\"done primary\" mat-flat-button>Next</button>\n            </div>\n          </form>\n        </mat-step>\n\n        <mat-step *ngIf=\"selectedReport && selectedOrg\">\n          <form *ngIf=\"selectedReport\">\n\n            <div class=\"row\">\n              <h4 class=\"input-header\">New Report for {{selectedOrg.name}}</h4>\n            </div>\n            <div class=\"row\">\n              <p style=\"margin:0\">This report is currently being used by \"2\" other organizations:</p>\n              <ul>\n                <li>\n                  Org 1\n                </li>\n                <li>\n                  Org 2\n                </li>\n              </ul>\n            </div>\n            <div class=\"main-content-view\" style=\"padding:0\">\n              <div style=\"max-width:700px; width: 100%; margin-bottom: 10px;\">\n                <div class=\"list\">\n                  <div class=\"card\">\n                    <div class=\"container\">\n                      <h4 class=\"title\"><strong> {{selectedReport.name}}</strong></h4>\n                      <p class=\"secondary\">{{selectedReport.organization.name}}</p>\n                      <p class=\"content\"> {{selectedReport.date | date}} </p>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"buttons\">\n              <button mat-button matStepperPrevious>Cancel</button><button class=\"done primary\" mat-flat-button>Done</button>\n            </div>\n          </form>\n        </mat-step>\n      </mat-horizontal-stepper>\n    </div>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/admin/share-report/share-report.component.scss":
+/*!****************************************************************!*\
+  !*** ./src/app/admin/share-report/share-report.component.scss ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".create-new-button:hover {\n  cursor: pointer; }\n\n::ng-deep .mat-horizontal-stepper-header-container {\n  display: none !important; }\n"
+
+/***/ }),
+
+/***/ "./src/app/admin/share-report/share-report.component.ts":
+/*!**************************************************************!*\
+  !*** ./src/app/admin/share-report/share-report.component.ts ***!
+  \**************************************************************/
+/*! exports provided: ShareReportComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ShareReportComponent", function() { return ShareReportComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var src_app_shared_services_report_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/shared/services/report.service */ "./src/app/shared/services/report.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var src_app_shared_services_organization_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/shared/services/organization.service */ "./src/app/shared/services/organization.service.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var src_app_shared_services_datarules_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/shared/services/datarules.service */ "./src/app/shared/services/datarules.service.ts");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+
+
+
+
+
+
+
+var ShareReportComponent = /** @class */ (function () {
+    function ShareReportComponent(route, router, reportService, organizationService, formBuilder, datarulesService) {
+        this.route = route;
+        this.router = router;
+        this.reportService = reportService;
+        this.organizationService = organizationService;
+        this.formBuilder = formBuilder;
+        this.datarulesService = datarulesService;
+    }
+    ShareReportComponent.prototype.ngOnInit = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var _a, _b, _c, error_1;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        _d.trys.push([0, 4, , 5]);
+                        _a = this;
+                        return [4 /*yield*/, this.reportService.getReportByOrganization('orgID')];
+                    case 1:
+                        _a.reports = _d.sent();
+                        _b = this;
+                        return [4 /*yield*/, this.organizationService.getAllOrganizationsWithNoDetails()];
+                    case 2:
+                        _b.organizations = _d.sent();
+                        _c = this;
+                        return [4 /*yield*/, this.datarulesService.getAllDataSourceForOrganization('id')];
+                    case 3:
+                        _c.datasources = _d.sent();
+                        this.orgForm = this.formBuilder.group({
+                            organization: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required]
+                        });
+                        this.sub = this.route.params.subscribe(function (params) {
+                            _this.organizationID = params['id'];
+                        });
+                        return [3 /*break*/, 5];
+                    case 4:
+                        error_1 = _d.sent();
+                        console.log(error_1);
+                        return [3 /*break*/, 5];
+                    case 5: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ShareReportComponent.prototype.selectReport = function (id) {
+        this.selectedReport = this.reports.find(function (report) {
+            return report.id === id;
+        });
+    };
+    ShareReportComponent.prototype.selectStep = function (id) {
+        this.stepper.selectedIndex = id;
+    };
+    ShareReportComponent.prototype.selectOrg = function () {
+        var _this = this;
+        this.selectedOrg = this.organizations.find(function (org) {
+            return org.id === _this.orgForm.value.organization;
+        });
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('stepper'),
+        __metadata("design:type", _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatStepper"])
+    ], ShareReportComponent.prototype, "stepper", void 0);
+    ShareReportComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-share-report',
+            template: __webpack_require__(/*! ./share-report.component.html */ "./src/app/admin/share-report/share-report.component.html"),
+            styles: [__webpack_require__(/*! ./share-report.component.scss */ "./src/app/admin/share-report/share-report.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
+            src_app_shared_services_report_service__WEBPACK_IMPORTED_MODULE_1__["ReportService"],
+            src_app_shared_services_organization_service__WEBPACK_IMPORTED_MODULE_3__["OrganizationService"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormBuilder"],
+            src_app_shared_services_datarules_service__WEBPACK_IMPORTED_MODULE_5__["DatarulesService"]])
+    ], ShareReportComponent);
+    return ShareReportComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/admin/user-details/user-details.component.html":
 /*!****************************************************************!*\
   !*** ./src/app/admin/user-details/user-details.component.html ***!
@@ -2285,7 +2489,7 @@ var UserDetailsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"left-main-content-view\">\r\n  <div *ngIf=\"reports != null \">\r\n    <div class=\"list\">\r\n      <div *ngFor=\"let report of reports | reportList: searchName: selectedOrganization : sortValue :  pagination.currentPage\" class=\"card\">\r\n        <div class=\"container\" (click)=\"reportClicked(report.id)\">\r\n          <h4 class=\"title\"><strong> {{report.name}}</strong></h4>\r\n          <p class=\"secondary\">{{report.organization.name}}</p>\r\n          <p class=\"content\"> {{report.date | date}} </p>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <p class=\"pagination\" *ngIf=\"this.pagination\" style=\"text-align: center\"> <button mat-mini-fab (click)=\"previousPage()\" color=\"white\"\r\n    [disabled]=\"pagination.currentPage===1\"> <i class=\"material-icons\">\r\n      chevron_left\r\n    </i> </button>\r\n  {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)=\"nextPage() \" [disabled]=\"pagination.currentPage === pagination.totalPages\"\r\n    color=\"white\"> <i class=\"material-icons\">\r\n      chevron_right\r\n    </i> </button>\r\n</p>\r\n\r\n</div>\r\n<div class=\"right-main-content-view\" *ngIf=\"formInitialize\">\r\n  <div class=\"filter\">\r\n    <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\r\n      <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\r\n      <p class=\"title\"> Filter by</p>\r\n      <mat-form-field appearance=\"outline\" class=\"search\">\r\n        <mat-label class=\"label-color\">Name</mat-label>\r\n        <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\r\n      </mat-form-field>\r\n      <p class=\"title\" *ngIf=\"organizations.length > 1\"> Organization</p>\r\n      <mat-form-field appearance=\"outline\" class=\"select\" *ngIf=\"organizations.length > 1\">\r\n        <mat-select formControlName=\"selectedOrganization\">\r\n          <mat-option value=\"All\">All</mat-option>\r\n          <mat-option *ngFor=\"let organization of organizations\" value=\"{{organization.id}}\">{{organization.name}}</mat-option>\r\n        </mat-select>\r\n      </mat-form-field>\r\n      <br>\r\n      <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\r\n    </form>\r\n  </div>\r\n\r\n  <div class=\"sort\">\r\n    <p class=\"title\"> Sort By</p>\r\n    <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\r\n      <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\r\n        {{sort}}\r\n      </mat-radio-button>\r\n    </mat-radio-group>\r\n\r\n  </div>\r\n\r\n\r\n  <div class=\"add-button\">\r\n    <button mat-fab class=\"button-fab\" color=\"primary-button\"> <i class=\"material-icons\">\r\n        add\r\n      </i></button>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"left-main-content-view\">\r\n  <div *ngIf=\"reports != null \">\r\n    <div class=\"list\">\r\n      <div *ngFor=\"let report of reports | reportList: searchName: selectedOrganization : sortValue :  pagination.currentPage\" class=\"card\">\r\n        <div class=\"container\" (click)=\"reportClicked(report.id)\">\r\n          <h4 class=\"title\"><strong> {{report.name}}</strong></h4>\r\n          <p class=\"secondary\">{{report.organization.name}}</p>\r\n          <p class=\"content\"> {{report.date | date}} </p>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <p class=\"pagination\" *ngIf=\"this.pagination\" style=\"text-align: center\"> <button mat-mini-fab (click)=\"previousPage()\" color=\"white\"\r\n    [disabled]=\"pagination.currentPage===1\"> <i class=\"material-icons\">\r\n      chevron_left\r\n    </i> </button>\r\n  {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)=\"nextPage() \" [disabled]=\"pagination.currentPage === pagination.totalPages\"\r\n    color=\"white\"> <i class=\"material-icons\">\r\n      chevron_right\r\n    </i> </button>\r\n</p>\r\n\r\n</div>\r\n<div class=\"right-main-content-view\" *ngIf=\"formInitialize\">\r\n  <div class=\"filter\">\r\n    <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\r\n      <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\r\n      <p class=\"title\"> Filter by</p>\r\n      <mat-form-field appearance=\"outline\" class=\"search\">\r\n        <mat-label class=\"label-color\">Name</mat-label>\r\n        <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\r\n      </mat-form-field>\r\n      <p class=\"title\" *ngIf=\"organizations.length > 1\"> Organization</p>\r\n      <mat-form-field appearance=\"outline\" class=\"select\" *ngIf=\"organizations.length > 1\">\r\n        <mat-select formControlName=\"selectedOrganization\">\r\n          <mat-option value=\"All\">All</mat-option>\r\n          <mat-option *ngFor=\"let organization of organizations\" value=\"{{organization.id}}\">{{organization.name}}</mat-option>\r\n        </mat-select>\r\n      </mat-form-field>\r\n      <br>\r\n      <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\r\n    </form>\r\n  </div>\r\n  <div class=\"sort\">\r\n    <p class=\"title\"> Sort By</p>\r\n    <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\r\n      <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\r\n        {{sort}}\r\n      </mat-radio-button>\r\n    </mat-radio-group>\r\n  </div>\r\n\r\n\r\n  <div class=\"add-button\" *ngIf=\"allowAdd\">\r\n    <button mat-fab class=\"button-fab\" color=\"primary-button\" *ngIf=\"organizationID\" routerLink='new-report'> <i class=\"material-icons plus-icon\">\r\n      add\r\n    </i>\r\n    <i class=\"material-icons back-icon\">\r\n      assessment\r\n    </i></button>\r\n    <button mat-fab class=\"button-fab\" color=\"primary-button\" *ngIf=\"!organizationID\" routerLink='../new-report'> <i class=\"material-icons plus-icon\">\r\n      add\r\n    </i>\r\n    <i class=\"material-icons back-icon\">\r\n      assessment\r\n    </i></button>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -2387,6 +2591,7 @@ var ReportListComponent = /** @class */ (function () {
                     this.paginationService.resetPage();
                     this.sub = this.route.params.subscribe(function (params) {
                         _this.organizationID = params['id'];
+                        _this.userID = params['userID'];
                     });
                     this.pageSubscription = this.paginationService.paginationChanged.subscribe(function (pagination) {
                         _this.pagination = pagination;
@@ -2458,6 +2663,10 @@ var ReportListComponent = /** @class */ (function () {
         __metadata("design:type", Array)
     ], ReportListComponent.prototype, "reports", void 0);
     __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Input"])(),
+        __metadata("design:type", Boolean)
+    ], ReportListComponent.prototype, "allowAdd", void 0);
+    __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"])(),
         __metadata("design:type", Object)
     ], ReportListComponent.prototype, "reportID", void 0);
@@ -2485,7 +2694,7 @@ var ReportListComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"left-main-content-view\">\r\n  <div *ngIf=\"users != null\">\r\n    <div class=\"list\">\r\n      <div *ngFor=\"let user of users | userList: searchName: selectedRole: selectedOrganization : sortValue :  pagination.currentPage\"\r\n        class=\"card\">\r\n        <div class=\"container\" (click)=\"userClicked(user.id)\">\r\n          <h4 class=\"title\" style=\"font-weight: bold\">{{user.firstName}} {{user.lastName}}</h4>\r\n          <p class=\"secondary\"> Viewer : <span *ngFor=\"let org of user.organizations; let i = index\">\r\n              {{org.name}}<span *ngIf=\"i < user.organizations.length-1\">, </span> </span> </p>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <p class=\"pagination\" *ngIf=\"this.pagination\" style=\"text-align: center\"> <button mat-mini-fab (click)=\"previousPage()\" color=\"white\"\r\n    [disabled]=\"pagination.currentPage===1\"> <i class=\"material-icons\">\r\n      chevron_left\r\n    </i> </button>\r\n  {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)=\"nextPage() \" [disabled]=\"pagination.currentPage === pagination.totalPages\"\r\n    color=\"white\"> <i class=\"material-icons\">\r\n      chevron_right\r\n    </i> </button>\r\n</p>\r\n</div>\r\n<div class=\"right-main-content-view\" *ngIf=\"formInitialize\">\r\n  <div class=\"filter\">\r\n    <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\r\n      <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\r\n      <p class=\"title\"> Filter by</p>\r\n      <mat-form-field appearance=\"outline\" class=\"search\">\r\n        <mat-label class=\"label-color\">Name</mat-label>\r\n        <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\r\n      </mat-form-field>\r\n      <p class=\"title\" *ngIf=\"!organizationID\"> Role</p>\r\n      <mat-form-field appearance=\"outline\" class=\"select\" *ngIf=\"!organizationID\">\r\n        <mat-select formControlName=\"selectedRole\">\r\n          <mat-option value=\"All\">All</mat-option>\r\n          <mat-option value=\"Admin\">Admin</mat-option>\r\n          <mat-option value=\"Viewer\">Viewer</mat-option>\r\n        </mat-select>\r\n      </mat-form-field>\r\n      <p class=\"title\" *ngIf=\"!organizationID\"> Organization</p>\r\n      <mat-form-field class=\"select\" appearance=\"outline\" *ngIf=\"!organizationID\">\r\n        <mat-select formControlName=\"selectedOrganization\">\r\n          <mat-option value=\"All\">All</mat-option>\r\n          <mat-option *ngFor=\"let organization of organizations\" value=\"{{organization.id}}\">{{organization.name}}</mat-option>\r\n        </mat-select>\r\n      </mat-form-field>\r\n      <br>\r\n      <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\r\n    </form>\r\n  </div>\r\n\r\n  <div class=\"sort\">\r\n    <p class=\"title\"> Sort By</p>\r\n    <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\r\n      <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\r\n        {{sort}}\r\n      </mat-radio-button>\r\n    </mat-radio-group>\r\n\r\n  </div>\r\n\r\n  <div class=\"add-button\">\r\n    <button mat-fab class=\"button-fab\" color=\"primary-button\"> <i class=\"material-icons\">\r\n        add\r\n      </i></button>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"left-main-content-view\">\r\n  <div *ngIf=\"users != null\">\r\n    <div class=\"list\">\r\n      <div *ngFor=\"let user of users | userList: searchName: selectedRole: selectedOrganization : sortValue :  pagination.currentPage\"\r\n        class=\"card\">\r\n        <div class=\"container\" (click)=\"userClicked(user.id)\">\r\n          <h4 class=\"title\" style=\"font-weight: bold\">{{user.firstName}} {{user.lastName}}</h4>\r\n          <p class=\"secondary\"> Viewer : <span *ngFor=\"let org of user.organizations; let i = index\">\r\n              {{org.name}}<span *ngIf=\"i < user.organizations.length-1\">, </span> </span> </p>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <p class=\"pagination\" *ngIf=\"this.pagination\" style=\"text-align: center\"> <button mat-mini-fab (click)=\"previousPage()\" color=\"white\"\r\n    [disabled]=\"pagination.currentPage===1\"> <i class=\"material-icons\">\r\n      chevron_left\r\n    </i> </button>\r\n  {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)=\"nextPage() \" [disabled]=\"pagination.currentPage === pagination.totalPages\"\r\n    color=\"white\"> <i class=\"material-icons\">\r\n      chevron_right\r\n    </i> </button>\r\n</p>\r\n</div>\r\n<div class=\"right-main-content-view\" *ngIf=\"formInitialize\">\r\n  <div class=\"filter\">\r\n    <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\r\n      <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\r\n      <p class=\"title\"> Filter by</p>\r\n      <mat-form-field appearance=\"outline\" class=\"search\">\r\n        <mat-label class=\"label-color\">Name</mat-label>\r\n        <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\r\n      </mat-form-field>\r\n      <p class=\"title\" *ngIf=\"!organizationID\"> Role</p>\r\n      <mat-form-field appearance=\"outline\" class=\"select\" *ngIf=\"!organizationID\">\r\n        <mat-select formControlName=\"selectedRole\">\r\n          <mat-option value=\"All\">All</mat-option>\r\n          <mat-option value=\"Admin\">Admin</mat-option>\r\n          <mat-option value=\"Viewer\">Viewer</mat-option>\r\n        </mat-select>\r\n      </mat-form-field>\r\n      <p class=\"title\" *ngIf=\"!organizationID\"> Organization</p>\r\n      <mat-form-field class=\"select\" appearance=\"outline\" *ngIf=\"!organizationID\">\r\n        <mat-select formControlName=\"selectedOrganization\">\r\n          <mat-option value=\"All\">All</mat-option>\r\n          <mat-option *ngFor=\"let organization of organizations\" value=\"{{organization.id}}\">{{organization.name}}</mat-option>\r\n        </mat-select>\r\n      </mat-form-field>\r\n      <br>\r\n      <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\r\n    </form>\r\n  </div>\r\n\r\n  <div class=\"sort\">\r\n    <p class=\"title\"> Sort By</p>\r\n    <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\r\n      <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\r\n        {{sort}}\r\n      </mat-radio-button>\r\n    </mat-radio-group>\r\n\r\n  </div>\r\n\r\n  <div class=\"add-button\">\r\n    <button  *ngIf=\"organizationID\" routerLink=\"./new-user\" mat-fab class=\"button-fab\" color=\"primary-button\"> <i class=\"material-icons plus-icon\">\r\n      add\r\n    </i>\r\n    <i class=\"material-icons back-icon\">\r\n      person_outline\r\n    </i></button>\r\n    <button  *ngIf=\"!organizationID\" routerLink=\"../new-user\" mat-fab class=\"button-fab\" color=\"primary-button\"> <i class=\"material-icons plus-icon\">\r\n      add\r\n    </i>\r\n    <i class=\"material-icons back-icon\">\r\n      person_outline\r\n    </i></button>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 

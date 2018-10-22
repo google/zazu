@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { OrganizationService } from './../../shared/services/organization.service';
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import * as OrganizationViewModel from './../../shared/view-models/organization.viewmodel';
@@ -27,8 +28,10 @@ export class CreateNewUserComponent implements OnInit {
   constructor(
     private organizationService: OrganizationService,
     private formBuilder: FormBuilder,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private route: ActivatedRoute
   ) {}
+  sub: any;
   roleSelected;
   organizations: OrganizationViewModel.SimpleOrganization[];
   selectedOrganizationIds: string[];
@@ -36,6 +39,7 @@ export class CreateNewUserComponent implements OnInit {
   secondFormGroup: FormGroup;
   selectedOrganizationNames: OrganizationViewModel.SimpleOrganization[];
   allowSecondaryEmail = false;
+  organizationID;
   async ngOnInit() {
     try {
       this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();
@@ -47,6 +51,9 @@ export class CreateNewUserComponent implements OnInit {
         lastName: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
         secondaryEmail: ['', Validators.email]
+      });
+      this.sub = this.route.params.subscribe(params => {
+        this.organizationID = params['id'];
       });
     } catch (error) {
       console.log(error);

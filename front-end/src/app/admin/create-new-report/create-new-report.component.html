@@ -5,7 +5,7 @@
         <hr>
       <mat-horizontal-stepper #stepper>
         <!-- First Step -->
-        <mat-step [stepControl]="orgForm" *ngIf="orgForm">
+        <mat-step [stepControl]="orgForm" *ngIf="orgForm && !organizationID">
           <form [formGroup]="orgForm">
 
             <div class="row">
@@ -30,42 +30,15 @@
               <p class="create-new-text">Organization not on the list? <span class="create-new-button">Create New Organization </span></p>
             </div>
             <div class="buttons">
-              <button mat-button type='button'>Cancel</button>
+              <button mat-button type='button' routerLink="../">Cancel</button>
               <button mat-button type='button' mat-flat-button class="done primary" [disabled]="!orgForm.valid" [ngClass]="{'button-disabled': !orgForm.valid}" matStepperNext >Next</button>
             </div>
           </form>
         </mat-step>
-        <!-- Second Step -->
-        <mat-step *ngIf="orgForm && selectedOrg">
-          <form>
-            <div class="row">
-              <h4 class="input-header"> New Report for {{selectedOrg.name}} <i class="material-icons info-icon">
-                  info
-                </i></h4>
-            </div>
-            <div class="row" style="display:flex">
-              <div style="text-align: center; width: 50%">
-                <button mat-fab class="new-report-fab plain" (click)="selectStep(2)"><i class="material-icons">
-                    edit
-                  </i></button>
-                <p class="new-report-choice-text">Create New Report</p>
-              </div>
-              <div style="text-align: center ; width: 50%">
-                <button class="new-report-fab plain" (click)="selectStep(3)" mat-fab><i class="material-icons">
-                    share
-                  </i> </button>
-                <p class="new-report-choice-text">Share Existing Report</p>
-              </div>
-            </div>
-            <div class="buttons">
-              <button mat-button matStepperPrevious>Cancel</button><button class="done" mat-flat-button>Next</button>
-            </div>
-          </form>
-        </mat-step>
-        <!-- 3rd CREATE NEW -->
-        <mat-step [stepControl]="reportInfoForm" *ngIf="reportInfoForm && selectedOrg">
-          <form [formGroup]="reportInfoForm">
 
+        <!-- 2nd -->
+        <mat-step [stepControl]="reportInfoForm" *ngIf="reportInfoForm && selectedOrg || reportInfoForm && organizationID">
+          <form [formGroup]="reportInfoForm" (ngSubmit)="onSubmit()" >
             <div class="row">
               <h4 class="input-header">New Report for {{selectedOrg.name}} </h4>
               <h4 class="input-header">Please enter report information</h4>
@@ -133,74 +106,13 @@
               </i>
             </div>
             <div class="buttons">
-              <button mat-button type='button' (click)="selectStep(1)">Cancel</button>
-              <button mat-button type='button' mat-flat-button class="done primary" [disabled]="!reportInfoForm.valid" [ngClass]="{'button-disabled': !reportInfoForm.valid}">Done</button>
-            </div>
-          </form>
-        </mat-step>
-        <!-- ***** 4th step: Selecting from list-->
-        <mat-step *ngIf="reports && selectedOrg">
-          <!-- selecting report -->
-          <form>
-            <div class="row">
-              <h4 class="input-header"> Please Select a report to share to {{selectedOrg.name}}  </h4>
-            </div>
-            <div class="main-content-view" style="padding:0">
-              <app-report-list [reports]="reports" (reportID)="selectReport($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-report-list>
-            </div>
-            <div class="buttons">
-              <button mat-button (click)="selectStep(1)">Cancel</button><button [disabled]="!selectedReport" [ngClass]="{'button-disabled': !selectedReport}" (click)="selectStep(4)"class="done primary" mat-flat-button>Next</button>
-            </div>
-          </form>
-        </mat-step>
-
-        <mat-step *ngIf="selectedReport && selectedOrg">
-          <form *ngIf="selectedReport">
-
-            <div class="row">
-              <h4 class="input-header">New Report for {{selectedOrg.name}}</h4>
-            </div>
-            <div class="row">
-              <p style="margin:0">This report is currently being used by "2" other organizations:</p>
-              <ul>
-                <li>
-                  Org 1
-                </li>
-                <li>
-                  Org 2
-                </li>
-              </ul>
-            </div>
-            <div class="main-content-view" style="padding:0">
-              <div style="max-width:700px; width: 100%; margin-bottom: 10px;">
-                <div class="list">
-                  <div class="card">
-                    <div class="container">
-                      <h4 class="title"><strong> {{selectedReport.name}}</strong></h4>
-                      <p class="secondary">{{selectedReport.organization.name}}</p>
-                      <p class="content"> {{selectedReport.date | date}} </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="buttons">
-              <button mat-button matStepperPrevious>Cancel</button><button class="done primary" mat-flat-button>Done</button>
+              <button mat-button type='button' *ngIf="!organizationID" (click)="selectStep(0)">Back</button>
+              <button mat-button type='button'  *ngIf="organizationID"  routerLink="../">Back</button>
+              <button mat-button type='submit' mat-flat-button class="done primary" [disabled]="!reportInfoForm.valid" [ngClass]="{'button-disabled': !reportInfoForm.valid}">Done</button>
             </div>
           </form>
         </mat-step>
       </mat-horizontal-stepper>
-
-
-
-
-
-
-
-
-
-
-
     </div>
   </div>
 </div>

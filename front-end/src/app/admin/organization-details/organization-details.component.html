@@ -42,7 +42,7 @@
         <div class="tabs">
           <mat-tab-group (selectedIndexChange)="selected($event)">
             <mat-tab label="Reports">
-              <app-report-list *ngIf="selectedTab === 0" [reports]="reports" (reportID)="goToReport($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-report-list>
+              <app-report-list [allowAdd]=true *ngIf="selectedTab === 0" [reports]="reports" (reportID)="goToReport($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-report-list>
             </mat-tab>
             <mat-tab label="Users">
               <app-user-list *ngIf="selectedTab === 1" [users]="users" (userID)="goToUser($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-user-list>
@@ -112,9 +112,12 @@
                     </mat-radio-group>
                   </div>
                   <div class="add-button">
-                    <button mat-fab class="button-fab" color="primary-button"> <i class="material-icons">
-                        add
-                      </i></button>
+                    <button routerLink="../new-data-rule" mat-fab class="button-fab" color="primary-button"> <i class="material-icons plus-icon">
+                      add
+                    </i>
+                    <i class="material-icons back-icon">
+                      dns
+                    </i></button>
                   </div>
                 </div>
               </div>

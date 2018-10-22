@@ -1,3 +1,4 @@
+import { ShareReportComponent } from './share-report/share-report.component';
 import { CreateNewDataruleComponent } from './create-new-datarule/create-new-datarule.component';
 import { CreateNewUserComponent } from './create-new-user/create-new-user.component';
 import { AllReportListComponent } from './all-reports/all-report-list/all-report-list.component';
@@ -30,10 +31,12 @@ const adminRoutes: Routes = [
           { path: '', redirectTo: 'list' },
           { path: 'list', component: OrganizationListComponent },
           { path: 'new-organization', component: CreateNewOrganizationComponent},
-          { path: 'new-user', component: CreateNewUserComponent},
           { path: 'new-data-rule', component: CreateNewDataruleComponent},
-          { path: 'new-report', component: CreateNewReportComponent},
+          { path: 'share-report', component: ShareReportComponent},
           { path: ':id', component: OrganizationDetailsComponent },
+          { path: ':id/new-user', component: CreateNewUserComponent},
+          { path: ':id/new-report', component: CreateNewReportComponent},
+          { path: ':id/share-report', component: ShareReportComponent},
           { path: ':id/u/:userID', component: UserDetailsComponent },
           { path: ':id/r/:reportID', component: AdminReportDetailsComponent },
           {
@@ -48,6 +51,7 @@ const adminRoutes: Routes = [
         children: [
           { path: '', redirectTo: 'list' },
           { path: 'list', component: AllUserListComponent },
+          { path: 'new-user', component: CreateNewUserComponent},
           {
             path: 'u/:userID',
             component: UserDetailsComponent
@@ -64,6 +68,7 @@ const adminRoutes: Routes = [
         children: [
           { path: '', redirectTo: 'list' },
           { path: 'list', component: AllReportListComponent },
+          { path: 'new-report', component: CreateNewReportComponent},
           { path: 'r/:reportID', component: AdminReportDetailsComponent }
         ]
       }

@@ -4,6 +4,6 @@
   </div>
 
   <div class="main-content-view">
-      <app-report-list [reports] = "reports" (reportID)="goToReport($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-report-list>
+      <app-report-list [reports] = "reports" [allowAdd]=true (reportID)="goToReport($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-report-list>
 
   </div>

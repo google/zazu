@@ -46,7 +46,7 @@
                     New Organization </span></p>
               </div>
               <div class="buttons">
-                <button mat-button type='button'>Back</button>
+                <button mat-button type='button'  routerLink="../">Cancel</button>
                 <button mat-button type='button' mat-flat-button class="done primary" [disabled]="!firstFormGroup.valid" [ngClass]="{'button-disabled': !firstFormGroup.valid}" (click)="openDialog()">Next</button>
               </div>
             </form>
@@ -124,7 +124,7 @@
             <p class="add-row"  *ngIf="!allowSecondaryEmail" (click)="addSecondaryEmail()">+ Add secondary email</p>
 
             <div class="buttons">
-              <button mat-button matStepperPrevious type="button">Cancel</button>
+              <button mat-button matStepperPrevious type="button">Back</button>
               <button class="done primary" mat-flat-button  [disabled]="!secondFormGroup.valid" [ngClass]="{'button-disabled': !secondFormGroup.valid}" type="submit">Done</button>
             </div>
           </form>
