@@ -27,7 +27,7 @@ const adminRoutes: Routes = [
         path: 'o',
         component: OrganizationComponent,
         children: [
-          { path: '', redirectTo: 'new-user' },
+          { path: '', redirectTo: 'list' },
           { path: 'list', component: OrganizationListComponent },
           { path: 'new-organization', component: CreateNewOrganizationComponent},
           { path: 'new-user', component: CreateNewUserComponent},

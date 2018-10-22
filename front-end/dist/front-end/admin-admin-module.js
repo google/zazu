@@ -438,9 +438,11 @@ var AdminModule = /** @class */ (function () {
                 _create_new_organization_create_new_organization_component__WEBPACK_IMPORTED_MODULE_23__["CreateNewOrganizationComponent"],
                 _create_new_report_create_new_report_component__WEBPACK_IMPORTED_MODULE_24__["CreateNewReportComponent"],
                 _create_new_datarule_create_new_datarule_component__WEBPACK_IMPORTED_MODULE_25__["CreateNewDataruleComponent"],
-                _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_26__["CreateNewUserComponent"]
+                _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_26__["CreateNewUserComponent"],
+                _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_26__["NewUserOrganizationConfirmation"]
             ],
-            imports: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["CommonModule"], _admin_routing_module__WEBPACK_IMPORTED_MODULE_7__["AdminRoutingModule"], _angular_material_angular_material_module__WEBPACK_IMPORTED_MODULE_6__["AngularMaterialModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_18__["FormsModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_18__["ReactiveFormsModule"]]
+            imports: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["CommonModule"], _admin_routing_module__WEBPACK_IMPORTED_MODULE_7__["AdminRoutingModule"], _angular_material_angular_material_module__WEBPACK_IMPORTED_MODULE_6__["AngularMaterialModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_18__["FormsModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_18__["ReactiveFormsModule"]],
+            entryComponents: [_create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_26__["NewUserOrganizationConfirmation"]],
         })
     ], AdminModule);
     return AdminModule;
@@ -854,7 +856,7 @@ var AllUsersComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"form-container\">\n  <div class=\"card\">\n    <div class=\"form\">\n      <form>\n        <h2 class=\"title\"> Create New Data Rule</h2>\n        <hr>\n        <div class=\"row\">\n          <h4 class=\"input-header\"> New Rule for \"Organization\"</h4>\n          <i class=\"material-icons form-icon\">\n            business\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Rule Name</mat-label>\n            <input matInput placeholder=\"Enter Name\">\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n        </div>\n        <div class=\"row\">\n          <i class=\"material-icons form-icon\">\n            business\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Data Source</mat-label>\n            <input matInput placeholder=\"Select Data Source\">\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n        </div>\n        <h4 class=\"input-header\"> Condition   <i class=\"material-icons info-icon\">\n            info\n          </i></h4>\n        <div class=\"row\">\n          <i class=\"material-icons form-icon\">\n            business\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Identifier</mat-label>\n            <input matInput placeholder=\"Select Data Source\">\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n        </div>\n        <div class=\"row\">\n          <i class=\"material-icons form-icon\">\n            business\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Condition</mat-label>\n            <input matInput placeholder=\"Select Data Source\">\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n\n        </div>\n        <div class=\"row\">\n          <i class=\"material-icons form-icon\">\n            business\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Token</mat-label>\n            <input matInput placeholder=\"Select Data Source\">\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n        </div>\n        <div class=\"buttons\">\n          <button mat-button>Cancel</button><button class=\"done\" mat-flat-button>Done</button>\n        </div>\n      </form>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"form-container\">\n  <div class=\"card\">\n    <div class=\"form\">\n      <form [formGroup]=\"dataruleFormGroup\" *ngIf=\"dataruleFormGroup\" (ngSubmit)=\"onSubmit()\">\n        <h2 class=\"title\"> Create New Data Rule</h2>\n        <hr>\n        <div class=\"row\">\n          <h4 class=\"input-header\"> New Rule for \"Organization\"</h4>\n          <i class=\"material-icons form-icon\">\n            dns\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Rule Name</mat-label>\n            <input formControlName=\"name\" matInput placeholder=\"Enter Name\">\n            <mat-error>\n              Rule name is <strong>required</strong>\n            </mat-error>\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n        </div>\n        <div class=\"row\">\n          <i class=\"material-icons form-icon\">\n            storage\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Data Source</mat-label>\n            <mat-select formControlName=\"datasource\">\n              <mat-option *ngFor=\"let datasource of datasources\" value=\"{{datasource.id}}\">{{datasource.name}}</mat-option>\n            </mat-select>\n            <mat-error>\n              Data source is <strong>required</strong>\n            </mat-error>\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n        </div>\n        <div class=\"row\">\n          <i class=\"material-icons form-icon\">\n            priority_high\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Identifier</mat-label>\n            <mat-select formControlName=\"identifier\">\n                <mat-option *ngFor=\"let identifier of identifiers\" value=\"{{identifier}}\">{{identifier}}</mat-option>\n\n              </mat-select>\n            <mat-error>\n              Identifier is <strong>required</strong>\n            </mat-error>\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n        </div>\n        <div class=\"row\">\n          <i class=\"material-icons form-icon\">\n            compare\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Condition</mat-label>\n            <mat-select formControlName=\"condition\">\n              <mat-option value=\"equals\">Equals</mat-option>\n              <mat-option value=\"contains\">Contains</mat-option>\n              <mat-option value=\"excludes\">Excludes</mat-option>\n            </mat-select>\n            <mat-error>\n              Condition is <strong>required</strong>\n            </mat-error>\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n\n        </div>\n        <div class=\"row\">\n          <i class=\"material-icons form-icon\">\n            title\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Token</mat-label>\n            <input formControlName=\"token\" matInput placeholder=\"Select Data Source\">\n            <mat-error>\n              Token is <strong>required</strong>\n            </mat-error>\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n        </div>\n        <div class=\"buttons\">\n          <button mat-button routerLink=\"..\">Cancel</button>\n          <button class=\"done primary\" [disabled]=\"!dataruleFormGroup.valid\" [ngClass]=\"{'button-disabled': !dataruleFormGroup.valid}\"\n            mat-flat-button type=\"submit\">Done </button>\n        </div>\n      </form>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -879,7 +881,10 @@ module.exports = ""
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CreateNewDataruleComponent", function() { return CreateNewDataruleComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _shared_services_datarules_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../shared/services/datarules.service */ "./src/app/shared/services/datarules.service.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -889,19 +894,114 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+
+
+
 
 var CreateNewDataruleComponent = /** @class */ (function () {
-    function CreateNewDataruleComponent() {
+    function CreateNewDataruleComponent(formBuilder, datarulesService, route) {
+        this.formBuilder = formBuilder;
+        this.datarulesService = datarulesService;
+        this.route = route;
     }
     CreateNewDataruleComponent.prototype.ngOnInit = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var _a, error_1;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        this.sub = this.route.params.subscribe(function (params) {
+                            _this.organizationId = params['id'];
+                        });
+                        _a = this;
+                        return [4 /*yield*/, this.datarulesService.getAllDataSourceForOrganization('id')];
+                    case 1:
+                        _a.datasources = _b.sent();
+                        this.identifiers = [
+                            'Identifier 1',
+                            'Identifier 2',
+                            'Identifier 3',
+                            'Identifier 4'
+                        ];
+                        this.dataruleFormGroup = this.formBuilder.group({
+                            name: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+                            datasource: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+                            identifier: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+                            condition: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+                            token: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]
+                        });
+                        return [3 /*break*/, 3];
+                    case 2:
+                        error_1 = _b.sent();
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    CreateNewDataruleComponent.prototype.ngOnDestroy = function () {
+        if (this.sub) {
+            this.sub.unsubscribe();
+        }
+    };
+    CreateNewDataruleComponent.prototype.onSubmit = function () {
+        var form = this.dataruleFormGroup.value;
+        var datarule = {
+            name: form.name,
+            datasource: form.datasource,
+            identifier: form.identifier,
+            condition: form.condition,
+            token: form.token,
+            organization: this.organizationId
+        };
+        console.log(datarule);
     };
     CreateNewDataruleComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Component"])({
             selector: 'app-create-new-datarule',
             template: __webpack_require__(/*! ./create-new-datarule.component.html */ "./src/app/admin/create-new-datarule/create-new-datarule.component.html"),
             styles: [__webpack_require__(/*! ./create-new-datarule.component.scss */ "./src/app/admin/create-new-datarule/create-new-datarule.component.scss")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"],
+            _shared_services_datarules_service__WEBPACK_IMPORTED_MODULE_1__["DatarulesService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_0__["ActivatedRoute"]])
     ], CreateNewDataruleComponent);
     return CreateNewDataruleComponent;
 }());
@@ -1121,7 +1221,7 @@ var CreateNewOrganizationComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"form-container\">\n  <div class=\"card\">\n    <div class=\"form\">\n\n\n      <form>\n        <h2 class=\"title\"> Create New Report</h2>\n        <hr>\n        <div class=\"row\">\n          <h4 class=\"input-header\"> Please select organization for new report <i class=\"material-icons info-icon\">\n              info\n            </i></h4>\n          <i class=\"material-icons form-icon\">\n            business\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Select Organization(s)</mat-label>\n            <input matInput placeholder=\"Placeholder\">\n          </mat-form-field>\n        </div>\n        <div class=\"row\">\n          <p class=\"create-new-text\">Organization not on the list? <span class=\"create-new-button\">Create New Organization </span></p>\n        </div>\n        <div class=\"buttons\">\n          <button mat-button>Cancel</button><button class=\"done\" mat-flat-button>Next</button>\n        </div>\n      </form>\n\n\n      <form>\n        <h2 class=\"title\"> Create New Report</h2>\n        <hr>\n        <div class=\"row\">\n          <h4 class=\"input-header\"> New Report for \"Organization\"</h4>\n        </div>\n        <div class=\"row\" style=\"display:flex\">\n          <div style=\"text-align: center\">\n            <button mat-fab>New</button>\n            <p>Create New Report</p>\n          </div>\n          <div style=\"text-align: center\">\n            <button class=\"done\" mat-fab>Share </button>\n            <p>Share Existing Report</p>\n          </div>\n        </div>\n        <div class=\"buttons\">\n          <button mat-button>Cancel</button><button class=\"done\" mat-flat-button>Next</button>\n        </div>\n      </form>\n\n      <!-- CREATE NEW -->\n      <form>\n        <h2 class=\"title\"> Create New Report</h2>\n        <hr>\n        <div class=\"row\">\n          <h4 class=\"input-header\"> Create New Report for \"Organization\"</h4>\n        </div>\n        <div class=\"row\">\n          <i class=\"material-icons form-icon\">\n            assessment\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Report Name</mat-label>\n            <input matInput placeholder=\"Report Name\">\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n        </div>\n        <div class=\"row\">\n          <i class=\"material-icons form-icon\">\n            assessment\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Data Studio Link</mat-label>\n            <input matInput placeholder=\"Data Studio Link\">\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n        </div>\n        <div class=\"row\">\n          <i class=\"material-icons form-icon\">\n            assessment\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Data Source(s)</mat-label>\n            <input matInput placeholder=\"Data Source(s)\">\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n        </div>\n        <div class=\"buttons\">\n          <button mat-button>Cancel</button><button class=\"done\" mat-flat-button>Done</button>\n        </div>\n      </form>\n\n      <!-- Share EXISTING -->\n\n      <!-- selecting report -->\n      <form>\n        <h2 class=\"title\"> Create New Report</h2>\n        <hr>\n        <div class=\"row\">\n          <h4 class=\"input-header\"> Create New Report for \"Organization\"</h4>\n        </div>\n        <div class=\"row\">\n          <h4 class=\"input-header\"> Please Select a report to share to \"Organization\" </h4>\n        </div>\n        <div class=\"main-content-view\" style=\"padding:0\">\n          <app-report-list [reports]=\"reports\" style=\"display:flex; width: 100%; margin-bottom: 10px;\"></app-report-list>\n        </div>\n        <div class=\"buttons\">\n          <button mat-button>Cancel</button><button class=\"done\" mat-flat-button>Done</button>\n        </div>\n      </form>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"form-container\">\n  <div class=\"card\">\n    <div class=\"form\">\n        <h2 class=\"title\"> Create New Report</h2>\n        <hr>\n      <mat-horizontal-stepper #stepper>\n        <!-- First Step -->\n        <mat-step [stepControl]=\"orgForm\" *ngIf=\"orgForm\">\n          <form [formGroup]=\"orgForm\">\n\n            <div class=\"row\">\n              <h4 class=\"input-header\"> Please select organization for new report <i class=\"material-icons info-icon\">\n                  info\n                </i></h4>\n              <i class=\"material-icons form-icon\">\n                business\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label>Select Organization</mat-label>\n                <mat-select formControlName=\"organization\">\n                  <mat-option (click)=\"selectOrg()\" *ngFor=\"let organization of organizations\" value=\"{{organization.id}}\">{{organization.name}}</mat-option>\n                </mat-select>\n                <mat-error>\n                  Organization is <strong>required</strong>\n                </mat-error>\n              </mat-form-field>\n            </div>\n            <div class=\"row\">\n\n              <p class=\"create-new-text\">Organization not on the list? <span class=\"create-new-button\">Create New Organization </span></p>\n            </div>\n            <div class=\"buttons\">\n              <button mat-button type='button'>Cancel</button>\n              <button mat-button type='button' mat-flat-button class=\"done primary\" [disabled]=\"!orgForm.valid\" [ngClass]=\"{'button-disabled': !orgForm.valid}\" matStepperNext >Next</button>\n            </div>\n          </form>\n        </mat-step>\n        <!-- Second Step -->\n        <mat-step *ngIf=\"orgForm && selectedOrg\">\n          <form>\n            <div class=\"row\">\n              <h4 class=\"input-header\"> New Report for {{selectedOrg.name}} <i class=\"material-icons info-icon\">\n                  info\n                </i></h4>\n            </div>\n            <div class=\"row\" style=\"display:flex\">\n              <div style=\"text-align: center; width: 50%\">\n                <button mat-fab class=\"new-report-fab plain\" (click)=\"selectStep(2)\"><i class=\"material-icons\">\n                    edit\n                  </i></button>\n                <p class=\"new-report-choice-text\">Create New Report</p>\n              </div>\n              <div style=\"text-align: center ; width: 50%\">\n                <button class=\"new-report-fab plain\" (click)=\"selectStep(3)\" mat-fab><i class=\"material-icons\">\n                    share\n                  </i> </button>\n                <p class=\"new-report-choice-text\">Share Existing Report</p>\n              </div>\n            </div>\n            <div class=\"buttons\">\n              <button mat-button matStepperPrevious>Cancel</button><button class=\"done\" mat-flat-button>Next</button>\n            </div>\n          </form>\n        </mat-step>\n        <!-- 3rd CREATE NEW -->\n        <mat-step [stepControl]=\"reportInfoForm\" *ngIf=\"reportInfoForm && selectedOrg\">\n          <form [formGroup]=\"reportInfoForm\">\n\n            <div class=\"row\">\n              <h4 class=\"input-header\">New Report for {{selectedOrg.name}} </h4>\n              <h4 class=\"input-header\">Please enter report information</h4>\n            </div>\n            <div class=\"row\">\n              <i class=\"material-icons form-icon\">\n                assessment\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label>Report Name</mat-label>\n                <input formControlName=\"name\" matInput placeholder=\"Report Name\">\n                <mat-error>\n                  Report name is <strong>required</strong>\n                </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <div class=\"row\">\n              <i class=\"material-icons form-icon\">\n                link\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label>Data Studio Link</mat-label>\n                <input formControlName=\"datastudioLink\" matInput placeholder=\"Data Studio Link\">\n                <mat-error>\n                  Data Studio Link is <strong>required</strong>\n                </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <div class=\"row\">\n              <i class=\"material-icons form-icon\">\n                class\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label>Data Studio ID</mat-label>\n                <input formControlName=\"datastudioId\" matInput placeholder=\"Data Studio ID\">\n                <mat-error>\n                  Data Studio ID is <strong>required</strong>\n                </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <div class=\"row\">\n              <i class=\"material-icons form-icon\">\n                storage\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label>Data Source(s)</mat-label>\n                <mat-select formControlName=\"datasources\" multiple>\n                  <mat-option *ngFor=\"let datasource of datasources\" value=\"{{datasource.id}}\">{{datasource.name}}</mat-option>\n                </mat-select>\n                <mat-error>\n                  At least one data source is <strong>required</strong>\n                </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <div class=\"buttons\">\n              <button mat-button type='button' (click)=\"selectStep(1)\">Cancel</button>\n              <button mat-button type='button' mat-flat-button class=\"done primary\" [disabled]=\"!reportInfoForm.valid\" [ngClass]=\"{'button-disabled': !reportInfoForm.valid}\">Done</button>\n            </div>\n          </form>\n        </mat-step>\n        <!-- ***** 4th step: Selecting from list-->\n        <mat-step *ngIf=\"reports && selectedOrg\">\n          <!-- selecting report -->\n          <form>\n            <div class=\"row\">\n              <h4 class=\"input-header\"> Please Select a report to share to {{selectedOrg.name}}  </h4>\n            </div>\n            <div class=\"main-content-view\" style=\"padding:0\">\n              <app-report-list [reports]=\"reports\" (reportID)=\"selectReport($event)\" style=\"display:flex; width: 100%; margin-bottom: 10px;\"></app-report-list>\n            </div>\n            <div class=\"buttons\">\n              <button mat-button (click)=\"selectStep(1)\">Cancel</button><button [disabled]=\"!selectedReport\" [ngClass]=\"{'button-disabled': !selectedReport}\" (click)=\"selectStep(4)\"class=\"done primary\" mat-flat-button>Next</button>\n            </div>\n          </form>\n        </mat-step>\n\n        <mat-step *ngIf=\"selectedReport && selectedOrg\">\n          <form *ngIf=\"selectedReport\">\n\n            <div class=\"row\">\n              <h4 class=\"input-header\">New Report for {{selectedOrg.name}}</h4>\n            </div>\n            <div class=\"row\">\n              <p style=\"margin:0\">This report is currently being used by \"2\" other organizations:</p>\n              <ul>\n                <li>\n                  Org 1\n                </li>\n                <li>\n                  Org 2\n                </li>\n              </ul>\n            </div>\n            <div class=\"main-content-view\" style=\"padding:0\">\n              <div style=\"max-width:700px; width: 100%; margin-bottom: 10px;\">\n                <div class=\"list\">\n                  <div class=\"card\">\n                    <div class=\"container\">\n                      <h4 class=\"title\"><strong> {{selectedReport.name}}</strong></h4>\n                      <p class=\"secondary\">{{selectedReport.organization.name}}</p>\n                      <p class=\"content\"> {{selectedReport.date | date}} </p>\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class=\"buttons\">\n              <button mat-button matStepperPrevious>Cancel</button><button class=\"done primary\" mat-flat-button>Done</button>\n            </div>\n          </form>\n        </mat-step>\n      </mat-horizontal-stepper>\n\n\n\n\n\n\n\n\n\n\n\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -1132,7 +1232,7 @@ module.exports = "<div class=\"form-container\">\n  <div class=\"card\">\n    <d
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ".create-new-button:hover {\n  cursor: pointer; }\n\n::ng-deep .mat-horizontal-stepper-header-container {\n  display: none !important; }\n"
 
 /***/ }),
 
@@ -1149,6 +1249,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var src_app_shared_services_report_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/shared/services/report.service */ "./src/app/shared/services/report.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var src_app_shared_services_organization_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/shared/services/organization.service */ "./src/app/shared/services/organization.service.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var src_app_shared_services_datarules_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/shared/services/datarules.service */ "./src/app/shared/services/datarules.service.ts");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1196,40 +1300,87 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
+
+
+
 var CreateNewReportComponent = /** @class */ (function () {
-    function CreateNewReportComponent(route, router, reportService) {
+    function CreateNewReportComponent(route, router, reportService, organizationService, formBuilder, datarulesService) {
         this.route = route;
         this.router = router;
         this.reportService = reportService;
+        this.organizationService = organizationService;
+        this.formBuilder = formBuilder;
+        this.datarulesService = datarulesService;
     }
     CreateNewReportComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, error_1;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var _a, _b, _c, error_1;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
                     case 0:
-                        _b.trys.push([0, 2, , 3]);
+                        _d.trys.push([0, 4, , 5]);
                         _a = this;
                         return [4 /*yield*/, this.reportService.getReportByOrganization('orgID')];
                     case 1:
-                        _a.reports = _b.sent();
-                        return [3 /*break*/, 3];
+                        _a.reports = _d.sent();
+                        _b = this;
+                        return [4 /*yield*/, this.organizationService.getAllOrganizationsWithNoDetails()];
                     case 2:
-                        error_1 = _b.sent();
+                        _b.organizations = _d.sent();
+                        _c = this;
+                        return [4 /*yield*/, this.datarulesService.getAllDataSourceForOrganization('id')];
+                    case 3:
+                        _c.datasources = _d.sent();
+                        this.orgForm = this.formBuilder.group({
+                            organization: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required]
+                        });
+                        this.reportInfoForm = this.formBuilder.group({
+                            name: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required],
+                            datastudioLink: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required],
+                            datastudioId: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required],
+                            datasources: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_4__["Validators"].required]
+                        });
+                        return [3 /*break*/, 5];
+                    case 4:
+                        error_1 = _d.sent();
                         console.log(error_1);
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
+                        return [3 /*break*/, 5];
+                    case 5: return [2 /*return*/];
                 }
             });
         });
     };
+    CreateNewReportComponent.prototype.selectReport = function (id) {
+        this.selectedReport = this.reports.find(function (report) {
+            return report.id === id;
+        });
+    };
+    CreateNewReportComponent.prototype.selectStep = function (id) {
+        this.stepper.selectedIndex = id;
+    };
+    CreateNewReportComponent.prototype.selectOrg = function () {
+        var _this = this;
+        this.selectedOrg = this.organizations.find(function (org) {
+            return org.id === _this.orgForm.value.organization;
+        });
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('stepper'),
+        __metadata("design:type", _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatStepper"])
+    ], CreateNewReportComponent.prototype, "stepper", void 0);
     CreateNewReportComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-create-new-report',
             template: __webpack_require__(/*! ./create-new-report.component.html */ "./src/app/admin/create-new-report/create-new-report.component.html"),
             styles: [__webpack_require__(/*! ./create-new-report.component.scss */ "./src/app/admin/create-new-report/create-new-report.component.scss")]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], src_app_shared_services_report_service__WEBPACK_IMPORTED_MODULE_1__["ReportService"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
+            src_app_shared_services_report_service__WEBPACK_IMPORTED_MODULE_1__["ReportService"],
+            src_app_shared_services_organization_service__WEBPACK_IMPORTED_MODULE_3__["OrganizationService"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormBuilder"],
+            src_app_shared_services_datarules_service__WEBPACK_IMPORTED_MODULE_5__["DatarulesService"]])
     ], CreateNewReportComponent);
     return CreateNewReportComponent;
 }());
@@ -1245,7 +1396,7 @@ var CreateNewReportComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"form-container\">\n  <div class=\"card\">\n    <div class=\"form\">\n      <form>\n        <h2 class=\"title\"> Create New User</h2>\n        <hr>\n        <div class=\"row\">\n          <h4 class=\"input-header\"> Please select role for new user <i class=\"material-icons info-icon\">\n              info\n            </i></h4>\n          <i class=\"material-icons form-icon\">\n            business\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Organization Name</mat-label>\n            <input matInput placeholder=\"Placeholder\">\n          </mat-form-field>\n        </div>\n        <div class=\"row\">\n          <h4 class=\"input-header\"> Please select organization(s) for new user <i class=\"material-icons info-icon\">\n              info\n            </i></h4>\n          <i class=\"material-icons form-icon\">\n            business\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Select Organization(s)</mat-label>\n            <input matInput placeholder=\"Placeholder\">\n          </mat-form-field>\n        </div>\n        <div class=\"row\">\n          <p class=\"create-new-text\">Organization not on the list? <span class=\"create-new-button\">Create New Organization </span></p>\n        </div>\n        <div class=\"buttons\">\n          <button mat-button>Cancel</button><button class=\"done\" mat-flat-button>Next</button>\n        </div>\n      </form>\n\n\n      <!-- ADMIN ACCESS -->\n      <form>\n        <h2 class=\"title\"> Create New User</h2>\n        <hr>\n        <p class=\"description\"> New Admin user</p>\n        <p class=\"description\"> New Viewer for *Organizations*</p>\n        <h4 class=\"input-header\"> Please enter user information </h4>\n        <div class=\"row\">\n          <i class=\"material-icons form-icon\">\n            person-outline\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>First Name</mat-label>\n            <input matInput placeholder=\"\">\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n        </div>\n        <div class=\"row\">\n          <i class=\"material-icons form-icon\">\n            person-outline\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Last Name</mat-label>\n            <input matInput placeholder=\"\">\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n        </div>\n        <div class=\"row\">\n          <i class=\"material-icons form-icon\">\n            person-outline\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Email</mat-label>\n            <input matInput placeholder=\"\">\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n        </div>\n        <div class=\"row\">\n          <button mat-stroked-button class=\"add-another\">Add Secondary Email</button>\n        </div>\n\n        <div class=\"buttons\">\n          <button mat-button>Cancel</button><button class=\"done\" mat-flat-button>Done</button>\n        </div>\n      </form>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"form-container\">\n  <div class=\"card\">\n    <div class=\"form\">\n      <h2 class=\"title\"> Create New User</h2>\n      <hr>\n      <mat-horizontal-stepper linear #stepper *ngIf=\"firstFormGroup && secondFormGroup\">\n        <!-- First Step-->\n        <mat-step [stepControl]=\"firstFormGroup\">\n            <form [formGroup]=\"firstFormGroup\">\n              <ng-template matStepLabel>Fill out your name</ng-template>\n              <div class=\"row\">\n                <h4 class=\"input-header\"> Please select role for new user <i class=\"material-icons info-icon\">\n                    info\n                  </i></h4>\n                <i class=\"material-icons form-icon\">\n                  business\n                </i>\n                <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                  <mat-label>Role</mat-label>\n                  <mat-select formControlName=\"role\" [(value)]=\"roleSelected\" >\n                    <mat-option value=\"admin\" (click)=\"checkRole()\">Admin</mat-option>\n                    <mat-option value=\"viewer\" (click)=\"checkRole()\">Viewer</mat-option>\n                  </mat-select>\n                  <mat-error>\n                      Role is <strong>required</strong>\n                    </mat-error>\n                </mat-form-field>\n              </div>\n              <div class=\"row\" *ngIf=\"roleSelected === 'viewer'\">\n                <h4 class=\"input-header\"> Please select organization(s) for new user <i class=\"material-icons info-icon\">\n                    info\n                  </i></h4>\n                <i class=\"material-icons form-icon\">\n                  business\n                </i>\n                <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                  <mat-label>Select Organization(s)</mat-label>\n                  <mat-select  formControlName=\"organizations\" [(value)]=\"selectedOrganizationIds\" multiple>\n                    <mat-option *ngFor=\"let organization of organizations\" value=\"{{organization.id}}\">{{organization.name}}</mat-option>\n                  </mat-select>\n                  <mat-error>\n                      Organization is <strong>required</strong>\n                    </mat-error>\n                </mat-form-field>\n                <p class=\"create-new-text\">Organization not on the list? <span class=\"create-new-button\" routerLink=\"/admin/o/new-organization\">Create\n                    New Organization </span></p>\n              </div>\n              <div class=\"buttons\">\n                <button mat-button type='button'>Back</button>\n                <button mat-button type='button' mat-flat-button class=\"done primary\" [disabled]=\"!firstFormGroup.valid\" [ngClass]=\"{'button-disabled': !firstFormGroup.valid}\" (click)=\"openDialog()\">Next</button>\n              </div>\n            </form>\n        </mat-step>\n        <!-- Second Step-->\n        <mat-step [stepControl]=\"secondFormGroup\">\n          <form [formGroup]=\"secondFormGroup\" (ngSubmit)=\"onSubmit()\">\n            <p class=\"description\" *ngIf=\"roleSelected === 'admin'\"> New Admin user</p>\n            <p class=\"description\" *ngIf=\"roleSelected === 'viewer'\"> New Viewer for <span *ngFor=\"let org of selectedOrganizationNames; let i = index\">{{org.name}}<span *ngIf=\"i < selectedOrganizationNames.length - 1\">,</span>&nbsp;</span></p>\n            <h4 class=\"input-header\"> Please enter user information </h4>\n            <div class=\"row\">\n              <i class=\"material-icons form-icon\">\n                  person_outline\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label   >First Name</mat-label>\n                <input formControlName=\"firstName\" matInput placeholder=\"\">\n                <mat-error>\n                  First Name is <strong>required</strong>\n                </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <div class=\"row\">\n              <i class=\"material-icons form-icon\">\n                person_outline\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label >Last Name</mat-label>\n                <input formControlName=\"lastName\" matInput placeholder=\"\">\n                <mat-error>\n                  Last Name is <strong>required</strong>\n                </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <div class=\"row\">\n              <i class=\"material-icons form-icon\">\n                email\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label>Email</mat-label>\n                <input  type=\"email\" formControlName=\"email\" matInput placeholder=\"\">\n                <mat-error *ngIf=\"secondFormGroup?.controls.email?.errors?.required \">\n                  Email is <strong>required</strong>\n                </mat-error>\n                <mat-error *ngIf=\"secondFormGroup?.controls.email?.errors?.email \">\n                 Must be in email format\n                </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <div class=\"row\" *ngIf=\"allowSecondaryEmail\">\n              <i class=\"material-icons form-icon\">\n                alternate_email\n              </i>\n              <mat-form-field appearance=\"fill\" style=\"width:80%\">\n                <mat-label  >Secondary Email</mat-label>\n                <input formControlName=\"secondaryEmail\" type=\"email\" matInput placeholder=\"\">\n                <mat-hint>Not Required</mat-hint>\n                <mat-error *ngIf=\"secondFormGroup?.controls.secondaryEmail?.errors?.email \">\n                  Must be in email format\n                 </mat-error>\n              </mat-form-field>\n              <i class=\"material-icons info-icon\">\n                info\n              </i>\n            </div>\n            <p class=\"add-row\"  *ngIf=\"!allowSecondaryEmail\" (click)=\"addSecondaryEmail()\">+ Add secondary email</p>\n\n            <div class=\"buttons\">\n              <button mat-button matStepperPrevious type=\"button\">Cancel</button>\n              <button class=\"done primary\" mat-flat-button  [disabled]=\"!secondFormGroup.valid\" [ngClass]=\"{'button-disabled': !secondFormGroup.valid}\" type=\"submit\">Done</button>\n            </div>\n          </form>\n        </mat-step>\n      </mat-horizontal-stepper>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -1256,7 +1407,7 @@ module.exports = "<div class=\"form-container\">\n  <div class=\"card\">\n    <d
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ".create-new-button:hover {\n  cursor: pointer; }\n\n::ng-deep .mat-horizontal-stepper-header-container {\n  display: none !important; }\n"
 
 /***/ }),
 
@@ -1264,13 +1415,17 @@ module.exports = ""
 /*!********************************************************************!*\
   !*** ./src/app/admin/create-new-user/create-new-user.component.ts ***!
   \********************************************************************/
-/*! exports provided: CreateNewUserComponent */
+/*! exports provided: CreateNewUserComponent, NewUserOrganizationConfirmation */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CreateNewUserComponent", function() { return CreateNewUserComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NewUserOrganizationConfirmation", function() { return NewUserOrganizationConfirmation; });
+/* harmony import */ var _shared_services_organization_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/services/organization.service */ "./src/app/shared/services/organization.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1280,24 +1435,181 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (undefined && undefined.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+
+
+
 
 var CreateNewUserComponent = /** @class */ (function () {
-    function CreateNewUserComponent() {
+    function CreateNewUserComponent(organizationService, formBuilder, dialog) {
+        this.organizationService = organizationService;
+        this.formBuilder = formBuilder;
+        this.dialog = dialog;
+        this.allowSecondaryEmail = false;
     }
     CreateNewUserComponent.prototype.ngOnInit = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, error_1;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        _a = this;
+                        return [4 /*yield*/, this.organizationService.getAllOrganizationsWithNoDetails()];
+                    case 1:
+                        _a.organizations = _b.sent();
+                        this.firstFormGroup = this.formBuilder.group({
+                            role: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]
+                        });
+                        this.secondFormGroup = this.formBuilder.group({
+                            firstName: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+                            lastName: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+                            email: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].email]],
+                            secondaryEmail: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].email]
+                        });
+                        return [3 /*break*/, 3];
+                    case 2:
+                        error_1 = _b.sent();
+                        console.log(error_1);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
     };
+    CreateNewUserComponent.prototype.checkRole = function () {
+        if (this.roleSelected === 'admin') {
+            this.firstFormGroup.removeControl('organizations');
+        }
+        if (this.roleSelected === 'viewer') {
+            this.firstFormGroup.addControl('organizations', new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required));
+        }
+    };
+    /**
+     * ON SUBMIT FOR CREATING NEW USER
+     */
+    CreateNewUserComponent.prototype.onSubmit = function () {
+        var firstForm = this.firstFormGroup.value;
+        var secondForm = this.secondFormGroup.value;
+        var orgs = [];
+        if (firstForm.role === 'viewer') {
+            orgs = firstForm.organizations;
+        }
+        var newUser = {
+            firstName: secondForm.firstName,
+            lastName: secondForm.lastName,
+            googleId: secondForm.email,
+            secondaryEmail: secondForm.secondaryEmail,
+            organizations: orgs,
+            role: firstForm.role
+        };
+        console.log(newUser);
+    };
+    CreateNewUserComponent.prototype.openDialog = function (stepper) {
+        var _this = this;
+        if (this.roleSelected === 'viewer') {
+            this.selectedOrganizationNames = this.organizations.filter(function (org) {
+                return _this.selectedOrganizationIds.includes(org.id);
+            });
+        }
+        var dialogRef = this.dialog.open(NewUserOrganizationConfirmation, {
+            data: { orgs: this.selectedOrganizationNames, role: this.roleSelected }
+        });
+        dialogRef.afterClosed().subscribe(function (result) {
+            console.log(true);
+            if (result) {
+                _this.stepper.next();
+            }
+        });
+    };
+    CreateNewUserComponent.prototype.addSecondaryEmail = function () {
+        this.allowSecondaryEmail = true;
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('stepper'),
+        __metadata("design:type", Object)
+    ], CreateNewUserComponent.prototype, "stepper", void 0);
     CreateNewUserComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-create-new-user',
             template: __webpack_require__(/*! ./create-new-user.component.html */ "./src/app/admin/create-new-user/create-new-user.component.html"),
             styles: [__webpack_require__(/*! ./create-new-user.component.scss */ "./src/app/admin/create-new-user/create-new-user.component.scss")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_shared_services_organization_service__WEBPACK_IMPORTED_MODULE_0__["OrganizationService"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"],
+            _angular_material__WEBPACK_IMPORTED_MODULE_3__["MatDialog"]])
     ], CreateNewUserComponent);
     return CreateNewUserComponent;
 }());
 
+var NewUserOrganizationConfirmation = /** @class */ (function () {
+    function NewUserOrganizationConfirmation(dialogRef, data) {
+        this.dialogRef = dialogRef;
+        this.data = data;
+    }
+    NewUserOrganizationConfirmation.prototype.onNoClick = function () {
+        this.dialogRef.close();
+    };
+    NewUserOrganizationConfirmation = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'new-user-organization-confirmation',
+            template: __webpack_require__(/*! ./new-user-organization-confirmation.html */ "./src/app/admin/create-new-user/new-user-organization-confirmation.html")
+        }),
+        __param(1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"])(_angular_material__WEBPACK_IMPORTED_MODULE_3__["MAT_DIALOG_DATA"])),
+        __metadata("design:paramtypes", [_angular_material__WEBPACK_IMPORTED_MODULE_3__["MatDialogRef"], Object])
+    ], NewUserOrganizationConfirmation);
+    return NewUserOrganizationConfirmation;
+}());
 
+
+
+/***/ }),
+
+/***/ "./src/app/admin/create-new-user/new-user-organization-confirmation.html":
+/*!*******************************************************************************!*\
+  !*** ./src/app/admin/create-new-user/new-user-organization-confirmation.html ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"dialog\" *ngIf=\"data.role === 'viewer'\">\r\n  <h2 class=\"title\" >Multiple Viewer Access</h2>\r\n  <div mat-dialog-content>\r\n    <h4 class=\"subtitle\">Give this user Viewer Access for the following Organizations?</h4>\r\n    <ul class=\"conditions\">\r\n      <li *ngFor=\"let temp of data.orgs\"> {{temp.name}}</li>\r\n    </ul>\r\n  </div>\r\n  <div mat-dialog-actions style=\"float:right\">\r\n    <button mat-button (click)=\"onNoClick()\">Cancel</button>\r\n    <button mat-button mat-flat-button [mat-dialog-close]=\"true\" class=\"primary\" cdkFocusInitial>Continue</button>\r\n  </div>\r\n</div>\r\n\r\n\r\n<div class=\"dialog\" *ngIf=\"data.role === 'admin'\">\r\n  <h2 class=\"title\"><i class=\"material-icons\">\r\n    warning\r\n    </i>Give Admin Access</h2>\r\n  <div mat-dialog-content>\r\n    <h4 class=\"subtitle\">Warning: Giving Admin access will grant the following:</h4>\r\n    <ul  class=\"conditions\">\r\n      <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>\r\n      <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>\r\n      <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>\r\n    </ul>\r\n  </div>\r\n  <div mat-dialog-actions style=\"float:right\">\r\n    <button mat-button (click)=\"onNoClick()\">Cancel</button>\r\n    <button mat-button mat-flat-button [mat-dialog-close]=\"true\" class=\"primary\" cdkFocusInitial>Continue</button>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1723,7 +2035,9 @@ var OrganizationListComponent = /** @class */ (function () {
         }
     };
     OrganizationListComponent.prototype.ngOnDestroy = function () {
-        this.pageSubscription.unsubscribe();
+        if (this.pageSubscription) {
+            this.pageSubscription.unsubscribe();
+        }
     };
     OrganizationListComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({

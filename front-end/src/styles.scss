@@ -5,6 +5,10 @@
   background-color: $primary-button-color !important;
 }
 
+.plain {
+  background-color: $plain-color !important;
+}
+
 /**** BUTTONS STUFF   */
 .button-disabled {
   opacity: 0.5;
@@ -433,10 +437,30 @@ body {
   .create-new-text {
     color: $input-header-color;
     margin: 0;
+    font-weight: 500;
 
     .create-new-button {
       color: $primary-button-color;
     }
+  }
+
+  .new-report-fab {
+    width: 90px;
+    height: 90px;
+    line-height: 14px;
+    font-size: 50px;
+    color: $form-icon-color;
+
+    i {
+      font-size: 40px;
+      font-weight: bold;
+    }
+  }
+
+  .new-report-choice-text {
+    color:
+      $input-header-color;
+      font-weight: 500;
   }
 
 
@@ -476,12 +500,13 @@ body {
     color: $primary-button-color;
     text-align: center;
     font-weight: 500;
+
     i {
       position: relative;
-    top: 10px;
-    font-size: 40px;
-    margin-right: -40px;
-    right: 50px;
+      top: 10px;
+      font-size: 40px;
+      margin-right: -40px;
+      right: 50px;
     }
   }
 }

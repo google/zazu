@@ -24,9 +24,6 @@ export class CreateNewUserComponent implements OnInit {
   @ViewChild('stepper')
   stepper;
 
-  animal: string;
-  name: string;
-
   constructor(
     private organizationService: OrganizationService,
     private formBuilder: FormBuilder,

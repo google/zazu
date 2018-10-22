@@ -1,120 +1,206 @@
 <div class="form-container">
   <div class="card">
     <div class="form">
-
-
-      <form>
         <h2 class="title"> Create New Report</h2>
         <hr>
-        <div class="row">
-          <h4 class="input-header"> Please select organization for new report <i class="material-icons info-icon">
-              info
-            </i></h4>
-          <i class="material-icons form-icon">
-            business
-          </i>
-          <mat-form-field appearance="fill" style="width:80%">
-            <mat-label>Select Organization(s)</mat-label>
-            <input matInput placeholder="Placeholder">
-          </mat-form-field>
-        </div>
-        <div class="row">
-          <p class="create-new-text">Organization not on the list? <span class="create-new-button">Create New Organization </span></p>
-        </div>
-        <div class="buttons">
-          <button mat-button>Cancel</button><button class="done" mat-flat-button>Next</button>
-        </div>
-      </form>
+      <mat-horizontal-stepper #stepper>
+        <!-- First Step -->
+        <mat-step [stepControl]="orgForm" *ngIf="orgForm">
+          <form [formGroup]="orgForm">
+
+            <div class="row">
+              <h4 class="input-header"> Please select organization for new report <i class="material-icons info-icon">
+                  info
+                </i></h4>
+              <i class="material-icons form-icon">
+                business
+              </i>
+              <mat-form-field appearance="fill" style="width:80%">
+                <mat-label>Select Organization</mat-label>
+                <mat-select formControlName="organization">
+                  <mat-option (click)="selectOrg()" *ngFor="let organization of organizations" value="{{organization.id}}">{{organization.name}}</mat-option>
+                </mat-select>
+                <mat-error>
+                  Organization is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="row">
+
+              <p class="create-new-text">Organization not on the list? <span class="create-new-button">Create New Organization </span></p>
+            </div>
+            <div class="buttons">
+              <button mat-button type='button'>Cancel</button>
+              <button mat-button type='button' mat-flat-button class="done primary" [disabled]="!orgForm.valid" [ngClass]="{'button-disabled': !orgForm.valid}" matStepperNext >Next</button>
+            </div>
+          </form>
+        </mat-step>
+        <!-- Second Step -->
+        <mat-step *ngIf="orgForm && selectedOrg">
+          <form>
+            <div class="row">
+              <h4 class="input-header"> New Report for {{selectedOrg.name}} <i class="material-icons info-icon">
+                  info
+                </i></h4>
+            </div>
+            <div class="row" style="display:flex">
+              <div style="text-align: center; width: 50%">
+                <button mat-fab class="new-report-fab plain" (click)="selectStep(2)"><i class="material-icons">
+                    edit
+                  </i></button>
+                <p class="new-report-choice-text">Create New Report</p>
+              </div>
+              <div style="text-align: center ; width: 50%">
+                <button class="new-report-fab plain" (click)="selectStep(3)" mat-fab><i class="material-icons">
+                    share
+                  </i> </button>
+                <p class="new-report-choice-text">Share Existing Report</p>
+              </div>
+            </div>
+            <div class="buttons">
+              <button mat-button matStepperPrevious>Cancel</button><button class="done" mat-flat-button>Next</button>
+            </div>
+          </form>
+        </mat-step>
+        <!-- 3rd CREATE NEW -->
+        <mat-step [stepControl]="reportInfoForm" *ngIf="reportInfoForm && selectedOrg">
+          <form [formGroup]="reportInfoForm">
+
+            <div class="row">
+              <h4 class="input-header">New Report for {{selectedOrg.name}} </h4>
+              <h4 class="input-header">Please enter report information</h4>
+            </div>
+            <div class="row">
+              <i class="material-icons form-icon">
+                assessment
+              </i>
+              <mat-form-field appearance="fill" style="width:80%">
+                <mat-label>Report Name</mat-label>
+                <input formControlName="name" matInput placeholder="Report Name">
+                <mat-error>
+                  Report name is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              <i class="material-icons info-icon">
+                info
+              </i>
+            </div>
+            <div class="row">
+              <i class="material-icons form-icon">
+                link
+              </i>
+              <mat-form-field appearance="fill" style="width:80%">
+                <mat-label>Data Studio Link</mat-label>
+                <input formControlName="datastudioLink" matInput placeholder="Data Studio Link">
+                <mat-error>
+                  Data Studio Link is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              <i class="material-icons info-icon">
+                info
+              </i>
+            </div>
+            <div class="row">
+              <i class="material-icons form-icon">
+                class
+              </i>
+              <mat-form-field appearance="fill" style="width:80%">
+                <mat-label>Data Studio ID</mat-label>
+                <input formControlName="datastudioId" matInput placeholder="Data Studio ID">
+                <mat-error>
+                  Data Studio ID is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              <i class="material-icons info-icon">
+                info
+              </i>
+            </div>
+            <div class="row">
+              <i class="material-icons form-icon">
+                storage
+              </i>
+              <mat-form-field appearance="fill" style="width:80%">
+                <mat-label>Data Source(s)</mat-label>
+                <mat-select formControlName="datasources" multiple>
+                  <mat-option *ngFor="let datasource of datasources" value="{{datasource.id}}">{{datasource.name}}</mat-option>
+                </mat-select>
+                <mat-error>
+                  At least one data source is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              <i class="material-icons info-icon">
+                info
+              </i>
+            </div>
+            <div class="buttons">
+              <button mat-button type='button' (click)="selectStep(1)">Cancel</button>
+              <button mat-button type='button' mat-flat-button class="done primary" [disabled]="!reportInfoForm.valid" [ngClass]="{'button-disabled': !reportInfoForm.valid}">Done</button>
+            </div>
+          </form>
+        </mat-step>
+        <!-- ***** 4th step: Selecting from list-->
+        <mat-step *ngIf="reports && selectedOrg">
+          <!-- selecting report -->
+          <form>
+            <div class="row">
+              <h4 class="input-header"> Please Select a report to share to {{selectedOrg.name}}  </h4>
+            </div>
+            <div class="main-content-view" style="padding:0">
+              <app-report-list [reports]="reports" (reportID)="selectReport($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-report-list>
+            </div>
+            <div class="buttons">
+              <button mat-button (click)="selectStep(1)">Cancel</button><button [disabled]="!selectedReport" [ngClass]="{'button-disabled': !selectedReport}" (click)="selectStep(4)"class="done primary" mat-flat-button>Next</button>
+            </div>
+          </form>
+        </mat-step>
+
+        <mat-step *ngIf="selectedReport && selectedOrg">
+          <form *ngIf="selectedReport">
+
+            <div class="row">
+              <h4 class="input-header">New Report for {{selectedOrg.name}}</h4>
+            </div>
+            <div class="row">
+              <p style="margin:0">This report is currently being used by "2" other organizations:</p>
+              <ul>
+                <li>
+                  Org 1
+                </li>
+                <li>
+                  Org 2
+                </li>
+              </ul>
+            </div>
+            <div class="main-content-view" style="padding:0">
+              <div style="max-width:700px; width: 100%; margin-bottom: 10px;">
+                <div class="list">
+                  <div class="card">
+                    <div class="container">
+                      <h4 class="title"><strong> {{selectedReport.name}}</strong></h4>
+                      <p class="secondary">{{selectedReport.organization.name}}</p>
+                      <p class="content"> {{selectedReport.date | date}} </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="buttons">
+              <button mat-button matStepperPrevious>Cancel</button><button class="done primary" mat-flat-button>Done</button>
+            </div>
+          </form>
+        </mat-step>
+      </mat-horizontal-stepper>
 
 
-      <form>
-        <h2 class="title"> Create New Report</h2>
-        <hr>
-        <div class="row">
-          <h4 class="input-header"> New Report for "Organization"</h4>
-        </div>
-        <div class="row" style="display:flex">
-          <div style="text-align: center">
-            <button mat-fab>New</button>
-            <p>Create New Report</p>
-          </div>
-          <div style="text-align: center">
-            <button class="done" mat-fab>Share </button>
-            <p>Share Existing Report</p>
-          </div>
-        </div>
-        <div class="buttons">
-          <button mat-button>Cancel</button><button class="done" mat-flat-button>Next</button>
-        </div>
-      </form>
 
-      <!-- CREATE NEW -->
-      <form>
-        <h2 class="title"> Create New Report</h2>
-        <hr>
-        <div class="row">
-          <h4 class="input-header"> Create New Report for "Organization"</h4>
-        </div>
-        <div class="row">
-          <i class="material-icons form-icon">
-            assessment
-          </i>
-          <mat-form-field appearance="fill" style="width:80%">
-            <mat-label>Report Name</mat-label>
-            <input matInput placeholder="Report Name">
-          </mat-form-field>
-          <i class="material-icons info-icon">
-            info
-          </i>
-        </div>
-        <div class="row">
-          <i class="material-icons form-icon">
-            assessment
-          </i>
-          <mat-form-field appearance="fill" style="width:80%">
-            <mat-label>Data Studio Link</mat-label>
-            <input matInput placeholder="Data Studio Link">
-          </mat-form-field>
-          <i class="material-icons info-icon">
-            info
-          </i>
-        </div>
-        <div class="row">
-          <i class="material-icons form-icon">
-            assessment
-          </i>
-          <mat-form-field appearance="fill" style="width:80%">
-            <mat-label>Data Source(s)</mat-label>
-            <input matInput placeholder="Data Source(s)">
-          </mat-form-field>
-          <i class="material-icons info-icon">
-            info
-          </i>
-        </div>
-        <div class="buttons">
-          <button mat-button>Cancel</button><button class="done" mat-flat-button>Done</button>
-        </div>
-      </form>
 
-      <!-- Share EXISTING -->
 
-      <!-- selecting report -->
-      <form>
-        <h2 class="title"> Create New Report</h2>
-        <hr>
-        <div class="row">
-          <h4 class="input-header"> Create New Report for "Organization"</h4>
-        </div>
-        <div class="row">
-          <h4 class="input-header"> Please Select a report to share to "Organization" </h4>
-        </div>
-        <div class="main-content-view" style="padding:0">
-          <app-report-list [reports]="reports" style="display:flex; width: 100%; margin-bottom: 10px;"></app-report-list>
-        </div>
-        <div class="buttons">
-          <button mat-button>Cancel</button><button class="done" mat-flat-button>Done</button>
-        </div>
-      </form>
+
+
+
+
+
+
     </div>
   </div>
 </div>

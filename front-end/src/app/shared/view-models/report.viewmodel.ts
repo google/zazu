@@ -37,9 +37,10 @@ import * as UserViewModel from '../view-models/user.viewmodel';
   // View Model for creating new report
   export interface CreateNewReport {
     name: string;
-    link: string;
+    datastudioLink: string;
     organizationID: string;
     datasource: string;
+    datastudioId: string;
   }
 
   // View Model for editing report
