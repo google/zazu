@@ -1,3 +1,4 @@
+import { CategoryPipe } from './../shared/pipes/category.pipe';
 import { ReportListPipe } from './../shared/pipes/report-list.pipe';
 import { SearchNamePipe } from './../shared/pipes/search-name.pipe';
 import { NgModule } from '@angular/core';
@@ -26,6 +27,9 @@ import { CreateNewReportComponent } from './create-new-report/create-new-report.
 import { CreateNewDataruleComponent } from './create-new-datarule/create-new-datarule.component';
 import { CreateNewUserComponent, NewUserOrganizationConfirmation } from './create-new-user/create-new-user.component';
 import { ShareReportComponent } from './share-report/share-report.component';
+import { EditOrganizationComponent } from './edit-organization/edit-organization.component';
+import { EditDataRuleComponent } from './edit-data-rule/edit-data-rule.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +56,11 @@ import { ShareReportComponent } from './share-report/share-report.component';
     CreateNewDataruleComponent,
     CreateNewUserComponent,
     NewUserOrganizationConfirmation,
-    ShareReportComponent
+    ShareReportComponent,
+    EditOrganizationComponent,
+    EditDataRuleComponent,
+    EditUserComponent,
+    CategoryPipe
 
 
   ],

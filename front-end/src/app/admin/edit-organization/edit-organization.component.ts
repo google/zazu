@@ -9,58 +9,86 @@ import {
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import * as OrganizationViewModel from '../../shared/view-models/organization.viewmodel';
 
 @Component({
-  selector: 'app-create-new-organization',
-  templateUrl: './create-new-organization.component.html',
-  styleUrls: ['./create-new-organization.component.scss']
+  selector: 'app-edit-organization',
+  templateUrl: './edit-organization.component.html',
+  styleUrls: ['./edit-organization.component.scss']
 })
-export class CreateNewOrganizationComponent implements OnInit {
+export class EditOrganizationComponent implements OnInit {
   constructor(
     private organizatinonService: OrganizationService,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private route: ActivatedRoute
   ) {}
   options = [];
 
   orgNameTooltip =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Peccata paria. Restinguet citius, si ardentem acceperit. Sed quid sentiat, non videtis. Vide, quantum, inquam, fallare, Torquate. Age, inquies, ista parva sunt.';
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Peccata paria. Restinguet citius, si ardentem acceperit. ';
 
+  myControl = new FormControl();
   filteredOptions: Observable<string[]>;
   selectedCategories = [''];
-
+  organizationID;
+  sub: any;
+  orgs: OrganizationViewModel.OrganizationDetails[];
+  org: OrganizationViewModel.OrganizationDetails;
   orgForm: FormGroup;
-
   async ngOnInit() {
     try {
+      this.sub = this.route.params.subscribe(params => {
+        this.organizationID = params['id'];
+      });
+      // ********************* Change this later to just get one organization
+      this.orgs = await this.organizatinonService.getAllOrganizations();
+      this.org = this.orgs.find(org => {
+        return org.id === this.organizationID;
+      });
       this.options = await this.organizatinonService.getAllCategories();
-      this.orgForm = await this._fb.group({
-        orgName: new FormControl('', [
+      this.filteredOptions = this.myControl.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
+      this.orgForm = this._fb.group({
+        orgName: new FormControl(this.org.name, [
           Validators.required,
           this.noWhitespaceValidator
         ]),
-        itemRows: this._fb.array([this.initItemRows()], this.noDuplicate)
+        itemRows: this._fb.array([this.initItemRows('')], this.noDuplicate)
       });
-
+      const control = <FormArray>this.orgForm.controls['itemRows'];
+      control.removeAt(0);
+      for (const category of this.org.categories) {
+        this.addNewRow(category);
+      }
     } catch (error) {
       console.log(error);
     }
   }
 
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
 
+    return this.options.filter(
+      option => option.toLowerCase().indexOf(filterValue) === 0
+    );
+  }
 
   addAnotherCategory() {
     this.selectedCategories.push('');
   }
 
-  initItemRows() {
+  initItemRows(name) {
     return this._fb.group({
-      itemname: ['', [Validators.required, this.noWhitespaceValidator]]
+      itemname: [name, [Validators.required, this.noWhitespaceValidator]]
     });
   }
 
-  addNewRow() {
+  addNewRow(name) {
     const control = <FormArray>this.orgForm.controls['itemRows'];
-    control.push(this.initItemRows());
+    control.push(this.initItemRows(name));
   }
 
   deleteRow(index: number) {
@@ -79,6 +107,7 @@ export class CreateNewOrganizationComponent implements OnInit {
       temp.push(itemname.itemname);
     }
     const org = {
+      id: this.organizationID,
       name: this.orgForm.value.orgName,
       categories: temp
     };

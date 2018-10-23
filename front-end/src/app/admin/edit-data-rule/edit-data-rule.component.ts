@@ -5,27 +5,39 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as DataViewModel from '../../shared/view-models/data.viewmodel';
 
+
 @Component({
-  selector: 'app-create-new-datarule',
-  templateUrl: './create-new-datarule.component.html',
-  styleUrls: ['./create-new-datarule.component.scss']
+  selector: 'app-edit-data-rule',
+  templateUrl: './edit-data-rule.component.html',
+  styleUrls: ['./edit-data-rule.component.scss']
 })
-export class CreateNewDataruleComponent implements OnInit, OnDestroy {
+export class EditDataRuleComponent implements OnInit, OnDestroy {
   dataruleFormGroup: FormGroup;
   datasources: DataViewModel.DataSource[];
   constructor(
     private formBuilder: FormBuilder,
     private datarulesService: DatarulesService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
   identifiers: string[];
   organizationId;
   sub: Subscription;
+  dataRules: DataViewModel.DataRule[];
+  dataRule: DataViewModel.DataRule;
+  dataRuleId;
   async ngOnInit() {
     try {
       this.sub = this.route.params.subscribe(params => {
         this.organizationId = params['id'];
+        this.dataRuleId = params['ruleID'];
       });
+      // ****** Remember to do change this to only get the item without using the list
+      console.log(this.dataRuleId);
+      this.dataRules = await this.datarulesService.getDataRules('orgID');
+      this.dataRule = this.dataRules.find( element => {
+        return element.id === this.dataRuleId;
+      });
+      console.log(this.dataRule);
       this.datasources = await this.datarulesService.getAllDataSourceForOrganization(
         'id'
       );
@@ -37,12 +49,13 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
         'Identifier 4'
       ];
       this.dataruleFormGroup = this.formBuilder.group({
-        name: ['', [Validators.required,  this.noWhitespaceValidator]],
-        datasource: ['', Validators.required],
-        identifier: ['', Validators.required],
-        condition: ['', Validators.required],
-        token: ['', [Validators.required,  this.noWhitespaceValidator]]
+        name: [this.dataRule.name, [Validators.required,  this.noWhitespaceValidator]],
+        datasource: [this.dataRule.datasource, Validators.required],
+        identifier: [this.dataRule.identifier, Validators.required],
+        condition: [this.dataRule.condition, Validators.required],
+        token: [this.dataRule.token, [Validators.required,  this.noWhitespaceValidator]]
       });
+      console.log('Initialized');
     } catch (error) {}
   }
 
@@ -61,6 +74,7 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
   onSubmit() {
     const form = this.dataruleFormGroup.value;
     const datarule = {
+      id: this.dataRuleId,
       name: form.name,
       datasource: form.datasource,
       identifier: form.identifier,
@@ -70,4 +84,5 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
     };
     console.log(datarule);
   }
+
 }

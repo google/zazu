@@ -1,9 +1,9 @@
 <div class="form-container">
   <div class="card">
-    <div class="form" *ngIf="orgForm">
+    <div class="form" *ngIf="orgForm && org">
       <!-- *********************************  -->
       <form [formGroup]="orgForm" (ngSubmit)="onSubmit()">
-        <h2 class="title"> Create New Organization</h2>
+        <h2 class="title"> Edit Organization: <span class="input-header">{{org.name}} </span></h2>
         <hr>
         <h4 class="input-header"> Please enter organization information </h4>
         <div class="row">
@@ -22,9 +22,9 @@
           </i>
         </div>
         <h4 class="input-header">Categories
-          <i class="material-icons info-icon" matTooltip="{{orgNameTooltip}}">
-            info
-          </i>
+            <i class="material-icons info-icon" matTooltip="{{orgNameTooltip}}">
+              info
+            </i>
         </h4>
         <div formArrayName="itemRows">
           <div *ngFor="let itemrow of orgForm.controls.itemRows.controls; let i=index" [formGroupName]="i">
@@ -34,10 +34,10 @@
               </i>
               <mat-form-field appearance="fill" style="width:80%">
                 <mat-label>Category </mat-label>
-                <input type="text" placeholder="Category" aria-label="Number" matInput formControlName="itemname" [matAutocomplete]="auto">
-                <mat-autocomplete #auto="matAutocomplete">
+                <input type="text" placeholder="Pick one" aria-label="Number" matInput formControlName="itemname" [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                   <mat-option *ngFor="let option of options | category: this.orgForm.controls.itemRows.controls[i].controls.itemname.value" [value]="option">
-                    {{option}}
+                    <span>{{option}} </span>
                   </mat-option>
                 </mat-autocomplete>
                 <mat-error>
@@ -47,17 +47,17 @@
                   Duplicated Category
                 </mat-error>
               </mat-form-field>
-              <i class="material-icons close-icon" *ngIf="orgForm?.controls.itemRows?.controls.length > 1" (click)="deleteRow(i)">
+              <i class="material-icons close-icon" *ngIf="orgForm.controls.itemRows.controls.length > 1" (click)="deleteRow(i)">
                 close
               </i>
             </div>
           </div>
         </div>
         <p class="custom-error" *ngIf="orgForm.get('itemRows').getError('duplicate')">
-          Cannot have duplicate categories </p>
-        <p class="add-row" (click)="addNewRow()">+ Add another category</p>
+            Cannot have duplicate categories </p>
+        <p class="add-row" (click)="addNewRow('')">+ Add another category</p>
         <div class="buttons">
-          <button mat-button routerLink="../list">Cancel</button>
+          <button mat-button routerLink="../">Cancel</button>
           <button class="done primary" [disabled]="!orgForm.valid" [ngClass]="{'button-disabled': !orgForm.valid}" mat-flat-button type="submit">Done
           </button>
         </div>

@@ -4,7 +4,7 @@ import { ReportService } from 'src/app/shared/services/report.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { OrganizationService } from 'src/app/shared/services/organization.service';
 import * as OrganizationViewModel from './../../shared/view-models/organization.viewmodel';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import * as DataViewModel from '../../shared/view-models/data.viewmodel';
 import { DatarulesService } from 'src/app/shared/services/datarules.service';
 import { MatStepper } from '@angular/material';
@@ -43,10 +43,10 @@ export class CreateNewReportComponent implements OnInit {
         organization: ['', Validators.required]
       });
       this.reportInfoForm = this.formBuilder.group({
-        name: ['', Validators.required],
-        datastudioLink: ['', Validators.required],
-        datastudioId: ['', Validators.required],
-        datasources: ['', Validators.required]
+        name: ['', [Validators.required,  this.noWhitespaceValidator] ],
+        datastudioLink: ['', [Validators.required,  this.noWhitespaceValidator] ],
+        datastudioId: ['', [Validators.required,  this.noWhitespaceValidator] ],
+        datasources: ['', [Validators.required] ]
       });
       this.sub = this.route.params.subscribe(params => {
         this.organizationID = params['id'];
@@ -70,6 +70,12 @@ export class CreateNewReportComponent implements OnInit {
    this.selectedOrg = this.organizations.find(org => {
      return org.id === this.orgForm.value.organization;
    });
+  }
+
+  public noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { whitespace: true };
   }
 
   onSubmit() {

@@ -17,6 +17,9 @@ import { OrganizationComponent } from './organization/organization.component';
 import { AllReportsComponent } from './all-reports/all-reports.component';
 import { CreateNewOrganizationComponent } from './create-new-organization/create-new-organization.component';
 import { CreateNewReportComponent } from './create-new-report/create-new-report.component';
+import { EditOrganizationComponent } from './edit-organization/edit-organization.component';
+import { EditDataRuleComponent } from './edit-data-rule/edit-data-rule.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 const adminRoutes: Routes = [
   {
@@ -37,7 +40,10 @@ const adminRoutes: Routes = [
           { path: ':id/new-user', component: CreateNewUserComponent},
           { path: ':id/new-report', component: CreateNewReportComponent},
           { path: ':id/share-report', component: ShareReportComponent},
+          { path: ':id/edit-organization', component: EditOrganizationComponent},
+          { path: ':id/edit-rule/:ruleID', component: EditDataRuleComponent},
           { path: ':id/u/:userID', component: UserDetailsComponent },
+          { path: ':id/u/:userID/edit-user', component: EditUserComponent },
           { path: ':id/r/:reportID', component: AdminReportDetailsComponent },
           {
             path: ':id/u/:userID/r/:reportID',
@@ -52,14 +58,9 @@ const adminRoutes: Routes = [
           { path: '', redirectTo: 'list' },
           { path: 'list', component: AllUserListComponent },
           { path: 'new-user', component: CreateNewUserComponent},
-          {
-            path: 'u/:userID',
-            component: UserDetailsComponent
-          },
-          {
-            path: 'u/:userID/r/:reportID',
-            component: AdminReportDetailsComponent
-          }
+          { path: 'u/:userID', component: UserDetailsComponent },
+          { path: 'u/:userID/edit-user', component: EditUserComponent },
+          { path: 'u/:userID/r/:reportID', component: AdminReportDetailsComponent}
         ]
       },
       {

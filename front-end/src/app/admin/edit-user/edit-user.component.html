@@ -1,62 +1,52 @@
 <div class="form-container">
-  <div class="card">
+  <div class="card" *ngIf="firstFormGroup  && user">
     <div class="form">
-      <h2 class="title"> Create New User</h2>
+      <h2 class="title">Edit User: <span class="input-header"> {{user.firstName}}   {{user.lastName}}    </span></h2>
       <hr>
-      <mat-horizontal-stepper linear #stepper *ngIf="firstFormGroup && secondFormGroup">
-        <!-- First Step-->
-        <mat-step [stepControl]="firstFormGroup">
-            <form [formGroup]="firstFormGroup">
+            <form [formGroup]="firstFormGroup" (ngSubmit)="onSubmit()">
               <ng-template matStepLabel>Fill out your name</ng-template>
               <div class="row">
-                <h4 class="input-header"> Please select role for new user <i class="material-icons info-icon">
-                    info
-                  </i></h4>
+                <h4 class="input-header"> Viewer for <span *ngFor="let org of user.organizations; let i = index">{{org.name}}<span *ngIf="i < user.organizations.length -1">,</span> &nbsp;</span></h4>
                 <i class="material-icons form-icon">
                   business
                 </i>
                 <mat-form-field appearance="fill" style="width:80%">
                   <mat-label>Role</mat-label>
                   <mat-select formControlName="role" [(value)]="roleSelected" >
-                    <mat-option value="admin" (click)="checkRole()">Admin</mat-option>
-                    <mat-option value="viewer" (click)="checkRole()">Viewer</mat-option>
+                    <mat-option value="Admin" (click)="openDialog()">Admin</mat-option>
+                    <mat-option value="Viewer" (click)="checkRole()">Viewer</mat-option>
                   </mat-select>
                   <mat-error>
                       Role is <strong>required</strong>
                     </mat-error>
                 </mat-form-field>
+                <i class="material-icons info-icon">
+                  info
+                </i>
               </div>
-              <div class="row" *ngIf="roleSelected === 'viewer'">
-                <h4 class="input-header"> Please select organization(s) for new user <i class="material-icons info-icon">
-                    info
-                  </i></h4>
+
+              <div class="row" *ngIf="firstFormGroup.value.role === 'Viewer'">
                 <i class="material-icons form-icon">
                   business
                 </i>
                 <mat-form-field appearance="fill" style="width:80%">
                   <mat-label>Select Organization(s)</mat-label>
-                  <mat-select  formControlName="organizations" [(value)]="selectedOrganizationIds" multiple>
+                  <mat-select  formControlName="organizations" [(ngModel)]="selectedOrganizationIds"  multiple>
                     <mat-option *ngFor="let organization of organizations" value="{{organization.id}}">{{organization.name}}</mat-option>
                   </mat-select>
                   <mat-error>
                       Organization is <strong>required</strong>
                     </mat-error>
                 </mat-form-field>
-                <p class="create-new-text">Organization not on the list? <span class="create-new-button" routerLink="/admin/o/new-organization">Create
+                <i class="material-icons info-icon">
+                  info
+                </i>
+                <p class="create-new-text" style="padding-left: 35px;
+                padding-bottom: 10px;">Organization not on the list? <span class="create-new-button" routerLink="/admin/o/new-organization">Create
                     New Organization </span></p>
               </div>
-              <div class="buttons">
-                <button mat-button type='button'  routerLink="../">Cancel</button>
-                <button mat-button type='button' mat-flat-button class="done primary" [disabled]="!firstFormGroup.valid" [ngClass]="{'button-disabled': !firstFormGroup.valid}" (click)="openDialog()">Next</button>
-              </div>
-            </form>
-        </mat-step>
-        <!-- Second Step-->
-        <mat-step [stepControl]="secondFormGroup">
-          <form [formGroup]="secondFormGroup" (ngSubmit)="onSubmit()">
-            <p class="description" *ngIf="roleSelected === 'admin'"> New Admin user</p>
-            <p class="description" *ngIf="roleSelected === 'viewer'"> New Viewer for <span *ngFor="let org of selectedOrganizationNames; let i = index">{{org.name}}<span *ngIf="i < selectedOrganizationNames.length - 1">,</span>&nbsp;</span></p>
-            <h4 class="input-header"> Please enter user information </h4>
+
+
             <div class="row">
               <i class="material-icons form-icon">
                   person_outline
@@ -94,10 +84,10 @@
               <mat-form-field appearance="fill" style="width:80%">
                 <mat-label>Gmail</mat-label>
                 <input  type="email" formControlName="email" matInput placeholder="">
-                <mat-error *ngIf="secondFormGroup?.controls.email?.errors?.required ">
+                <mat-error *ngIf="firstFormGroup?.controls.email?.errors?.required ">
                   Email is <strong>required</strong>
                 </mat-error>
-                <mat-error *ngIf="secondFormGroup?.controls.email?.errors?.email ">
+                <mat-error *ngIf="firstFormGroup?.controls.email?.errors?.email ">
                  Must be in email format
                 </mat-error>
               </mat-form-field>
@@ -105,7 +95,7 @@
                 info
               </i>
             </div>
-            <div class="row" *ngIf="allowSecondaryEmail">
+            <div class="row">
               <i class="material-icons form-icon">
                 alternate_email
               </i>
@@ -113,24 +103,19 @@
                 <mat-label  >Secondary Email</mat-label>
                 <input formControlName="secondaryEmail" type="email" matInput placeholder="">
                 <mat-hint>Not Required</mat-hint>
-                <mat-error *ngIf="secondFormGroup?.controls.secondaryEmail?.errors?.email ">
+                <mat-error>
                   Must be in email format
                  </mat-error>
-
               </mat-form-field>
               <i class="material-icons info-icon">
                 info
               </i>
             </div>
-            <p class="add-row"  *ngIf="!allowSecondaryEmail" (click)="addSecondaryEmail()">+ Add secondary email</p>
-
-            <div class="buttons">
-              <button mat-button matStepperPrevious type="button">Back</button>
-              <button class="done primary" mat-flat-button  [disabled]="!secondFormGroup.valid" [ngClass]="{'button-disabled': !secondFormGroup.valid}" type="submit">Done</button>
+            <div class="buttons" *ngIf="firstFormGroup">
+              <button mat-button  type="button">Back</button>
+              <button class="done primary" mat-flat-button  [disabled]="!firstFormGroup.valid" [ngClass]="{'button-disabled': !firstFormGroup.valid}" type="submit">Done</button>
             </div>
           </form>
-        </mat-step>
-      </mat-horizontal-stepper>
     </div>
   </div>
 </div>

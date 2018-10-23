@@ -5,8 +5,8 @@
   "googleId": "name@gmail.com",
   "secondaryEmail": "evelynhunter@zidant.com",
   "organizations": [{
-    "id": "4",
-    "name": "Company Name"
+    "id": "6",
+    "name": "Example Company"
   }],
-  "role": "VIEWACCESS"
+  "role": "Viewer"
 }

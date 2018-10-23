@@ -1,3 +1,4 @@
+import { NewUserOrganizationConfirmation } from './../create-new-user/create-new-user.component';
 import { ActivatedRoute } from '@angular/router';
 import { OrganizationService } from './../../shared/services/organization.service';
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
@@ -15,51 +16,60 @@ import {
   MatStepper
 } from '@angular/material';
 import * as UserViewModel from '../../shared/view-models/user.viewmodel';
+import { UserService } from 'src/app/shared/services/user.service';
+
 
 @Component({
-  selector: 'app-create-new-user',
-  templateUrl: './create-new-user.component.html',
-  styleUrls: ['./create-new-user.component.scss']
+  selector: 'app-edit-user',
+  templateUrl: './edit-user.component.html',
+  styleUrls: ['./edit-user.component.scss']
 })
-export class CreateNewUserComponent implements OnInit {
-  @ViewChild('stepper')
-  stepper;
-
+export class EditUserComponent implements OnInit {
   constructor(
     private organizationService: OrganizationService,
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userService: UserService
   ) {}
   sub: any;
   roleSelected;
   organizations: OrganizationViewModel.SimpleOrganization[];
-  selectedOrganizationIds: string[];
+  selectedOrganizationIds: string[] = [];
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   selectedOrganizationNames: OrganizationViewModel.SimpleOrganization[];
-  allowSecondaryEmail = false;
   organizationID;
+  userID: UserViewModel.User[];
+  user: UserViewModel.User;
   async ngOnInit() {
     try {
       this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();
-      this.firstFormGroup = this.formBuilder.group({
-        role: ['', Validators.required]
-      });
-      this.secondFormGroup = this.formBuilder.group({
-        firstName: ['',  [Validators.required,  this.noWhitespaceValidator] ],
-        lastName: ['',  [Validators.required,  this.noWhitespaceValidator] ],
-        email: ['', [Validators.required, Validators.email, this.noWhitespaceValidator]],
-        secondaryEmail: ['', [Validators.email]]
-      });
+
       this.sub = this.route.params.subscribe(params => {
         this.organizationID = params['id'];
+        this.userID = params['userID'];
       });
+      this.user = await this.userService.getUser(this.userID);
+      for await (const org of this.user.organizations) {
+        this.selectedOrganizationIds.push(org.id);
+      }
+      this.firstFormGroup = await this.formBuilder.group({
+        role: [this.user.role, Validators.required],
+        organizations: ['', Validators.required],
+        firstName: [this.user.firstName, [Validators.required, this.noWhitespaceValidator]],
+        lastName: [this.user.lastName, [Validators.required, this.noWhitespaceValidator]],
+        email: [
+          this.user.googleId,
+          [Validators.required, Validators.email, this.noWhitespaceValidator]
+        ],
+        secondaryEmail: [this.user.secondaryEmail, Validators.email]
+      });
+      await console.log(this.user);
     } catch (error) {
       console.log(error);
     }
   }
-
 
   checkRole() {
     if (this.roleSelected === 'admin') {
@@ -78,63 +88,53 @@ export class CreateNewUserComponent implements OnInit {
    */
   onSubmit() {
     const firstForm = this.firstFormGroup.value;
-    const secondForm = this.secondFormGroup.value;
     let orgs = [];
-    if (firstForm.role === 'viewer') {
+
+    if (firstForm.role === 'Viewer') {
       orgs = firstForm.organizations;
-    }
-    const newUser: UserViewModel.CreateNewUser = {
-      firstName : secondForm.firstName,
-      lastName : secondForm.lastName,
-      googleId : secondForm.email,
-      secondaryEmail: secondForm.secondaryEmail,
-      organizations : orgs,
-      role: firstForm.role
-    };
+      const newUser: UserViewModel.CreateNewUser = {
+        firstName: firstForm.firstName,
+        lastName: firstForm.lastName,
+        googleId: firstForm.email,
+        secondaryEmail: firstForm.secondaryEmail,
+        organizations: orgs,
+        role: firstForm.role
+      };
     console.log(newUser);
+    }
+    if (firstForm.role === 'Admin') {
+      const newUser: UserViewModel.CreateNewUser = {
+        firstName: firstForm.firstName,
+        lastName: firstForm.lastName,
+        googleId: firstForm.email,
+        secondaryEmail: firstForm.secondaryEmail,
+        organizations: null,
+        role: firstForm.role
+      };
+    console.log(newUser);
+    }
+
   }
 
-  openDialog(stepper: MatStepper) {
-    if (this.roleSelected === 'viewer') {
-      this.selectedOrganizationNames = this.organizations.filter(org => {
-        return this.selectedOrganizationIds.includes(org.id);
-      });
-    }
+
+  openDialog() {
     const dialogRef = this.dialog.open(NewUserOrganizationConfirmation, {
-      data: { orgs: this.selectedOrganizationNames, role: this.roleSelected }
+      data: { orgs: '', role: 'admin' }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(true);
-      if (result) {
-        this.stepper.next();
+      if (!result) {
+        this.firstFormGroup.controls['role'].setValue('Viewer');
       }
     });
   }
 
-  addSecondaryEmail() {
-    this.allowSecondaryEmail = true;
-  }
+
 
   public noWhitespaceValidator(control: FormControl) {
     const isWhitespace = (control.value || '').trim().length === 0;
     const isValid = !isWhitespace;
     return isValid ? null : { whitespace: true };
-  }
-
-}
-
-@Component({
-  selector: 'new-user-organization-confirmation',
-  templateUrl: 'new-user-organization-confirmation.html'
-})
-export class NewUserOrganizationConfirmation {
-  constructor(
-    public dialogRef: MatDialogRef<NewUserOrganizationConfirmation>,
-    @Inject(MAT_DIALOG_DATA) public data
-  ) {}
-
-  onNoClick(): void {
-    this.dialogRef.close();
   }
 }

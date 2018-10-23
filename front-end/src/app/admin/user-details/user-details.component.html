@@ -30,7 +30,7 @@
           </button>
 
           <mat-menu #menu="matMenu">
-            <button mat-menu-item>Edit</button>
+            <button mat-menu-item routerLink="./edit-user">Edit</button>
             <button mat-menu-item>Delete</button>
           </mat-menu>
         </div>
@@ -38,7 +38,7 @@
           <div class="container">
             <h2 class="title"> {{user.firstName}} {{user.lastName}}</h2>
             <h4 class="secondary">Viewer</h4>
-            <p class="content">Email: {{user.googleId}}</p>
+            <p class="content">Gmail: {{user.googleId}}</p>
             <p class="content">Secondary Email: {{user.secondaryEmail }}}</p>
             <p class="content"> Accesses: <span *ngFor="let org of user.organizations"> {{org.name}} </span></p>
           </div>

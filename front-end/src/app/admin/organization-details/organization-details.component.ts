@@ -104,6 +104,10 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     this.router.navigate(['./r', reportID], { relativeTo: this.route });
   }
 
+  editRule(ruleID) {
+    this.router.navigate(['./edit-rule', ruleID], { relativeTo: this.route });
+  }
+
   changeSort(sort) {
     this.paginationService.resetPage();
     this.sortValue = sort;
