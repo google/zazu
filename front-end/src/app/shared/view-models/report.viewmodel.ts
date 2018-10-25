@@ -1,5 +1,6 @@
-import * as OrganizationViewModel from '../view-models/organization.viewmodel';
-import * as UserViewModel from '../view-models/user.viewmodel';
+import * as OrganizationViewModel from './organization.viewmodel';
+import * as UserViewModel from './user.viewmodel';
+import * as DataViewModel from './data.viewmodel';
 
 
   // What I expect to get back for Viewer Report Details
@@ -8,7 +9,7 @@ import * as UserViewModel from '../view-models/user.viewmodel';
     name: string;
     link: string;
     organization: OrganizationViewModel.SimpleOrganization;
-    datasource: string;
+    datasources: DataViewModel.DataSource[];
     date: Date;
   }
 
@@ -27,7 +28,7 @@ import * as UserViewModel from '../view-models/user.viewmodel';
     name: string;
     link: string;
     organization: OrganizationViewModel.SimpleOrganization;
-    datasource: string;
+    datasources: DataViewModel.DataSource[];
     date: Date;
     createdBy: string;
     updatedBy: string;
@@ -39,7 +40,7 @@ import * as UserViewModel from '../view-models/user.viewmodel';
     name: string;
     datastudioLink: string;
     organizationID: string;
-    datasource: string;
+    datasources: DataViewModel.DataSource[];
     datastudioId: string;
   }
 
@@ -49,7 +50,7 @@ import * as UserViewModel from '../view-models/user.viewmodel';
     name: string;
     link: string;
     organizationID: string;
-    datasource: string;
+    datasources: DataViewModel.DataSource[];
   }
 
   // View Model for deleteing report

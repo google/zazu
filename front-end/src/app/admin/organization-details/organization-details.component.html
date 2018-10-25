@@ -17,7 +17,7 @@
 
             <mat-menu #menu="matMenu">
               <button mat-menu-item routerLink="./edit-organization">Edit</button>
-              <button mat-menu-item>Delete</button>
+              <button mat-menu-item (click)="openDialog()">Delete</button>
             </mat-menu>
           </div>
           <div class="container">
@@ -66,7 +66,7 @@
                       <p>Condition: {{rule.condition}}</p>
                       <p>Token: {{rule.token}}</p>
                       <div class="buttons">
-                        <button mat-button color="danger">Delete</button>
+                        <button mat-button color="danger" (click)="deleteRule(rule)">Delete</button>
                         <button mat-button color="primary" (click)="editRule(rule.id)">Edit</button>
                       </div>
                     </mat-expansion-panel>

@@ -57,6 +57,8 @@ export class OrganizationService {
    * @param organization - organization object
    */
   public async CreateNewOrganization(organization: OrganizationViewModel.CreateNewOrganization) {
+    console.log('Organization Created');
+    console.log(organization);
     return await null;
   }
 
@@ -65,6 +67,8 @@ export class OrganizationService {
    * @param organization - organiztion object
    */
   public async EditOrganization(organization: OrganizationViewModel.EditOrganization) {
+    console.log('Organization Edit: ');
+    console.log(organization);
     return await null;
   }
 
@@ -73,6 +77,7 @@ export class OrganizationService {
    * @param organizationID - ID of the organization you want to delete
    */
   public async DeleteOrganization(organizationID: string) {
+    console.log('Organization Delete: ' + organizationID);
     return await null;
   }
 

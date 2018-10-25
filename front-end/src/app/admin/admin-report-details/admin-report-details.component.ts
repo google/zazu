@@ -1,11 +1,12 @@
 import { UserService } from './../../shared/services/user.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { ReportService } from '../../shared/services/report.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as UserViewModel from '../../shared/view-models/user.viewmodel';
 import * as OrganizationViewModel from '../../shared/view-models/organization.viewmodel';
 import * as ReportViewModel from '../../shared/view-models/report.viewmodel';
 import { OrganizationService } from '../../shared/services/organization.service';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-admin-report-details',
@@ -13,8 +14,14 @@ import { OrganizationService } from '../../shared/services/organization.service'
   styleUrls: ['./admin-report-details.component.scss']
 })
 export class AdminReportDetailsComponent implements OnInit, OnDestroy {
-
-  constructor(private reportService: ReportService, private route: ActivatedRoute, private userService: UserService, private organizationService: OrganizationService) { }
+  constructor(
+    private reportService: ReportService,
+    private route: ActivatedRoute,
+    private userService: UserService,
+    private organizationService: OrganizationService,
+    public dialog: MatDialog,
+    private router: Router,
+  ) {}
 
   sub: any;
   organizationID;
@@ -39,11 +46,40 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
     } else {
       this.userView = false;
     }
-    this.organization = await this.organizationService.getOrganizationById('orgID');
+    this.organization = await this.organizationService.getOrganizationById(
+      'orgID'
+    );
   }
 
+  openDialog( ) {
+    const dialogRef = this.dialog.open(DeleteReportConfirmation, {
+      data: { report: this.report.name}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.reportService.deleteReport(this.reportID);
+        this.router.navigate(['../../'], { relativeTo: this.route });
+      }
+    });
+  }
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
-
 }
+
+
+@Component({
+  selector: 'delete-report-confirmation',
+  templateUrl: 'delete-report-confirmation.html'
+})
+export class DeleteReportConfirmation {
+  constructor(
+    public dialogRef: MatDialogRef<DeleteReportConfirmation>,
+    @Inject(MAT_DIALOG_DATA) public data
+  ) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+}
+

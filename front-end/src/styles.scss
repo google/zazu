@@ -5,6 +5,10 @@
   background-color: $primary-button-color !important;
 }
 
+.danger {
+  background-color: $danger-color !important;
+}
+
 .plain {
   background-color: $plain-color !important;
 }
@@ -460,6 +464,7 @@ body {
     .create-new-button {
       color: $primary-button-color;
     }
+
     .create-new-button:hover {
       cursor: pointer;
     }
@@ -521,14 +526,31 @@ body {
     color: $primary-button-color;
     text-align: center;
     font-weight: 500;
+    margin:0;
+  }
 
-    i {
-      position: relative;
-      top: 10px;
-      font-size: 40px;
-      margin-right: -40px;
-      right: 50px;
-    }
+  .delete {
+    color: $danger-color !important;
+
+  }
+  p {
+    max-width: 500px;
+  }
+
+  i {
+    position: relative;
+    top: 10px;
+    font-size: 40px;
+    margin-right: -40px;
+    right: 50px;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  .subtitle {
+    margin-bottom: 0;
   }
 }
 

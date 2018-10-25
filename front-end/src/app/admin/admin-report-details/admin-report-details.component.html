@@ -51,16 +51,19 @@
           </button>
 
           <mat-menu #menu="matMenu">
-            <button mat-menu-item>Edit</button>
-            <button mat-menu-item>Delete</button>
+            <button mat-menu-item routerLink="./edit-report">Edit</button>
+            <button mat-menu-item (click)="openDialog()">Delete</button>
           </mat-menu>
         </div>
         <h4 class="info-title"> Report Information</h4>
         <p> Name: <span class="info">{{report.name}} </span></p>
-        <p> Organization: <span class="info">{{report.organization.name}} </span></p>
-        <p>Datasource: <span class="info">{{report.datasource}} </span></p>
+        <p>Organization: <span class="info">{{report.organization.name}} </span></p>
         <p>Date: <span class="info"> {{report.date | date }}</span> </p>
         <p>Datastudio Link: <span class="info"> {{report.link}}</span></p>
+        <p>Datasources: </p>
+        <div *ngFor="let datasource of report.datasources; let i = index">
+          <p>&nbsp;&nbsp;&nbsp;&bull;<span class="info"> {{datasource.name}} </span> </p>
+        </div>
       </div>
 
       <div class="metadata">
@@ -71,10 +74,15 @@
                 <h4 class="info-title" style="padding-top: 10px;"> Metadata</h4>
               </mat-panel-title>
             </mat-expansion-panel-header>
+            <div *ngFor="let datasource of report.datasources; let i = index">
+                <p>Datasource: <span class="info">{{datasource.name}} </span> </p>
+                <p>&nbsp;&nbsp;&bull; ID: <span class="info">{{datasource.id}} </span></p>
+            </div>
             <p>Created By: <span class="info">{{ report.createdBy}}</span> </p>
             <p>Updated By: <span class="info">{{ report.updatedBy}}</span></p>
             <p>Who can see it: </p>
-            <p *ngFor="let user of report.accessedBy"> <span class="info"> &nbsp;&nbsp;&#9679; &nbsp;{{user.firstName}} {{user.lastName}} </span></p>
+            <p *ngFor="let user of report.accessedBy"> <span class="info"> &nbsp;&nbsp;&#9679; &nbsp;{{user.firstName}} {{user.lastName}}
+              </span></p>
             <br>
           </mat-expansion-panel>
         </mat-accordion>

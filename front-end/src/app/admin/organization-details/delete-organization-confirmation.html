@@ -1,0 +1,20 @@
+
+
+
+<div class="dialog">
+  <h2 class="title delete"><i class="material-icons">
+      warning
+    </i>Delete {{data.organization}}?</h2>
+  <div mat-dialog-content>
+    <h4 class="subtitle">Warning: this cannot be undone</h4>
+    <ul class="conditions">
+      <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+      <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+      <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+    </ul>
+  </div>
+  <div mat-dialog-actions style="float:right">
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button mat-flat-button [mat-dialog-close]="true" class="danger" cdkFocusInitial>Continue</button>
+  </div>
+</div>

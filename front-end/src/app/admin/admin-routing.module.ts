@@ -1,3 +1,4 @@
+import { EditReportComponent } from './edit-report/edit-report.component';
 import { ShareReportComponent } from './share-report/share-report.component';
 import { CreateNewDataruleComponent } from './create-new-datarule/create-new-datarule.component';
 import { CreateNewUserComponent } from './create-new-user/create-new-user.component';
@@ -45,6 +46,7 @@ const adminRoutes: Routes = [
           { path: ':id/u/:userID', component: UserDetailsComponent },
           { path: ':id/u/:userID/edit-user', component: EditUserComponent },
           { path: ':id/r/:reportID', component: AdminReportDetailsComponent },
+          { path: ':id/r/:reportID/edit-report', component: EditReportComponent},
           {
             path: ':id/u/:userID/r/:reportID',
             component: AdminReportDetailsComponent
@@ -70,7 +72,8 @@ const adminRoutes: Routes = [
           { path: '', redirectTo: 'list' },
           { path: 'list', component: AllReportListComponent },
           { path: 'new-report', component: CreateNewReportComponent},
-          { path: 'r/:reportID', component: AdminReportDetailsComponent }
+          { path: 'r/:reportID', component: AdminReportDetailsComponent },
+          { path: 'r/:reportID/edit-report', component: EditReportComponent}
         ]
       }
     ]

@@ -58,6 +58,7 @@ export class UserService {
    * @param userID - ID of the user you want to delete
    */
   public async deleteUser(userID: string) {
+    console.log('User Deleted: ' + userID);
     return await null;
   }
 }

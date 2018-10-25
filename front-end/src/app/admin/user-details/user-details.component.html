@@ -31,7 +31,7 @@
 
           <mat-menu #menu="matMenu">
             <button mat-menu-item routerLink="./edit-user">Edit</button>
-            <button mat-menu-item>Delete</button>
+            <button mat-menu-item (click)="openDialog()">Delete</button>
           </mat-menu>
         </div>
         <div class="card">

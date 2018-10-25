@@ -662,7 +662,10 @@ var OrganizationService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, null];
+                    case 0:
+                        console.log('Organization Created');
+                        console.log(organization);
+                        return [4 /*yield*/, null];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -676,7 +679,10 @@ var OrganizationService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, null];
+                    case 0:
+                        console.log('Organization Edit: ');
+                        console.log(organization);
+                        return [4 /*yield*/, null];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -690,7 +696,9 @@ var OrganizationService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, null];
+                    case 0:
+                        console.log('Organization Delete: ' + organizationID);
+                        return [4 /*yield*/, null];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -926,11 +934,13 @@ var ReportService = /** @class */ (function () {
      * Delete Report
      * @param reportID - ID of the report you want to delete
      */
-    ReportService.prototype.DeleteReport = function (reportID) {
+    ReportService.prototype.deleteReport = function (reportID) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, null];
+                    case 0:
+                        console.log('Report Deleted: ' + reportID);
+                        return [4 /*yield*/, null];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -1093,7 +1103,9 @@ var UserService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, null];
+                    case 0:
+                        console.log('User Deleted: ' + userID);
+                        return [4 /*yield*/, null];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });

@@ -16,11 +16,11 @@ import { DatarulesService } from 'src/app/shared/services/datarules.service';
 import { MatStepper } from '@angular/material';
 
 @Component({
-  selector: 'app-create-new-report',
-  templateUrl: './create-new-report.component.html',
-  styleUrls: ['./create-new-report.component.scss']
+  selector: 'app-edit-report',
+  templateUrl: './edit-report.component.html',
+  styleUrls: ['./edit-report.component.scss']
 })
-export class CreateNewReportComponent implements OnInit {
+export class EditReportComponent implements OnInit {
   @ViewChild('stepper')
   stepper: MatStepper;
   constructor(
@@ -28,9 +28,9 @@ export class CreateNewReportComponent implements OnInit {
     private router: Router,
     private organizationService: OrganizationService,
     private formBuilder: FormBuilder,
-    private datarulesService: DatarulesService
+    private datarulesService: DatarulesService,
+    private reportService: ReportService
   ) {}
-  reports: ReportViewModel.SimpleReport[];
   organizations: OrganizationViewModel.SimpleOrganization[];
   orgForm: FormGroup;
   reportInfoForm: FormGroup;
@@ -38,52 +38,54 @@ export class CreateNewReportComponent implements OnInit {
   selectedOrg;
   organizationID;
   sub: any;
+  report: ReportViewModel.Report;
+  reportID: string;
 
   async ngOnInit() {
     try {
+      this.sub = await this.route.params.subscribe(params => {
+        this.reportID = params['reportID'];
+      });
       this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();
       this.datasources = await this.datarulesService.getAllDataSourceForOrganization(
-        'id'
-      );
-      this.orgForm = this.formBuilder.group({
-        organization: ['', Validators.required]
-      });
+        this.reportID);
+      this.report = await this.reportService.getReport('id');
+      this.organizationID = this.report.organization.id;
+      if (this.organizationID) {
+        this.selectedOrg = this.organizations.find(org => {
+          return org.id === this.organizationID;
+        });
+      }
       this.reportInfoForm = this.formBuilder.group({
-        name: ['', [Validators.required, this.noWhitespaceValidator]],
-        datastudioLink: ['', [Validators.required, this.noWhitespaceValidator]],
+        organization: [ this.report.organization.id, Validators.required],
+        name: [this.report.name, [Validators.required, this.noWhitespaceValidator]],
+        datastudioLink: [this.report.link, [Validators.required, this.noWhitespaceValidator]],
         datasourceRows: this.formBuilder.array(
-          [this.initItemRows()],
+          [this.initItemRows('', '')],
           this.noDuplicate
         )
       });
-      this.sub = this.route.params.subscribe(params => {
-        this.organizationID = params['id'];
-        if (this.organizationID) {
-          this.selectedOrg = this.organizations.find(org => {
-            return org.id === this.organizationID;
-          });
-        }
-      });
-      console.log(this.reportInfoForm.controls.datasourceRows);
+      const control = <FormArray>this.reportInfoForm.controls['datasourceRows'];
+      control.removeAt(0);
+      for ( const datasource of this.report.datasources) {
+        this.addNewRow(datasource.name, datasource.id);
+      }
+      console.log(this.reportInfoForm.value);
     } catch (error) {
       console.log(error);
     }
   }
 
-  selectStep(id) {
-    this.stepper.selectedIndex = id;
-  }
-
-  initItemRows() {
+  initItemRows(name, id) {
     return this.formBuilder.group({
-      name: ['', [Validators.required]],
-      datastudioId: ['', [Validators.required, this.noWhitespaceValidator]]
+      name: [name, [Validators.required]],
+      datastudioId: [id, [Validators.required, this.noWhitespaceValidator]]
     });
   }
 
-  addNewRow() {
+  addNewRow(name, id) {
     const control = <FormArray>this.reportInfoForm.controls['datasourceRows'];
-    control.push(this.initItemRows());
+    control.push(this.initItemRows(name, id));
   }
 
   deleteRow(index: number) {
@@ -115,6 +117,7 @@ export class CreateNewReportComponent implements OnInit {
             temp.push(datasource.name);
           }
         } else {
+
           return { duplicate: true };
         }
       }
@@ -123,18 +126,13 @@ export class CreateNewReportComponent implements OnInit {
   }
 
   onSubmit() {
-    let organization;
-    if (this.organizationID) {
-      organization = this.organizationID;
-    } else {
-      organization = this.orgForm.value.organization;
-    }
     const rForm = this.reportInfoForm.value;
     const report = {
+      id: this.reportID,
+      organization: this.organizationID,
       name: rForm.name,
       datastudioLink: rForm.datastudioLink,
       datasources: rForm.datasourceRows,
-      organization: organization
     };
 
     console.log(report);

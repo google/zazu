@@ -1,9 +1,8 @@
 import { DatarulesService } from './../../shared/services/datarules.service';
 import { OrganizationService } from './../../shared/services/organization.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as OrganizationViewModel from '../../shared/view-models/organization.viewmodel';
-import * as Filter from '../../shared/view-models/filter.viewmodel';
 import * as DataViewModel from '../../shared/view-models/data.viewmodel';
 import { ReportService } from '../../shared/services/report.service';
 import * as ReportViewModel from '../../shared/view-models/report.viewmodel';
@@ -12,6 +11,11 @@ import * as UserViewModel from '../../shared/view-models/user.viewmodel';
 import { PaginationService } from '../../shared/services/pagination.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material';
 
 @Component({
   selector: 'app-organization-details',
@@ -26,7 +30,8 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     private dataruleService: DatarulesService,
     private reportService: ReportService,
     private userService: UserService,
-    private paginationService: PaginationService
+    private paginationService: PaginationService,
+    public dialog: MatDialog,
   ) {}
   // Subscription for route
   sub: any;
@@ -140,4 +145,57 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
       }
     }
 
+    openDialog( ) {
+      const dialogRef = this.dialog.open(DeleteOrganizationConfirmation, {
+        data: { organization: this.organization.name}
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.organizationService.DeleteOrganization(this.organizationID);
+          this.router.navigate(['../list'], { relativeTo: this.route });
+        }
+      });
+    }
+
+    deleteRule(datarule: DataViewModel.DataRule) {
+      const dialogRef = this.dialog.open(DeleteDataruleConfirmation, {
+        data: { datarule: datarule.name}
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.dataruleService.deleteDataRule(datarule.id);
+        }
+      });
+    }
+}
+
+
+@Component({
+  selector: 'delete-organization-confirmation',
+  templateUrl: 'delete-organization-confirmation.html'
+})
+export class DeleteOrganizationConfirmation {
+  constructor(
+    public dialogRef: MatDialogRef<DeleteOrganizationConfirmation>,
+    @Inject(MAT_DIALOG_DATA) public data
+  ) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+}
+
+@Component({
+  selector: 'delete-datarule-confirmation',
+  templateUrl: 'delete-datarule-confirmation.html'
+})
+export class DeleteDataruleConfirmation {
+  constructor(
+    public dialogRef: MatDialogRef<DeleteDataruleConfirmation>,
+    @Inject(MAT_DIALOG_DATA) public data
+  ) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 }

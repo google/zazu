@@ -7,10 +7,20 @@ import { AdminComponent } from './admin.component';
 import { OrganizationListComponent } from './organization/organization-list/organization-list.component';
 import { AngularMaterialModule } from '../../angular-material/angular-material.module';
 import { AdminRoutingModule } from './admin-routing.module';
-import { OrganizationDetailsComponent } from './organization-details/organization-details.component';
+import {
+  OrganizationDetailsComponent,
+  DeleteOrganizationConfirmation,
+  DeleteDataruleConfirmation
+} from './organization-details/organization-details.component';
 import { OrganizationComponent } from './organization/organization.component';
-import { UserDetailsComponent } from './user-details/user-details.component';
-import { AdminReportDetailsComponent } from './admin-report-details/admin-report-details.component';
+import {
+  UserDetailsComponent,
+  DeleteUserConfirmation
+} from './user-details/user-details.component';
+import {
+  AdminReportDetailsComponent,
+  DeleteReportConfirmation
+} from './admin-report-details/admin-report-details.component';
 import { UserListComponent } from '../shared/common-view/user-list/user-list.component';
 import { ReportListComponent } from '../shared/common-view/report-list/report-list.component';
 import { AllUsersComponent } from './all-users/all-users.component';
@@ -25,11 +35,15 @@ import { DataRulesListPipe } from '../shared/pipes/datarules-list.pipe';
 import { CreateNewOrganizationComponent } from './create-new-organization/create-new-organization.component';
 import { CreateNewReportComponent } from './create-new-report/create-new-report.component';
 import { CreateNewDataruleComponent } from './create-new-datarule/create-new-datarule.component';
-import { CreateNewUserComponent, NewUserOrganizationConfirmation } from './create-new-user/create-new-user.component';
+import {
+  CreateNewUserComponent,
+  NewUserOrganizationConfirmation
+} from './create-new-user/create-new-user.component';
 import { ShareReportComponent } from './share-report/share-report.component';
 import { EditOrganizationComponent } from './edit-organization/edit-organization.component';
 import { EditDataRuleComponent } from './edit-data-rule/edit-data-rule.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
+import { EditReportComponent } from './edit-report/edit-report.component';
 
 @NgModule({
   declarations: [
@@ -60,11 +74,26 @@ import { EditUserComponent } from './edit-user/edit-user.component';
     EditOrganizationComponent,
     EditDataRuleComponent,
     EditUserComponent,
-    CategoryPipe
-
-
+    CategoryPipe,
+    EditReportComponent,
+    DeleteOrganizationConfirmation,
+    DeleteUserConfirmation,
+    DeleteReportConfirmation,
+    DeleteDataruleConfirmation
   ],
-  imports: [CommonModule, AdminRoutingModule, AngularMaterialModule, FormsModule, ReactiveFormsModule],
-  entryComponents: [NewUserOrganizationConfirmation],
+  imports: [
+    CommonModule,
+    AdminRoutingModule,
+    AngularMaterialModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  entryComponents: [
+    NewUserOrganizationConfirmation,
+    DeleteOrganizationConfirmation,
+    DeleteUserConfirmation,
+    DeleteReportConfirmation,
+    DeleteDataruleConfirmation
+  ]
 })
 export class AdminModule {}

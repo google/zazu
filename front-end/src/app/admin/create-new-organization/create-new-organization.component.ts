@@ -7,7 +7,6 @@ import {
   FormArray
 } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 
 @Component({

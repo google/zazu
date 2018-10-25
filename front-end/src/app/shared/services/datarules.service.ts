@@ -44,7 +44,7 @@ export class DatarulesService {
    * Create new data rule
    * @param datarule - datarule object
    */
-  public async CreateNewDataRule(datarule: DataViewModel.CreateNewDataRule) {
+  public async createNewDataRule(datarule: DataViewModel.CreateNewDataRule) {
     return await null;
   }
 
@@ -52,7 +52,7 @@ export class DatarulesService {
    * Edit data rule
    * @param datarule - datarule object
    */
-  public async EditDataRule(datarule: DataViewModel.EditDataRule) {
+  public async editDataRule(datarule: DataViewModel.EditDataRule) {
     return await null;
   }
 
@@ -60,7 +60,8 @@ export class DatarulesService {
    * Delete Data rule
    * @param dataruleID - id of the data rule you want to delete
    */
-  public async DeleteDataRule(dataruleID: string) {
+  public async deleteDataRule(dataruleID: string) {
+    console.log('Data Rule Deleted: ' + dataruleID);
     return await null;
   }
 }

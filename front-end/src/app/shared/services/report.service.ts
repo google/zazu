@@ -62,7 +62,8 @@ export class ReportService {
    * Delete Report
    * @param reportID - ID of the report you want to delete
    */
-  public async DeleteReport(reportID: string) {
+  public async deleteReport(reportID: string) {
+    console.log('Report Deleted: ' + reportID);
     return await null;
   }
 }

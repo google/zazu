@@ -1,12 +1,16 @@
 import { ReportService} from './../../shared/services/report.service';
 import { OrganizationService } from './../../shared/services/organization.service';
 import { UserService } from './../../shared/services/user.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as UserViewModel from '../../shared/view-models/user.viewmodel';
 import * as OrganizationViewModel from '../../shared/view-models/organization.viewmodel';
 import * as ReportViewModel from '../../shared/view-models/report.viewmodel';
-
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material';
 
 @Component({
   selector: 'app-user-details',
@@ -19,7 +23,8 @@ export class UserDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService,
     private organizationService: OrganizationService,
-    private reportService: ReportService
+    private reportService: ReportService,
+    public dialog: MatDialog,
   ) {}
 
   sub: any;
@@ -60,5 +65,32 @@ export class UserDetailsComponent implements OnInit {
     this.router.navigate(['./r', reportID], { relativeTo: this.route });
   }
 
-
+  openDialog( ) {
+    const user = this.user.firstName + ' ' + this.user.lastName;
+    const dialogRef = this.dialog.open(DeleteUserConfirmation, {
+      data: { user: user}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.userService.deleteUser(this.userID);
+        this.router.navigate(['../../'], { relativeTo: this.route });
+      }
+    });
+  }
 }
+
+@Component({
+  selector: 'delete-user-confirmation',
+  templateUrl: 'delete-user-confirmation.html'
+})
+export class DeleteUserConfirmation {
+  constructor(
+    public dialogRef: MatDialogRef<DeleteUserConfirmation>,
+    @Inject(MAT_DIALOG_DATA) public data
+  ) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+}
+
