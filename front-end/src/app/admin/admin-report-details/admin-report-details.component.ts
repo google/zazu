@@ -31,6 +31,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
   user: UserViewModel.SimpleUserView = undefined;
   report: ReportViewModel.ReportWithMetaData = null;
   userView: boolean;
+  viewInitialized = false;
 
   async ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
@@ -49,6 +50,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
     this.organization = await this.organizationService.getOrganizationById(
       'orgID'
     );
+    this.viewInitialized = true;
   }
 
   openDialog( ) {

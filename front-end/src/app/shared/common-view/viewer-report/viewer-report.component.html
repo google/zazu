@@ -1,0 +1,32 @@
+<div class="breadcrumb-container" *ngIf="reportsCount > 1 && report && initialized ">
+  <!-- Breadcrumbs for report when navigation from report list -->
+  <div class="breadcrumb"> <span (click)="goBack()"> <i class="material-icons">
+        assessment </i> Report List </span>
+    &nbsp;&nbsp; <i class="material-icons arrow"> keyboard_arrow_right </i> <i style="margin-left: -14px" class="material-icons arrow">
+      keyboard_arrow_right </i>&nbsp;&nbsp; <span class="active"> {{report.name}} ({{report.organization.name}})</span> </div>
+</div>
+<div style="margin-bottom: -40px" *ngIf="reportsCount === 1">
+</div>
+<div class="main-content-view">
+  <div class="left-main-content-view" *ngIf="report && initialized">
+    <iframe class="report" src="https://datastudio.google.com/embed/reporting/1XuwM0G2Rx55jEWX_Rus05td2IHN0PnQI/page/1M" frameborder="0"
+      style="border:0" allowfullscreen></iframe>
+  </div>
+  <div class="right-main-content-view" *ngIf="report && initialized">
+    <div class="filter information">
+      <h4 class="info-title"> Report Information</h4>
+      <p> Name: <span class="info">{{report.name}} </span></p>
+      <p>Organization: <span class="info">{{report.organization.name}} </span></p>
+      <p>Date: <span class="info"> {{report.date | date }}</span> </p>
+      <p>Datastudio Link: <span class="info"> {{report.link}}</span></p>
+      <p>Datasources: </p>
+      <div *ngFor="let datasource of report.datasources; let i = index">
+        <p>&nbsp;&nbsp;&nbsp;&bull;<span class="info"> {{datasource.name}} </span> </p>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!initialized" style="margin:auto; padding-top: 50px;">
+    <mat-spinner></mat-spinner>
+    <p style="text-align: center;">Loading...</p>
+  </div>
+</div>

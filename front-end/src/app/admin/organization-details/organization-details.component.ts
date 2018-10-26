@@ -11,11 +11,7 @@ import * as UserViewModel from '../../shared/view-models/user.viewmodel';
 import { PaginationService } from '../../shared/services/pagination.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-organization-details',
@@ -31,7 +27,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     private reportService: ReportService,
     private userService: UserService,
     private paginationService: PaginationService,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {}
   // Subscription for route
   sub: any;
@@ -58,6 +54,10 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
   pageSubscription: Subscription;
   pagination;
   selectedDataSource = 'All';
+  reportsInitialized = false;
+  usersInitialized = false;
+  datarulesInitialized = false;
+  viewInitialized = false;
 
   async ngOnInit() {
     try {
@@ -70,26 +70,31 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
       );
       // gets reports for this organization
       this.reports = await this.reportService.getReportByOrganization('orgID');
-      // gets data rules for this organization
-      this.rules = await this.dataruleService.getDataRules(this.organizationID);
-      // gets users for this organization
-      this.users = await this.userService.getUsersByOrganization('orgID');
-      // get all data sources for this organization
-      this.dataSources = await this.dataruleService.getAllDataSourceForOrganization(
-        'orgID'
-      );
+
       this.pageSubscription = this.paginationService.paginationChanged.subscribe(
         pagination => {
           this.pagination = pagination;
         }
       );
+      this.viewInitialized = true;
+      this.reportsInitialized = true;
     } catch (error) {
       console.log(error);
     }
   }
-  selected(event) {
+  async selected(event) {
     this.selectedTab = event;
+    if (event === 1) {
+      if (!this.users) {
+        await this.getUsers();
+        this.usersInitialized = await true;
+      }
+    }
     if (event === 2) {
+      if (!this.rules) {
+        await this.getRules();
+        this.datarulesInitialized = await true;
+      }
       this.paginationService.resetPage();
     }
   }
@@ -97,8 +102,17 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
     if (this.pageSubscription) {
       this.pageSubscription.unsubscribe();
-
     }
+  }
+
+  // gets users for this organization
+  async getUsers() {
+    this.users = await this.userService.getUsersByOrganization('orgID');
+  }
+
+  // gets data rules for this organization
+  async getRules() {
+    this.rules = await this.dataruleService.getDataRules(this.organizationID);
   }
 
   goToUser(userId) {
@@ -132,43 +146,42 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     this.filterForm.patchValue({ selectedDataSource: 'All' });
   }
 
-    // Pagination Methods
-    nextPage() {
-      if (this.pagination.currentPage < this.pagination.totalPages) {
-        this.paginationService.changePage(this.pagination.currentPage + 1);
-      }
+  // Pagination Methods
+  nextPage() {
+    if (this.pagination.currentPage < this.pagination.totalPages) {
+      this.paginationService.changePage(this.pagination.currentPage + 1);
     }
-    // Pagination Methods
-    previousPage() {
-      if (this.pagination.currentPage > 1) {
-        this.paginationService.changePage(this.pagination.currentPage - 1);
-      }
+  }
+  // Pagination Methods
+  previousPage() {
+    if (this.pagination.currentPage > 1) {
+      this.paginationService.changePage(this.pagination.currentPage - 1);
     }
+  }
 
-    openDialog( ) {
-      const dialogRef = this.dialog.open(DeleteOrganizationConfirmation, {
-        data: { organization: this.organization.name}
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          this.organizationService.DeleteOrganization(this.organizationID);
-          this.router.navigate(['../list'], { relativeTo: this.route });
-        }
-      });
-    }
+  openDialog() {
+    const dialogRef = this.dialog.open(DeleteOrganizationConfirmation, {
+      data: { organization: this.organization.name }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.organizationService.DeleteOrganization(this.organizationID);
+        this.router.navigate(['../list'], { relativeTo: this.route });
+      }
+    });
+  }
 
-    deleteRule(datarule: DataViewModel.DataRule) {
-      const dialogRef = this.dialog.open(DeleteDataruleConfirmation, {
-        data: { datarule: datarule.name}
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          this.dataruleService.deleteDataRule(datarule.id);
-        }
-      });
-    }
+  deleteRule(datarule: DataViewModel.DataRule) {
+    const dialogRef = this.dialog.open(DeleteDataruleConfirmation, {
+      data: { datarule: datarule.name }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.dataruleService.deleteDataRule(datarule.id);
+      }
+    });
+  }
 }
-
 
 @Component({
   selector: 'delete-organization-confirmation',

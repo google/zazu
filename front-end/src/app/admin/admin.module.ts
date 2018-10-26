@@ -45,6 +45,7 @@ import { EditDataRuleComponent } from './edit-data-rule/edit-data-rule.component
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { EditReportComponent } from './edit-report/edit-report.component';
 import { SharedModule } from '../shared/shared.module';
+import { GhostComponent } from './ghost/ghost.component';
 
 @NgModule({
   declarations: [
@@ -79,12 +80,12 @@ import { SharedModule } from '../shared/shared.module';
     DeleteOrganizationConfirmation,
     DeleteUserConfirmation,
     DeleteReportConfirmation,
-    DeleteDataruleConfirmation
+    DeleteDataruleConfirmation,
+    GhostComponent
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
-    AngularMaterialModule,
     FormsModule,
     ReactiveFormsModule,
     SharedModule

@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"(organization != null && user!= null && report != null) || (organization != null && !userView && report != null)\">\r\n\r\n  <div class=\"breadcrumb-container\">\r\n    <!-- Breadcrumbs for report when navigation from organization list -->\r\n    <div class=\"breadcrumb\" *ngIf=\"!userView && organizationID != undefined\"> <span routerLink=\"../../../\"> <i class=\"material-icons\">\r\n          business </i> Organization List </span> &nbsp;&nbsp; <i class=\"material-icons arrow\"> keyboard_arrow_right </i> <i style=\"margin-left: -14px\"\r\n        class=\"material-icons arrow\"> keyboard_arrow_right </i>&nbsp;&nbsp; <span routerLink=\"../../\">\r\n        {{organization.name}}</span>\r\n      &nbsp;&nbsp; <i class=\"material-icons arrow\"> keyboard_arrow_right </i> <i style=\"margin-left: -14px\" class=\"material-icons arrow\">\r\n        keyboard_arrow_right </i>&nbsp;&nbsp; <span class=\"active\"> {{report.name}} ({{report.organization.name}})</span> </div>\r\n\r\n    <!-- Breadcrumbs for report when navigation from user under organization list -->\r\n    <div class=\"breadcrumb\" *ngIf=\"userView && organizationID != undefined\"> <span routerLink=\"../../../../../\"> <i class=\"material-icons\">\r\n          business </i> Organization List </span>\r\n      &nbsp;&nbsp; <i class=\"material-icons arrow\"> keyboard_arrow_right </i> <i style=\"margin-left: -14px\" class=\"material-icons arrow\">\r\n        keyboard_arrow_right </i>&nbsp;&nbsp; <span routerLink=\"../../../../\">\r\n        {{organization.name}}</span>\r\n      &nbsp;&nbsp; <i class=\"material-icons arrow\"> keyboard_arrow_right </i> <i style=\"margin-left: -14px\" class=\"material-icons arrow\">\r\n        keyboard_arrow_right </i>&nbsp;&nbsp; <span routerLink=\"../../\"> {{user.firstName}} {{user.lastName}} </span> &nbsp;&nbsp; <i class=\"material-icons arrow\">\r\n        keyboard_arrow_right </i> <i style=\"margin-left: -14px\" class=\"material-icons arrow\"> keyboard_arrow_right </i>&nbsp;&nbsp; <span\r\n        class=\"active\"> {{report.name}}\r\n        ({{report.organization.name}})</span></div>\r\n\r\n    <!-- Breadcrumbs for report when navigation from user under user list -->\r\n    <div class=\"breadcrumb\" *ngIf=\"organizationID === undefined && userID != undefined\"> <span routerLink=\"../../../../\"> <i class=\"material-icons\">\r\n          person_outline </i> User List </span>\r\n      &nbsp;&nbsp; <i class=\"material-icons arrow\"> keyboard_arrow_right </i> <i style=\"margin-left: -14px\" class=\"material-icons arrow\">\r\n        keyboard_arrow_right </i>&nbsp;&nbsp; <span routerLink=\"../../\">{{user.firstName}} {{user.lastName}}</span> &nbsp;&nbsp; <i class=\"material-icons arrow\">\r\n        keyboard_arrow_right </i> <i style=\"margin-left: -14px\" class=\"material-icons arrow\"> keyboard_arrow_right </i>&nbsp;&nbsp; <span\r\n        class=\"active\"> {{report.name}}\r\n        ({{report.organization.name}})</span></div>\r\n\r\n    <!-- Breadcrumbs for report when navigation from report list -->\r\n    <div class=\"breadcrumb\" *ngIf=\"organizationID === undefined && userID === undefined\"> <span routerLink=\"../../\"> <i class=\"material-icons\">\r\n          assessment </i> Report List </span>\r\n      &nbsp;&nbsp; <i class=\"material-icons arrow\"> keyboard_arrow_right </i> <i style=\"margin-left: -14px\" class=\"material-icons arrow\">\r\n        keyboard_arrow_right </i>&nbsp;&nbsp; <span class=\"active\"> {{report.name}} ({{report.organization.name}})</span> </div>\r\n  </div>\r\n\r\n\r\n  <div class=\"main-content-view\">\r\n    <div class=\"left-main-content-view\">\r\n      <iframe class=\"report\" src=\"https://datastudio.google.com/embed/reporting/1XuwM0G2Rx55jEWX_Rus05td2IHN0PnQI/page/1M\" frameborder=\"0\"\r\n        style=\"border:0\" allowfullscreen></iframe>\r\n    </div>\r\n    <div class=\"right-main-content-view\">\r\n      <div class=\"filter information\">\r\n        <div class=\"more-button\" style=\"margin-top: -10px\">\r\n          <button mat-icon-button [matMenuTriggerFor]=\"menu\">\r\n            <mat-icon color=\"more-color\">more_vert</mat-icon>\r\n          </button>\r\n\r\n          <mat-menu #menu=\"matMenu\">\r\n            <button mat-menu-item routerLink=\"./edit-report\">Edit</button>\r\n            <button mat-menu-item (click)=\"openDialog()\">Delete</button>\r\n          </mat-menu>\r\n        </div>\r\n        <h4 class=\"info-title\"> Report Information</h4>\r\n        <p> Name: <span class=\"info\">{{report.name}} </span></p>\r\n        <p>Organization: <span class=\"info\">{{report.organization.name}} </span></p>\r\n        <p>Date: <span class=\"info\"> {{report.date | date }}</span> </p>\r\n        <p>Datastudio Link: <span class=\"info\"> {{report.link}}</span></p>\r\n        <p>Datasources: </p>\r\n        <div *ngFor=\"let datasource of report.datasources; let i = index\">\r\n          <p>&nbsp;&nbsp;&nbsp;&bull;<span class=\"info\"> {{datasource.name}} </span> </p>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"metadata\">\r\n        <mat-accordion>\r\n          <mat-expansion-panel style=\"box-shadow:none\">\r\n            <mat-expansion-panel-header style=\"padding: 0\">\r\n              <mat-panel-title>\r\n                <h4 class=\"info-title\" style=\"padding-top: 10px;\"> Metadata</h4>\r\n              </mat-panel-title>\r\n            </mat-expansion-panel-header>\r\n            <div *ngFor=\"let datasource of report.datasources; let i = index\">\r\n                <p>Datasource: <span class=\"info\">{{datasource.name}} </span> </p>\r\n                <p>&nbsp;&nbsp;&bull; ID: <span class=\"info\">{{datasource.id}} </span></p>\r\n            </div>\r\n            <p>Created By: <span class=\"info\">{{ report.createdBy}}</span> </p>\r\n            <p>Updated By: <span class=\"info\">{{ report.updatedBy}}</span></p>\r\n            <p>Who can see it: </p>\r\n            <p *ngFor=\"let user of report.accessedBy\"> <span class=\"info\"> &nbsp;&nbsp;&#9679; &nbsp;{{user.firstName}} {{user.lastName}}\r\n              </span></p>\r\n            <br>\r\n          </mat-expansion-panel>\r\n        </mat-accordion>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div *ngIf=\"(organization != null && user!= null && report != null) || (organization != null && !userView && report != null)\">\n\n  <div class=\"breadcrumb-container\">\n    <!-- Breadcrumbs for report when navigation from organization list -->\n    <div class=\"breadcrumb\" *ngIf=\"!userView && organizationID != undefined\"> <span routerLink=\"../../../\"> <i class=\"material-icons\">\n          business </i> Organization List </span> &nbsp;&nbsp; <i class=\"material-icons arrow\"> keyboard_arrow_right </i> <i style=\"margin-left: -14px\"\n        class=\"material-icons arrow\"> keyboard_arrow_right </i>&nbsp;&nbsp; <span routerLink=\"../../\">\n        {{organization.name}}</span>\n      &nbsp;&nbsp; <i class=\"material-icons arrow\"> keyboard_arrow_right </i> <i style=\"margin-left: -14px\" class=\"material-icons arrow\">\n        keyboard_arrow_right </i>&nbsp;&nbsp; <span class=\"active\"> {{report.name}} ({{report.organization.name}})</span> </div>\n\n    <!-- Breadcrumbs for report when navigation from user under organization list -->\n    <div class=\"breadcrumb\" *ngIf=\"userView && organizationID != undefined\"> <span routerLink=\"../../../../../\"> <i class=\"material-icons\">\n          business </i> Organization List </span>\n      &nbsp;&nbsp; <i class=\"material-icons arrow\"> keyboard_arrow_right </i> <i style=\"margin-left: -14px\" class=\"material-icons arrow\">\n        keyboard_arrow_right </i>&nbsp;&nbsp; <span routerLink=\"../../../../\">\n        {{organization.name}}</span>\n      &nbsp;&nbsp; <i class=\"material-icons arrow\"> keyboard_arrow_right </i> <i style=\"margin-left: -14px\" class=\"material-icons arrow\">\n        keyboard_arrow_right </i>&nbsp;&nbsp; <span routerLink=\"../../\"> {{user.firstName}} {{user.lastName}} </span> &nbsp;&nbsp; <i class=\"material-icons arrow\">\n        keyboard_arrow_right </i> <i style=\"margin-left: -14px\" class=\"material-icons arrow\"> keyboard_arrow_right </i>&nbsp;&nbsp; <span\n        class=\"active\"> {{report.name}}\n        ({{report.organization.name}})</span></div>\n\n    <!-- Breadcrumbs for report when navigation from user under user list -->\n    <div class=\"breadcrumb\" *ngIf=\"organizationID === undefined && userID != undefined\"> <span routerLink=\"../../../../\"> <i class=\"material-icons\">\n          person_outline </i> User List </span>\n      &nbsp;&nbsp; <i class=\"material-icons arrow\"> keyboard_arrow_right </i> <i style=\"margin-left: -14px\" class=\"material-icons arrow\">\n        keyboard_arrow_right </i>&nbsp;&nbsp; <span routerLink=\"../../\">{{user.firstName}} {{user.lastName}}</span> &nbsp;&nbsp; <i class=\"material-icons arrow\">\n        keyboard_arrow_right </i> <i style=\"margin-left: -14px\" class=\"material-icons arrow\"> keyboard_arrow_right </i>&nbsp;&nbsp; <span\n        class=\"active\"> {{report.name}}\n        ({{report.organization.name}})</span></div>\n\n    <!-- Breadcrumbs for report when navigation from report list -->\n    <div class=\"breadcrumb\" *ngIf=\"organizationID === undefined && userID === undefined\"> <span routerLink=\"../../\"> <i class=\"material-icons\">\n          assessment </i> Report List </span>\n      &nbsp;&nbsp; <i class=\"material-icons arrow\"> keyboard_arrow_right </i> <i style=\"margin-left: -14px\" class=\"material-icons arrow\">\n        keyboard_arrow_right </i>&nbsp;&nbsp; <span class=\"active\"> {{report.name}} ({{report.organization.name}})</span> </div>\n  </div>\n\n\n  <div class=\"main-content-view\" *ngIf=\"viewInitialized\">\n    <div class=\"left-main-content-view\">\n      <iframe class=\"report\" src=\"https://datastudio.google.com/embed/reporting/1XuwM0G2Rx55jEWX_Rus05td2IHN0PnQI/page/1M\" frameborder=\"0\"\n        style=\"border:0\" allowfullscreen></iframe>\n    </div>\n    <div class=\"right-main-content-view\">\n      <div class=\"filter information\">\n        <div class=\"more-button\" style=\"margin-top: -10px\">\n          <button mat-icon-button [matMenuTriggerFor]=\"menu\">\n            <mat-icon color=\"more-color\">more_vert</mat-icon>\n          </button>\n\n          <mat-menu #menu=\"matMenu\">\n            <button mat-menu-item routerLink=\"./edit-report\">Edit</button>\n            <button mat-menu-item (click)=\"openDialog()\">Delete</button>\n          </mat-menu>\n        </div>\n        <h4 class=\"info-title\"> Report Information</h4>\n        <p> Name: <span class=\"info\">{{report.name}} </span></p>\n        <p>Organization: <span class=\"info\">{{report.organization.name}} </span></p>\n        <p>Date: <span class=\"info\"> {{report.date | date }}</span> </p>\n        <p>Datastudio Link: <span class=\"info\"> {{report.link}}</span></p>\n        <p>Datasources: </p>\n        <div *ngFor=\"let datasource of report.datasources; let i = index\">\n          <p>&nbsp;&nbsp;&nbsp;&bull;<span class=\"info\"> {{datasource.name}} </span> </p>\n        </div>\n      </div>\n\n      <div class=\"metadata\">\n        <mat-accordion>\n          <mat-expansion-panel style=\"box-shadow:none\">\n            <mat-expansion-panel-header style=\"padding: 0\">\n              <mat-panel-title>\n                <h4 class=\"info-title\" style=\"padding-top: 10px;\"> Metadata</h4>\n              </mat-panel-title>\n            </mat-expansion-panel-header>\n            <div *ngFor=\"let datasource of report.datasources; let i = index\">\n                <p>Datasource: <span class=\"info\">{{datasource.name}} </span> </p>\n                <p>&nbsp;&nbsp;&bull; ID: <span class=\"info\">{{datasource.id}} </span></p>\n            </div>\n            <p>Created By: <span class=\"info\">{{ report.createdBy}}</span> </p>\n            <p>Updated By: <span class=\"info\">{{ report.updatedBy}}</span></p>\n            <p>Who can see it: </p>\n            <p *ngFor=\"let user of report.accessedBy\"> <span class=\"info\"> &nbsp;&nbsp;&#9679; &nbsp;{{user.firstName}} {{user.lastName}}\n              </span></p>\n            <br>\n          </mat-expansion-panel>\n        </mat-accordion>\n      </div>\n    </div>\n  </div>\n\n  <div *ngIf=\"!viewInitialized\" style=\"margin:auto; padding-top: 80px; text-align: center\">\n      <mat-spinner style=\"margin:auto\"></mat-spinner>\n      <p style=\"text-align: center;\">Report Loading...</p>\n  </div>\n\n\n</div>\n"
 
 /***/ }),
 
@@ -103,6 +103,7 @@ var AdminReportDetailsComponent = /** @class */ (function () {
         this.organization = null;
         this.user = undefined;
         this.report = null;
+        this.viewInitialized = false;
     }
     AdminReportDetailsComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -135,6 +136,7 @@ var AdminReportDetailsComponent = /** @class */ (function () {
                         return [4 /*yield*/, this.organizationService.getOrganizationById('orgID')];
                     case 5:
                         _c.organization = _d.sent();
+                        this.viewInitialized = true;
                         return [2 /*return*/];
                 }
             });
@@ -201,7 +203,7 @@ var DeleteReportConfirmation = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"dialog\">\r\n    <h2 class=\"title delete\"><i class=\"material-icons\">\r\n        warning\r\n      </i> Delete {{data.report}}?</h2>\r\n    <div mat-dialog-content>\r\n      <h4 class=\"subtitle\">Warning: this cannot be undone</h4>\r\n      <p>Iam id ipsum absurdum, maximum malum neglegi. Quoniam, si dis placet, ab Epicuro loqui discimus. Duo Reges: constructio interrete.</p>\r\n    </div>\r\n    <div mat-dialog-actions style=\"float:right\">\r\n      <button mat-button (click)=\"onNoClick()\">Cancel</button>\r\n      <button mat-button mat-flat-button [mat-dialog-close]=\"true\" class=\"danger\" cdkFocusInitial>Continue</button>\r\n    </div>\r\n  </div>\r\n"
+module.exports = "<div class=\"dialog\">\n    <h2 class=\"title delete\"><i class=\"material-icons\">\n        warning\n      </i> Delete {{data.report}}?</h2>\n    <div mat-dialog-content>\n      <h4 class=\"subtitle\">Warning: this cannot be undone</h4>\n      <p>Iam id ipsum absurdum, maximum malum neglegi. Quoniam, si dis placet, ab Epicuro loqui discimus. Duo Reges: constructio interrete.</p>\n    </div>\n    <div mat-dialog-actions style=\"float:right\">\n      <button mat-button (click)=\"onNoClick()\">Cancel</button>\n      <button mat-button mat-flat-button [mat-dialog-close]=\"true\" class=\"danger\" cdkFocusInitial>Continue</button>\n    </div>\n  </div>\n"
 
 /***/ }),
 
@@ -215,34 +217,40 @@ module.exports = "<div class=\"dialog\">\r\n    <h2 class=\"title delete\"><i cl
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AdminRoutingModule", function() { return AdminRoutingModule; });
-/* harmony import */ var _edit_report_edit_report_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./edit-report/edit-report.component */ "./src/app/admin/edit-report/edit-report.component.ts");
-/* harmony import */ var _share_report_share_report_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./share-report/share-report.component */ "./src/app/admin/share-report/share-report.component.ts");
-/* harmony import */ var _create_new_datarule_create_new_datarule_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./create-new-datarule/create-new-datarule.component */ "./src/app/admin/create-new-datarule/create-new-datarule.component.ts");
-/* harmony import */ var _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./create-new-user/create-new-user.component */ "./src/app/admin/create-new-user/create-new-user.component.ts");
-/* harmony import */ var _all_reports_all_report_list_all_report_list_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./all-reports/all-report-list/all-report-list.component */ "./src/app/admin/all-reports/all-report-list/all-report-list.component.ts");
-/* harmony import */ var _organization_organization_list_organization_list_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./organization/organization-list/organization-list.component */ "./src/app/admin/organization/organization-list/organization-list.component.ts");
-/* harmony import */ var _all_users_all_user_list_all_user_list_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./all-users/all-user-list/all-user-list.component */ "./src/app/admin/all-users/all-user-list/all-user-list.component.ts");
-/* harmony import */ var _all_users_all_users_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./all-users/all-users.component */ "./src/app/admin/all-users/all-users.component.ts");
-/* harmony import */ var _auth_admin_guard_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./../auth/admin-guard.service */ "./src/app/auth/admin-guard.service.ts");
-/* harmony import */ var _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./admin-report-details/admin-report-details.component */ "./src/app/admin/admin-report-details/admin-report-details.component.ts");
-/* harmony import */ var _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./user-details/user-details.component */ "./src/app/admin/user-details/user-details.component.ts");
-/* harmony import */ var _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./organization-details/organization-details.component */ "./src/app/admin/organization-details/organization-details.component.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _admin_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./admin.component */ "./src/app/admin/admin.component.ts");
-/* harmony import */ var _organization_organization_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./organization/organization.component */ "./src/app/admin/organization/organization.component.ts");
-/* harmony import */ var _all_reports_all_reports_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./all-reports/all-reports.component */ "./src/app/admin/all-reports/all-reports.component.ts");
-/* harmony import */ var _create_new_organization_create_new_organization_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./create-new-organization/create-new-organization.component */ "./src/app/admin/create-new-organization/create-new-organization.component.ts");
-/* harmony import */ var _create_new_report_create_new_report_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./create-new-report/create-new-report.component */ "./src/app/admin/create-new-report/create-new-report.component.ts");
-/* harmony import */ var _edit_organization_edit_organization_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./edit-organization/edit-organization.component */ "./src/app/admin/edit-organization/edit-organization.component.ts");
-/* harmony import */ var _edit_data_rule_edit_data_rule_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./edit-data-rule/edit-data-rule.component */ "./src/app/admin/edit-data-rule/edit-data-rule.component.ts");
-/* harmony import */ var _edit_user_edit_user_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./edit-user/edit-user.component */ "./src/app/admin/edit-user/edit-user.component.ts");
+/* harmony import */ var _shared_common_view_viewer_report_viewer_report_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../shared/common-view/viewer-report/viewer-report.component */ "./src/app/shared/common-view/viewer-report/viewer-report.component.ts");
+/* harmony import */ var _shared_common_view_viewer_report_list_viewer_report_list_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../shared/common-view/viewer-report-list/viewer-report-list.component */ "./src/app/shared/common-view/viewer-report-list/viewer-report-list.component.ts");
+/* harmony import */ var _ghost_ghost_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ghost/ghost.component */ "./src/app/admin/ghost/ghost.component.ts");
+/* harmony import */ var _edit_report_edit_report_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./edit-report/edit-report.component */ "./src/app/admin/edit-report/edit-report.component.ts");
+/* harmony import */ var _share_report_share_report_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./share-report/share-report.component */ "./src/app/admin/share-report/share-report.component.ts");
+/* harmony import */ var _create_new_datarule_create_new_datarule_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./create-new-datarule/create-new-datarule.component */ "./src/app/admin/create-new-datarule/create-new-datarule.component.ts");
+/* harmony import */ var _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./create-new-user/create-new-user.component */ "./src/app/admin/create-new-user/create-new-user.component.ts");
+/* harmony import */ var _all_reports_all_report_list_all_report_list_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./all-reports/all-report-list/all-report-list.component */ "./src/app/admin/all-reports/all-report-list/all-report-list.component.ts");
+/* harmony import */ var _organization_organization_list_organization_list_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./organization/organization-list/organization-list.component */ "./src/app/admin/organization/organization-list/organization-list.component.ts");
+/* harmony import */ var _all_users_all_user_list_all_user_list_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./all-users/all-user-list/all-user-list.component */ "./src/app/admin/all-users/all-user-list/all-user-list.component.ts");
+/* harmony import */ var _all_users_all_users_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./all-users/all-users.component */ "./src/app/admin/all-users/all-users.component.ts");
+/* harmony import */ var _auth_admin_guard_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./../auth/admin-guard.service */ "./src/app/auth/admin-guard.service.ts");
+/* harmony import */ var _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./admin-report-details/admin-report-details.component */ "./src/app/admin/admin-report-details/admin-report-details.component.ts");
+/* harmony import */ var _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./user-details/user-details.component */ "./src/app/admin/user-details/user-details.component.ts");
+/* harmony import */ var _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./organization-details/organization-details.component */ "./src/app/admin/organization-details/organization-details.component.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _admin_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./admin.component */ "./src/app/admin/admin.component.ts");
+/* harmony import */ var _organization_organization_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./organization/organization.component */ "./src/app/admin/organization/organization.component.ts");
+/* harmony import */ var _all_reports_all_reports_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./all-reports/all-reports.component */ "./src/app/admin/all-reports/all-reports.component.ts");
+/* harmony import */ var _create_new_organization_create_new_organization_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./create-new-organization/create-new-organization.component */ "./src/app/admin/create-new-organization/create-new-organization.component.ts");
+/* harmony import */ var _create_new_report_create_new_report_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./create-new-report/create-new-report.component */ "./src/app/admin/create-new-report/create-new-report.component.ts");
+/* harmony import */ var _edit_organization_edit_organization_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./edit-organization/edit-organization.component */ "./src/app/admin/edit-organization/edit-organization.component.ts");
+/* harmony import */ var _edit_data_rule_edit_data_rule_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./edit-data-rule/edit-data-rule.component */ "./src/app/admin/edit-data-rule/edit-data-rule.component.ts");
+/* harmony import */ var _edit_user_edit_user_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./edit-user/edit-user.component */ "./src/app/admin/edit-user/edit-user.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
+
 
 
 
@@ -268,55 +276,65 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var adminRoutes = [
     {
         path: '',
-        component: _admin_component__WEBPACK_IMPORTED_MODULE_14__["AdminComponent"],
-        canActivate: [_auth_admin_guard_service__WEBPACK_IMPORTED_MODULE_8__["AdminGuard"]],
+        component: _admin_component__WEBPACK_IMPORTED_MODULE_17__["AdminComponent"],
+        canActivate: [_auth_admin_guard_service__WEBPACK_IMPORTED_MODULE_11__["AdminGuard"]],
         children: [
             {
                 path: 'o',
-                component: _organization_organization_component__WEBPACK_IMPORTED_MODULE_15__["OrganizationComponent"],
+                component: _organization_organization_component__WEBPACK_IMPORTED_MODULE_18__["OrganizationComponent"],
                 children: [
                     { path: '', redirectTo: 'list' },
-                    { path: 'list', component: _organization_organization_list_organization_list_component__WEBPACK_IMPORTED_MODULE_5__["OrganizationListComponent"] },
-                    { path: 'new-organization', component: _create_new_organization_create_new_organization_component__WEBPACK_IMPORTED_MODULE_17__["CreateNewOrganizationComponent"] },
-                    { path: 'new-data-rule', component: _create_new_datarule_create_new_datarule_component__WEBPACK_IMPORTED_MODULE_2__["CreateNewDataruleComponent"] },
-                    { path: 'share-report', component: _share_report_share_report_component__WEBPACK_IMPORTED_MODULE_1__["ShareReportComponent"] },
-                    { path: ':id', component: _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_11__["OrganizationDetailsComponent"] },
-                    { path: ':id/new-user', component: _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_3__["CreateNewUserComponent"] },
-                    { path: ':id/new-report', component: _create_new_report_create_new_report_component__WEBPACK_IMPORTED_MODULE_18__["CreateNewReportComponent"] },
-                    { path: ':id/share-report', component: _share_report_share_report_component__WEBPACK_IMPORTED_MODULE_1__["ShareReportComponent"] },
-                    { path: ':id/edit-organization', component: _edit_organization_edit_organization_component__WEBPACK_IMPORTED_MODULE_19__["EditOrganizationComponent"] },
-                    { path: ':id/edit-rule/:ruleID', component: _edit_data_rule_edit_data_rule_component__WEBPACK_IMPORTED_MODULE_20__["EditDataRuleComponent"] },
-                    { path: ':id/u/:userID', component: _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_10__["UserDetailsComponent"] },
-                    { path: ':id/u/:userID/edit-user', component: _edit_user_edit_user_component__WEBPACK_IMPORTED_MODULE_21__["EditUserComponent"] },
-                    { path: ':id/r/:reportID', component: _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_9__["AdminReportDetailsComponent"] },
-                    { path: ':id/r/:reportID/edit-report', component: _edit_report_edit_report_component__WEBPACK_IMPORTED_MODULE_0__["EditReportComponent"] },
+                    { path: 'list', component: _organization_organization_list_organization_list_component__WEBPACK_IMPORTED_MODULE_8__["OrganizationListComponent"] },
+                    { path: 'new-organization', component: _create_new_organization_create_new_organization_component__WEBPACK_IMPORTED_MODULE_20__["CreateNewOrganizationComponent"] },
+                    { path: 'new-data-rule', component: _create_new_datarule_create_new_datarule_component__WEBPACK_IMPORTED_MODULE_5__["CreateNewDataruleComponent"] },
+                    { path: 'share-report', component: _share_report_share_report_component__WEBPACK_IMPORTED_MODULE_4__["ShareReportComponent"] },
+                    { path: ':id', component: _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_14__["OrganizationDetailsComponent"] },
+                    { path: ':id/new-user', component: _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_6__["CreateNewUserComponent"] },
+                    { path: ':id/new-report', component: _create_new_report_create_new_report_component__WEBPACK_IMPORTED_MODULE_21__["CreateNewReportComponent"] },
+                    { path: ':id/share-report', component: _share_report_share_report_component__WEBPACK_IMPORTED_MODULE_4__["ShareReportComponent"] },
+                    { path: ':id/edit-organization', component: _edit_organization_edit_organization_component__WEBPACK_IMPORTED_MODULE_22__["EditOrganizationComponent"] },
+                    { path: ':id/edit-rule/:ruleID', component: _edit_data_rule_edit_data_rule_component__WEBPACK_IMPORTED_MODULE_23__["EditDataRuleComponent"] },
+                    { path: ':id/u/:userID', component: _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_13__["UserDetailsComponent"] },
+                    { path: ':id/u/:userID/ghost/:userName', component: _ghost_ghost_component__WEBPACK_IMPORTED_MODULE_2__["GhostComponent"], children: [
+                            { path: '', redirectTo: 'list' },
+                            { path: 'list', component: _shared_common_view_viewer_report_list_viewer_report_list_component__WEBPACK_IMPORTED_MODULE_1__["ViewerReportListComponent"] },
+                            { path: ':reportID', component: _shared_common_view_viewer_report_viewer_report_component__WEBPACK_IMPORTED_MODULE_0__["ViewerReportComponent"] }
+                        ] },
+                    { path: ':id/u/:userID/edit-user', component: _edit_user_edit_user_component__WEBPACK_IMPORTED_MODULE_24__["EditUserComponent"] },
+                    { path: ':id/r/:reportID', component: _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_12__["AdminReportDetailsComponent"] },
+                    { path: ':id/r/:reportID/edit-report', component: _edit_report_edit_report_component__WEBPACK_IMPORTED_MODULE_3__["EditReportComponent"] },
                     {
                         path: ':id/u/:userID/r/:reportID',
-                        component: _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_9__["AdminReportDetailsComponent"]
+                        component: _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_12__["AdminReportDetailsComponent"]
                     },
                 ]
             },
             {
                 path: 'users',
-                component: _all_users_all_users_component__WEBPACK_IMPORTED_MODULE_7__["AllUsersComponent"],
+                component: _all_users_all_users_component__WEBPACK_IMPORTED_MODULE_10__["AllUsersComponent"],
                 children: [
                     { path: '', redirectTo: 'list' },
-                    { path: 'list', component: _all_users_all_user_list_all_user_list_component__WEBPACK_IMPORTED_MODULE_6__["AllUserListComponent"] },
-                    { path: 'new-user', component: _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_3__["CreateNewUserComponent"] },
-                    { path: 'u/:userID', component: _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_10__["UserDetailsComponent"] },
-                    { path: 'u/:userID/edit-user', component: _edit_user_edit_user_component__WEBPACK_IMPORTED_MODULE_21__["EditUserComponent"] },
-                    { path: 'u/:userID/r/:reportID', component: _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_9__["AdminReportDetailsComponent"] }
+                    { path: 'list', component: _all_users_all_user_list_all_user_list_component__WEBPACK_IMPORTED_MODULE_9__["AllUserListComponent"] },
+                    { path: 'new-user', component: _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_6__["CreateNewUserComponent"] },
+                    { path: 'u/:userID', component: _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_13__["UserDetailsComponent"] },
+                    { path: 'u/:userID/ghost/:userName', component: _ghost_ghost_component__WEBPACK_IMPORTED_MODULE_2__["GhostComponent"], children: [
+                            { path: '', redirectTo: 'list' },
+                            { path: 'list', component: _shared_common_view_viewer_report_list_viewer_report_list_component__WEBPACK_IMPORTED_MODULE_1__["ViewerReportListComponent"] },
+                            { path: ':reportID', component: _shared_common_view_viewer_report_viewer_report_component__WEBPACK_IMPORTED_MODULE_0__["ViewerReportComponent"] }
+                        ] },
+                    { path: 'u/:userID/edit-user', component: _edit_user_edit_user_component__WEBPACK_IMPORTED_MODULE_24__["EditUserComponent"] },
+                    { path: 'u/:userID/r/:reportID', component: _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_12__["AdminReportDetailsComponent"] }
                 ]
             },
             {
                 path: 'reports',
-                component: _all_reports_all_reports_component__WEBPACK_IMPORTED_MODULE_16__["AllReportsComponent"],
+                component: _all_reports_all_reports_component__WEBPACK_IMPORTED_MODULE_19__["AllReportsComponent"],
                 children: [
                     { path: '', redirectTo: 'list' },
-                    { path: 'list', component: _all_reports_all_report_list_all_report_list_component__WEBPACK_IMPORTED_MODULE_4__["AllReportListComponent"] },
-                    { path: 'new-report', component: _create_new_report_create_new_report_component__WEBPACK_IMPORTED_MODULE_18__["CreateNewReportComponent"] },
-                    { path: 'r/:reportID', component: _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_9__["AdminReportDetailsComponent"] },
-                    { path: 'r/:reportID/edit-report', component: _edit_report_edit_report_component__WEBPACK_IMPORTED_MODULE_0__["EditReportComponent"] }
+                    { path: 'list', component: _all_reports_all_report_list_all_report_list_component__WEBPACK_IMPORTED_MODULE_7__["AllReportListComponent"] },
+                    { path: 'new-report', component: _create_new_report_create_new_report_component__WEBPACK_IMPORTED_MODULE_21__["CreateNewReportComponent"] },
+                    { path: 'r/:reportID', component: _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_12__["AdminReportDetailsComponent"] },
+                    { path: 'r/:reportID/edit-report', component: _edit_report_edit_report_component__WEBPACK_IMPORTED_MODULE_3__["EditReportComponent"] }
                 ]
             }
         ]
@@ -326,9 +344,9 @@ var AdminRoutingModule = /** @class */ (function () {
     function AdminRoutingModule() {
     }
     AdminRoutingModule = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_12__["NgModule"])({
-            imports: [_angular_router__WEBPACK_IMPORTED_MODULE_13__["RouterModule"].forChild(adminRoutes)],
-            exports: [_angular_router__WEBPACK_IMPORTED_MODULE_13__["RouterModule"]]
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_15__["NgModule"])({
+            imports: [_angular_router__WEBPACK_IMPORTED_MODULE_16__["RouterModule"].forChild(adminRoutes)],
+            exports: [_angular_router__WEBPACK_IMPORTED_MODULE_16__["RouterModule"]]
         })
     ], AdminRoutingModule);
     return AdminRoutingModule;
@@ -345,7 +363,7 @@ var AdminRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"main\">\n\n  <!-- Side Navigation Menu-->\n  <div class=\"side-nav\" [ngClass]=\"{'side-nav-minimized': minimized}\">\n    <!-- Company Title and Logo goes Here-->\n    <div class=\"company\">\n      <div class=\"icon-container\">\n        <div class=\"icon\">\n          <img src=\"../../assets/company-icon.png\" alt=\"Smiley face\">\n        </div>\n      </div>\n      <span class=\"name\"> Company </span>\n    </div>\n\n    <!-- Side Navigation Menus -->\n    <div class=\"menu-container\">\n\n      <!-- Menu # 1 -->\n      <div class=\"menu\" routerLink=\"o\" routerLinkActive=\"menu-active\" >\n        <i class=\"material-icons\">\n          business\n        </i>\n        <span class=\"text\">\n          Organizations\n        </span>\n      </div>\n\n      <!-- Menu # 2 -->\n      <div class=\"menu\" routerLink=\"reports\" routerLinkActive=\"menu-active\">\n        <i class=\"material-icons\">\n          assessment\n        </i>\n        <span class=\"text\">\n          Reports\n        </span>\n      </div>\n\n      <!-- Menu # 3 -->\n      <div class=\"menu\" routerLink=\"users\" routerLinkActive=\"menu-active\">\n        <i class=\"material-icons\">\n          person_outline\n        </i>\n        <span class=\"text\">\n          Users\n        </span>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"right-content\" [ngClass]=\"{'right-content-minimized': minimized}\">\n    <!-- Top Toolbar -->\n    <mat-toolbar class=\"toolbar\">\n      <button mat-button class=\"menu-icon\" (click)=\"toggleMenu()\">\n        <i class=\"material-icons \">\n          menu\n        </i>\n      </button>\n    </mat-toolbar>\n\n    <!-- Main Content -->\n    <div class=\"main-content\">\n      <router-outlet></router-outlet>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"main\" *ngIf=\"!ghostStatus\">\n\n  <!-- Side Navigation Menu-->\n  <div class=\"side-nav\" [ngClass]=\"{'side-nav-minimized': minimized}\">\n    <!-- Company Title and Logo goes Here-->\n    <div class=\"company\">\n      <div class=\"icon-container\">\n        <div class=\"icon\">\n          <img src=\"../../assets/company-icon.png\" alt=\"Smiley face\">\n        </div>\n      </div>\n      <span class=\"name\"> Company </span>\n    </div>\n\n    <!-- Side Navigation Menus -->\n    <div class=\"menu-container\">\n\n      <!-- Menu # 1 -->\n      <div class=\"menu\" routerLink=\"o\" routerLinkActive=\"menu-active\" >\n        <i class=\"material-icons\">\n          business\n        </i>\n        <span class=\"text\">\n          Organizations\n        </span>\n      </div>\n\n      <!-- Menu # 2 -->\n      <div class=\"menu\" routerLink=\"reports\" routerLinkActive=\"menu-active\">\n        <i class=\"material-icons\">\n          assessment\n        </i>\n        <span class=\"text\">\n          Reports\n        </span>\n      </div>\n\n      <!-- Menu # 3 -->\n      <div class=\"menu\" routerLink=\"users\" routerLinkActive=\"menu-active\">\n        <i class=\"material-icons\">\n          person_outline\n        </i>\n        <span class=\"text\">\n          Users\n        </span>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"right-content\" [ngClass]=\"{'right-content-minimized': minimized}\">\n    <!-- Top Toolbar -->\n    <mat-toolbar class=\"toolbar\">\n      <button mat-button class=\"menu-icon\" (click)=\"toggleMenu()\">\n        <i class=\"material-icons \">\n          menu\n        </i>\n      </button>\n    </mat-toolbar>\n\n    <!-- Main Content -->\n    <div class=\"main-content\">\n      <router-outlet></router-outlet>\n    </div>\n  </div>\n</div>\n\n<div *ngIf=\"ghostStatus\">\n  <router-outlet></router-outlet>\n</div>\n"
 
 /***/ }),
 
@@ -356,7 +374,7 @@ module.exports = "<div class=\"main\">\n\n  <!-- Side Navigation Menu-->\n  <div
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n/******* FORMS STYLING & FILTERS ******/\n/***** Filter Card ***/\n/****** Buttons Colors  **/\n.side-nav {\n  width: 190px;\n  height: 100%;\n  background-color: #323232;\n  position: fixed;\n  transition: padding-left 0.5s;\n  /* For Safari 3.1 to 6.0 */\n  transition: width 0.5s;\n  overflow: hidden;\n  z-index: 40; }\n.company {\n  height: 64px; }\n.company .icon-container {\n    height: 64px;\n    width: 64px;\n    position: relative; }\n.company .icon-container img {\n      height: 45px;\n      width: 45px;\n      position: absolute;\n      right: 0;\n      left: 0;\n      top: 0;\n      bottom: 0;\n      margin: auto auto; }\n.company .name {\n    position: absolute;\n    top: 22px;\n    font-size: 20px;\n    font-weight: bold;\n    color: white;\n    left: 70px; }\n.menu-container {\n  position: relative; }\n.menu-container .menu-active {\n    background-color: #555555; }\n.menu-container .menu:hover {\n    cursor: pointer; }\n.menu-container .menu {\n    height: 50px;\n    color: white; }\n.menu-container .menu .material-icons {\n      font-size: 30px;\n      position: relative;\n      top: 11px;\n      left: 16px; }\n.menu-container .menu .text {\n      position: absolute;\n      font-size: 17px;\n      left: 64px;\n      margin-top: 17px; }\n.side-nav-minimized {\n  width: 64px !important; }\n.toolbar {\n  background-color: #616161;\n  color: white;\n  z-index: 20;\n  position: fixed; }\n.toolbar .menu-icon {\n    min-width: unset;\n    padding: 0; }\n.toolbar .menu-icon i {\n      font-size: 2.5em; }\n.right-content {\n  margin-left: 190px;\n  transition: margin-left 0.5s; }\n.main-content {\n  background-color: #f5f5f5;\n  min-height: calc(100vh - 64px);\n  padding-top: 64px;\n  height: 100%;\n  height: auto; }\n.right-content-minimized {\n  margin-left: 64px !important; }\n"
+module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/******* GHOST HEADER TITLE ******/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n/******* FORMS STYLING & FILTERS ******/\n/***** Filter Card ***/\n/****** Buttons Colors  **/\n.side-nav {\n  width: 190px;\n  height: 100%;\n  background-color: #323232;\n  position: fixed;\n  transition: padding-left 0.5s;\n  /* For Safari 3.1 to 6.0 */\n  transition: width 0.5s;\n  overflow: hidden;\n  z-index: 40; }\n.company {\n  height: 64px; }\n.company .icon-container {\n    height: 64px;\n    width: 64px;\n    position: relative; }\n.company .icon-container img {\n      height: 45px;\n      width: 45px;\n      position: absolute;\n      right: 0;\n      left: 0;\n      top: 0;\n      bottom: 0;\n      margin: auto auto; }\n.company .name {\n    position: absolute;\n    top: 22px;\n    font-size: 20px;\n    font-weight: bold;\n    color: white;\n    left: 70px; }\n.menu-container {\n  position: relative; }\n.menu-container .menu-active {\n    background-color: #555555; }\n.menu-container .menu:hover {\n    cursor: pointer; }\n.menu-container .menu {\n    height: 50px;\n    color: white; }\n.menu-container .menu .material-icons {\n      font-size: 30px;\n      position: relative;\n      top: 11px;\n      left: 16px; }\n.menu-container .menu .text {\n      position: absolute;\n      font-size: 17px;\n      left: 64px;\n      margin-top: 17px; }\n.side-nav-minimized {\n  width: 64px !important; }\n.toolbar {\n  background-color: #616161;\n  color: white;\n  z-index: 20;\n  position: fixed; }\n.toolbar .menu-icon {\n    min-width: unset;\n    padding: 0; }\n.toolbar .menu-icon i {\n      font-size: 2.5em; }\n.right-content {\n  margin-left: 190px;\n  transition: margin-left 0.5s; }\n.main-content {\n  background-color: #f5f5f5;\n  min-height: calc(100vh - 64px);\n  padding-top: 64px;\n  height: 100%;\n  height: auto; }\n.right-content-minimized {\n  margin-left: 64px !important; }\n"
 
 /***/ }),
 
@@ -370,8 +388,9 @@ module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*******
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AdminComponent", function() { return AdminComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _shared_services_ghost_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../shared/services/ghost.service */ "./src/app/shared/services/ghost.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -383,25 +402,35 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var AdminComponent = /** @class */ (function () {
-    function AdminComponent(route) {
+    function AdminComponent(route, ghostService) {
         this.route = route;
+        this.ghostService = ghostService;
         this.minimized = false;
     }
     AdminComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.ghostSubscription = this.ghostService.ghostStatusObservable.subscribe(function (status) {
+            _this.ghostStatus = status;
+        });
+        this.ghostService.getStatus();
         this.route.navigate(['admin/o']);
     };
     AdminComponent.prototype.toggleMenu = function () {
         this.minimized = !this.minimized;
         console.log('toggled');
     };
+    AdminComponent.prototype.ngOnDestroy = function () {
+        this.ghostSubscription.unsubscribe();
+    };
     AdminComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-admin',
             template: __webpack_require__(/*! ./admin.component.html */ "./src/app/admin/admin.component.html"),
             styles: [__webpack_require__(/*! ./admin.component.scss */ "./src/app/admin/admin.component.scss")]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], _shared_services_ghost_service__WEBPACK_IMPORTED_MODULE_0__["GhostService"]])
     ], AdminComponent);
     return AdminComponent;
 }());
@@ -426,33 +455,33 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
 /* harmony import */ var _admin_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./admin.component */ "./src/app/admin/admin.component.ts");
 /* harmony import */ var _organization_organization_list_organization_list_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./organization/organization-list/organization-list.component */ "./src/app/admin/organization/organization-list/organization-list.component.ts");
-/* harmony import */ var _angular_material_angular_material_module__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../angular-material/angular-material.module */ "./src/angular-material/angular-material.module.ts");
-/* harmony import */ var _admin_routing_module__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./admin-routing.module */ "./src/app/admin/admin-routing.module.ts");
-/* harmony import */ var _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./organization-details/organization-details.component */ "./src/app/admin/organization-details/organization-details.component.ts");
-/* harmony import */ var _organization_organization_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./organization/organization.component */ "./src/app/admin/organization/organization.component.ts");
-/* harmony import */ var _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./user-details/user-details.component */ "./src/app/admin/user-details/user-details.component.ts");
-/* harmony import */ var _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./admin-report-details/admin-report-details.component */ "./src/app/admin/admin-report-details/admin-report-details.component.ts");
-/* harmony import */ var _shared_common_view_user_list_user_list_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../shared/common-view/user-list/user-list.component */ "./src/app/shared/common-view/user-list/user-list.component.ts");
-/* harmony import */ var _shared_common_view_report_list_report_list_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../shared/common-view/report-list/report-list.component */ "./src/app/shared/common-view/report-list/report-list.component.ts");
-/* harmony import */ var _all_users_all_users_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./all-users/all-users.component */ "./src/app/admin/all-users/all-users.component.ts");
-/* harmony import */ var _all_reports_all_reports_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./all-reports/all-reports.component */ "./src/app/admin/all-reports/all-reports.component.ts");
-/* harmony import */ var _all_users_all_user_list_all_user_list_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./all-users/all-user-list/all-user-list.component */ "./src/app/admin/all-users/all-user-list/all-user-list.component.ts");
-/* harmony import */ var _all_reports_all_report_list_all_report_list_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./all-reports/all-report-list/all-report-list.component */ "./src/app/admin/all-reports/all-report-list/all-report-list.component.ts");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _shared_pipes_pagination_pipe__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../shared/pipes/pagination.pipe */ "./src/app/shared/pipes/pagination.pipe.ts");
-/* harmony import */ var _shared_pipes_org_list_pipe__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../shared/pipes/org-list.pipe */ "./src/app/shared/pipes/org-list.pipe.ts");
-/* harmony import */ var _shared_pipes_user_list_pipe__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../shared/pipes/user-list.pipe */ "./src/app/shared/pipes/user-list.pipe.ts");
-/* harmony import */ var _shared_pipes_datarules_list_pipe__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../shared/pipes/datarules-list.pipe */ "./src/app/shared/pipes/datarules-list.pipe.ts");
-/* harmony import */ var _create_new_organization_create_new_organization_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./create-new-organization/create-new-organization.component */ "./src/app/admin/create-new-organization/create-new-organization.component.ts");
-/* harmony import */ var _create_new_report_create_new_report_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./create-new-report/create-new-report.component */ "./src/app/admin/create-new-report/create-new-report.component.ts");
-/* harmony import */ var _create_new_datarule_create_new_datarule_component__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./create-new-datarule/create-new-datarule.component */ "./src/app/admin/create-new-datarule/create-new-datarule.component.ts");
-/* harmony import */ var _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./create-new-user/create-new-user.component */ "./src/app/admin/create-new-user/create-new-user.component.ts");
-/* harmony import */ var _share_report_share_report_component__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./share-report/share-report.component */ "./src/app/admin/share-report/share-report.component.ts");
-/* harmony import */ var _edit_organization_edit_organization_component__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./edit-organization/edit-organization.component */ "./src/app/admin/edit-organization/edit-organization.component.ts");
-/* harmony import */ var _edit_data_rule_edit_data_rule_component__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./edit-data-rule/edit-data-rule.component */ "./src/app/admin/edit-data-rule/edit-data-rule.component.ts");
-/* harmony import */ var _edit_user_edit_user_component__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./edit-user/edit-user.component */ "./src/app/admin/edit-user/edit-user.component.ts");
-/* harmony import */ var _edit_report_edit_report_component__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./edit-report/edit-report.component */ "./src/app/admin/edit-report/edit-report.component.ts");
-/* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ../shared/shared.module */ "./src/app/shared/shared.module.ts");
+/* harmony import */ var _admin_routing_module__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./admin-routing.module */ "./src/app/admin/admin-routing.module.ts");
+/* harmony import */ var _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./organization-details/organization-details.component */ "./src/app/admin/organization-details/organization-details.component.ts");
+/* harmony import */ var _organization_organization_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./organization/organization.component */ "./src/app/admin/organization/organization.component.ts");
+/* harmony import */ var _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./user-details/user-details.component */ "./src/app/admin/user-details/user-details.component.ts");
+/* harmony import */ var _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./admin-report-details/admin-report-details.component */ "./src/app/admin/admin-report-details/admin-report-details.component.ts");
+/* harmony import */ var _shared_common_view_user_list_user_list_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../shared/common-view/user-list/user-list.component */ "./src/app/shared/common-view/user-list/user-list.component.ts");
+/* harmony import */ var _shared_common_view_report_list_report_list_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../shared/common-view/report-list/report-list.component */ "./src/app/shared/common-view/report-list/report-list.component.ts");
+/* harmony import */ var _all_users_all_users_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./all-users/all-users.component */ "./src/app/admin/all-users/all-users.component.ts");
+/* harmony import */ var _all_reports_all_reports_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./all-reports/all-reports.component */ "./src/app/admin/all-reports/all-reports.component.ts");
+/* harmony import */ var _all_users_all_user_list_all_user_list_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./all-users/all-user-list/all-user-list.component */ "./src/app/admin/all-users/all-user-list/all-user-list.component.ts");
+/* harmony import */ var _all_reports_all_report_list_all_report_list_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./all-reports/all-report-list/all-report-list.component */ "./src/app/admin/all-reports/all-report-list/all-report-list.component.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _shared_pipes_pagination_pipe__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../shared/pipes/pagination.pipe */ "./src/app/shared/pipes/pagination.pipe.ts");
+/* harmony import */ var _shared_pipes_org_list_pipe__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../shared/pipes/org-list.pipe */ "./src/app/shared/pipes/org-list.pipe.ts");
+/* harmony import */ var _shared_pipes_user_list_pipe__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../shared/pipes/user-list.pipe */ "./src/app/shared/pipes/user-list.pipe.ts");
+/* harmony import */ var _shared_pipes_datarules_list_pipe__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../shared/pipes/datarules-list.pipe */ "./src/app/shared/pipes/datarules-list.pipe.ts");
+/* harmony import */ var _create_new_organization_create_new_organization_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./create-new-organization/create-new-organization.component */ "./src/app/admin/create-new-organization/create-new-organization.component.ts");
+/* harmony import */ var _create_new_report_create_new_report_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./create-new-report/create-new-report.component */ "./src/app/admin/create-new-report/create-new-report.component.ts");
+/* harmony import */ var _create_new_datarule_create_new_datarule_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./create-new-datarule/create-new-datarule.component */ "./src/app/admin/create-new-datarule/create-new-datarule.component.ts");
+/* harmony import */ var _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./create-new-user/create-new-user.component */ "./src/app/admin/create-new-user/create-new-user.component.ts");
+/* harmony import */ var _share_report_share_report_component__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./share-report/share-report.component */ "./src/app/admin/share-report/share-report.component.ts");
+/* harmony import */ var _edit_organization_edit_organization_component__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./edit-organization/edit-organization.component */ "./src/app/admin/edit-organization/edit-organization.component.ts");
+/* harmony import */ var _edit_data_rule_edit_data_rule_component__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./edit-data-rule/edit-data-rule.component */ "./src/app/admin/edit-data-rule/edit-data-rule.component.ts");
+/* harmony import */ var _edit_user_edit_user_component__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./edit-user/edit-user.component */ "./src/app/admin/edit-user/edit-user.component.ts");
+/* harmony import */ var _edit_report_edit_report_component__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./edit-report/edit-report.component */ "./src/app/admin/edit-report/edit-report.component.ts");
+/* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ../shared/shared.module */ "./src/app/shared/shared.module.ts");
+/* harmony import */ var _ghost_ghost_component__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./ghost/ghost.component */ "./src/app/admin/ghost/ghost.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -500,51 +529,51 @@ var AdminModule = /** @class */ (function () {
             declarations: [
                 _admin_component__WEBPACK_IMPORTED_MODULE_4__["AdminComponent"],
                 _organization_organization_list_organization_list_component__WEBPACK_IMPORTED_MODULE_5__["OrganizationListComponent"],
-                _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_8__["OrganizationDetailsComponent"],
-                _organization_organization_component__WEBPACK_IMPORTED_MODULE_9__["OrganizationComponent"],
-                _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_10__["UserDetailsComponent"],
-                _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_11__["AdminReportDetailsComponent"],
-                _shared_common_view_user_list_user_list_component__WEBPACK_IMPORTED_MODULE_12__["UserListComponent"],
-                _shared_common_view_report_list_report_list_component__WEBPACK_IMPORTED_MODULE_13__["ReportListComponent"],
-                _all_users_all_users_component__WEBPACK_IMPORTED_MODULE_14__["AllUsersComponent"],
-                _all_reports_all_reports_component__WEBPACK_IMPORTED_MODULE_15__["AllReportsComponent"],
-                _all_users_all_user_list_all_user_list_component__WEBPACK_IMPORTED_MODULE_16__["AllUserListComponent"],
-                _all_reports_all_report_list_all_report_list_component__WEBPACK_IMPORTED_MODULE_17__["AllReportListComponent"],
+                _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_7__["OrganizationDetailsComponent"],
+                _organization_organization_component__WEBPACK_IMPORTED_MODULE_8__["OrganizationComponent"],
+                _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_9__["UserDetailsComponent"],
+                _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_10__["AdminReportDetailsComponent"],
+                _shared_common_view_user_list_user_list_component__WEBPACK_IMPORTED_MODULE_11__["UserListComponent"],
+                _shared_common_view_report_list_report_list_component__WEBPACK_IMPORTED_MODULE_12__["ReportListComponent"],
+                _all_users_all_users_component__WEBPACK_IMPORTED_MODULE_13__["AllUsersComponent"],
+                _all_reports_all_reports_component__WEBPACK_IMPORTED_MODULE_14__["AllReportsComponent"],
+                _all_users_all_user_list_all_user_list_component__WEBPACK_IMPORTED_MODULE_15__["AllUserListComponent"],
+                _all_reports_all_report_list_all_report_list_component__WEBPACK_IMPORTED_MODULE_16__["AllReportListComponent"],
                 _shared_pipes_search_name_pipe__WEBPACK_IMPORTED_MODULE_1__["SearchNamePipe"],
-                _shared_pipes_pagination_pipe__WEBPACK_IMPORTED_MODULE_19__["PaginationPipe"],
-                _shared_pipes_org_list_pipe__WEBPACK_IMPORTED_MODULE_20__["OrgListPipe"],
-                _shared_pipes_user_list_pipe__WEBPACK_IMPORTED_MODULE_21__["UserListPipe"],
-                _shared_pipes_datarules_list_pipe__WEBPACK_IMPORTED_MODULE_22__["DataRulesListPipe"],
-                _create_new_organization_create_new_organization_component__WEBPACK_IMPORTED_MODULE_23__["CreateNewOrganizationComponent"],
-                _create_new_report_create_new_report_component__WEBPACK_IMPORTED_MODULE_24__["CreateNewReportComponent"],
-                _create_new_datarule_create_new_datarule_component__WEBPACK_IMPORTED_MODULE_25__["CreateNewDataruleComponent"],
-                _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_26__["CreateNewUserComponent"],
-                _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_26__["NewUserOrganizationConfirmation"],
-                _share_report_share_report_component__WEBPACK_IMPORTED_MODULE_27__["ShareReportComponent"],
-                _edit_organization_edit_organization_component__WEBPACK_IMPORTED_MODULE_28__["EditOrganizationComponent"],
-                _edit_data_rule_edit_data_rule_component__WEBPACK_IMPORTED_MODULE_29__["EditDataRuleComponent"],
-                _edit_user_edit_user_component__WEBPACK_IMPORTED_MODULE_30__["EditUserComponent"],
+                _shared_pipes_pagination_pipe__WEBPACK_IMPORTED_MODULE_18__["PaginationPipe"],
+                _shared_pipes_org_list_pipe__WEBPACK_IMPORTED_MODULE_19__["OrgListPipe"],
+                _shared_pipes_user_list_pipe__WEBPACK_IMPORTED_MODULE_20__["UserListPipe"],
+                _shared_pipes_datarules_list_pipe__WEBPACK_IMPORTED_MODULE_21__["DataRulesListPipe"],
+                _create_new_organization_create_new_organization_component__WEBPACK_IMPORTED_MODULE_22__["CreateNewOrganizationComponent"],
+                _create_new_report_create_new_report_component__WEBPACK_IMPORTED_MODULE_23__["CreateNewReportComponent"],
+                _create_new_datarule_create_new_datarule_component__WEBPACK_IMPORTED_MODULE_24__["CreateNewDataruleComponent"],
+                _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_25__["CreateNewUserComponent"],
+                _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_25__["NewUserOrganizationConfirmation"],
+                _share_report_share_report_component__WEBPACK_IMPORTED_MODULE_26__["ShareReportComponent"],
+                _edit_organization_edit_organization_component__WEBPACK_IMPORTED_MODULE_27__["EditOrganizationComponent"],
+                _edit_data_rule_edit_data_rule_component__WEBPACK_IMPORTED_MODULE_28__["EditDataRuleComponent"],
+                _edit_user_edit_user_component__WEBPACK_IMPORTED_MODULE_29__["EditUserComponent"],
                 _shared_pipes_category_pipe__WEBPACK_IMPORTED_MODULE_0__["CategoryPipe"],
-                _edit_report_edit_report_component__WEBPACK_IMPORTED_MODULE_31__["EditReportComponent"],
-                _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_8__["DeleteOrganizationConfirmation"],
-                _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_10__["DeleteUserConfirmation"],
-                _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_11__["DeleteReportConfirmation"],
-                _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_8__["DeleteDataruleConfirmation"]
+                _edit_report_edit_report_component__WEBPACK_IMPORTED_MODULE_30__["EditReportComponent"],
+                _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_7__["DeleteOrganizationConfirmation"],
+                _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_9__["DeleteUserConfirmation"],
+                _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_10__["DeleteReportConfirmation"],
+                _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_7__["DeleteDataruleConfirmation"],
+                _ghost_ghost_component__WEBPACK_IMPORTED_MODULE_32__["GhostComponent"]
             ],
             imports: [
                 _angular_common__WEBPACK_IMPORTED_MODULE_3__["CommonModule"],
-                _admin_routing_module__WEBPACK_IMPORTED_MODULE_7__["AdminRoutingModule"],
-                _angular_material_angular_material_module__WEBPACK_IMPORTED_MODULE_6__["AngularMaterialModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_18__["FormsModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_18__["ReactiveFormsModule"],
-                _shared_shared_module__WEBPACK_IMPORTED_MODULE_32__["SharedModule"]
+                _admin_routing_module__WEBPACK_IMPORTED_MODULE_6__["AdminRoutingModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_17__["FormsModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_17__["ReactiveFormsModule"],
+                _shared_shared_module__WEBPACK_IMPORTED_MODULE_31__["SharedModule"]
             ],
             entryComponents: [
-                _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_26__["NewUserOrganizationConfirmation"],
-                _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_8__["DeleteOrganizationConfirmation"],
-                _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_10__["DeleteUserConfirmation"],
-                _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_11__["DeleteReportConfirmation"],
-                _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_8__["DeleteDataruleConfirmation"]
+                _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_25__["NewUserOrganizationConfirmation"],
+                _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_7__["DeleteOrganizationConfirmation"],
+                _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_9__["DeleteUserConfirmation"],
+                _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_10__["DeleteReportConfirmation"],
+                _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_7__["DeleteDataruleConfirmation"]
             ]
         })
     ], AdminModule);
@@ -562,7 +591,7 @@ var AdminModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"breadcrumb-container\">\n    <div class=\"breadcrumb\"> <span class=\"active\"><i class=\"material-icons\">\n        assessment </i> Report List</span></div>\n  </div>\n\n  <div class=\"main-content-view\">\n      <app-report-list [reports] = \"reports\" [allowAdd]=true (reportID)=\"goToReport($event)\" style=\"display:flex; width: 100%; margin-bottom: 10px;\"></app-report-list>\n\n  </div>\n"
+module.exports = "<div class=\"breadcrumb-container\">\n  <div class=\"breadcrumb\"> <span class=\"active\"><i class=\"material-icons\">\n        assessment </i> Report List</span></div>\n</div>\n\n<div class=\"main-content-view\" *ngIf=\"viewInitialized\">\n  <app-report-list [reports]=\"reports\" [allowAdd]=true (reportID)=\"goToReport($event)\" style=\"display:flex; width: 100%; margin-bottom: 10px;\"></app-report-list>\n\n</div>\n\n<div *ngIf=\"!viewInitialized\" style=\"margin:auto; padding-top: 80px; text-align: center\">\n  <mat-spinner style=\"margin:auto\"></mat-spinner>\n  <p style=\"text-align: center;\">Reports Loading...</p>\n</div>\n"
 
 /***/ }),
 
@@ -642,24 +671,29 @@ var AllReportListComponent = /** @class */ (function () {
         this.route = route;
         this.router = router;
         this.reportService = reportService;
+        this.viewInitialized = false;
     }
     AllReportListComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, error_1;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var _a, _b, error_1;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
-                        _b.trys.push([0, 2, , 3]);
+                        _c.trys.push([0, 3, , 4]);
                         _a = this;
                         return [4 /*yield*/, this.reportService.getReportByOrganization('orgID')];
                     case 1:
-                        _a.reports = _b.sent();
-                        return [3 /*break*/, 3];
+                        _a.reports = _c.sent();
+                        _b = this;
+                        return [4 /*yield*/, true];
                     case 2:
-                        error_1 = _b.sent();
+                        _b.viewInitialized = _c.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        error_1 = _c.sent();
                         console.log(error_1);
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
@@ -752,7 +786,7 @@ var AllReportsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"breadcrumb-container\">\n  <div class=\"breadcrumb\"> <span class=\"active\"> <i class=\"material-icons\">\n        person_outline </i> User List</span></div>\n</div>\n\n<div class=\"main-content-view\">\n  <app-user-list [users]=\"users\" (userID)=\"goToUser($event)\" style=\"display:flex; width: 100%; margin-bottom: 10px;\"></app-user-list>\n</div>\n"
+module.exports = "<div class=\"breadcrumb-container\">\n  <div class=\"breadcrumb\"> <span class=\"active\"> <i class=\"material-icons\">\n        person_outline </i> User List</span></div>\n</div>\n\n<div class=\"main-content-view\" *ngIf=\"viewInitialized\" >\n  <app-user-list [users]=\"users\" (userID)=\"goToUser($event)\" style=\"display:flex; width: 100%; margin-bottom: 10px;\"></app-user-list>\n</div>\n\n<div *ngIf=\"!viewInitialized\" style=\"margin:auto; padding-top: 80px; text-align: center\">\n  <mat-spinner style=\"margin:auto\"></mat-spinner>\n  <p style=\"text-align: center;\">Users Loading...</p>\n</div>\n"
 
 /***/ }),
 
@@ -832,6 +866,7 @@ var AllUserListComponent = /** @class */ (function () {
         this.router = router;
         this.route = route;
         this.userService = userService;
+        this.viewInitialized = false;
     }
     AllUserListComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -841,9 +876,10 @@ var AllUserListComponent = /** @class */ (function () {
                     case 0:
                         _b.trys.push([0, 2, , 3]);
                         _a = this;
-                        return [4 /*yield*/, this.userService.getUsersByOrganization('All')];
+                        return [4 /*yield*/, this.userService.timeout()];
                     case 1:
                         _a.users = _b.sent();
+                        this.viewInitialized = true;
                         return [3 /*break*/, 3];
                     case 2:
                         error_1 = _b.sent();
@@ -1776,7 +1812,7 @@ var NewUserOrganizationConfirmation = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"dialog\" *ngIf=\"data.role === 'viewer'\">\r\n  <h2 class=\"title\" >Multiple Viewer Access</h2>\r\n  <div mat-dialog-content>\r\n    <h4 class=\"subtitle\">Give this user Viewer Access for the following Organizations?</h4>\r\n    <ul class=\"conditions\">\r\n      <li *ngFor=\"let temp of data.orgs\"> {{temp.name}}</li>\r\n    </ul>\r\n  </div>\r\n  <div mat-dialog-actions style=\"float:right\">\r\n    <button mat-button (click)=\"onNoClick()\">Cancel</button>\r\n    <button mat-button mat-flat-button [mat-dialog-close]=\"true\" class=\"primary\" cdkFocusInitial>Continue</button>\r\n  </div>\r\n</div>\r\n\r\n\r\n<div class=\"dialog\" *ngIf=\"data.role === 'admin'\">\r\n  <h2 class=\"title\"><i class=\"material-icons\">\r\n    warning\r\n    </i>Give Admin Access</h2>\r\n  <div mat-dialog-content>\r\n    <h4 class=\"subtitle\">Warning: Giving Admin access will grant the following:</h4>\r\n    <ul  class=\"conditions\">\r\n      <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>\r\n      <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>\r\n      <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>\r\n    </ul>\r\n  </div>\r\n  <div mat-dialog-actions style=\"float:right\">\r\n    <button mat-button (click)=\"onNoClick()\">Cancel</button>\r\n    <button mat-button mat-flat-button [mat-dialog-close]=\"true\" class=\"primary\" cdkFocusInitial>Continue</button>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"dialog\" *ngIf=\"data.role === 'viewer'\">\n  <h2 class=\"title\" >Multiple Viewer Access</h2>\n  <div mat-dialog-content>\n    <h4 class=\"subtitle\">Give this user Viewer Access for the following Organizations?</h4>\n    <ul class=\"conditions\">\n      <li *ngFor=\"let temp of data.orgs\"> {{temp.name}}</li>\n    </ul>\n  </div>\n  <div mat-dialog-actions style=\"float:right\">\n    <button mat-button (click)=\"onNoClick()\">Cancel</button>\n    <button mat-button mat-flat-button [mat-dialog-close]=\"true\" class=\"primary\" cdkFocusInitial>Continue</button>\n  </div>\n</div>\n\n\n<div class=\"dialog\" *ngIf=\"data.role === 'admin'\">\n  <h2 class=\"title\"><i class=\"material-icons\">\n    warning\n    </i>Give Admin Access</h2>\n  <div mat-dialog-content>\n    <h4 class=\"subtitle\">Warning: Giving Admin access will grant the following:</h4>\n    <ul  class=\"conditions\">\n      <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>\n      <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>\n      <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>\n    </ul>\n  </div>\n  <div mat-dialog-actions style=\"float:right\">\n    <button mat-button (click)=\"onNoClick()\">Cancel</button>\n    <button mat-button mat-flat-button [mat-dialog-close]=\"true\" class=\"primary\" cdkFocusInitial>Continue</button>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -1787,7 +1823,7 @@ module.exports = "<div class=\"dialog\" *ngIf=\"data.role === 'viewer'\">\r\n  <
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"form-container\">\n  <div class=\"card\">\n    <div class=\"form\">\n      <form [formGroup]=\"dataruleFormGroup\" *ngIf=\"dataruleFormGroup && dataRule\" (ngSubmit)=\"onSubmit()\">\n        <h2 class=\"title\">Edit Data Rule: <span class=\"input-header\">{{dataRule.name}} </span> </h2>\n        <hr>\n        <div class=\"row\">\n          <h4 class=\"input-header\"> Editing rule for \"Organization\"</h4>\n          <i class=\"material-icons form-icon\">\n            dns\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Rule Name</mat-label>\n            <input formControlName=\"name\" matInput placeholder=\"Enter Name\">\n            <mat-error>\n              Rule name is <strong>required</strong>\n            </mat-error>\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n        </div>\n        <div class=\"row\">\n          <i class=\"material-icons form-icon\">\n            storage\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Data Source</mat-label>\n            <mat-select formControlName=\"datasource\">\n              <mat-option *ngFor=\"let datasource of datasources\" value=\"{{datasource.id}}\">{{datasource.name}}</mat-option>\n            </mat-select>\n            <mat-error>\n              Data source is <strong>required</strong>\n            </mat-error>\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n        </div>\n        <div class=\"row\">\n          <i class=\"material-icons form-icon\">\n            priority_high\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Identifier</mat-label>\n            <mat-select formControlName=\"identifier\">\n                <mat-option *ngFor=\"let identifier of identifiers\" value=\"{{identifier}}\">{{identifier}}</mat-option>\n\n              </mat-select>\n            <mat-error>\n              Identifier is <strong>required</strong>\n            </mat-error>\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n        </div>\n        <div class=\"row\">\n          <i class=\"material-icons form-icon\">\n            compare\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Condition</mat-label>\n            <mat-select formControlName=\"condition\">\n              <mat-option value=\"equals\">Equals</mat-option>\n              <mat-option value=\"contains\">Contains</mat-option>\n              <mat-option value=\"excludes\">Excludes</mat-option>\n            </mat-select>\n            <mat-error>\n              Condition is <strong>required</strong>\n            </mat-error>\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n\n        </div>\n        <div class=\"row\">\n          <i class=\"material-icons form-icon\">\n            title\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Token</mat-label>\n            <input formControlName=\"token\" matInput placeholder=\"Select Data Source\">\n            <mat-error>\n              Token is <strong>required</strong>\n            </mat-error>\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n        </div>\n        <div class=\"buttons\">\n          <button mat-button routerLink=\"..\">Cancel</button>\n          <button class=\"done primary\" [disabled]=\"!dataruleFormGroup.valid\" [ngClass]=\"{'button-disabled': !dataruleFormGroup.valid}\"\n            mat-flat-button type=\"submit\">Done </button>\n        </div>\n      </form>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"form-container\">\n  <div class=\"card\">\n    <div class=\"form\">\n      <form [formGroup]=\"dataruleFormGroup\" *ngIf=\"dataruleFormGroup && dataRule\" (ngSubmit)=\"onSubmit()\">\n        <h2 class=\"title\">Edit Data Rule: <span class=\"input-header\">{{dataRule.name}} </span> </h2>\n        <hr>\n        <div class=\"row\">\n          <h4 class=\"input-header\"> Editing rule for \"Organization\"</h4>\n          <i class=\"material-icons form-icon\">\n            dns\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Rule Name</mat-label>\n            <input formControlName=\"name\" matInput placeholder=\"Enter Name\">\n            <mat-error>\n              Rule name is <strong>required</strong>\n            </mat-error>\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n        </div>\n        <div class=\"row\">\n          <i class=\"material-icons form-icon\">\n            storage\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Data Source</mat-label>\n            <mat-select formControlName=\"datasource\">\n              <mat-option *ngFor=\"let datasource of datasources\" value=\"{{datasource.id}}\">{{datasource.name}}</mat-option>\n            </mat-select>\n            <mat-error>\n              Data source is <strong>required</strong>\n            </mat-error>\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n        </div>\n        <div class=\"row\">\n          <i class=\"material-icons form-icon\">\n            priority_high\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Identifier</mat-label>\n            <mat-select formControlName=\"identifier\">\n                <mat-option *ngFor=\"let identifier of identifiers\" value=\"{{identifier}}\">{{identifier}}</mat-option>\n\n              </mat-select>\n            <mat-error>\n              Identifier is <strong>required</strong>\n            </mat-error>\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n        </div>\n        <div class=\"row\">\n          <i class=\"material-icons form-icon\">\n            compare\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Condition</mat-label>\n            <mat-select formControlName=\"condition\">\n              <mat-option value=\"equals\">Equals</mat-option>\n              <mat-option value=\"contains\">Contains</mat-option>\n              <mat-option value=\"excludes\">Excludes</mat-option>\n            </mat-select>\n            <mat-error>\n              Condition is <strong>required</strong>\n            </mat-error>\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n\n        </div>\n        <div class=\"row\">\n          <i class=\"material-icons form-icon\">\n            title\n          </i>\n          <mat-form-field appearance=\"fill\" style=\"width:80%\">\n            <mat-label>Token</mat-label>\n            <input formControlName=\"token\" matInput placeholder=\"Select Data Source\">\n            <mat-error>\n              Token is <strong>required</strong>\n            </mat-error>\n          </mat-form-field>\n          <i class=\"material-icons info-icon\">\n            info\n          </i>\n        </div>\n        <div class=\"buttons\">\n          <button mat-button routerLink=\"../../\">Cancel</button>\n          <button class=\"done primary\" [disabled]=\"!dataruleFormGroup.valid\" [ngClass]=\"{'button-disabled': !dataruleFormGroup.valid}\"\n            mat-flat-button type=\"submit\">Done </button>\n        </div>\n      </form>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -2677,6 +2713,89 @@ var EditUserComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/admin/ghost/ghost.component.html":
+/*!**************************************************!*\
+  !*** ./src/app/admin/ghost/ghost.component.html ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<mat-toolbar class=\"toolbar\">\n  <div class=\"company\">\n    <div class=\"icon-container\">\n      <div class=\"icon\">\n        <img src=\"../../assets/company-icon.png\" alt=\"Smiley face\">\n      </div>\n    </div>\n    <span class=\"name\"> Company </span>\n  </div>\n  <div class=\"ghost-title\">\n      Acting as: <span>{{name}}</span>&nbsp; <span class=\"close\"> <i class=\"material-icons\" (click)=\"disableGhost()\">\n          close\n        </i></span>\n\n\n  </div>\n</mat-toolbar>\n\n<div class=\"viewer-container\">\n\n  <div class=\"viewer-content\">\n    <router-outlet></router-outlet>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/admin/ghost/ghost.component.scss":
+/*!**************************************************!*\
+  !*** ./src/app/admin/ghost/ghost.component.scss ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/******* GHOST HEADER TITLE ******/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n/******* FORMS STYLING & FILTERS ******/\n/***** Filter Card ***/\n/****** Buttons Colors  **/\n.toolbar {\n  background-color: #616161;\n  color: white;\n  z-index: 20;\n  position: fixed; }\n.toolbar .menu-icon {\n    min-width: unset;\n    padding: 0; }\n.toolbar .menu-icon i {\n      font-size: 2.5em; }\n.company {\n  height: 64px; }\n.company .icon-container {\n    height: 64px;\n    width: 64px;\n    position: relative; }\n.company .icon-container img {\n      height: 45px;\n      width: 45px;\n      position: absolute;\n      right: 0;\n      left: -30px;\n      top: 0;\n      bottom: 5px;\n      margin: auto auto; }\n.company .name {\n    position: absolute;\n    top: 15px;\n    font-size: 25px;\n    font-weight: bold;\n    color: white;\n    left: 65px; }\n.viewer-container {\n  background-color: #f5f5f5;\n  min-height: calc(100vh - 64px);\n  padding-top: 64px;\n  height: auto; }\n.ghost-title {\n  text-align: center;\n  width: 100%;\n  color: #c0c0c0; }\n.ghost-title .close i {\n    background-color: white;\n    color: #616161;\n    border-radius: 50%;\n    position: relative;\n    top: 5px; }\n.ghost-title .close i:hover {\n    cursor: pointer; }\n"
+
+/***/ }),
+
+/***/ "./src/app/admin/ghost/ghost.component.ts":
+/*!************************************************!*\
+  !*** ./src/app/admin/ghost/ghost.component.ts ***!
+  \************************************************/
+/*! exports provided: GhostComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GhostComponent", function() { return GhostComponent; });
+/* harmony import */ var _shared_services_ghost_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/services/ghost.service */ "./src/app/shared/services/ghost.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var GhostComponent = /** @class */ (function () {
+    function GhostComponent(ghostService, router, route) {
+        this.ghostService = ghostService;
+        this.router = router;
+        this.route = route;
+    }
+    GhostComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.sub = this.route.params.subscribe(function (params) {
+            _this.name = params['userName'];
+        });
+    };
+    GhostComponent.prototype.disableGhost = function () {
+        this.ghostService.disableGhost();
+        this.router.navigate(['../../'], { relativeTo: this.route });
+    };
+    GhostComponent.prototype.ngOnDestroy = function () {
+        if (this.sub) {
+            this.sub.unsubscribe();
+        }
+    };
+    GhostComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-ghost',
+            template: __webpack_require__(/*! ./ghost.component.html */ "./src/app/admin/ghost/ghost.component.html"),
+            styles: [__webpack_require__(/*! ./ghost.component.scss */ "./src/app/admin/ghost/ghost.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_shared_services_ghost_service__WEBPACK_IMPORTED_MODULE_0__["GhostService"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"]])
+    ], GhostComponent);
+    return GhostComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/admin/organization-details/delete-datarule-confirmation.html":
 /*!******************************************************************************!*\
   !*** ./src/app/admin/organization-details/delete-datarule-confirmation.html ***!
@@ -2684,7 +2803,7 @@ var EditUserComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"dialog\">\r\n    <h2 class=\"title delete\"><i class=\"material-icons\">\r\n        warning\r\n      </i>Delete {{data.datarule}}?</h2>\r\n    <div mat-dialog-content>\r\n      <h4 class=\"subtitle\">Warning: this cannot be undone</h4>\r\n      <p>Iam id ipsum absurdum, maximum malum neglegi. Quoniam, si dis placet, ab Epicuro loqui discimus. Duo Reges: constructio interrete.</p>\r\n    </div>\r\n    <div mat-dialog-actions style=\"float:right\">\r\n      <button mat-button (click)=\"onNoClick()\">Cancel</button>\r\n      <button mat-button mat-flat-button [mat-dialog-close]=\"true\" class=\"danger\" cdkFocusInitial>Continue</button>\r\n    </div>\r\n  </div>\r\n"
+module.exports = "<div class=\"dialog\">\n    <h2 class=\"title delete\"><i class=\"material-icons\">\n        warning\n      </i>Delete {{data.datarule}}?</h2>\n    <div mat-dialog-content>\n      <h4 class=\"subtitle\">Warning: this cannot be undone</h4>\n      <p>Iam id ipsum absurdum, maximum malum neglegi. Quoniam, si dis placet, ab Epicuro loqui discimus. Duo Reges: constructio interrete.</p>\n    </div>\n    <div mat-dialog-actions style=\"float:right\">\n      <button mat-button (click)=\"onNoClick()\">Cancel</button>\n      <button mat-button mat-flat-button [mat-dialog-close]=\"true\" class=\"danger\" cdkFocusInitial>Continue</button>\n    </div>\n  </div>\n"
 
 /***/ }),
 
@@ -2695,7 +2814,7 @@ module.exports = "<div class=\"dialog\">\r\n    <h2 class=\"title delete\"><i cl
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\r\n\r\n\r\n<div class=\"dialog\">\r\n  <h2 class=\"title delete\"><i class=\"material-icons\">\r\n      warning\r\n    </i>Delete {{data.organization}}?</h2>\r\n  <div mat-dialog-content>\r\n    <h4 class=\"subtitle\">Warning: this cannot be undone</h4>\r\n    <ul class=\"conditions\">\r\n      <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>\r\n      <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>\r\n      <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>\r\n    </ul>\r\n  </div>\r\n  <div mat-dialog-actions style=\"float:right\">\r\n    <button mat-button (click)=\"onNoClick()\">Cancel</button>\r\n    <button mat-button mat-flat-button [mat-dialog-close]=\"true\" class=\"danger\" cdkFocusInitial>Continue</button>\r\n  </div>\r\n</div>\r\n"
+module.exports = "\n\n\n<div class=\"dialog\">\n  <h2 class=\"title delete\"><i class=\"material-icons\">\n      warning\n    </i>Delete {{data.organization}}?</h2>\n  <div mat-dialog-content>\n    <h4 class=\"subtitle\">Warning: this cannot be undone</h4>\n    <ul class=\"conditions\">\n      <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>\n      <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>\n      <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>\n    </ul>\n  </div>\n  <div mat-dialog-actions style=\"float:right\">\n    <button mat-button (click)=\"onNoClick()\">Cancel</button>\n    <button mat-button mat-flat-button [mat-dialog-close]=\"true\" class=\"danger\" cdkFocusInitial>Continue</button>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -2706,7 +2825,7 @@ module.exports = "\r\n\r\n\r\n<div class=\"dialog\">\r\n  <h2 class=\"title dele
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"organization != null\">\r\n  <div class=\"breadcrumb-container\">\r\n    <div> <span routerLink=\"../\"><i class=\"material-icons\"> business </i> Organization List </span> &nbsp;&nbsp; <i class=\"material-icons arrow\">\r\n        keyboard_arrow_right </i> <i style=\"margin-left: -14px\" class=\"material-icons arrow\"> keyboard_arrow_right </i>&nbsp;&nbsp; <span\r\n        class=\"active\">{{organization.name}}\r\n      </span> </div>\r\n  </div>\r\n\r\n  <div class=\"main-content-view\">\r\n    <div class=\"full-content-view\">\r\n      <div class=\"details\">\r\n        <div class=\"card\">\r\n          <div class=\"more-button\">\r\n            <button mat-icon-button [matMenuTriggerFor]=\"menu\">\r\n              <mat-icon color=\"more-color\">more_vert</mat-icon>\r\n            </button>\r\n\r\n            <mat-menu #menu=\"matMenu\">\r\n              <button mat-menu-item routerLink=\"./edit-organization\">Edit</button>\r\n              <button mat-menu-item (click)=\"openDialog()\">Delete</button>\r\n            </mat-menu>\r\n          </div>\r\n          <div class=\"container\">\r\n            <h2 class=\"title\">{{organization.name}}</h2>\r\n            <h4 class=\"secondary\"><span *ngFor=\"let category of organization.categories\">{{category}} &nbsp; </span> </h4>\r\n            <p class=\"stats\">\r\n              <span class=\"left\"><i class=\"material-icons\">\r\n                  assessment\r\n                </i> {{organization.reportsCount}} Reports</span>\r\n              <span class=\"middle\"> <i class=\"material-icons\">\r\n                  person_outline\r\n                </i>{{organization.usersCount}} Users</span>\r\n              <span class=\"right\"> <i class=\"material-icons\">\r\n                  dns\r\n                </i> {{organization.datarulesCount}} Data Rules</span>\r\n            </p>\r\n\r\n          </div>\r\n\r\n        </div>\r\n\r\n        <div class=\"tabs\">\r\n          <mat-tab-group (selectedIndexChange)=\"selected($event)\">\r\n            <mat-tab label=\"Reports\">\r\n              <app-report-list [allowAdd]=true *ngIf=\"selectedTab === 0\" [reports]=\"reports\" (reportID)=\"goToReport($event)\" style=\"display:flex; width: 100%; margin-bottom: 10px;\"></app-report-list>\r\n            </mat-tab>\r\n            <mat-tab label=\"Users\">\r\n              <app-user-list *ngIf=\"selectedTab === 1\" [users]=\"users\" (userID)=\"goToUser($event)\" style=\"display:flex; width: 100%; margin-bottom: 10px;\"></app-user-list>\r\n            </mat-tab>\r\n            <mat-tab label=\"Data Rules\">\r\n              <div class=\"data-rules-section\" *ngIf=\"selectedTab === 2\">\r\n                <div class=\"left-main-content-view\">\r\n                  <mat-accordion *ngFor=\"let rule of rules | datarulesList : searchName : selectedDataSource : sortValue : pagination.currentPage; let i = index\">\r\n                    <mat-expansion-panel class=\"data-rules-card\">\r\n                      <mat-expansion-panel-header>\r\n                        <mat-panel-title>\r\n                          <h4 class=\"title\">{{rule.name}}</h4><br>\r\n                        </mat-panel-title>\r\n                        <mat-panel-description>\r\n                          <h5>{{rule.datasource.name}}</h5>\r\n                        </mat-panel-description>\r\n                      </mat-expansion-panel-header>\r\n                      <hr>\r\n                      <p>Created At: {{rule.date | date }}</p>\r\n                      <p>Identifier: {{rule.identifier}}</p>\r\n                      <p>Condition: {{rule.condition}}</p>\r\n                      <p>Token: {{rule.token}}</p>\r\n                      <div class=\"buttons\">\r\n                        <button mat-button color=\"danger\" (click)=\"deleteRule(rule)\">Delete</button>\r\n                        <button mat-button color=\"primary\" (click)=\"editRule(rule.id)\">Edit</button>\r\n                      </div>\r\n                    </mat-expansion-panel>\r\n                    <br>\r\n                  </mat-accordion>\r\n                  <p class=\"pagination\" *ngIf=\"this.pagination\" style=\"text-align: center\"> <button mat-mini-fab (click)=\"previousPage()\" color=\"white\"\r\n                    [disabled]=\"pagination.currentPage===1\"> <i class=\"material-icons\">\r\n                      chevron_left\r\n                    </i> </button>\r\n                  {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)=\"nextPage() \" [disabled]=\"pagination.currentPage === pagination.totalPages\"\r\n                    color=\"white\"> <i class=\"material-icons\">\r\n                      chevron_right\r\n                    </i> </button>\r\n                </p>\r\n                </div>\r\n                <div class=\"right-main-content-view\">\r\n                  <!-- Filters -->\r\n                  <div class=\"filter\">\r\n                    <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\r\n                      <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\r\n                      <p class=\"title\"> Filter by</p>\r\n                      <mat-form-field appearance=\"outline\" class=\"search\">\r\n                        <mat-label class=\"label-color\">Name</mat-label>\r\n                        <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\r\n                      </mat-form-field>\r\n                      <p class=\"title\"> Data Source</p>\r\n                      <mat-form-field appearance=\"outline\" class=\"select\">\r\n                        <mat-select formControlName=\"selectedDataSource\">\r\n                          <mat-option value=\"All\">All</mat-option>\r\n                          <mat-option *ngFor=\"let datasource of dataSources\" value=\"{{datasource.id}}\">{{datasource.name}}</mat-option>\r\n                        </mat-select>\r\n                      </mat-form-field>\r\n                      <br>\r\n                      <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\r\n                    </form>\r\n                  </div>\r\n                  <div class=\"sort\">\r\n                    <p class=\"title\"> Sort By</p>\r\n                    <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\r\n                      <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\r\n                        {{sort}}\r\n                      </mat-radio-button>\r\n                    </mat-radio-group>\r\n                  </div>\r\n                  <div class=\"add-button\">\r\n                    <button routerLink=\"../new-data-rule\" mat-fab class=\"button-fab\" color=\"primary-button\"> <i class=\"material-icons plus-icon\">\r\n                      add\r\n                    </i>\r\n                    <i class=\"material-icons back-icon\">\r\n                      dns\r\n                    </i></button>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </mat-tab>\r\n          </mat-tab-group>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div *ngIf=\"organization == null\">\r\n  <mat-spinner></mat-spinner>\r\n</div>\r\n"
+module.exports = "<div *ngIf=\"organization != null\">\n  <div class=\"breadcrumb-container\">\n    <div> <span routerLink=\"../\"><i class=\"material-icons\"> business </i> Organization List </span> &nbsp;&nbsp; <i class=\"material-icons arrow\">\n        keyboard_arrow_right </i> <i style=\"margin-left: -14px\" class=\"material-icons arrow\"> keyboard_arrow_right </i>&nbsp;&nbsp; <span\n        class=\"active\">{{organization.name}}\n      </span> </div>\n  </div>\n\n  <div class=\"main-content-view\">\n    <div class=\"full-content-view\" *ngIf=\"viewInitialized\">\n      <div class=\"details\">\n        <div class=\"card\">\n          <div class=\"more-button\">\n            <button mat-icon-button [matMenuTriggerFor]=\"menu\">\n              <mat-icon color=\"more-color\">more_vert</mat-icon>\n            </button>\n\n            <mat-menu #menu=\"matMenu\">\n              <button mat-menu-item routerLink=\"./edit-organization\">Edit</button>\n              <button mat-menu-item (click)=\"openDialog()\">Delete</button>\n            </mat-menu>\n          </div>\n          <div class=\"container\">\n            <h2 class=\"title\">{{organization.name}}</h2>\n            <h4 class=\"secondary\"><span *ngFor=\"let category of organization.categories\">{{category}} &nbsp; </span> </h4>\n            <p class=\"stats\">\n              <span class=\"left\"><i class=\"material-icons\">\n                  assessment\n                </i> {{organization.reportsCount}} Reports</span>\n              <span class=\"middle\"> <i class=\"material-icons\">\n                  person_outline\n                </i>{{organization.usersCount}} Users</span>\n              <span class=\"right\"> <i class=\"material-icons\">\n                  dns\n                </i> {{organization.datarulesCount}} Data Rules</span>\n            </p>\n\n          </div>\n\n        </div>\n\n        <div class=\"tabs\">\n          <mat-tab-group (selectedIndexChange)=\"selected($event)\">\n            <mat-tab label=\"Reports\">\n                <div *ngIf=\"!reportsInitialized\" style=\"margin:auto; padding-top: 50px; text-align: center\">\n                    <mat-spinner style=\"margin:auto\"></mat-spinner>\n                    <p style=\"text-align: center;\">Reports Loading...</p>\n                  </div>\n              <app-report-list [allowAdd]=true *ngIf=\"selectedTab === 0 && reportsInitialized\" [reports]=\"reports\" (reportID)=\"goToReport($event)\" style=\"display:flex; width: 100%; margin-bottom: 10px;\"></app-report-list>\n            </mat-tab>\n            <mat-tab label=\"Users\">\n                <div *ngIf=\"!usersInitialized\" style=\"margin:auto; padding-top: 50px; text-align: center\">\n                    <mat-spinner style=\"margin:auto\"></mat-spinner>\n                    <p style=\"text-align: center;\">Users Loading...</p>\n                </div>\n              <app-user-list *ngIf=\"selectedTab === 1 && usersInitialized\" [users]=\"users\" (userID)=\"goToUser($event)\" style=\"display:flex; width: 100%; margin-bottom: 10px;\"></app-user-list>\n            </mat-tab>\n            <mat-tab label=\"Data Rules\">\n                <div *ngIf=\"!datarulesInitialized\" style=\"margin:auto; padding-top: 50px; text-align: center\">\n                    <mat-spinner style=\"margin:auto\"></mat-spinner>\n                    <p style=\"text-align: center;\">Data Rules Loading...</p>\n                </div>\n              <div class=\"data-rules-section\" *ngIf=\"selectedTab === 2 && datarulesInitialized\">\n                <div class=\"left-main-content-view\">\n                  <mat-accordion *ngFor=\"let rule of rules | datarulesList : searchName : selectedDataSource : sortValue : pagination.currentPage; let i = index\">\n                    <mat-expansion-panel class=\"data-rules-card\">\n                      <mat-expansion-panel-header>\n                        <mat-panel-title>\n                          <h4 class=\"title\">{{rule.name}}</h4><br>\n                        </mat-panel-title>\n                        <mat-panel-description>\n                          <h5>{{rule.datasource.name}}</h5>\n                        </mat-panel-description>\n                      </mat-expansion-panel-header>\n                      <hr>\n                      <p>Created At: {{rule.date | date }}</p>\n                      <p>Identifier: {{rule.identifier}}</p>\n                      <p>Condition: {{rule.condition}}</p>\n                      <p>Token: {{rule.token}}</p>\n                      <div class=\"buttons\">\n                        <button mat-button color=\"danger\" (click)=\"deleteRule(rule)\">Delete</button>\n                        <button mat-button color=\"primary\" (click)=\"editRule(rule.id)\">Edit</button>\n                      </div>\n                    </mat-expansion-panel>\n                    <br>\n                  </mat-accordion>\n                  <p class=\"pagination\" *ngIf=\"this.pagination\" style=\"text-align: center\"> <button mat-mini-fab (click)=\"previousPage()\"\n                      color=\"white\" [disabled]=\"pagination.currentPage===1\"> <i class=\"material-icons\">\n                        chevron_left\n                      </i> </button>\n                    {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)=\"nextPage() \"\n                      [disabled]=\"pagination.currentPage === pagination.totalPages\" color=\"white\"> <i class=\"material-icons\">\n                        chevron_right\n                      </i> </button>\n                  </p>\n                </div>\n                <div class=\"right-main-content-view\">\n                  <!-- Filters -->\n                  <div class=\"filter\">\n                    <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\n                      <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\n                      <p class=\"title\"> Filter by</p>\n                      <mat-form-field appearance=\"outline\" class=\"search\">\n                        <mat-label class=\"label-color\">Name</mat-label>\n                        <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\n                      </mat-form-field>\n                      <p class=\"title\"> Data Source</p>\n                      <mat-form-field appearance=\"outline\" class=\"select\">\n                        <mat-select formControlName=\"selectedDataSource\">\n                          <mat-option value=\"All\">All</mat-option>\n                          <mat-option *ngFor=\"let datasource of dataSources\" value=\"{{datasource.id}}\">{{datasource.name}}</mat-option>\n                        </mat-select>\n                      </mat-form-field>\n                      <br>\n                      <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\n                    </form>\n                  </div>\n                  <div class=\"sort\">\n                    <p class=\"title\"> Sort By</p>\n                    <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\n                      <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\n                        {{sort}}\n                      </mat-radio-button>\n                    </mat-radio-group>\n                  </div>\n                  <div class=\"add-button\">\n                    <button routerLink=\"../new-data-rule\" mat-fab class=\"button-fab\" color=\"primary-button\"> <i class=\"material-icons plus-icon\">\n                        add\n                      </i>\n                      <i class=\"material-icons back-icon\">\n                        dns\n                      </i></button>\n                  </div>\n                </div>\n              </div>\n            </mat-tab>\n          </mat-tab-group>\n        </div>\n      </div>\n    </div>\n    <div *ngIf=\"!viewInitialized\" style=\"margin:auto; padding-top: 50px;\">\n        <mat-spinner></mat-spinner>\n        <p style=\"text-align: center;\">Loading...</p>\n      </div>\n  </div>\n</div>\n\n"
 
 /***/ }),
 
@@ -2717,7 +2836,7 @@ module.exports = "<div *ngIf=\"organization != null\">\r\n  <div class=\"breadcr
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n/******* FORMS STYLING & FILTERS ******/\n/***** Filter Card ***/\n/****** Buttons Colors  **/\n.tabs {\n  background-color: white;\n  margin: 20px 0;\n  box-shadow: 2px 3px 4px rgba(101, 101, 101, 0.5); }\n::ng-deep .mat-tab-body .mat-tab-body-content {\n  overflow: hidden; }\n::ng-deep .tabs .mat-tab-header {\n  box-shadow: 0 1px 4px rgba(101, 101, 101, 0.7) !important;\n  border-bottom: none !important; }\n::ng-deep .tabs .mat-tab-label {\n  color: #3E3E3E;\n  opacity: 1;\n  font-size: 17px; }\n::ng-deep .tabs .mat-tab-label-active {\n  color: #0865ee; }\n::ng-deep .tabs .mat-tab-body {\n  padding: 10px; }\n::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,\n::ng-deep .mat-tab-nav-bar.mat-primary .mat-ink-bar {\n  background: #0865ee;\n  height: 3px; }\n.data-rules-card {\n  border: 1px solid #D7D7D7;\n  border-radius: 5px; }\n.mat-tab {\n  padding: 5px; }\n.data-rules-section {\n  margin-bottom: 10px;\n  display: flex; }\n.data-rules-section .left-main-content-view {\n    margin-top: 10px; }\n.data-rules-section .left-main-content-view p {\n      margin: 0;\n      color: #3e3e3e;\n      font-weight: 500; }\n.data-rules-section .left-main-content-view .buttons {\n      text-align: right; }\n.data-rules-section .left-main-content-view hr {\n      border-top: 1px solid #b4b4b4;\n      margin-top: -10px; }\n.data-rules-section .left-main-content-view .title {\n      color: #E7554B; }\n.data-rules-section .left-main-content-view .mat-expansion-panel-content {\n      padding-top: 5px;\n      border-top: 1px solid rgba(0, 0, 0, 0.12); }\n.data-rules-section .left-main-content-view .mat-expansion-panel {\n      border-radius: 3px; }\n"
+module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/******* GHOST HEADER TITLE ******/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n/******* FORMS STYLING & FILTERS ******/\n/***** Filter Card ***/\n/****** Buttons Colors  **/\n.tabs {\n  background-color: white;\n  margin: 20px 0;\n  box-shadow: 2px 3px 4px rgba(101, 101, 101, 0.5); }\n::ng-deep .mat-tab-body .mat-tab-body-content {\n  overflow: hidden; }\n::ng-deep .tabs .mat-tab-header {\n  box-shadow: 0 1px 4px rgba(101, 101, 101, 0.7) !important;\n  border-bottom: none !important; }\n::ng-deep .tabs .mat-tab-label {\n  color: #3E3E3E;\n  opacity: 1;\n  font-size: 17px; }\n::ng-deep .tabs .mat-tab-label-active {\n  color: #0865ee; }\n::ng-deep .tabs .mat-tab-body {\n  padding: 10px; }\n::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,\n::ng-deep .mat-tab-nav-bar.mat-primary .mat-ink-bar {\n  background: #0865ee;\n  height: 3px; }\n.data-rules-card {\n  border: 1px solid #D7D7D7;\n  border-radius: 5px; }\n.mat-tab {\n  padding: 5px; }\n.data-rules-section {\n  margin-bottom: 10px;\n  display: flex; }\n.data-rules-section .left-main-content-view {\n    margin-top: 10px; }\n.data-rules-section .left-main-content-view p {\n      margin: 0;\n      color: #3e3e3e;\n      font-weight: 500; }\n.data-rules-section .left-main-content-view .buttons {\n      text-align: right; }\n.data-rules-section .left-main-content-view hr {\n      border-top: 1px solid #b4b4b4;\n      margin-top: -10px; }\n.data-rules-section .left-main-content-view .title {\n      color: #E7554B; }\n.data-rules-section .left-main-content-view .mat-expansion-panel-content {\n      padding-top: 5px;\n      border-top: 1px solid rgba(0, 0, 0, 0.12); }\n.data-rules-section .left-main-content-view .mat-expansion-panel {\n      border-radius: 3px; }\n"
 
 /***/ }),
 
@@ -2817,15 +2936,19 @@ var OrganizationDetailsComponent = /** @class */ (function () {
         this.sorts = ['Latest', 'Alphabetical'];
         this.sortValue = this.sorts[0];
         this.selectedDataSource = 'All';
+        this.reportsInitialized = false;
+        this.usersInitialized = false;
+        this.datarulesInitialized = false;
+        this.viewInitialized = false;
     }
     OrganizationDetailsComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var _a, _b, _c, _d, _e, error_1;
-            return __generator(this, function (_f) {
-                switch (_f.label) {
+            var _a, _b, error_1;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
-                        _f.trys.push([0, 6, , 7]);
+                        _c.trys.push([0, 3, , 4]);
                         this.sub = this.route.params.subscribe(function (params) {
                             _this.organizationID = params['id'];
                         });
@@ -2834,55 +2957,101 @@ var OrganizationDetailsComponent = /** @class */ (function () {
                         return [4 /*yield*/, this.organizationService.getOrganizationById(this.organizationID)];
                     case 1:
                         // gets organization info
-                        _a.organization = _f.sent();
+                        _a.organization = _c.sent();
                         // gets reports for this organization
                         _b = this;
                         return [4 /*yield*/, this.reportService.getReportByOrganization('orgID')];
                     case 2:
                         // gets reports for this organization
-                        _b.reports = _f.sent();
-                        // gets data rules for this organization
-                        _c = this;
-                        return [4 /*yield*/, this.dataruleService.getDataRules(this.organizationID)];
-                    case 3:
-                        // gets data rules for this organization
-                        _c.rules = _f.sent();
-                        // gets users for this organization
-                        _d = this;
-                        return [4 /*yield*/, this.userService.getUsersByOrganization('orgID')];
-                    case 4:
-                        // gets users for this organization
-                        _d.users = _f.sent();
-                        // get all data sources for this organization
-                        _e = this;
-                        return [4 /*yield*/, this.dataruleService.getAllDataSourceForOrganization('orgID')];
-                    case 5:
-                        // get all data sources for this organization
-                        _e.dataSources = _f.sent();
+                        _b.reports = _c.sent();
                         this.pageSubscription = this.paginationService.paginationChanged.subscribe(function (pagination) {
                             _this.pagination = pagination;
                         });
-                        return [3 /*break*/, 7];
-                    case 6:
-                        error_1 = _f.sent();
+                        this.viewInitialized = true;
+                        this.reportsInitialized = true;
+                        return [3 /*break*/, 4];
+                    case 3:
+                        error_1 = _c.sent();
                         console.log(error_1);
-                        return [3 /*break*/, 7];
-                    case 7: return [2 /*return*/];
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
     };
     OrganizationDetailsComponent.prototype.selected = function (event) {
-        this.selectedTab = event;
-        if (event === 2) {
-            this.paginationService.resetPage();
-        }
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        this.selectedTab = event;
+                        if (!(event === 1)) return [3 /*break*/, 3];
+                        if (!!this.users) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this.getUsers()];
+                    case 1:
+                        _c.sent();
+                        _a = this;
+                        return [4 /*yield*/, true];
+                    case 2:
+                        _a.usersInitialized = _c.sent();
+                        _c.label = 3;
+                    case 3:
+                        if (!(event === 2)) return [3 /*break*/, 7];
+                        if (!!this.rules) return [3 /*break*/, 6];
+                        return [4 /*yield*/, this.getRules()];
+                    case 4:
+                        _c.sent();
+                        _b = this;
+                        return [4 /*yield*/, true];
+                    case 5:
+                        _b.datarulesInitialized = _c.sent();
+                        _c.label = 6;
+                    case 6:
+                        this.paginationService.resetPage();
+                        _c.label = 7;
+                    case 7: return [2 /*return*/];
+                }
+            });
+        });
     };
     OrganizationDetailsComponent.prototype.ngOnDestroy = function () {
         this.sub.unsubscribe();
         if (this.pageSubscription) {
             this.pageSubscription.unsubscribe();
         }
+    };
+    // gets users for this organization
+    OrganizationDetailsComponent.prototype.getUsers = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = this;
+                        return [4 /*yield*/, this.userService.getUsersByOrganization('orgID')];
+                    case 1:
+                        _a.users = _b.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    // gets data rules for this organization
+    OrganizationDetailsComponent.prototype.getRules = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = this;
+                        return [4 /*yield*/, this.dataruleService.getDataRules(this.organizationID)];
+                    case 1:
+                        _a.rules = _b.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     OrganizationDetailsComponent.prototype.goToUser = function (userId) {
         this.router.navigate(['./u', userId], { relativeTo: this.route });
@@ -3011,7 +3180,7 @@ var DeleteDataruleConfirmation = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"breadcrumb-container\">\r\n  <div class=\"breadcrumb\"> <span class=\"active\"> <i class=\"material-icons\"> business </i> Organization List </span></div>\r\n</div>\r\n\r\n<div class=\"main-content-view\">\r\n  <div class=\"left-main-content-view\">\r\n    <div class=\"list\" *ngIf=\"pagination\">\r\n      <div *ngFor=\"let organization of organizations  |   orgList:  search: selectedCategories : sortValue: pagination.currentPage \" class=\"card\">\r\n        <div class=\"container\" (click)=\"goToDetails(organization.id)\">\r\n          <h2 class=\"title\">{{organization.name}}</h2>\r\n          <h4 class=\"secondary\"><span *ngFor=\"let category of organization.categories, let i = index\">{{category}}<span *ngIf=\"i < organization.categories.length -1\">,&nbsp;&nbsp;</span>\r\n            </span> </h4>\r\n          <p class=\"stats\">\r\n            <span class=\"left\"><i class=\"material-icons\">\r\n                assessment\r\n              </i> {{organization.reportsCount}} Reports</span>\r\n            <span class=\"middle\"> <i class=\"material-icons\">\r\n                person_outline\r\n              </i>{{organization.usersCount}} Users</span>\r\n            <span class=\"right\"> <i class=\"material-icons\">\r\n                dns\r\n              </i> {{organization.datarulesCount}} Data Rules</span>\r\n          </p>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <p class=\"pagination\" *ngIf=\"this.pagination\" style=\"text-align: center\"> <button mat-mini-fab (click)=\"previousPage()\" color=\"white\"\r\n      [disabled]=\"pagination.currentPage===1\"> <i class=\"material-icons\">\r\n        chevron_left\r\n      </i> </button>\r\n    {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)=\"nextPage() \" [disabled]=\"pagination.currentPage === pagination.totalPages\"\r\n      color=\"white\"> <i class=\"material-icons\">\r\n        chevron_right\r\n      </i> </button>\r\n  </p>\r\n  </div>\r\n  <div class=\"right-main-content-view\">\r\n    <div class=\"filter\" style=\"margin-top: 13px\">\r\n      <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\r\n        <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\r\n        <p class=\"title\"> Filter by</p>\r\n        <mat-form-field appearance=\"outline\" class=\"search\">\r\n          <mat-label class=\"label-color\">Name</mat-label>\r\n          <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\r\n        </mat-form-field>\r\n        <p class=\"title\"> Company Type</p>\r\n        <div class=\"checkbox\" *ngFor=\"let category of categories\">\r\n          <mat-checkbox value=\"{{category}}\" formControlName=\"{{category}}\">{{category}}</mat-checkbox>\r\n        </div>\r\n        <br>\r\n        <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\r\n      </form>\r\n    </div>\r\n\r\n    <div class=\"sort\">\r\n      <p class=\"title\"> Sort By</p>\r\n      <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\r\n        <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\r\n          {{sort}}\r\n        </mat-radio-button>\r\n      </mat-radio-group>\r\n    </div>\r\n\r\n    <div class=\"add-button\">\r\n      <button routerLink=\"../new-organization\" mat-fab class=\"button-fab\" color=\"primary-button\"> <i class=\"material-icons plus-icon\">\r\n          add\r\n        </i>\r\n        <i class=\"material-icons back-icon\">\r\n          business\r\n        </i></button>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"breadcrumb-container\">\n  <div class=\"breadcrumb\"> <span class=\"active\"> <i class=\"material-icons\"> business </i> Organization List </span></div>\n</div>\n\n<div class=\"main-content-view\">\n  <div class=\"left-main-content-view\" *ngIf=\"initialized\">\n    <div class=\"list\" *ngIf=\"pagination\">\n      <div *ngFor=\"let organization of organizations  |   orgList:  search: selectedCategories : sortValue: pagination.currentPage \" class=\"card\">\n        <div class=\"container\" (click)=\"goToDetails(organization.id)\">\n          <h2 class=\"title\">{{organization.name}}</h2>\n          <h4 class=\"secondary\"><span *ngFor=\"let category of organization.categories, let i = index\">{{category}}<span *ngIf=\"i < organization.categories.length -1\">,&nbsp;&nbsp;</span>\n            </span> </h4>\n          <p class=\"stats\">\n            <span class=\"left\"><i class=\"material-icons\">\n                assessment\n              </i> {{organization.reportsCount}} Reports</span>\n            <span class=\"middle\"> <i class=\"material-icons\">\n                person_outline\n              </i>{{organization.usersCount}} Users</span>\n            <span class=\"right\"> <i class=\"material-icons\">\n                dns\n              </i> {{organization.datarulesCount}} Data Rules</span>\n          </p>\n        </div>\n      </div>\n    </div>\n    <p class=\"pagination\" *ngIf=\"this.pagination\" style=\"text-align: center\"> <button mat-mini-fab (click)=\"previousPage()\" color=\"white\"\n        [disabled]=\"pagination.currentPage===1\"> <i class=\"material-icons\">\n          chevron_left\n        </i> </button>\n      {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)=\"nextPage() \" [disabled]=\"pagination.currentPage === pagination.totalPages\"\n        color=\"white\"> <i class=\"material-icons\">\n          chevron_right\n        </i> </button>\n    </p>\n  </div>\n  <div class=\"right-main-content-view\" *ngIf=\"initialized\">\n    <div class=\"filter\" style=\"margin-top: 13px\">\n      <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\n        <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\n        <p class=\"title\"> Filter by</p>\n        <mat-form-field appearance=\"outline\" class=\"search\">\n          <mat-label class=\"label-color\">Name</mat-label>\n          <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\n        </mat-form-field>\n        <p class=\"title\"> Company Type</p>\n        <div class=\"checkbox\" *ngFor=\"let category of categories\">\n          <mat-checkbox value=\"{{category}}\" formControlName=\"{{category}}\">{{category}}</mat-checkbox>\n        </div>\n        <br>\n        <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\n      </form>\n    </div>\n\n    <div class=\"sort\">\n      <p class=\"title\"> Sort By</p>\n      <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\n        <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\n          {{sort}}\n        </mat-radio-button>\n      </mat-radio-group>\n    </div>\n\n    <div class=\"add-button\">\n      <button routerLink=\"../new-organization\" mat-fab class=\"button-fab\" color=\"primary-button\"> <i class=\"material-icons plus-icon\">\n          add\n        </i>\n        <i class=\"material-icons back-icon\">\n          business\n        </i></button>\n    </div>\n  </div>\n\n  <div *ngIf=\"!initialized\" style=\"margin:auto; padding-top: 50px;\">\n    <mat-spinner></mat-spinner>\n    <p style=\"text-align: center;\">Loading...</p>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -3108,6 +3277,7 @@ var OrganizationListComponent = /** @class */ (function () {
         this.filterForm = new _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormGroup"]({
             name: new _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormControl"]('')
         });
+        this.initialized = false;
     }
     OrganizationListComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -3133,6 +3303,7 @@ var OrganizationListComponent = /** @class */ (function () {
                         });
                         this.paginationService.getPagination();
                         this.paginationService.changePage(1);
+                        this.initialized = true;
                         return [3 /*break*/, 4];
                     case 3:
                         error_1 = _c.sent();
@@ -3459,7 +3630,7 @@ var ShareReportComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"dialog\">\r\n    <h2 class=\"title delete\"><i class=\"material-icons\">\r\n        warning\r\n      </i>Delete {{data.user}}?</h2>\r\n    <div mat-dialog-content>\r\n      <h4 class=\"subtitle\">Warning: this cannot be undone</h4>\r\n      <p>Iam id ipsum absurdum, maximum malum neglegi. Quoniam, si dis placet, ab Epicuro loqui discimus. Duo Reges: constructio interrete.</p>\r\n    </div>\r\n    <div mat-dialog-actions style=\"float:right\">\r\n      <button mat-button (click)=\"onNoClick()\">Cancel</button>\r\n      <button mat-button mat-flat-button [mat-dialog-close]=\"true\" class=\"danger\" cdkFocusInitial>Continue</button>\r\n    </div>\r\n  </div>\r\n"
+module.exports = "<div class=\"dialog\">\n    <h2 class=\"title delete\"><i class=\"material-icons\">\n        warning\n      </i>Delete {{data.user}}?</h2>\n    <div mat-dialog-content>\n      <h4 class=\"subtitle\">Warning: this cannot be undone</h4>\n      <p>Iam id ipsum absurdum, maximum malum neglegi. Quoniam, si dis placet, ab Epicuro loqui discimus. Duo Reges: constructio interrete.</p>\n    </div>\n    <div mat-dialog-actions style=\"float:right\">\n      <button mat-button (click)=\"onNoClick()\">Cancel</button>\n      <button mat-button mat-flat-button [mat-dialog-close]=\"true\" class=\"danger\" cdkFocusInitial>Continue</button>\n    </div>\n  </div>\n"
 
 /***/ }),
 
@@ -3470,7 +3641,7 @@ module.exports = "<div class=\"dialog\">\r\n    <h2 class=\"title delete\"><i cl
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"organization != null && user != null\">\r\n\r\n  <div class=\"breadcrumb-container\">\r\n    <!-- Breadcrumbs for user details under user list-->\r\n    <div *ngIf=\"this.orgID === undefined\">\r\n      <div class=\"breadcrumb\"> <span routerLink=\"../../\"><i class=\"material-icons\">\r\n            person_outline </i> User List </span> &nbsp;&nbsp; <i class=\"material-icons arrow\"> keyboard_arrow_right </i> <i style=\"margin-left: -14px\"\r\n          class=\"material-icons arrow\"> keyboard_arrow_right </i>&nbsp;&nbsp; <span class=\"active\"> {{user.firstName}} {{user.lastName}}  </span> </div>\r\n    </div>\r\n\r\n    <!-- Breadcrumbs for user details under organization list-->\r\n    <div *ngIf=\"this.orgID != undefined\">\r\n      <div class=\"breadcrumb\"> <span routerLink=\"../../../\"><i class=\"material-icons\">\r\n            business </i> Organization List </span> &nbsp;&nbsp; <i class=\"material-icons arrow\"> keyboard_arrow_right </i> <i style=\"margin-left: -14px\"\r\n          class=\"material-icons arrow\"> keyboard_arrow_right </i>&nbsp;&nbsp; <span routerLink=\"../../\"> {{organization.name}}</span>\r\n        &nbsp;&nbsp; <i class=\"material-icons arrow\"> keyboard_arrow_right </i> <i style=\"margin-left: -14px\" class=\"material-icons arrow\">\r\n          keyboard_arrow_right </i>&nbsp;&nbsp; <span class=\"active\"> {{user.firstName}} {{user.lastName}} </span> </div>\r\n    </div>\r\n\r\n  </div>\r\n\r\n  <div class=\"main-content-view\">\r\n    <div class=\"full-content-view\">\r\n\r\n\r\n      <div class=\"details\">\r\n        <div class=\"more-button\">\r\n          <button mat-icon-button [matMenuTriggerFor]=\"menu\">\r\n            <mat-icon color=\"more-color\">more_vert</mat-icon>\r\n          </button>\r\n\r\n          <mat-menu #menu=\"matMenu\">\r\n            <button mat-menu-item routerLink=\"./edit-user\">Edit</button>\r\n            <button mat-menu-item (click)=\"openDialog()\">Delete</button>\r\n          </mat-menu>\r\n        </div>\r\n        <div class=\"card\">\r\n          <div class=\"container\">\r\n            <h2 class=\"title\"> {{user.firstName}} {{user.lastName}}</h2>\r\n            <h4 class=\"secondary\">Viewer</h4>\r\n            <p class=\"content\">Gmail: {{user.googleId}}</p>\r\n            <p class=\"content\">Secondary Email: {{user.secondaryEmail }}}</p>\r\n            <p class=\"content\"> Accesses: <span *ngFor=\"let org of user.organizations\"> {{org.name}} </span></p>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n      <div>\r\n        <h3 class=\"list-title\">Report List</h3>\r\n        <app-report-list style=\"display:flex; width: 100%;\" [reports]=\"reports\" (reportID)=\"goToReport($event)\"></app-report-list>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div *ngIf=\"organization != null && user != null && viewInitialized\">\n\n  <div class=\"breadcrumb-container\">\n    <!-- Breadcrumbs for user details under user list-->\n    <div *ngIf=\"this.orgID === undefined\">\n      <div class=\"breadcrumb\"> <span routerLink=\"../../\"><i class=\"material-icons\">\n            person_outline </i> User List </span> &nbsp;&nbsp; <i class=\"material-icons arrow\"> keyboard_arrow_right </i> <i style=\"margin-left: -14px\"\n          class=\"material-icons arrow\"> keyboard_arrow_right </i>&nbsp;&nbsp; <span class=\"active\"> {{user.firstName}} {{user.lastName}}\n        </span> </div>\n    </div>\n\n    <!-- Breadcrumbs for user details under organization list-->\n    <div *ngIf=\"this.orgID != undefined\">\n      <div class=\"breadcrumb\"> <span routerLink=\"../../../\"><i class=\"material-icons\">\n            business </i> Organization List </span> &nbsp;&nbsp; <i class=\"material-icons arrow\"> keyboard_arrow_right </i> <i style=\"margin-left: -14px\"\n          class=\"material-icons arrow\"> keyboard_arrow_right </i>&nbsp;&nbsp; <span routerLink=\"../../\"> {{organization.name}}</span>\n        &nbsp;&nbsp; <i class=\"material-icons arrow\"> keyboard_arrow_right </i> <i style=\"margin-left: -14px\" class=\"material-icons arrow\">\n          keyboard_arrow_right </i>&nbsp;&nbsp; <span class=\"active\"> {{user.firstName}} {{user.lastName}} </span> </div>\n    </div>\n\n  </div>\n\n  <div class=\"main-content-view\">\n    <div class=\"full-content-view\">\n\n\n      <div class=\"details\">\n        <div class=\"more-button\">\n          <button mat-icon-button [matMenuTriggerFor]=\"menu\">\n            <mat-icon color=\"more-color\">more_vert</mat-icon>\n          </button>\n\n          <mat-menu #menu=\"matMenu\">\n            <button mat-menu-item (click)=\"ghostView()\">User View</button>\n            <mat-divider></mat-divider>\n            <button mat-menu-item routerLink=\"./edit-user\">Edit</button>\n            <button mat-menu-item (click)=\"openDialog()\">Delete</button>\n          </mat-menu>\n        </div>\n        <div class=\"card\">\n          <div class=\"container\">\n            <h2 class=\"title\"> {{user.firstName}} {{user.lastName}}</h2>\n            <h4 class=\"secondary\">Viewer</h4>\n            <p class=\"content\">Gmail: {{user.googleId}}</p>\n            <p class=\"content\">Secondary Email: {{user.secondaryEmail }}}</p>\n            <p class=\"content\"> Accesses: <span *ngFor=\"let org of user.organizations\"> {{org.name}} </span></p>\n          </div>\n        </div>\n      </div>\n\n      <div>\n        <h3 class=\"list-title\">Report List</h3>\n        <app-report-list style=\"display:flex; width: 100%;\" [reports]=\"reports\" (reportID)=\"goToReport($event)\"></app-report-list>\n      </div>\n    </div>\n  </div>\n</div>\n\n<div *ngIf=\"!viewInitialized \" style=\"margin:auto; padding-top: 80px; text-align: center\">\n  <mat-spinner style=\"margin:auto\"></mat-spinner>\n  <p style=\"text-align: center;\">User Loading...</p>\n</div>\n"
 
 /***/ }),
 
@@ -3481,7 +3652,7 @@ module.exports = "<div *ngIf=\"organization != null && user != null\">\r\n\r\n  
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n/******* FORMS STYLING & FILTERS ******/\n/***** Filter Card ***/\n/****** Buttons Colors  **/\n.list-title {\n  color: #3e3e3e;\n  margin-bottom: 5px; }\n"
+module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*************** SIDE NAVIGATION VARIABLES *******************/\n/* Side nav color */\n/********* ORGANIZATION DETAILS VARIABLES **********/\n/******* GHOST HEADER TITLE ******/\n/*********** LIST CARD VARIABLES  ***********/\n/********* BREADCRUMBS STYLING ******/\n/******* FORMS STYLING & FILTERS ******/\n/***** Filter Card ***/\n/****** Buttons Colors  **/\n.list-title {\n  color: #3e3e3e;\n  margin-bottom: 5px; }\n"
 
 /***/ }),
 
@@ -3496,12 +3667,13 @@ module.exports = "/* Tool bar top colour */\n/* Main content colour */\n/*******
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserDetailsComponent", function() { return UserDetailsComponent; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DeleteUserConfirmation", function() { return DeleteUserConfirmation; });
-/* harmony import */ var _shared_services_report_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/services/report.service */ "./src/app/shared/services/report.service.ts");
-/* harmony import */ var _shared_services_organization_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../shared/services/organization.service */ "./src/app/shared/services/organization.service.ts");
-/* harmony import */ var _shared_services_user_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../shared/services/user.service */ "./src/app/shared/services/user.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _shared_services_ghost_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/services/ghost.service */ "./src/app/shared/services/ghost.service.ts");
+/* harmony import */ var _shared_services_report_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../shared/services/report.service */ "./src/app/shared/services/report.service.ts");
+/* harmony import */ var _shared_services_organization_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../shared/services/organization.service */ "./src/app/shared/services/organization.service.ts");
+/* harmony import */ var _shared_services_user_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../shared/services/user.service */ "./src/app/shared/services/user.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3555,14 +3727,17 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 var UserDetailsComponent = /** @class */ (function () {
-    function UserDetailsComponent(router, route, userService, organizationService, reportService, dialog) {
+    function UserDetailsComponent(router, route, userService, organizationService, reportService, dialog, ghostsService) {
         this.router = router;
         this.route = route;
         this.userService = userService;
         this.organizationService = organizationService;
         this.reportService = reportService;
         this.dialog = dialog;
+        this.ghostsService = ghostsService;
+        this.viewInitialized = false;
     }
     UserDetailsComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -3585,9 +3760,12 @@ var UserDetailsComponent = /** @class */ (function () {
                     case 2:
                         _b.user = _d.sent();
                         _c = this;
-                        return [4 /*yield*/, this.reportService.getReportByOrganizations(['orgIDs'])];
+                        return [4 /*yield*/, this.reportService.getReportByOrganizations([
+                                'orgIDs'
+                            ])];
                     case 3:
                         _c.reports = _d.sent();
+                        this.viewInitialized = true;
                         return [3 /*break*/, 5];
                     case 4:
                         error_1 = _d.sent();
@@ -3597,6 +3775,11 @@ var UserDetailsComponent = /** @class */ (function () {
                 }
             });
         });
+    };
+    UserDetailsComponent.prototype.ghostView = function () {
+        var userName = this.user.firstName + ' ' + this.user.lastName;
+        this.ghostsService.activatedGhost();
+        this.router.navigate(['./ghost', userName], { relativeTo: this.route });
     };
     // Gets the name of the organization for breadcrumbs & user acceses
     UserDetailsComponent.prototype.getOrganization = function (id) {
@@ -3623,17 +3806,18 @@ var UserDetailsComponent = /** @class */ (function () {
         });
     };
     UserDetailsComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Component"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_4__["Component"])({
             selector: 'app-user-details',
             template: __webpack_require__(/*! ./user-details.component.html */ "./src/app/admin/user-details/user-details.component.html"),
             styles: [__webpack_require__(/*! ./user-details.component.scss */ "./src/app/admin/user-details/user-details.component.scss")]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"],
-            _shared_services_user_service__WEBPACK_IMPORTED_MODULE_2__["UserService"],
-            _shared_services_organization_service__WEBPACK_IMPORTED_MODULE_1__["OrganizationService"],
-            _shared_services_report_service__WEBPACK_IMPORTED_MODULE_0__["ReportService"],
-            _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatDialog"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_5__["ActivatedRoute"],
+            _shared_services_user_service__WEBPACK_IMPORTED_MODULE_3__["UserService"],
+            _shared_services_organization_service__WEBPACK_IMPORTED_MODULE_2__["OrganizationService"],
+            _shared_services_report_service__WEBPACK_IMPORTED_MODULE_1__["ReportService"],
+            _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatDialog"],
+            _shared_services_ghost_service__WEBPACK_IMPORTED_MODULE_0__["GhostService"]])
     ], UserDetailsComponent);
     return UserDetailsComponent;
 }());
@@ -3647,12 +3831,12 @@ var DeleteUserConfirmation = /** @class */ (function () {
         this.dialogRef.close();
     };
     DeleteUserConfirmation = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Component"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_4__["Component"])({
             selector: 'delete-user-confirmation',
             template: __webpack_require__(/*! ./delete-user-confirmation.html */ "./src/app/admin/user-details/delete-user-confirmation.html")
         }),
-        __param(1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["Inject"])(_angular_material__WEBPACK_IMPORTED_MODULE_5__["MAT_DIALOG_DATA"])),
-        __metadata("design:paramtypes", [_angular_material__WEBPACK_IMPORTED_MODULE_5__["MatDialogRef"], Object])
+        __param(1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_4__["Inject"])(_angular_material__WEBPACK_IMPORTED_MODULE_6__["MAT_DIALOG_DATA"])),
+        __metadata("design:paramtypes", [_angular_material__WEBPACK_IMPORTED_MODULE_6__["MatDialogRef"], Object])
     ], DeleteUserConfirmation);
     return DeleteUserConfirmation;
 }());
@@ -3668,7 +3852,7 @@ var DeleteUserConfirmation = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"left-main-content-view\">\r\n  <div *ngIf=\"reports != null \">\r\n    <div class=\"list\">\r\n      <div *ngFor=\"let report of reports | reportList: searchName: selectedOrganization : sortValue :  pagination.currentPage\" class=\"card\">\r\n        <div class=\"container\" (click)=\"reportClicked(report.id)\">\r\n          <h4 class=\"title\"><strong> {{report.name}}</strong></h4>\r\n          <p class=\"secondary\">{{report.organization.name}}</p>\r\n          <p class=\"content\"> {{report.date | date}} </p>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <p class=\"pagination\" *ngIf=\"this.pagination\" style=\"text-align: center\"> <button mat-mini-fab (click)=\"previousPage()\" color=\"white\"\r\n    [disabled]=\"pagination.currentPage===1\"> <i class=\"material-icons\">\r\n      chevron_left\r\n    </i> </button>\r\n  {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)=\"nextPage() \" [disabled]=\"pagination.currentPage === pagination.totalPages\"\r\n    color=\"white\"> <i class=\"material-icons\">\r\n      chevron_right\r\n    </i> </button>\r\n</p>\r\n\r\n</div>\r\n<div class=\"right-main-content-view\" *ngIf=\"formInitialize\">\r\n  <div class=\"filter\">\r\n    <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\r\n      <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\r\n      <p class=\"title\"> Filter by</p>\r\n      <mat-form-field appearance=\"outline\" class=\"search\">\r\n        <mat-label class=\"label-color\">Name</mat-label>\r\n        <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\r\n      </mat-form-field>\r\n      <p class=\"title\" *ngIf=\"organizations.length > 1\"> Organization</p>\r\n      <mat-form-field appearance=\"outline\" class=\"select\" *ngIf=\"organizations.length > 1\">\r\n        <mat-select formControlName=\"selectedOrganization\">\r\n          <mat-option value=\"All\">All</mat-option>\r\n          <mat-option *ngFor=\"let organization of organizations\" value=\"{{organization.id}}\">{{organization.name}}</mat-option>\r\n        </mat-select>\r\n      </mat-form-field>\r\n      <br>\r\n      <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\r\n    </form>\r\n  </div>\r\n  <div class=\"sort\">\r\n    <p class=\"title\"> Sort By</p>\r\n    <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\r\n      <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\r\n        {{sort}}\r\n      </mat-radio-button>\r\n    </mat-radio-group>\r\n  </div>\r\n\r\n\r\n  <div class=\"add-button\" *ngIf=\"allowAdd\">\r\n    <button mat-fab class=\"button-fab\" color=\"primary-button\" *ngIf=\"organizationID\" routerLink='new-report'> <i class=\"material-icons plus-icon\">\r\n      add\r\n    </i>\r\n    <i class=\"material-icons back-icon\">\r\n      assessment\r\n    </i></button>\r\n    <button mat-fab class=\"button-fab\" color=\"primary-button\" *ngIf=\"!organizationID\" routerLink='../new-report'> <i class=\"material-icons plus-icon\">\r\n      add\r\n    </i>\r\n    <i class=\"material-icons back-icon\">\r\n      assessment\r\n    </i></button>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"left-main-content-view\">\n  <div *ngIf=\"reports != null \">\n    <div class=\"list\">\n      <div *ngFor=\"let report of reports | reportList: searchName: selectedOrganization : sortValue :  pagination.currentPage\" class=\"card\">\n        <div class=\"container\" (click)=\"reportClicked(report.id)\">\n          <h4 class=\"title\"><strong> {{report.name}}</strong></h4>\n          <p class=\"secondary\">{{report.organization.name}}</p>\n          <p class=\"content\"> {{report.date | date}} </p>\n        </div>\n      </div>\n    </div>\n  </div>\n  <p class=\"pagination\" *ngIf=\"this.pagination\" style=\"text-align: center\"> <button mat-mini-fab (click)=\"previousPage()\" color=\"white\"\n    [disabled]=\"pagination.currentPage===1\"> <i class=\"material-icons\">\n      chevron_left\n    </i> </button>\n  {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)=\"nextPage() \" [disabled]=\"pagination.currentPage === pagination.totalPages\"\n    color=\"white\"> <i class=\"material-icons\">\n      chevron_right\n    </i> </button>\n</p>\n\n</div>\n<div class=\"right-main-content-view\" *ngIf=\"formInitialize\">\n  <div class=\"filter\">\n    <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\n      <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\n      <p class=\"title\"> Filter by</p>\n      <mat-form-field appearance=\"outline\" class=\"search\">\n        <mat-label class=\"label-color\">Name</mat-label>\n        <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\n      </mat-form-field>\n      <p class=\"title\" *ngIf=\"organizations.length > 1\"> Organization</p>\n      <mat-form-field appearance=\"outline\" class=\"select\" *ngIf=\"organizations.length > 1\">\n        <mat-select formControlName=\"selectedOrganization\">\n          <mat-option value=\"All\">All</mat-option>\n          <mat-option *ngFor=\"let organization of organizations\" value=\"{{organization.id}}\">{{organization.name}}</mat-option>\n        </mat-select>\n      </mat-form-field>\n      <br>\n      <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\n    </form>\n  </div>\n  <div class=\"sort\">\n    <p class=\"title\"> Sort By</p>\n    <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\n      <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\n        {{sort}}\n      </mat-radio-button>\n    </mat-radio-group>\n  </div>\n\n\n  <div class=\"add-button\" *ngIf=\"allowAdd\">\n    <button mat-fab class=\"button-fab\" color=\"primary-button\" *ngIf=\"organizationID\" routerLink='new-report'> <i class=\"material-icons plus-icon\">\n      add\n    </i>\n    <i class=\"material-icons back-icon\">\n      assessment\n    </i></button>\n    <button mat-fab class=\"button-fab\" color=\"primary-button\" *ngIf=\"!organizationID\" routerLink='../new-report'> <i class=\"material-icons plus-icon\">\n      add\n    </i>\n    <i class=\"material-icons back-icon\">\n      assessment\n    </i></button>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -3805,6 +3989,7 @@ var ReportListComponent = /** @class */ (function () {
         });
     };
     ReportListComponent.prototype.reportClicked = function (id) {
+        console.log('report clicked');
         this.reportID.emit(id);
     };
     ReportListComponent.prototype.changeSort = function (sort) {
@@ -3873,7 +4058,7 @@ var ReportListComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"left-main-content-view\">\r\n  <div *ngIf=\"users != null\">\r\n    <div class=\"list\">\r\n      <div *ngFor=\"let user of users | userList: searchName: selectedRole: selectedOrganization : sortValue :  pagination.currentPage\"\r\n        class=\"card\">\r\n        <div class=\"container\" (click)=\"userClicked(user.id)\">\r\n          <h4 class=\"title\" style=\"font-weight: bold\">{{user.firstName}} {{user.lastName}}</h4>\r\n          <p class=\"secondary\"> Viewer : <span *ngFor=\"let org of user.organizations; let i = index\">\r\n              {{org.name}}<span *ngIf=\"i < user.organizations.length-1\">, </span> </span> </p>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <p class=\"pagination\" *ngIf=\"this.pagination\" style=\"text-align: center\"> <button mat-mini-fab (click)=\"previousPage()\" color=\"white\"\r\n    [disabled]=\"pagination.currentPage===1\"> <i class=\"material-icons\">\r\n      chevron_left\r\n    </i> </button>\r\n  {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)=\"nextPage() \" [disabled]=\"pagination.currentPage === pagination.totalPages\"\r\n    color=\"white\"> <i class=\"material-icons\">\r\n      chevron_right\r\n    </i> </button>\r\n</p>\r\n</div>\r\n<div class=\"right-main-content-view\" *ngIf=\"formInitialize\">\r\n  <div class=\"filter\">\r\n    <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\r\n      <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\r\n      <p class=\"title\"> Filter by</p>\r\n      <mat-form-field appearance=\"outline\" class=\"search\">\r\n        <mat-label class=\"label-color\">Name</mat-label>\r\n        <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\r\n      </mat-form-field>\r\n      <p class=\"title\" *ngIf=\"!organizationID\"> Role</p>\r\n      <mat-form-field appearance=\"outline\" class=\"select\" *ngIf=\"!organizationID\">\r\n        <mat-select formControlName=\"selectedRole\">\r\n          <mat-option value=\"All\">All</mat-option>\r\n          <mat-option value=\"Admin\">Admin</mat-option>\r\n          <mat-option value=\"Viewer\">Viewer</mat-option>\r\n        </mat-select>\r\n      </mat-form-field>\r\n      <p class=\"title\" *ngIf=\"!organizationID\"> Organization</p>\r\n      <mat-form-field class=\"select\" appearance=\"outline\" *ngIf=\"!organizationID\">\r\n        <mat-select formControlName=\"selectedOrganization\">\r\n          <mat-option value=\"All\">All</mat-option>\r\n          <mat-option *ngFor=\"let organization of organizations\" value=\"{{organization.id}}\">{{organization.name}}</mat-option>\r\n        </mat-select>\r\n      </mat-form-field>\r\n      <br>\r\n      <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\r\n    </form>\r\n  </div>\r\n\r\n  <div class=\"sort\">\r\n    <p class=\"title\"> Sort By</p>\r\n    <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\r\n      <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\r\n        {{sort}}\r\n      </mat-radio-button>\r\n    </mat-radio-group>\r\n\r\n  </div>\r\n\r\n  <div class=\"add-button\">\r\n    <button  *ngIf=\"organizationID\" routerLink=\"./new-user\" mat-fab class=\"button-fab\" color=\"primary-button\"> <i class=\"material-icons plus-icon\">\r\n      add\r\n    </i>\r\n    <i class=\"material-icons back-icon\">\r\n      person_outline\r\n    </i></button>\r\n    <button  *ngIf=\"!organizationID\" routerLink=\"../new-user\" mat-fab class=\"button-fab\" color=\"primary-button\"> <i class=\"material-icons plus-icon\">\r\n      add\r\n    </i>\r\n    <i class=\"material-icons back-icon\">\r\n      person_outline\r\n    </i></button>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"left-main-content-view\">\n  <div *ngIf=\"users != null\">\n    <div class=\"list\">\n      <div *ngFor=\"let user of users | userList: searchName: selectedRole: selectedOrganization : sortValue :  pagination.currentPage\"\n        class=\"card\">\n        <div class=\"container\" (click)=\"userClicked(user.id)\">\n          <h4 class=\"title\" style=\"font-weight: bold\">{{user.firstName}} {{user.lastName}}</h4>\n          <p class=\"secondary\"> Viewer : <span *ngFor=\"let org of user.organizations; let i = index\">\n              {{org.name}}<span *ngIf=\"i < user.organizations.length-1\">, </span> </span> </p>\n        </div>\n      </div>\n    </div>\n  </div>\n  <p class=\"pagination\" *ngIf=\"this.pagination\" style=\"text-align: center\"> <button mat-mini-fab (click)=\"previousPage()\" color=\"white\"\n    [disabled]=\"pagination.currentPage===1\"> <i class=\"material-icons\">\n      chevron_left\n    </i> </button>\n  {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)=\"nextPage() \" [disabled]=\"pagination.currentPage === pagination.totalPages\"\n    color=\"white\"> <i class=\"material-icons\">\n      chevron_right\n    </i> </button>\n</p>\n</div>\n<div class=\"right-main-content-view\" *ngIf=\"formInitialize\">\n  <div class=\"filter\">\n    <form [formGroup]=\"filterForm\" (ngSubmit)=\"onSearch()\">\n      <button class=\"reset\" mat-stroked-button (click)=\"searchFormReset()\">RESET</button>\n      <p class=\"title\"> Filter by</p>\n      <mat-form-field appearance=\"outline\" class=\"search\">\n        <mat-label class=\"label-color\">Name</mat-label>\n        <input matInput type=\"text\" placeholder=\"Search Name\" formControlName=\"name\">\n      </mat-form-field>\n      <p class=\"title\" *ngIf=\"!organizationID\"> Role</p>\n      <mat-form-field appearance=\"outline\" class=\"select\" *ngIf=\"!organizationID\">\n        <mat-select formControlName=\"selectedRole\">\n          <mat-option value=\"All\">All</mat-option>\n          <mat-option value=\"Admin\">Admin</mat-option>\n          <mat-option value=\"Viewer\">Viewer</mat-option>\n        </mat-select>\n      </mat-form-field>\n      <p class=\"title\" *ngIf=\"!organizationID\"> Organization</p>\n      <mat-form-field class=\"select\" appearance=\"outline\" *ngIf=\"!organizationID\">\n        <mat-select formControlName=\"selectedOrganization\">\n          <mat-option value=\"All\">All</mat-option>\n          <mat-option *ngFor=\"let organization of organizations\" value=\"{{organization.id}}\">{{organization.name}}</mat-option>\n        </mat-select>\n      </mat-form-field>\n      <br>\n      <button mat-raised-button class=\"search\" type=\"submit\">Search</button>\n    </form>\n  </div>\n\n  <div class=\"sort\">\n    <p class=\"title\"> Sort By</p>\n    <mat-radio-group class=\"example-radio-group\" [(ngModel)]=\"sortValue\">\n      <mat-radio-button *ngFor=\"let sort of sorts\" value=\"{{sort}}\" (click)=\"changeSort(sort)\" class=\"radio\">\n        {{sort}}\n      </mat-radio-button>\n    </mat-radio-group>\n\n  </div>\n\n  <div class=\"add-button\">\n    <button  *ngIf=\"organizationID\" routerLink=\"./new-user\" mat-fab class=\"button-fab\" color=\"primary-button\"> <i class=\"material-icons plus-icon\">\n      add\n    </i>\n    <i class=\"material-icons back-icon\">\n      person_outline\n    </i></button>\n    <button  *ngIf=\"!organizationID\" routerLink=\"../new-user\" mat-fab class=\"button-fab\" color=\"primary-button\"> <i class=\"material-icons plus-icon\">\n      add\n    </i>\n    <i class=\"material-icons back-icon\">\n      person_outline\n    </i></button>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -4632,6 +4817,58 @@ var DatarulesService = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"]])
     ], DatarulesService);
     return DatarulesService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/services/ghost.service.ts":
+/*!**************************************************!*\
+  !*** ./src/app/shared/services/ghost.service.ts ***!
+  \**************************************************/
+/*! exports provided: GhostService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GhostService", function() { return GhostService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var GhostService = /** @class */ (function () {
+    function GhostService() {
+        this.ghostStatus = false;
+        this.ghostStatusObservable = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
+    }
+    GhostService.prototype.getStatus = function () {
+        this.ghostStatusObservable.next(this.ghostStatus);
+    };
+    GhostService.prototype.activatedGhost = function () {
+        this.ghostStatus = true;
+        this.ghostStatusObservable.next(this.ghostStatus);
+    };
+    GhostService.prototype.disableGhost = function () {
+        this.ghostStatus = false;
+        this.ghostStatusObservable.next(this.ghostStatus);
+    };
+    GhostService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [])
+    ], GhostService);
+    return GhostService;
 }());
 
 

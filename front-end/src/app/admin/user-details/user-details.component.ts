@@ -1,4 +1,5 @@
-import { ReportService} from './../../shared/services/report.service';
+import { GhostService } from './../../shared/services/ghost.service';
+import { ReportService } from './../../shared/services/report.service';
 import { OrganizationService } from './../../shared/services/organization.service';
 import { UserService } from './../../shared/services/user.service';
 import { Component, OnInit, Inject } from '@angular/core';
@@ -6,11 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import * as UserViewModel from '../../shared/view-models/user.viewmodel';
 import * as OrganizationViewModel from '../../shared/view-models/organization.viewmodel';
 import * as ReportViewModel from '../../shared/view-models/report.viewmodel';
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-user-details',
@@ -25,6 +22,7 @@ export class UserDetailsComponent implements OnInit {
     private organizationService: OrganizationService,
     private reportService: ReportService,
     public dialog: MatDialog,
+    private ghostsService: GhostService
   ) {}
 
   sub: any;
@@ -34,41 +32,52 @@ export class UserDetailsComponent implements OnInit {
 
   organization: OrganizationViewModel.SimpleOrganization; // Name of the org from previous view for breadcrumbs purposes
   user: UserViewModel.User;
+  viewInitialized = false;
 
- async ngOnInit() {
-   try{
-    this.sub =  this.route.params.subscribe(params => {
-      this.orgID = params['id'];
-      this.userID =  params['userID'];
-    });
-    this.organization = await this.organizationService.getOrganizationById(this.orgID);
-    this.user = await this.userService.getUser(this.userID);
-    this.reports = await this.reportService.getReportByOrganizations(['orgIDs']);
-   } catch (error) {
-     console.log(error);
-   }
-
+  async ngOnInit() {
+    try {
+      this.sub = this.route.params.subscribe(params => {
+        this.orgID = params['id'];
+        this.userID = params['userID'];
+      });
+      this.organization = await this.organizationService.getOrganizationById(
+        this.orgID
+      );
+      this.user = await this.userService.getUser(this.userID);
+      this.reports = await this.reportService.getReportByOrganizations([
+        'orgIDs'
+      ]);
+      this.viewInitialized = true;
+    } catch (error) {
+      console.log(error);
+    }
   }
+
+  ghostView() {
+    const userName = this.user.firstName + ' ' + this.user.lastName;
+    this.ghostsService.activatedGhost();
+    this.router.navigate(['./ghost', userName], { relativeTo: this.route });
+  }
+
 
   // Gets the name of the organization for breadcrumbs & user acceses
   private getOrganization(id) {
     return this.organizationService.getOrganizationById(id);
   }
 
-   // Gets the user details
+  // Gets the user details
   private getUserDetails(id) {
     return this.userService.getUser(id);
   }
-
 
   public goToReport(reportID) {
     this.router.navigate(['./r', reportID], { relativeTo: this.route });
   }
 
-  openDialog( ) {
+  openDialog() {
     const user = this.user.firstName + ' ' + this.user.lastName;
     const dialogRef = this.dialog.open(DeleteUserConfirmation, {
-      data: { user: user}
+      data: { user: user }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -93,4 +102,3 @@ export class DeleteUserConfirmation {
     this.dialogRef.close();
   }
 }
-

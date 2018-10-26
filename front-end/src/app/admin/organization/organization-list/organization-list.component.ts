@@ -36,7 +36,7 @@ export class OrganizationListComponent implements OnInit, OnDestroy {
   filterForm = new FormGroup({
     name: new FormControl('')
   });
-
+  initialized = false;
   async ngOnInit() {
     // Gets all organizations OnInit
     try {
@@ -50,6 +50,7 @@ export class OrganizationListComponent implements OnInit, OnDestroy {
       });
       this.paginationService.getPagination();
       this.paginationService.changePage(1);
+      this.initialized = true;
     } catch (error) {
       console.log(error);
     }

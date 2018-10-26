@@ -7,7 +7,7 @@
   </div>
 
   <div class="main-content-view">
-    <div class="full-content-view">
+    <div class="full-content-view" *ngIf="viewInitialized">
       <div class="details">
         <div class="card">
           <div class="more-button">
@@ -42,13 +42,25 @@
         <div class="tabs">
           <mat-tab-group (selectedIndexChange)="selected($event)">
             <mat-tab label="Reports">
-              <app-report-list [allowAdd]=true *ngIf="selectedTab === 0" [reports]="reports" (reportID)="goToReport($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-report-list>
+                <div *ngIf="!reportsInitialized" style="margin:auto; padding-top: 50px; text-align: center">
+                    <mat-spinner style="margin:auto"></mat-spinner>
+                    <p style="text-align: center;">Reports Loading...</p>
+                  </div>
+              <app-report-list [allowAdd]=true *ngIf="selectedTab === 0 && reportsInitialized" [reports]="reports" (reportID)="goToReport($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-report-list>
             </mat-tab>
             <mat-tab label="Users">
-              <app-user-list *ngIf="selectedTab === 1" [users]="users" (userID)="goToUser($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-user-list>
+                <div *ngIf="!usersInitialized" style="margin:auto; padding-top: 50px; text-align: center">
+                    <mat-spinner style="margin:auto"></mat-spinner>
+                    <p style="text-align: center;">Users Loading...</p>
+                </div>
+              <app-user-list *ngIf="selectedTab === 1 && usersInitialized" [users]="users" (userID)="goToUser($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-user-list>
             </mat-tab>
             <mat-tab label="Data Rules">
-              <div class="data-rules-section" *ngIf="selectedTab === 2">
+                <div *ngIf="!datarulesInitialized" style="margin:auto; padding-top: 50px; text-align: center">
+                    <mat-spinner style="margin:auto"></mat-spinner>
+                    <p style="text-align: center;">Data Rules Loading...</p>
+                </div>
+              <div class="data-rules-section" *ngIf="selectedTab === 2 && datarulesInitialized">
                 <div class="left-main-content-view">
                   <mat-accordion *ngFor="let rule of rules | datarulesList : searchName : selectedDataSource : sortValue : pagination.currentPage; let i = index">
                     <mat-expansion-panel class="data-rules-card">
@@ -72,15 +84,15 @@
                     </mat-expansion-panel>
                     <br>
                   </mat-accordion>
-                  <p class="pagination" *ngIf="this.pagination" style="text-align: center"> <button mat-mini-fab (click)="previousPage()" color="white"
-                    [disabled]="pagination.currentPage===1"> <i class="material-icons">
-                      chevron_left
-                    </i> </button>
-                  {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)="nextPage() " [disabled]="pagination.currentPage === pagination.totalPages"
-                    color="white"> <i class="material-icons">
-                      chevron_right
-                    </i> </button>
-                </p>
+                  <p class="pagination" *ngIf="this.pagination" style="text-align: center"> <button mat-mini-fab (click)="previousPage()"
+                      color="white" [disabled]="pagination.currentPage===1"> <i class="material-icons">
+                        chevron_left
+                      </i> </button>
+                    {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)="nextPage() "
+                      [disabled]="pagination.currentPage === pagination.totalPages" color="white"> <i class="material-icons">
+                        chevron_right
+                      </i> </button>
+                  </p>
                 </div>
                 <div class="right-main-content-view">
                   <!-- Filters -->
@@ -113,11 +125,11 @@
                   </div>
                   <div class="add-button">
                     <button routerLink="../new-data-rule" mat-fab class="button-fab" color="primary-button"> <i class="material-icons plus-icon">
-                      add
-                    </i>
-                    <i class="material-icons back-icon">
-                      dns
-                    </i></button>
+                        add
+                      </i>
+                      <i class="material-icons back-icon">
+                        dns
+                      </i></button>
                   </div>
                 </div>
               </div>
@@ -126,9 +138,10 @@
         </div>
       </div>
     </div>
+    <div *ngIf="!viewInitialized" style="margin:auto; padding-top: 50px;">
+        <mat-spinner></mat-spinner>
+        <p style="text-align: center;">Loading...</p>
+      </div>
   </div>
 </div>
 
-<div *ngIf="organization == null">
-  <mat-spinner></mat-spinner>
-</div>

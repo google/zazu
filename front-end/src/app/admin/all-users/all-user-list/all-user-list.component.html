@@ -3,6 +3,11 @@
         person_outline </i> User List</span></div>
 </div>
 
-<div class="main-content-view">
+<div class="main-content-view" *ngIf="viewInitialized" >
   <app-user-list [users]="users" (userID)="goToUser($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-user-list>
+</div>
+
+<div *ngIf="!viewInitialized" style="margin:auto; padding-top: 80px; text-align: center">
+  <mat-spinner style="margin:auto"></mat-spinner>
+  <p style="text-align: center;">Users Loading...</p>
 </div>

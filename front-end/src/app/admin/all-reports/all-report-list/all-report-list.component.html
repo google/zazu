@@ -1,9 +1,14 @@
 <div class="breadcrumb-container">
-    <div class="breadcrumb"> <span class="active"><i class="material-icons">
+  <div class="breadcrumb"> <span class="active"><i class="material-icons">
         assessment </i> Report List</span></div>
-  </div>
+</div>
 
-  <div class="main-content-view">
-      <app-report-list [reports] = "reports" [allowAdd]=true (reportID)="goToReport($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-report-list>
+<div class="main-content-view" *ngIf="viewInitialized">
+  <app-report-list [reports]="reports" [allowAdd]=true (reportID)="goToReport($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-report-list>
 
-  </div>
+</div>
+
+<div *ngIf="!viewInitialized" style="margin:auto; padding-top: 80px; text-align: center">
+  <mat-spinner style="margin:auto"></mat-spinner>
+  <p style="text-align: center;">Reports Loading...</p>
+</div>

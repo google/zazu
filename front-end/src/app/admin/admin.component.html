@@ -1,4 +1,4 @@
-<div class="main">
+<div class="main" *ngIf="!ghostStatus">
 
   <!-- Side Navigation Menu-->
   <div class="side-nav" [ngClass]="{'side-nav-minimized': minimized}">
@@ -62,4 +62,8 @@
       <router-outlet></router-outlet>
     </div>
   </div>
+</div>
+
+<div *ngIf="ghostStatus">
+  <router-outlet></router-outlet>
 </div>

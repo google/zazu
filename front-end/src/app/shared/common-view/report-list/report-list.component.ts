@@ -83,6 +83,7 @@ export class ReportListComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   reportClicked(id: string) {
+    console.log('report clicked');
     this.reportID.emit(id);
   }
 

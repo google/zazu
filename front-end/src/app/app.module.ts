@@ -13,18 +13,14 @@ import { UserService } from './shared/services/user.service';
 import { ReportService } from './shared/services/report.service';
 import { OrganizationService } from './shared/services/organization.service';
 import { ViewerComponent } from './viewer/viewer.component';
-import { ViewerReportListComponent } from './viewer/viewer-report-list/viewer-report-list.component';
-import { ViewerReportComponent } from './viewer/viewer-report/viewer-report.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ReportListPipe } from './shared/pipes/report-list.pipe';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent,  ViewerComponent, ViewerReportListComponent, ViewerReportComponent],
+  declarations: [AppComponent, LoginComponent,  ViewerComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    AngularMaterialModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,

@@ -12,7 +12,7 @@ export class UserService {
   VIEWACCESS = 'VIEWACCESS';
   ADMIN = 'ADMIN';
   URL = '../../../assets/example-data/';
-
+  temp;
   /**
    *  Method for getting all users for all organizations
    */
@@ -33,8 +33,18 @@ export class UserService {
    * Getting all user for specific organization
    * @param orgId -  ID of the organization you want to get all users
    */
-  public async getUsersByOrganization(orgId): Promise<UserViewModel.SimpleUserView[]> {
+  public async getUsersByOrganization(orgId) {
     return await ((this.http.get<UserViewModel.SimpleUserView[]>(this.URL + 'user-list.mockdata.json')).toPromise());
+  }
+  //  await ((this.http.get<UserViewModel.SimpleUserView[]>(this.URL + 'user-list.mockdata.json')).toPromise());
+
+  public async timeout() {
+    const promise = new Promise( (resolve, reject) => {
+       setTimeout( () => {
+        resolve(this.getUsersByOrganization('123'));
+      }, 2000);
+    });
+    return promise;
   }
 
   /**

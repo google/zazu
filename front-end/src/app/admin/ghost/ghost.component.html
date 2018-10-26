@@ -1,0 +1,24 @@
+<mat-toolbar class="toolbar">
+  <div class="company">
+    <div class="icon-container">
+      <div class="icon">
+        <img src="../../assets/company-icon.png" alt="Smiley face">
+      </div>
+    </div>
+    <span class="name"> Company </span>
+  </div>
+  <div class="ghost-title">
+      Acting as: <span>{{name}}</span>&nbsp; <span class="close"> <i class="material-icons" (click)="disableGhost()">
+          close
+        </i></span>
+
+
+  </div>
+</mat-toolbar>
+
+<div class="viewer-container">
+
+  <div class="viewer-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

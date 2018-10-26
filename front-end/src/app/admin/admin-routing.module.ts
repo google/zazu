@@ -1,3 +1,6 @@
+import { ViewerReportComponent } from './../shared/common-view/viewer-report/viewer-report.component';
+import { ViewerReportListComponent } from './../shared/common-view/viewer-report-list/viewer-report-list.component';
+import { GhostComponent } from './ghost/ghost.component';
 import { EditReportComponent } from './edit-report/edit-report.component';
 import { ShareReportComponent } from './share-report/share-report.component';
 import { CreateNewDataruleComponent } from './create-new-datarule/create-new-datarule.component';
@@ -44,6 +47,11 @@ const adminRoutes: Routes = [
           { path: ':id/edit-organization', component: EditOrganizationComponent},
           { path: ':id/edit-rule/:ruleID', component: EditDataRuleComponent},
           { path: ':id/u/:userID', component: UserDetailsComponent },
+          { path: ':id/u/:userID/ghost/:userName', component: GhostComponent, children: [
+            { path: '', redirectTo: 'list'},
+            { path: 'list', component: ViewerReportListComponent},
+            { path: ':reportID', component: ViewerReportComponent}
+          ]},
           { path: ':id/u/:userID/edit-user', component: EditUserComponent },
           { path: ':id/r/:reportID', component: AdminReportDetailsComponent },
           { path: ':id/r/:reportID/edit-report', component: EditReportComponent},
@@ -61,6 +69,11 @@ const adminRoutes: Routes = [
           { path: 'list', component: AllUserListComponent },
           { path: 'new-user', component: CreateNewUserComponent},
           { path: 'u/:userID', component: UserDetailsComponent },
+          { path: 'u/:userID/ghost/:userName', component: GhostComponent, children: [
+            { path: '', redirectTo: 'list'},
+            { path: 'list', component: ViewerReportListComponent},
+            { path: ':reportID', component: ViewerReportComponent}
+          ]},
           { path: 'u/:userID/edit-user', component: EditUserComponent },
           { path: 'u/:userID/r/:reportID', component: AdminReportDetailsComponent}
         ]

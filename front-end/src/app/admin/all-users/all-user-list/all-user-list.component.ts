@@ -14,11 +14,12 @@ export class AllUserListComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService
   ) {}
-
-  users: UserViewModel.SimpleUserView[];
+  viewInitialized = false;
+  users: any;
   async ngOnInit() {
     try {
-      this.users = await this.userService.getUsersByOrganization('All');
+      this.users = await  this.userService.timeout();
+      this.viewInitialized = true;
     } catch (error) {
       console.log('error');
     }

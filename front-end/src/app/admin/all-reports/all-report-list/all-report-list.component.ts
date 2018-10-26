@@ -11,9 +11,11 @@ import * as ReportViewModel from '../../../shared/view-models/report.viewmodel';
 export class AllReportListComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router, private reportService: ReportService) {}
   reports: ReportViewModel.SimpleReport[];
+  viewInitialized = false;
   async ngOnInit() {
     try {
       this.reports = await this.reportService.getReportByOrganization('orgID');
+      this.viewInitialized = await true;
     } catch (error) {
       console.log(error);
     }

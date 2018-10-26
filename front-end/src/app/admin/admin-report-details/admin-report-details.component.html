@@ -38,7 +38,7 @@
   </div>
 
 
-  <div class="main-content-view">
+  <div class="main-content-view" *ngIf="viewInitialized">
     <div class="left-main-content-view">
       <iframe class="report" src="https://datastudio.google.com/embed/reporting/1XuwM0G2Rx55jEWX_Rus05td2IHN0PnQI/page/1M" frameborder="0"
         style="border:0" allowfullscreen></iframe>
@@ -89,4 +89,11 @@
       </div>
     </div>
   </div>
+
+  <div *ngIf="!viewInitialized" style="margin:auto; padding-top: 80px; text-align: center">
+      <mat-spinner style="margin:auto"></mat-spinner>
+      <p style="text-align: center;">Report Loading...</p>
+  </div>
+
+
 </div>
