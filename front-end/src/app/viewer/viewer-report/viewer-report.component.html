@@ -1,3 +1,38 @@
-<p>
-  viewer-report works!
-</p>
+<div class="breadcrumb-container">
+  <!-- Breadcrumbs for report when navigation from report list -->
+  <div class="breadcrumb"> <span routerLink="../list"> <i class="material-icons">
+        assessment </i> Report List </span>
+    &nbsp;&nbsp; <i class="material-icons arrow"> keyboard_arrow_right </i> <i style="margin-left: -14px" class="material-icons arrow">
+      keyboard_arrow_right </i>&nbsp;&nbsp; <span class="active"> {{report.name}} ({{report.organization.name}})</span> </div>
+</div>
+
+
+<div class="main-content-view">
+  <div class="left-main-content-view">
+    <iframe class="report" src="https://datastudio.google.com/embed/reporting/1XuwM0G2Rx55jEWX_Rus05td2IHN0PnQI/page/1M" frameborder="0"
+      style="border:0" allowfullscreen></iframe>
+  </div>
+  <div class="right-main-content-view">
+    <div class="filter information">
+      <div class="more-button" style="margin-top: -10px">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon color="more-color">more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item routerLink="./edit-report">Edit</button>
+          <button mat-menu-item (click)="openDialog()">Delete</button>
+        </mat-menu>
+      </div>
+      <h4 class="info-title"> Report Information</h4>
+      <p> Name: <span class="info">{{report.name}} </span></p>
+      <p>Organization: <span class="info">{{report.organization.name}} </span></p>
+      <p>Date: <span class="info"> {{report.date | date }}</span> </p>
+      <p>Datastudio Link: <span class="info"> {{report.link}}</span></p>
+      <p>Datasources: </p>
+      <div *ngFor="let datasource of report.datasources; let i = index">
+        <p>&nbsp;&nbsp;&nbsp;&bull;<span class="info"> {{datasource.name}} </span> </p>
+      </div>
+    </div>
+
+  </div>
+</div>

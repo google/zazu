@@ -2,7 +2,7 @@ import { PaginationService } from './../../shared/services/pagination.service';
 import { ViewerService } from './../viewer.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as ReportViewModel from '../../shared/view-models/report.viewmodel';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import * as OrganizationViewModel from '../../shared/view-models/organization.viewmodel';
@@ -13,7 +13,7 @@ import * as OrganizationViewModel from '../../shared/view-models/organization.vi
   styleUrls: ['./viewer-report-list.component.scss']
 })
 export class ViewerReportListComponent implements OnInit, OnDestroy {
-  constructor(private viewerService: ViewerService, private router: Router,  private paginationService: PaginationService) {}
+  constructor(private viewerService: ViewerService, private router: Router,  private paginationService: PaginationService, private route: ActivatedRoute) {}
   reports: ReportViewModel.SimpleReport[];
   organizations = [];
   initialized = false;
@@ -68,8 +68,8 @@ export class ViewerReportListComponent implements OnInit, OnDestroy {
 
   }
 
-  reportClicked(id: string) {
-    console.log(id);
+  reportClicked(reportID: string) {
+      this.router.navigate(['../', reportID], { relativeTo: this.route });
   }
 
   changeSort(sort) {

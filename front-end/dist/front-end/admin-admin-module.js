@@ -421,38 +421,38 @@ var AdminComponent = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AdminModule", function() { return AdminModule; });
 /* harmony import */ var _shared_pipes_category_pipe__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../shared/pipes/category.pipe */ "./src/app/shared/pipes/category.pipe.ts");
-/* harmony import */ var _shared_pipes_report_list_pipe__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../shared/pipes/report-list.pipe */ "./src/app/shared/pipes/report-list.pipe.ts");
-/* harmony import */ var _shared_pipes_search_name_pipe__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../shared/pipes/search-name.pipe */ "./src/app/shared/pipes/search-name.pipe.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
-/* harmony import */ var _admin_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./admin.component */ "./src/app/admin/admin.component.ts");
-/* harmony import */ var _organization_organization_list_organization_list_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./organization/organization-list/organization-list.component */ "./src/app/admin/organization/organization-list/organization-list.component.ts");
-/* harmony import */ var _angular_material_angular_material_module__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../angular-material/angular-material.module */ "./src/angular-material/angular-material.module.ts");
-/* harmony import */ var _admin_routing_module__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./admin-routing.module */ "./src/app/admin/admin-routing.module.ts");
-/* harmony import */ var _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./organization-details/organization-details.component */ "./src/app/admin/organization-details/organization-details.component.ts");
-/* harmony import */ var _organization_organization_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./organization/organization.component */ "./src/app/admin/organization/organization.component.ts");
-/* harmony import */ var _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./user-details/user-details.component */ "./src/app/admin/user-details/user-details.component.ts");
-/* harmony import */ var _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./admin-report-details/admin-report-details.component */ "./src/app/admin/admin-report-details/admin-report-details.component.ts");
-/* harmony import */ var _shared_common_view_user_list_user_list_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../shared/common-view/user-list/user-list.component */ "./src/app/shared/common-view/user-list/user-list.component.ts");
-/* harmony import */ var _shared_common_view_report_list_report_list_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../shared/common-view/report-list/report-list.component */ "./src/app/shared/common-view/report-list/report-list.component.ts");
-/* harmony import */ var _all_users_all_users_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./all-users/all-users.component */ "./src/app/admin/all-users/all-users.component.ts");
-/* harmony import */ var _all_reports_all_reports_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./all-reports/all-reports.component */ "./src/app/admin/all-reports/all-reports.component.ts");
-/* harmony import */ var _all_users_all_user_list_all_user_list_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./all-users/all-user-list/all-user-list.component */ "./src/app/admin/all-users/all-user-list/all-user-list.component.ts");
-/* harmony import */ var _all_reports_all_report_list_all_report_list_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./all-reports/all-report-list/all-report-list.component */ "./src/app/admin/all-reports/all-report-list/all-report-list.component.ts");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _shared_pipes_pagination_pipe__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../shared/pipes/pagination.pipe */ "./src/app/shared/pipes/pagination.pipe.ts");
-/* harmony import */ var _shared_pipes_org_list_pipe__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../shared/pipes/org-list.pipe */ "./src/app/shared/pipes/org-list.pipe.ts");
-/* harmony import */ var _shared_pipes_user_list_pipe__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../shared/pipes/user-list.pipe */ "./src/app/shared/pipes/user-list.pipe.ts");
-/* harmony import */ var _shared_pipes_datarules_list_pipe__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ../shared/pipes/datarules-list.pipe */ "./src/app/shared/pipes/datarules-list.pipe.ts");
-/* harmony import */ var _create_new_organization_create_new_organization_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./create-new-organization/create-new-organization.component */ "./src/app/admin/create-new-organization/create-new-organization.component.ts");
-/* harmony import */ var _create_new_report_create_new_report_component__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./create-new-report/create-new-report.component */ "./src/app/admin/create-new-report/create-new-report.component.ts");
-/* harmony import */ var _create_new_datarule_create_new_datarule_component__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./create-new-datarule/create-new-datarule.component */ "./src/app/admin/create-new-datarule/create-new-datarule.component.ts");
-/* harmony import */ var _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./create-new-user/create-new-user.component */ "./src/app/admin/create-new-user/create-new-user.component.ts");
-/* harmony import */ var _share_report_share_report_component__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./share-report/share-report.component */ "./src/app/admin/share-report/share-report.component.ts");
-/* harmony import */ var _edit_organization_edit_organization_component__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./edit-organization/edit-organization.component */ "./src/app/admin/edit-organization/edit-organization.component.ts");
-/* harmony import */ var _edit_data_rule_edit_data_rule_component__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./edit-data-rule/edit-data-rule.component */ "./src/app/admin/edit-data-rule/edit-data-rule.component.ts");
-/* harmony import */ var _edit_user_edit_user_component__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./edit-user/edit-user.component */ "./src/app/admin/edit-user/edit-user.component.ts");
-/* harmony import */ var _edit_report_edit_report_component__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./edit-report/edit-report.component */ "./src/app/admin/edit-report/edit-report.component.ts");
+/* harmony import */ var _shared_pipes_search_name_pipe__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../shared/pipes/search-name.pipe */ "./src/app/shared/pipes/search-name.pipe.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _admin_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./admin.component */ "./src/app/admin/admin.component.ts");
+/* harmony import */ var _organization_organization_list_organization_list_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./organization/organization-list/organization-list.component */ "./src/app/admin/organization/organization-list/organization-list.component.ts");
+/* harmony import */ var _angular_material_angular_material_module__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../angular-material/angular-material.module */ "./src/angular-material/angular-material.module.ts");
+/* harmony import */ var _admin_routing_module__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./admin-routing.module */ "./src/app/admin/admin-routing.module.ts");
+/* harmony import */ var _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./organization-details/organization-details.component */ "./src/app/admin/organization-details/organization-details.component.ts");
+/* harmony import */ var _organization_organization_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./organization/organization.component */ "./src/app/admin/organization/organization.component.ts");
+/* harmony import */ var _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./user-details/user-details.component */ "./src/app/admin/user-details/user-details.component.ts");
+/* harmony import */ var _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./admin-report-details/admin-report-details.component */ "./src/app/admin/admin-report-details/admin-report-details.component.ts");
+/* harmony import */ var _shared_common_view_user_list_user_list_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../shared/common-view/user-list/user-list.component */ "./src/app/shared/common-view/user-list/user-list.component.ts");
+/* harmony import */ var _shared_common_view_report_list_report_list_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../shared/common-view/report-list/report-list.component */ "./src/app/shared/common-view/report-list/report-list.component.ts");
+/* harmony import */ var _all_users_all_users_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./all-users/all-users.component */ "./src/app/admin/all-users/all-users.component.ts");
+/* harmony import */ var _all_reports_all_reports_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./all-reports/all-reports.component */ "./src/app/admin/all-reports/all-reports.component.ts");
+/* harmony import */ var _all_users_all_user_list_all_user_list_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./all-users/all-user-list/all-user-list.component */ "./src/app/admin/all-users/all-user-list/all-user-list.component.ts");
+/* harmony import */ var _all_reports_all_report_list_all_report_list_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./all-reports/all-report-list/all-report-list.component */ "./src/app/admin/all-reports/all-report-list/all-report-list.component.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _shared_pipes_pagination_pipe__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../shared/pipes/pagination.pipe */ "./src/app/shared/pipes/pagination.pipe.ts");
+/* harmony import */ var _shared_pipes_org_list_pipe__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../shared/pipes/org-list.pipe */ "./src/app/shared/pipes/org-list.pipe.ts");
+/* harmony import */ var _shared_pipes_user_list_pipe__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../shared/pipes/user-list.pipe */ "./src/app/shared/pipes/user-list.pipe.ts");
+/* harmony import */ var _shared_pipes_datarules_list_pipe__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../shared/pipes/datarules-list.pipe */ "./src/app/shared/pipes/datarules-list.pipe.ts");
+/* harmony import */ var _create_new_organization_create_new_organization_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./create-new-organization/create-new-organization.component */ "./src/app/admin/create-new-organization/create-new-organization.component.ts");
+/* harmony import */ var _create_new_report_create_new_report_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./create-new-report/create-new-report.component */ "./src/app/admin/create-new-report/create-new-report.component.ts");
+/* harmony import */ var _create_new_datarule_create_new_datarule_component__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./create-new-datarule/create-new-datarule.component */ "./src/app/admin/create-new-datarule/create-new-datarule.component.ts");
+/* harmony import */ var _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./create-new-user/create-new-user.component */ "./src/app/admin/create-new-user/create-new-user.component.ts");
+/* harmony import */ var _share_report_share_report_component__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./share-report/share-report.component */ "./src/app/admin/share-report/share-report.component.ts");
+/* harmony import */ var _edit_organization_edit_organization_component__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./edit-organization/edit-organization.component */ "./src/app/admin/edit-organization/edit-organization.component.ts");
+/* harmony import */ var _edit_data_rule_edit_data_rule_component__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./edit-data-rule/edit-data-rule.component */ "./src/app/admin/edit-data-rule/edit-data-rule.component.ts");
+/* harmony import */ var _edit_user_edit_user_component__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./edit-user/edit-user.component */ "./src/app/admin/edit-user/edit-user.component.ts");
+/* harmony import */ var _edit_report_edit_report_component__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./edit-report/edit-report.component */ "./src/app/admin/edit-report/edit-report.component.ts");
+/* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ../shared/shared.module */ "./src/app/shared/shared.module.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -496,55 +496,55 @@ var AdminModule = /** @class */ (function () {
     function AdminModule() {
     }
     AdminModule = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["NgModule"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
             declarations: [
-                _admin_component__WEBPACK_IMPORTED_MODULE_5__["AdminComponent"],
-                _organization_organization_list_organization_list_component__WEBPACK_IMPORTED_MODULE_6__["OrganizationListComponent"],
-                _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_9__["OrganizationDetailsComponent"],
-                _organization_organization_component__WEBPACK_IMPORTED_MODULE_10__["OrganizationComponent"],
-                _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_11__["UserDetailsComponent"],
-                _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_12__["AdminReportDetailsComponent"],
-                _shared_common_view_user_list_user_list_component__WEBPACK_IMPORTED_MODULE_13__["UserListComponent"],
-                _shared_common_view_report_list_report_list_component__WEBPACK_IMPORTED_MODULE_14__["ReportListComponent"],
-                _all_users_all_users_component__WEBPACK_IMPORTED_MODULE_15__["AllUsersComponent"],
-                _all_reports_all_reports_component__WEBPACK_IMPORTED_MODULE_16__["AllReportsComponent"],
-                _all_users_all_user_list_all_user_list_component__WEBPACK_IMPORTED_MODULE_17__["AllUserListComponent"],
-                _all_reports_all_report_list_all_report_list_component__WEBPACK_IMPORTED_MODULE_18__["AllReportListComponent"],
-                _shared_pipes_search_name_pipe__WEBPACK_IMPORTED_MODULE_2__["SearchNamePipe"],
-                _shared_pipes_pagination_pipe__WEBPACK_IMPORTED_MODULE_20__["PaginationPipe"],
-                _shared_pipes_org_list_pipe__WEBPACK_IMPORTED_MODULE_21__["OrgListPipe"],
-                _shared_pipes_report_list_pipe__WEBPACK_IMPORTED_MODULE_1__["ReportListPipe"],
-                _shared_pipes_user_list_pipe__WEBPACK_IMPORTED_MODULE_22__["UserListPipe"],
-                _shared_pipes_datarules_list_pipe__WEBPACK_IMPORTED_MODULE_23__["DataRulesListPipe"],
-                _create_new_organization_create_new_organization_component__WEBPACK_IMPORTED_MODULE_24__["CreateNewOrganizationComponent"],
-                _create_new_report_create_new_report_component__WEBPACK_IMPORTED_MODULE_25__["CreateNewReportComponent"],
-                _create_new_datarule_create_new_datarule_component__WEBPACK_IMPORTED_MODULE_26__["CreateNewDataruleComponent"],
-                _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_27__["CreateNewUserComponent"],
-                _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_27__["NewUserOrganizationConfirmation"],
-                _share_report_share_report_component__WEBPACK_IMPORTED_MODULE_28__["ShareReportComponent"],
-                _edit_organization_edit_organization_component__WEBPACK_IMPORTED_MODULE_29__["EditOrganizationComponent"],
-                _edit_data_rule_edit_data_rule_component__WEBPACK_IMPORTED_MODULE_30__["EditDataRuleComponent"],
-                _edit_user_edit_user_component__WEBPACK_IMPORTED_MODULE_31__["EditUserComponent"],
+                _admin_component__WEBPACK_IMPORTED_MODULE_4__["AdminComponent"],
+                _organization_organization_list_organization_list_component__WEBPACK_IMPORTED_MODULE_5__["OrganizationListComponent"],
+                _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_8__["OrganizationDetailsComponent"],
+                _organization_organization_component__WEBPACK_IMPORTED_MODULE_9__["OrganizationComponent"],
+                _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_10__["UserDetailsComponent"],
+                _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_11__["AdminReportDetailsComponent"],
+                _shared_common_view_user_list_user_list_component__WEBPACK_IMPORTED_MODULE_12__["UserListComponent"],
+                _shared_common_view_report_list_report_list_component__WEBPACK_IMPORTED_MODULE_13__["ReportListComponent"],
+                _all_users_all_users_component__WEBPACK_IMPORTED_MODULE_14__["AllUsersComponent"],
+                _all_reports_all_reports_component__WEBPACK_IMPORTED_MODULE_15__["AllReportsComponent"],
+                _all_users_all_user_list_all_user_list_component__WEBPACK_IMPORTED_MODULE_16__["AllUserListComponent"],
+                _all_reports_all_report_list_all_report_list_component__WEBPACK_IMPORTED_MODULE_17__["AllReportListComponent"],
+                _shared_pipes_search_name_pipe__WEBPACK_IMPORTED_MODULE_1__["SearchNamePipe"],
+                _shared_pipes_pagination_pipe__WEBPACK_IMPORTED_MODULE_19__["PaginationPipe"],
+                _shared_pipes_org_list_pipe__WEBPACK_IMPORTED_MODULE_20__["OrgListPipe"],
+                _shared_pipes_user_list_pipe__WEBPACK_IMPORTED_MODULE_21__["UserListPipe"],
+                _shared_pipes_datarules_list_pipe__WEBPACK_IMPORTED_MODULE_22__["DataRulesListPipe"],
+                _create_new_organization_create_new_organization_component__WEBPACK_IMPORTED_MODULE_23__["CreateNewOrganizationComponent"],
+                _create_new_report_create_new_report_component__WEBPACK_IMPORTED_MODULE_24__["CreateNewReportComponent"],
+                _create_new_datarule_create_new_datarule_component__WEBPACK_IMPORTED_MODULE_25__["CreateNewDataruleComponent"],
+                _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_26__["CreateNewUserComponent"],
+                _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_26__["NewUserOrganizationConfirmation"],
+                _share_report_share_report_component__WEBPACK_IMPORTED_MODULE_27__["ShareReportComponent"],
+                _edit_organization_edit_organization_component__WEBPACK_IMPORTED_MODULE_28__["EditOrganizationComponent"],
+                _edit_data_rule_edit_data_rule_component__WEBPACK_IMPORTED_MODULE_29__["EditDataRuleComponent"],
+                _edit_user_edit_user_component__WEBPACK_IMPORTED_MODULE_30__["EditUserComponent"],
                 _shared_pipes_category_pipe__WEBPACK_IMPORTED_MODULE_0__["CategoryPipe"],
-                _edit_report_edit_report_component__WEBPACK_IMPORTED_MODULE_32__["EditReportComponent"],
-                _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_9__["DeleteOrganizationConfirmation"],
-                _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_11__["DeleteUserConfirmation"],
-                _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_12__["DeleteReportConfirmation"],
-                _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_9__["DeleteDataruleConfirmation"]
+                _edit_report_edit_report_component__WEBPACK_IMPORTED_MODULE_31__["EditReportComponent"],
+                _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_8__["DeleteOrganizationConfirmation"],
+                _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_10__["DeleteUserConfirmation"],
+                _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_11__["DeleteReportConfirmation"],
+                _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_8__["DeleteDataruleConfirmation"]
             ],
             imports: [
-                _angular_common__WEBPACK_IMPORTED_MODULE_4__["CommonModule"],
-                _admin_routing_module__WEBPACK_IMPORTED_MODULE_8__["AdminRoutingModule"],
-                _angular_material_angular_material_module__WEBPACK_IMPORTED_MODULE_7__["AngularMaterialModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_19__["FormsModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_19__["ReactiveFormsModule"]
+                _angular_common__WEBPACK_IMPORTED_MODULE_3__["CommonModule"],
+                _admin_routing_module__WEBPACK_IMPORTED_MODULE_7__["AdminRoutingModule"],
+                _angular_material_angular_material_module__WEBPACK_IMPORTED_MODULE_6__["AngularMaterialModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_18__["FormsModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_18__["ReactiveFormsModule"],
+                _shared_shared_module__WEBPACK_IMPORTED_MODULE_32__["SharedModule"]
             ],
             entryComponents: [
-                _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_27__["NewUserOrganizationConfirmation"],
-                _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_9__["DeleteOrganizationConfirmation"],
-                _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_11__["DeleteUserConfirmation"],
-                _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_12__["DeleteReportConfirmation"],
-                _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_9__["DeleteDataruleConfirmation"]
+                _create_new_user_create_new_user_component__WEBPACK_IMPORTED_MODULE_26__["NewUserOrganizationConfirmation"],
+                _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_8__["DeleteOrganizationConfirmation"],
+                _user_details_user_details_component__WEBPACK_IMPORTED_MODULE_10__["DeleteUserConfirmation"],
+                _admin_report_details_admin_report_details_component__WEBPACK_IMPORTED_MODULE_11__["DeleteReportConfirmation"],
+                _organization_details_organization_details_component__WEBPACK_IMPORTED_MODULE_8__["DeleteDataruleConfirmation"]
             ]
         })
     ], AdminModule);
@@ -4337,89 +4337,6 @@ var PaginationPipe = /** @class */ (function () {
         __metadata("design:paramtypes", [_services_pagination_service__WEBPACK_IMPORTED_MODULE_1__["PaginationService"]])
     ], PaginationPipe);
     return PaginationPipe;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/shared/pipes/report-list.pipe.ts":
-/*!**************************************************!*\
-  !*** ./src/app/shared/pipes/report-list.pipe.ts ***!
-  \**************************************************/
-/*! exports provided: ReportListPipe */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReportListPipe", function() { return ReportListPipe; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _services_pagination_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/pagination.service */ "./src/app/shared/services/pagination.service.ts");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var ReportListPipe = /** @class */ (function () {
-    function ReportListPipe(paginationService) {
-        this.paginationService = paginationService;
-    }
-    ReportListPipe.prototype.transform = function (reportList, searchName, organization, sort, page) {
-        var currentList = reportList;
-        // If there's a reportList
-        if (reportList) {
-            // If there's a search
-            if (searchName) {
-                searchName = searchName.toLowerCase();
-                currentList = currentList.filter(function (el) { return el.name.toLowerCase().indexOf(searchName) > -1; });
-            }
-            // if there's a organization
-            if (organization) {
-                if (organization !== 'All') {
-                    currentList = currentList.filter(function (element) { return element.organization.id === organization; });
-                }
-            }
-            // if there's a sort
-            if (sort) {
-                if (sort === 'Alphabetical') {
-                    var sorted = currentList.sort(function (a, b) { return (a.name > b.name ? 1 : a.name === b.name ? 0 : -1); });
-                    if (sort.charAt(0) === '-') {
-                        sorted.reverse();
-                    }
-                    currentList = sorted;
-                }
-                if (sort === 'Latest') {
-                    var sorted = currentList.sort(function (a, b) {
-                        return new Date(a.date) < new Date(b.date)
-                            ? 1
-                            : new Date(a.date) === new Date(b.date)
-                                ? 0
-                                : -1;
-                    });
-                    currentList = sorted;
-                }
-            }
-            this.paginationService.changeTotalPages(Math.ceil(currentList.length / this.paginationService.pagination.itemsPerPage));
-            return currentList.slice(this.paginationService.pagination.currentPage *
-                this.paginationService.pagination.itemsPerPage -
-                this.paginationService.pagination.itemsPerPage, this.paginationService.pagination.itemsPerPage *
-                this.paginationService.pagination.currentPage);
-        }
-        return currentList;
-    };
-    ReportListPipe = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"])({
-            name: 'reportList'
-        }),
-        __metadata("design:paramtypes", [_services_pagination_service__WEBPACK_IMPORTED_MODULE_1__["PaginationService"]])
-    ], ReportListPipe);
-    return ReportListPipe;
 }());
 
 

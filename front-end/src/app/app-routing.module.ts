@@ -31,6 +31,7 @@ const routes: Routes = [
         path: 'user',
         component: ViewerComponent,
         children: [
+          { path: '', redirectTo: 'list', pathMatch: 'full'},
           { path: 'list', component: ViewerReportListComponent},
           { path: ':reportID', component: ViewerReportComponent}
         ]
