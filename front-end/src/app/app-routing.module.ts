@@ -2,8 +2,11 @@ import { AdminGuard } from './auth/admin-guard.service';
 import { AppComponent } from './app.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UserComponent } from './user/user.component';
 import { LoginComponent } from './auth/login/login.component';
+import { ViewerComponent } from './viewer/viewer.component';
+import { listener } from '@angular/core/src/render3/instructions';
+import { ViewerReportListComponent } from './viewer/viewer-report-list/viewer-report-list.component';
+import { ViewerReportComponent } from './viewer/viewer-report/viewer-report.component';
 
 const routes: Routes = [
   {
@@ -26,7 +29,11 @@ const routes: Routes = [
       },
       {
         path: 'user',
-        component: UserComponent
+        component: ViewerComponent,
+        children: [
+          { path: 'list', component: ViewerReportListComponent},
+          { path: ':reportID', component: ViewerReportComponent}
+        ]
       }
     ]
   }

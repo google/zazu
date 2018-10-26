@@ -1,4 +1,3 @@
-import { ReportWithMetaData } from './../view-models/report.viewmodel';
 import { Injectable } from '@angular/core';
 import * as ReportViewModel from '../view-models/report.viewmodel';
 import { HttpClient } from '@angular/common/http';
@@ -25,11 +24,29 @@ export class ReportService {
     return await (this.http.get<ReportViewModel.ReportWithMetaData>( this.URL + 'single-report-with-meta.mockdata.json')).toPromise();
   }
 
+
+  /**
+   * Gets a specific report with no metadata
+   * @param id - ID of the specific reprot
+   */
+  public async getReportNoMetaData(id): Promise<ReportViewModel.ReportWithMetaData> {
+    return await (this.http.get<ReportViewModel.ReportWithMetaData>( this.URL + 'single-report-with-meta.mockdata.json')).toPromise();
+  }
+
  /**
    *  Gets the reports for a specific organization. Can be more than one
    * @param orgIDs ID of a specific organization
    */
   public async getReportByOrganization(orgIDs: string): Promise<ReportViewModel.SimpleReport[]> {
+    return await (this.http.get<ReportViewModel.SimpleReport[]>( this.URL + 'reports.mockdata.json')).toPromise();
+  }
+
+
+
+  /**
+   * Get all reports for this user
+   */
+  public async getReportByUser(userID: string): Promise<ReportViewModel.SimpleReport[]> {
     return await (this.http.get<ReportViewModel.SimpleReport[]>( this.URL + 'reports.mockdata.json')).toPromise();
   }
 

@@ -44,6 +44,7 @@ import { EditOrganizationComponent } from './edit-organization/edit-organization
 import { EditDataRuleComponent } from './edit-data-rule/edit-data-rule.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { EditReportComponent } from './edit-report/edit-report.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,6 @@ import { EditReportComponent } from './edit-report/edit-report.component';
     SearchNamePipe,
     PaginationPipe,
     OrgListPipe,
-    ReportListPipe,
     UserListPipe,
     DataRulesListPipe,
     CreateNewOrganizationComponent,
@@ -86,7 +86,8 @@ import { EditReportComponent } from './edit-report/edit-report.component';
     AdminRoutingModule,
     AngularMaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   entryComponents: [
     NewUserOrganizationConfirmation,

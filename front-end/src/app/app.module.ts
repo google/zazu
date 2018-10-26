@@ -9,19 +9,27 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './auth/login/login.component';
-import { UserComponent } from './user/user.component';
 import { UserService } from './shared/services/user.service';
 import { ReportService } from './shared/services/report.service';
 import { OrganizationService } from './shared/services/organization.service';
+import { ViewerComponent } from './viewer/viewer.component';
+import { ViewerReportListComponent } from './viewer/viewer-report-list/viewer-report-list.component';
+import { ViewerReportComponent } from './viewer/viewer-report/viewer-report.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReportListPipe } from './shared/pipes/report-list.pipe';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, UserComponent],
+  declarations: [AppComponent, LoginComponent,  ViewerComponent, ViewerReportListComponent, ViewerReportComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AngularMaterialModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SharedModule
   ],
   providers: [
     AuthService,

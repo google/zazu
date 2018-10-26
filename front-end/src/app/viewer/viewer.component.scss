@@ -1,0 +1,61 @@
+@import "main-style-variables.scss";
+.toolbar {
+  background-color: $toolbar-color;
+  color: white;
+  z-index: 20;
+  position: fixed;
+
+
+  .menu-icon {
+    min-width: unset;
+    padding: 0;
+
+    i {
+      font-size: 2.5em;
+    }
+  }
+}
+
+.company {
+  height: 64px;
+
+  .icon-container {
+    height: 64px;
+    width: 64px;
+    position: relative;
+
+    img {
+      height: 45px;
+      width: 45px;
+      position: absolute;
+      right: 0;
+      left: -30px;
+      top: 0;
+      bottom: 5px;
+      margin: auto auto;
+    }
+  }
+
+  .name {
+    position: absolute;
+    top: 15px;
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+    left: 65px;
+
+  }
+}
+
+
+
+
+
+.viewer-container {
+  background-color: $main-content-color;
+  min-height: calc(100vh - 64px);
+  padding-top: 64px;
+  height:  auto;
+}
+
+
