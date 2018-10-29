@@ -15,6 +15,7 @@ import { OrganizationService } from './shared/services/organization.service';
 import { ViewerComponent } from './viewer/viewer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
+import { LogoutComponent } from './auth/logout/logout.component';
 
 // Define the routes
 const ROUTES = [
@@ -30,7 +31,7 @@ const ROUTES = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent,  ViewerComponent],
+  declarations: [AppComponent, LoginComponent,  ViewerComponent, LogoutComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

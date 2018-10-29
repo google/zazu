@@ -1,0 +1,87 @@
+@import "main-style-variables.scss";
+.toolbar {
+  background-color: $toolbar-color;
+  color: white;
+  z-index: 20;
+  position: fixed;
+  text-align: center;
+  display:flex;
+
+
+  .menu-icon {
+    min-width: unset;
+    padding: 0;
+
+    i {
+      font-size: 2.5em;
+    }
+  }
+
+  .menu-icon.right {
+    margin: 0 10px ;
+    i {
+      font-size: 2.2em;
+    }
+  }
+}
+
+.company {
+  height: 64px;
+
+  .icon-container {
+    height: 64px;
+    width: 64px;
+    position: relative;
+
+    img {
+      height: 45px;
+      width: 45px;
+      position: absolute;
+      right: 0;
+      left: -30px;
+      top: 0;
+      bottom: 5px;
+      margin: auto auto;
+    }
+  }
+
+  .name {
+    position: absolute;
+    top: 15px;
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+    left: 65px;
+
+  }
+}
+
+
+
+.signing-container {
+  background-color: $main-content-color;
+  min-height: calc(100vh - 64px);
+  padding-top: 64px;
+  height:  auto;
+  text-align: center;
+
+  .signing-card{
+    text-align: center;
+    background-color: white;
+    max-width: 250px;
+    margin: auto;
+    margin-top: 10%;
+    padding: 30px;
+    box-shadow:$card-box-shadow;
+    border: $card-border;
+    border-radius:  5px;
+  }
+}
+
+.mat-google{
+  background-color: #dd4b39;
+  color: white;
+  width: 100%;
+}
+
+
