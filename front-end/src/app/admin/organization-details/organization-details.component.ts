@@ -88,6 +88,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
       if (!this.users) {
         await this.getUsers();
         this.usersInitialized = await true;
+
       }
     }
     if (event === 2) {

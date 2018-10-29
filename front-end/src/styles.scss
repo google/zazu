@@ -13,10 +13,54 @@
   background-color: $plain-color !important;
 }
 
+
+
 /**** BUTTONS STUFF   */
 .button-disabled {
   opacity: 0.5;
   color: white !important;
+}
+
+/***** EMPTY LIST STYLE *****/
+.empty-list {
+  margin: auto;
+  padding-top: 50px;
+  text-align: center;
+
+  .main {
+    font-size: 200px;
+    color:
+      $empty-list-icon-color;
+  }
+
+  .add {
+    position: relative;
+    margin-left: -55px;
+    margin-bottom: -55px;
+    bottom: 25px;
+    color: white;
+  }
+
+  .title,
+  .create-text {
+    margin: 5px;
+  }
+
+  .title {
+    color: $empty-list-main-title-color;
+  }
+
+  .create-text {
+    color: $create-text-color;
+  }
+
+  .create-text:hover{
+    cursor: pointer;
+  }
+
+  .mat-primary-button {
+    background-color: $primary-button-color !important;
+  }
 }
 
 
@@ -526,13 +570,14 @@ body {
     color: $primary-button-color;
     text-align: center;
     font-weight: 500;
-    margin:0;
+    margin: 0;
   }
 
   .delete {
     color: $danger-color !important;
 
   }
+
   p {
     max-width: 500px;
   }

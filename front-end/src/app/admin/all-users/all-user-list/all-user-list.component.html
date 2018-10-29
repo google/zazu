@@ -3,7 +3,7 @@
         person_outline </i> User List</span></div>
 </div>
 
-<div class="main-content-view" *ngIf="viewInitialized" >
+<div class="main-content-view" *ngIf="viewInitialized && users.length > 0 " >
   <app-user-list [users]="users" (userID)="goToUser($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-user-list>
 </div>
 
@@ -11,3 +11,15 @@
   <mat-spinner style="margin:auto"></mat-spinner>
   <p style="text-align: center;">Users Loading...</p>
 </div>
+
+<div *ngIf="viewInitialized && users.length === 0 " class="empty-list" >
+    <div class="icons">
+      <i class="material-icons main"> person_outline </i>
+      <button routerLink="../new-user" mat-fab class="button-fab add" color="primary-button"> <i class="material-icons">
+          add
+        </i>
+      </button>
+    </div>
+    <h2 class="title"> There are no users.</h2>
+    <h3 class="create-text" routerLink="../new-user"> Create new user</h3>
+  </div>
