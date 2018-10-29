@@ -1,4 +1,23 @@
-<div class="row" style="width: 50%; padding: 20px; margin: auto;">
-    <button mat-button routerLink="../admin" >Admin</button>
-    <button mat-button routerLink="../user" >Viewer</button>
+<mat-toolbar class="toolbar">
+  <div class="company">
+    <div class="icon-container">
+      <div class="icon">
+        <img src="../../assets/company-icon.png" alt="Smiley face">
+      </div>
+    </div>
+    <span class="name"> Company </span>
   </div>
+</mat-toolbar>
+<div class="signing-container">
+  <div class="signing-card">
+    <div class="icon">
+      <img src="../../assets/company-icon.png" alt="Smiley face">
+    </div>
+    <h4>Sign in</h4>
+    <button mat-raised-button color="google">Sign in with Google</button>
+  </div>
+  <button mat-button routerLink="../admin" >Admin</button>
+  <button mat-button routerLink="../user" >Viewer</button>
+</div>
+
+

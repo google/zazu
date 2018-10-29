@@ -2,7 +2,6 @@
 
 
 
-
 // Side Navigation Menus Style
 .side-nav {
   width: $side-nav-max;
@@ -89,12 +88,17 @@
   width: $side-nav-minimized !important;
 }
 
+.toobar-max {
+  max-width: calc(100vw - #{$side-nav-minimized}) !important;
+}
 
 .toolbar {
   background-color: $toolbar-color;
   color: white;
   z-index: 20;
   position: fixed;
+  max-width: calc(100vw -  #{$side-nav-max});
+  -webkit-transition: max-width 0.5s;
 
 
   .menu-icon {
@@ -103,6 +107,13 @@
 
     i {
       font-size: 2.5em;
+    }
+  }
+
+  .menu-icon.right {
+    margin: 0 10px ;
+    i {
+      font-size: 2.2em;
     }
   }
 

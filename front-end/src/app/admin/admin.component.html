@@ -16,7 +16,7 @@
     <div class="menu-container">
 
       <!-- Menu # 1 -->
-      <div class="menu" routerLink="o" routerLinkActive="menu-active" >
+      <div class="menu" routerLink="o" routerLinkActive="menu-active">
         <i class="material-icons">
           business
         </i>
@@ -49,12 +49,28 @@
 
   <div class="right-content" [ngClass]="{'right-content-minimized': minimized}">
     <!-- Top Toolbar -->
-    <mat-toolbar class="toolbar">
+    <mat-toolbar class="toolbar" [ngClass]="{'toobar-max': minimized}">
       <button mat-button class="menu-icon" (click)="toggleMenu()">
         <i class="material-icons ">
           menu
         </i>
       </button>
+      <div style="flex: 1 1 auto">
+      </div>
+      <button mat-button class="menu-icon right"   matTooltip="FAQs"
+      matTooltipPosition="below">
+        <i class="material-icons">
+          help_outline
+        </i>
+      </button>
+      <button mat-button class="menu-icon right"  matTooltip="Logout"
+      matTooltipPosition="below">
+        <i class="material-icons">
+          power_settings_new
+        </i>
+      </button>
+
+
     </mat-toolbar>
 
     <!-- Main Content -->
