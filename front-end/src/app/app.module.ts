@@ -16,6 +16,19 @@ import { ViewerComponent } from './viewer/viewer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
 
+// Define the routes
+const ROUTES = [
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  }
+];
+
 @NgModule({
   declarations: [AppComponent, LoginComponent,  ViewerComponent],
   imports: [

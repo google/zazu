@@ -45,7 +45,7 @@ const adminRoutes: Routes = [
           { path: ':id/new-report', component: CreateNewReportComponent},
           { path: ':id/share-report', component: ShareReportComponent},
           { path: ':id/edit-organization', component: EditOrganizationComponent},
-          { path: ':id/new-rule', component: CreateNewDataruleComponent}
+          { path: ':id/new-rule', component: CreateNewDataruleComponent},
           { path: ':id/edit-rule/:ruleID', component: EditDataRuleComponent},
           { path: ':id/u/:userID', component: UserDetailsComponent },
           { path: ':id/u/:userID/ghost/:userName', component: GhostComponent, children: [
