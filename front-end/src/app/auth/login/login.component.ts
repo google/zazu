@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   async ngOnInit() {
     try {
       // If the user is authenticated
+
       if (await this.authService.isAuthenticated()) {
         console.log(await this.authService.isAuthenticated());
         console.log('checking');
@@ -22,8 +23,8 @@ export class LoginComponent implements OnInit {
         } else {
           this.router.navigate(['../user'], {relativeTo: this.route});
         }
-
       }
+
 
     } catch (error) {
 
