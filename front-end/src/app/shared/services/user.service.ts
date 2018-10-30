@@ -28,7 +28,8 @@ export class UserService {
    * @param id - id of the user you want to get information
    */
   public async getUser(id): Promise<UserViewModel.User> {
-    return await ((this.http.get<UserViewModel.User>( this.URL +  'single-user.mockdata.json')).toPromise());
+    console.log(id);
+    return await ((this.http.get<UserViewModel.User>( '/api' +  '/getAllUsers/' + id)).toPromise());
   }
 
   /**
@@ -43,7 +44,7 @@ export class UserService {
   public async timeout() {
     const promise = new Promise( (resolve, reject) => {
        setTimeout( () => {
-        resolve(this.getUsersByOrganization('123'));
+        resolve(this.getAllUsers());
       }, 2000);
     });
     return promise;
