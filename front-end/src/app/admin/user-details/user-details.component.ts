@@ -45,9 +45,11 @@ export class UserDetailsComponent implements OnInit {
         this.organization = false;
       }
       this.user = await this.userService.getUser(this.userID);
-      this.reports = await this.reportService.getReportByOrganizations([
-        'orgIDs'
-      ]);
+      const orgs = [];
+      for ( const org of this.user.organizations) {
+        orgs.push(org._id);
+      }
+      this.reports = await this.reportService.getReportByOrganizations(orgs);
       this.viewInitialized = true;
     } catch (error) {
       console.log(error);

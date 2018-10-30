@@ -37,7 +37,7 @@ export class ReportService {
    *  Gets the reports for a specific organization. Can be more than one
    * @param orgIDs ID of a specific organization
    */
-  public async getReportByOrganization(orgIDs: string): Promise<ReportViewModel.SimpleReport[]> {
+  public async getReportByOrganization(orgIDs: string[]): Promise<ReportViewModel.SimpleReport[]> {
     return await (this.http.get<ReportViewModel.SimpleReport[]>( this.URL + 'reports.mockdata.json')).toPromise();
   }
 

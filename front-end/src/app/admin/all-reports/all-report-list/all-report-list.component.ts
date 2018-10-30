@@ -14,7 +14,7 @@ export class AllReportListComponent implements OnInit {
   viewInitialized = false;
   async ngOnInit() {
     try {
-      this.reports = await this.reportService.getReportByOrganization('orgID');
+      this.reports = await this.reportService.getAllReports();
       this.viewInitialized = await true;
     } catch (error) {
       console.log(error);
