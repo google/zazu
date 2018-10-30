@@ -17,19 +17,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
 import { LogoutComponent } from './auth/logout/logout.component';
 
-// Define the routes
-const ROUTES = [
-  {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
-  },
-  {
-    path: 'login',
-    component: LoginComponent
-  }
-];
-
 @NgModule({
   declarations: [AppComponent, LoginComponent,  ViewerComponent, LogoutComponent],
   imports: [

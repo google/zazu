@@ -12,19 +12,18 @@ var config = require('./utilities/config');
 //var utils = require('./utilities/utils');
 
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-var User = require('../front-end/src/app/models/user');
+var User = require('./models/user');
 
 const BigQuery = require('@google-cloud/bigquery');
 const bigquery = new BigQuery();
 
 // Get our API routes
-//const api = require('./routes/api');
+const api = require('./routes/api');
 
 const GOOGLE_CLIENT_ID = config.google_client_id;
 const GOOGLE_CLIENT_SECRET = config.google_client_secret;
 
 const app = express();
-const port = 3000;
 
 app.use(express.static('front-end/dist/front-end'));
 
@@ -82,8 +81,8 @@ app.use(session({
 }))
 
 // Set our api routes
-// app.use('/api', api);
-//
+app.use('/api', api);
+
 app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
 
 app.get('/auth/google/callback',
@@ -99,10 +98,22 @@ app.get('/users', (req, res) => {
     });
 })
 
-// app.get('/', (req, res) => {
-//     res.json({
-//         name: 'Maria'
-//     });
-// })
+/**
+ * Get port from environment and store in Express.
+ */
+const port = process.env.PORT || '3000';
+app.set('port', port);
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+/**
+ * Create HTTP server.
+ */
+
+ var options = {
+   key  : fs.readFileSync(path.join(__dirname, 'encryption/' + config.https_key_filename)),
+   cert : fs.readFileSync(path.join(__dirname, 'encryption/' + config.https_cert_filename)),
+   passphrase: config.https_passphrase
+};
+
+const server = https.createServer(options, app);
+
+server.listen(port, () => console.log(`API running on localhost:${port}`));

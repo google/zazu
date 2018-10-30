@@ -18,7 +18,7 @@ export class UserService {
    */
   public async getAllUsers(): Promise<UserViewModel.SimpleUserView[]> {
     console.log('getting all users');
-    return await ((this.http.get<UserViewModel.SimpleUserView[]>( this.URL + 'user-list.mockdata.json')).toPromise());
+    return await ((this.http.get<UserViewModel.SimpleUserView[]>( '/api' + '/getAllUsers')).toPromise());
   }
 
   /**
@@ -26,7 +26,8 @@ export class UserService {
    * @param id - id of the user you want to get information
    */
   public async getUser(id): Promise<UserViewModel.User> {
-    return await ((this.http.get<UserViewModel.User>( this.URL +  'single-user.mockdata.json')).toPromise());
+    console.log(id);
+    return await ((this.http.get<UserViewModel.User>( '/api' +  '/getAllUsers/' + id)).toPromise());
   }
 
   /**
@@ -41,7 +42,7 @@ export class UserService {
   public async timeout() {
     const promise = new Promise( (resolve, reject) => {
        setTimeout( () => {
-        resolve(this.getUsersByOrganization('123'));
+        resolve(this.getAllUsers());
       }, 2000);
     });
     return promise;

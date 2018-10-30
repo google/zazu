@@ -3,7 +3,7 @@
     <div class="list">
       <div *ngFor="let user of users | userList: searchName: selectedRole: selectedOrganization : sortValue :  pagination.currentPage"
         class="card">
-        <div class="container" (click)="userClicked(user.id)">
+        <div class="container" (click)="userClicked(user._id)">
           <h4 class="title" style="font-weight: bold">{{user.firstName}} {{user.lastName}}</h4>
           <p class="secondary"> Viewer : <span *ngFor="let org of user.organizations; let i = index">
               {{org.name}}<span *ngIf="i < user.organizations.length-1">, </span> </span> </p>
