@@ -35,12 +35,10 @@ const routes: Routes = [
       {
         path: 'admin',
         loadChildren: './admin/admin.module#AdminModule',
-        canActivate: [AdminGuard, AuthGuard]
       },
       {
         path: 'user',
         component: ViewerComponent,
-        canActivate: [AuthGuard],
         children: [
           { path: '', redirectTo: 'list', pathMatch: 'full' },
           { path: 'list', component: ViewerReportListComponent },
