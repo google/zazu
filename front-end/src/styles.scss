@@ -13,6 +13,13 @@
   background-color: $plain-color !important;
 }
 
+.mat-primary-button {
+  background-color: $primary-button-color !important;
+  color: white;
+}
+
+
+
 
 
 /**** BUTTONS STUFF   */
@@ -54,13 +61,10 @@
     color: $create-text-color;
   }
 
-  .create-text:hover{
+  .create-text:hover {
     cursor: pointer;
   }
 
-  .mat-primary-button {
-    background-color: $primary-button-color !important;
-  }
 }
 
 
@@ -560,6 +564,18 @@ body {
 
   .mat-form-field.mat-focused.mat-form-field-invalid .mat-form-field-label {
     color: $form-error-color !important;
+  }
+}
+
+
+.mat-select-panel .mat-option.mat-selected {
+  .mat-option-text {
+    color: $primary;
+  }
+
+  .mat-pseudo-checkbox {
+    background: $primary;
+
   }
 }
 

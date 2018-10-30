@@ -1,4 +1,4 @@
-<div *ngIf="(organization != null && user!= null && report != null) || (organization != null && !userView && report != null)">
+<div *ngIf="(organization != null && user!= null && report != null) || (!organization  && !userView && report != null) || (!organization && !user && report != null)">
 
   <div class="breadcrumb-container">
     <!-- Breadcrumbs for report when navigation from organization list -->
@@ -76,7 +76,7 @@
             </mat-expansion-panel-header>
             <div *ngFor="let datasource of report.datasources; let i = index">
                 <p>Datasource: <span class="info">{{datasource.name}} </span> </p>
-                <p>&nbsp;&nbsp;&bull; ID: <span class="info">{{datasource.id}} </span></p>
+                <p>&nbsp;&nbsp;&bull; ID: <span class="info">{{datasource._id}} </span></p>
             </div>
             <p>Created By: <span class="info">{{ report.createdBy}}</span> </p>
             <p>Updated By: <span class="info">{{ report.updatedBy}}</span></p>

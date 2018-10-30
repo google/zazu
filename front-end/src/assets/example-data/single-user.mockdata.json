@@ -1,11 +1,11 @@
 {
-  "id": "5bb536d1f5998071ecba007c",
+  "_id": "5bb536d1f5998071ecba007c",
   "firstName": "First",
   "lastName": "Last",
   "googleId": "name@gmail.com",
   "secondaryEmail": "evelynhunter@zidant.com",
   "organizations": [{
-    "id": "6",
+    "_id": "6",
     "name": "Example Company"
   }],
   "role": "Viewer"

@@ -7,9 +7,6 @@ export class PaginationPipe implements PipeTransform {
   constructor(private paginationService: PaginationService) {}
 
   transform(currentList: object[], page: number): any {
-
-    console.log('pagination called');
-
     this.paginationService.changeTotalPages(
       Math.ceil(
         currentList.length / this.paginationService.pagination.itemsPerPage

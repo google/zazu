@@ -81,7 +81,7 @@ export class CreateNewOrganizationComponent implements OnInit {
       name: this.orgForm.value.orgName,
       categories: temp
     };
-    console.log(org);
+    this.organizatinonService.createNewOrganization(org);
   }
 
   public noWhitespaceValidator(control: FormControl) {

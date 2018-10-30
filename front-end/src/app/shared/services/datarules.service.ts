@@ -45,7 +45,7 @@ export class DatarulesService {
    * @param datarule - datarule object
    */
   public async createNewDataRule(datarule: DataViewModel.CreateNewDataRule) {
-    return await null;
+    return await ((this.http.post(this.URL + 'createRule/', datarule)).toPromise());
   }
 
   /**
@@ -53,7 +53,7 @@ export class DatarulesService {
    * @param datarule - datarule object
    */
   public async editDataRule(datarule: DataViewModel.EditDataRule) {
-    return await null;
+    return await ((this.http.post(this.URL + 'editRule/', datarule)).toPromise());
   }
 
   /**
@@ -61,7 +61,6 @@ export class DatarulesService {
    * @param dataruleID - id of the data rule you want to delete
    */
   public async deleteDataRule(dataruleID: string) {
-    console.log('Data Rule Deleted: ' + dataruleID);
-    return await null;
+    return await ((this.http.post(this.URL + 'deleteRule/', dataruleID)).toPromise());
   }
 }

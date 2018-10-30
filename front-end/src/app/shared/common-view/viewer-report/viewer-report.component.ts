@@ -33,7 +33,6 @@ export class ViewerReportComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-    console.log('go Back');
     this.router.navigate(['../'], {
       relativeTo: this.route
     });

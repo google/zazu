@@ -40,11 +40,11 @@ export class ViewerReportListComponent implements OnInit, OnDestroy {
       this.paginationService.getPagination();
       this.reports = await this.viewerService.getReports();
       if (this.reports.length === 1) {
-        this.router.navigate(['../', this.reports[0].id], { relativeTo: this.route });
+        this.router.navigate(['../', this.reports[0]._id], { relativeTo: this.route });
       }
       const temp = [];
       for (const report of this.reports) {
-        if (this.organizations.filter(e => e.id === report.organization.id).length === 0) {
+        if (this.organizations.filter(e => e._id === report.organization._id).length === 0) {
           this.organizations.push(report.organization);
         }
       }
@@ -80,9 +80,8 @@ export class ViewerReportListComponent implements OnInit, OnDestroy {
     this.searchName = temp.name;
     this.selectedOrganization = temp.selectedOrganization;
     this.selectedOrgName = this.organizations.find(org => {
-      return org.id === temp.selectedOrganization;
+      return org._id === temp.selectedOrganization;
     });
-    console.log(temp.selectedOrganization);
   }
 
   searchFormReset() {

@@ -1,3 +1,4 @@
+import { OrganizationService } from 'src/app/shared/services/organization.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { DatarulesService } from './../../shared/services/datarules.service';
@@ -16,11 +17,13 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private datarulesService: DatarulesService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private organizationService: OrganizationService,
   ) {}
   identifiers: string[];
   organizationId;
   sub: Subscription;
+  organization;
   async ngOnInit() {
     try {
       this.sub = this.route.params.subscribe(params => {
@@ -43,6 +46,7 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
         condition: ['', Validators.required],
         token: ['', [Validators.required,  this.noWhitespaceValidator]]
       });
+      this.organization = await this.organizationService.getLocalOrganization(this.organizationId);
     } catch (error) {}
   }
 
@@ -62,12 +66,13 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
     const form = this.dataruleFormGroup.value;
     const datarule = {
       name: form.name,
-      datasource: form.datasource,
+      datasourceID: form.datasource,
       identifier: form.identifier,
       condition: form.condition,
       token: form.token,
-      organization: this.organizationId
+      organizationID: this.organizationId
     };
     console.log(datarule);
+    this.datarulesService.createNewDataRule(datarule);
   }
 }

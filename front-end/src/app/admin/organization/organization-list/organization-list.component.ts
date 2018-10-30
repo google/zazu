@@ -41,6 +41,7 @@ export class OrganizationListComponent implements OnInit, OnDestroy {
     // Gets all organizations OnInit
     try {
       this.organizations = await this.organizationService.getAllOrganizations();
+      this.organizationService.setLocalOrg(this.organizations);
       await this.getAllCategories(this.organizations);
       for (const category of this.categories) {
         this.filterForm.addControl(category, new FormControl(''));
@@ -58,6 +59,7 @@ export class OrganizationListComponent implements OnInit, OnDestroy {
 
   // Go to organization details
   goToDetails(id) {
+    console.log(id);
     this.router.navigate(['../', id], { relativeTo: this.route });
   }
 
@@ -81,7 +83,6 @@ export class OrganizationListComponent implements OnInit, OnDestroy {
   // On Search, will search stuff
   onSearch() {
     this.selectedCategories = [];
-    console.log(this.filterForm.value);
     const temp = this.filterForm.value;
     for (const category of this.categories) {
       if (category in temp) {

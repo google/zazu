@@ -41,11 +41,7 @@ export class EditOrganizationComponent implements OnInit {
       this.sub = this.route.params.subscribe(params => {
         this.organizationID = params['id'];
       });
-      // ********************* Change this later to just get one organization
-      this.orgs = await this.organizatinonService.getAllOrganizations();
-      this.org = this.orgs.find(org => {
-        return org.id === this.organizationID;
-      });
+      this.org = await this.organizatinonService.getLocalOrganization(this.organizationID);
       this.options = await this.organizatinonService.getAllCategories();
       this.filteredOptions = this.myControl.valueChanges.pipe(
         startWith(''),
@@ -107,11 +103,11 @@ export class EditOrganizationComponent implements OnInit {
       temp.push(itemname.itemname);
     }
     const org = {
-      id: this.organizationID,
+      _id: this.organizationID,
       name: this.orgForm.value.orgName,
       categories: temp
     };
-    console.log(org);
+    this.organizatinonService.editOrganization(org);
   }
 
   public noWhitespaceValidator(control: FormControl) {

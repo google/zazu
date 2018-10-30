@@ -56,7 +56,7 @@ export class ShareReportComponent  implements OnInit {
 
   selectReport(id) {
     this.selectedReport = this.reports.find(report => {
-      return report.id === id;
+      return report._id === id;
     });
   }
 
@@ -66,7 +66,7 @@ export class ShareReportComponent  implements OnInit {
 
   selectOrg() {
    this.selectedOrg = this.organizations.find(org => {
-     return org.id === this.orgForm.value.organization;
+     return org._id === this.orgForm.value.organization;
    });
   }
 }

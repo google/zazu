@@ -1,4 +1,5 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient  } from '@angular/common/http';
+import {RequestOptions, Request, RequestMethod} from '@angular/http';
 import {
   Injectable
 } from '@angular/core';
@@ -9,15 +10,16 @@ import * as UserViewModel from '../view-models/user.viewmodel';
 })
 export class UserService {
   constructor(private http: HttpClient) {}
-  VIEWACCESS = 'VIEWACCESS';
-  ADMIN = 'ADMIN';
+  VIEWACCESS = 'viewer';
+  ADMIN = 'admin';
   URL = '../../../assets/example-data/';
+  users = [];
+
   temp;
   /**
    *  Method for getting all users for all organizations
    */
   public async getAllUsers(): Promise<UserViewModel.SimpleUserView[]> {
-    console.log('getting all users');
     return await ((this.http.get<UserViewModel.SimpleUserView[]>( this.URL + 'user-list.mockdata.json')).toPromise());
   }
 
@@ -52,7 +54,7 @@ export class UserService {
    * @param user - user object for creating new user
    */
   public async createNewUser(user: UserViewModel.CreateNewUser) {
-    return await null;
+    return await ((this.http.post(this.URL + 'createNewUser/', user)).toPromise());
   }
 
   /**
@@ -60,15 +62,38 @@ export class UserService {
    * @param user - user object for editing user
    */
   public async editUser(user: UserViewModel.EditUser) {
-    return await null;
+    return await ((this.http.post(this.URL + 'editUser/', user)).toPromise());
   }
+
 
   /**
    * Delete user
    * @param userID - ID of the user you want to delete
    */
   public async deleteUser(userID: string) {
-    console.log('User Deleted: ' + userID);
-    return await null;
+    return await ((this.http.post(this.URL + 'deleteUser/',  userID)).toPromise());
+  }
+
+
+  /********** LOCAL USER FOR OPTIMIZATION  **************/
+
+  public async getLocalUser(userID: string) {
+    const user = this.users.find(usr => {
+      return usr._id === userID;
+    });
+    if (!user) {
+      try {
+        this.users = await this.getAllUsers();
+        this.getLocalUser(userID);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    return user;
+  }
+
+
+  public setLocalUsers(users) {
+    this.users = users;
   }
 }

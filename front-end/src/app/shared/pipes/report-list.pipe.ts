@@ -27,7 +27,7 @@ export class ReportListPipe implements PipeTransform {
       if (organization) {
         if (organization !== 'All') {
           currentList = currentList.filter(
-            element => element.organization.id === organization
+            element => element.organization._id === organization
           );
         }
       }

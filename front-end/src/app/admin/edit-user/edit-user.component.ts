@@ -18,7 +18,6 @@ import {
 import * as UserViewModel from '../../shared/view-models/user.viewmodel';
 import { UserService } from 'src/app/shared/services/user.service';
 
-
 @Component({
   selector: 'app-edit-user',
   templateUrl: './edit-user.component.html',
@@ -40,7 +39,7 @@ export class EditUserComponent implements OnInit {
   secondFormGroup: FormGroup;
   selectedOrganizationNames: OrganizationViewModel.SimpleOrganization[];
   organizationID;
-  userID: UserViewModel.User[];
+  userID: string;
   user: UserViewModel.User;
   async ngOnInit() {
     try {
@@ -52,15 +51,21 @@ export class EditUserComponent implements OnInit {
       });
       this.user = await this.userService.getUser(this.userID);
       for await (const org of this.user.organizations) {
-        this.selectedOrganizationIds.push(org.id);
+        this.selectedOrganizationIds.push(org._id);
       }
       this.firstFormGroup = await this.formBuilder.group({
         role: [this.user.role, Validators.required],
         organizations: ['', Validators.required],
-        firstName: [this.user.firstName, [Validators.required, this.noWhitespaceValidator]],
-        lastName: [this.user.lastName, [Validators.required, this.noWhitespaceValidator]],
+        firstName: [
+          this.user.firstName,
+          [Validators.required, this.noWhitespaceValidator]
+        ],
+        lastName: [
+          this.user.lastName,
+          [Validators.required, this.noWhitespaceValidator]
+        ],
         email: [
-          this.user.googleId,
+          this.user.googleID,
           [Validators.required, Validators.email, this.noWhitespaceValidator]
         ],
         secondaryEmail: [this.user.secondaryEmail, Validators.email]
@@ -92,30 +97,32 @@ export class EditUserComponent implements OnInit {
 
     if (firstForm.role === 'Viewer') {
       orgs = firstForm.organizations;
-      const newUser: UserViewModel.CreateNewUser = {
+      const newUser: UserViewModel.EditUser = {
+        _id: this.userID,
         firstName: firstForm.firstName,
         lastName: firstForm.lastName,
-        googleId: firstForm.email,
+        googleID: firstForm.email,
         secondaryEmail: firstForm.secondaryEmail,
         organizations: orgs,
         role: firstForm.role
       };
-    console.log(newUser);
+      this.userService.editUser(newUser);
+      console.log(newUser);
     }
     if (firstForm.role === 'Admin') {
-      const newUser: UserViewModel.CreateNewUser = {
+      const newUser: UserViewModel.EditUser = {
+        _id: this.userID,
         firstName: firstForm.firstName,
         lastName: firstForm.lastName,
-        googleId: firstForm.email,
+        googleID: firstForm.email,
         secondaryEmail: firstForm.secondaryEmail,
-        organizations: null,
+        organizations: [],
         role: firstForm.role
       };
-    console.log(newUser);
+      this.userService.editUser(newUser);
+      console.log(newUser);
     }
-
   }
-
 
   openDialog() {
     const dialogRef = this.dialog.open(NewUserOrganizationConfirmation, {
@@ -129,8 +136,6 @@ export class EditUserComponent implements OnInit {
       }
     });
   }
-
-
 
   public noWhitespaceValidator(control: FormControl) {
     const isWhitespace = (control.value || '').trim().length === 0;

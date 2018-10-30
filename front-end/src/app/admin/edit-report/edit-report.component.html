@@ -12,7 +12,7 @@
                     <mat-form-field appearance="fill" style="width:80%">
                       <mat-label>Organization</mat-label>
                       <mat-select formControlName="organization">
-                        <mat-option (click)="selectOrg()" *ngFor="let organization of organizations" value="{{organization.id}}">{{organization.name}}</mat-option>
+                        <mat-option (click)="selectOrg()" *ngFor="let organization of organizations" value="{{organization._id}}">{{organization.name}}</mat-option>
                       </mat-select>
                       <mat-error>
                         Organization is <strong>required</strong>

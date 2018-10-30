@@ -1,10 +1,10 @@
 [
   {
-    "id": "0",
+    "_id": "0",
     "name": "Data Source 1"
   },
   {
-    "id": "1",
+    "_id": "1",
     "name": "Data Source 2"
   }
 ]

@@ -87,8 +87,8 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     if (event === 1) {
       if (!this.users) {
         await this.getUsers();
+        await this.userService.setLocalUsers(this.users);
         this.usersInitialized = await true;
-
       }
     }
     if (event === 2) {
@@ -109,11 +109,21 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
   // gets users for this organization
   async getUsers() {
     this.users = await this.userService.getUsersByOrganization('orgID');
+    await this.userService.setLocalUsers(this.users);
   }
 
   // gets data rules for this organization
   async getRules() {
     this.rules = await this.dataruleService.getDataRules(this.organizationID);
+    this.dataSources = [];
+    for (const rule of this.rules) {
+      if (((this.dataSources.filter(datasource => {
+        return datasource._id === rule.datasource._id;
+      })).length === 0)) {
+        this.dataSources.push(rule.datasource);
+      }
+    }
+    console.log(this.dataSources);
   }
 
   goToUser(userId) {
@@ -134,7 +144,6 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
   }
 
   onSearch() {
-    console.log(this.filterForm.value);
     this.paginationService.resetPage();
     const temp = this.filterForm.value;
     this.searchName = temp.name;
@@ -166,7 +175,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.organizationService.DeleteOrganization(this.organizationID);
+        this.organizationService.deleteOrganization(this.organizationID);
         this.router.navigate(['../list'], { relativeTo: this.route });
       }
     });
@@ -178,7 +187,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.dataruleService.deleteDataRule(datarule.id);
+        this.dataruleService.deleteDataRule(datarule._id);
       }
     });
   }

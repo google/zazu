@@ -5,7 +5,7 @@ import * as DataViewModel from './data.viewmodel';
 
   // What I expect to get back for Viewer Report Details
   export interface Report {
-    id: string;
+    _id: string;
     name: string;
     link: string;
     organization: OrganizationViewModel.SimpleOrganization;
@@ -16,7 +16,7 @@ import * as DataViewModel from './data.viewmodel';
   // What I expect to get back for the report list
   // Also used for searching & filtering
   export interface SimpleReport {
-    id: string;
+    _id: string;
     name: string;
     organization: OrganizationViewModel.SimpleOrganization;
     date: Date;
@@ -24,7 +24,7 @@ import * as DataViewModel from './data.viewmodel';
 
   // What I expect to get back when getting the report with meta data in Admin Report Details
   export interface ReportWithMetaData {
-    id: string;
+    _id: string;
     name: string;
     link: string;
     organization: OrganizationViewModel.SimpleOrganization;
@@ -41,19 +41,18 @@ import * as DataViewModel from './data.viewmodel';
     datastudioLink: string;
     organizationID: string;
     datasources: DataViewModel.DataSource[];
-    datastudioId: string;
   }
 
   // View Model for editing report
   export interface EditReport {
-    id: string;
+    _id: string;
     name: string;
-    link: string;
+    datastudioLink: string;
     organizationID: string;
     datasources: DataViewModel.DataSource[];
   }
 
   // View Model for deleteing report
   export interface DeleteReport {
-    id: string;
+    _id: string;
 }

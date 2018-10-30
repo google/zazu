@@ -25,7 +25,6 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   toggleMenu() {
     this.minimized = !this.minimized;
-    console.log('toggled');
   }
 
   ngOnDestroy() {

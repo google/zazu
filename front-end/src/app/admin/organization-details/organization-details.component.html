@@ -107,7 +107,7 @@
                       <p>Token: {{rule.token}}</p>
                       <div class="buttons">
                         <button mat-button color="danger" (click)="deleteRule(rule)">Delete</button>
-                        <button mat-button color="primary" (click)="editRule(rule.id)">Edit</button>
+                        <button mat-button color="primary" (click)="editRule(rule._id)">Edit</button>
                       </div>
                     </mat-expansion-panel>
                     <br>
@@ -136,7 +136,7 @@
                       <mat-form-field appearance="outline" class="select">
                         <mat-select formControlName="selectedDataSource">
                           <mat-option value="All">All</mat-option>
-                          <mat-option *ngFor="let datasource of dataSources" value="{{datasource.id}}">{{datasource.name}}</mat-option>
+                          <mat-option *ngFor="let datasource of dataSources" value="{{datasource._id}}">{{datasource.name}}</mat-option>
                         </mat-select>
                       </mat-form-field>
                       <br>
@@ -152,7 +152,7 @@
                     </mat-radio-group>
                   </div>
                   <div class="add-button">
-                    <button routerLink="../new-data-rule" mat-fab class="button-fab" color="primary-button"> <i class="material-icons plus-icon">
+                    <button routerLink="./new-rule" mat-fab class="button-fab" color="primary-button"> <i class="material-icons plus-icon">
                         add
                       </i>
                       <i class="material-icons back-icon">

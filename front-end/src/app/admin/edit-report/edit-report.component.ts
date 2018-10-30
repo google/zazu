@@ -49,15 +49,15 @@ export class EditReportComponent implements OnInit {
       this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();
       this.datasources = await this.datarulesService.getAllDataSourceForOrganization(
         this.reportID);
-      this.report = await this.reportService.getReport('id');
-      this.organizationID = this.report.organization.id;
+      this.report = await this.reportService.getReport(this.reportID);
+      this.organizationID = this.report.organization._id;
       if (this.organizationID) {
         this.selectedOrg = this.organizations.find(org => {
-          return org.id === this.organizationID;
+          return org._id === this.organizationID;
         });
       }
       this.reportInfoForm = this.formBuilder.group({
-        organization: [ this.report.organization.id, Validators.required],
+        organization: [ this.report.organization._id, Validators.required],
         name: [this.report.name, [Validators.required, this.noWhitespaceValidator]],
         datastudioLink: [this.report.link, [Validators.required, this.noWhitespaceValidator]],
         datasourceRows: this.formBuilder.array(
@@ -68,9 +68,8 @@ export class EditReportComponent implements OnInit {
       const control = <FormArray>this.reportInfoForm.controls['datasourceRows'];
       control.removeAt(0);
       for ( const datasource of this.report.datasources) {
-        this.addNewRow(datasource.name, datasource.id);
+        this.addNewRow(datasource.name, datasource._id);
       }
-      console.log(this.reportInfoForm.value);
     } catch (error) {
       console.log(error);
     }
@@ -95,7 +94,7 @@ export class EditReportComponent implements OnInit {
 
   selectOrg() {
     this.selectedOrg = this.organizations.find(org => {
-      return org.id === this.orgForm.value.organization;
+      return org._id === this.orgForm.value.organization;
     });
   }
 
@@ -128,13 +127,13 @@ export class EditReportComponent implements OnInit {
   onSubmit() {
     const rForm = this.reportInfoForm.value;
     const report = {
-      id: this.reportID,
-      organization: this.organizationID,
+      _id: this.reportID,
+      organizationID: this.organizationID,
       name: rForm.name,
       datastudioLink: rForm.datastudioLink,
       datasources: rForm.datasourceRows,
     };
-
+    this.reportService.editReport(report);
     console.log(report);
   }
 }

@@ -1,3 +1,4 @@
+import { UserService } from 'src/app/shared/services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { OrganizationService } from './../../shared/services/organization.service';
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
@@ -29,7 +30,8 @@ export class CreateNewUserComponent implements OnInit {
     private organizationService: OrganizationService,
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userService: UserService
   ) {}
   sub: any;
   roleSelected;
@@ -86,18 +88,19 @@ export class CreateNewUserComponent implements OnInit {
     const newUser: UserViewModel.CreateNewUser = {
       firstName : secondForm.firstName,
       lastName : secondForm.lastName,
-      googleId : secondForm.email,
+      googleID : secondForm.email,
       secondaryEmail: secondForm.secondaryEmail,
       organizations : orgs,
       role: firstForm.role
     };
+    this.userService.createNewUser(newUser);
     console.log(newUser);
   }
 
   openDialog(stepper: MatStepper) {
     if (this.roleSelected === 'viewer') {
       this.selectedOrganizationNames = this.organizations.filter(org => {
-        return this.selectedOrganizationIds.includes(org.id);
+        return this.selectedOrganizationIds.includes(org._id);
       });
     }
     const dialogRef = this.dialog.open(NewUserOrganizationConfirmation, {
@@ -105,7 +108,6 @@ export class CreateNewUserComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(true);
       if (result) {
         this.stepper.next();
       }

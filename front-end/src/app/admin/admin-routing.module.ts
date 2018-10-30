@@ -38,7 +38,6 @@ const adminRoutes: Routes = [
           { path: '', redirectTo: 'list' },
           { path: 'list', component: OrganizationListComponent },
           { path: 'new-organization', component: CreateNewOrganizationComponent},
-          { path: 'new-data-rule', component: CreateNewDataruleComponent},
           { path: 'share-report', component: ShareReportComponent},
           { path: ':id', component: OrganizationDetailsComponent },
           { path: ':id/new-user', component: CreateNewUserComponent},
@@ -60,6 +59,10 @@ const adminRoutes: Routes = [
             path: ':id/u/:userID/r/:reportID',
             component: AdminReportDetailsComponent
           },
+          {
+            path: ':id/u/:userID/r/:reportID/edit-report',
+            component: EditReportComponent
+          }
         ]
       },
       {

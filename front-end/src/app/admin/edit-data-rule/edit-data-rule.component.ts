@@ -1,9 +1,11 @@
+import { OrganizationService } from 'src/app/shared/services/organization.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { DatarulesService } from './../../shared/services/datarules.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as DataViewModel from '../../shared/view-models/data.viewmodel';
+
 
 
 @Component({
@@ -18,6 +20,8 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private datarulesService: DatarulesService,
     private route: ActivatedRoute,
+    private organizationService: OrganizationService,
+    private dataruleService: DatarulesService
   ) {}
   identifiers: string[];
   organizationId;
@@ -25,19 +29,17 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
   dataRules: DataViewModel.DataRule[];
   dataRule: DataViewModel.DataRule;
   dataRuleId;
+  organization;
   async ngOnInit() {
     try {
       this.sub = this.route.params.subscribe(params => {
         this.organizationId = params['id'];
         this.dataRuleId = params['ruleID'];
       });
-      // ****** Remember to do change this to only get the item without using the list
-      console.log(this.dataRuleId);
       this.dataRules = await this.datarulesService.getDataRules('orgID');
       this.dataRule = this.dataRules.find( element => {
-        return element.id === this.dataRuleId;
+        return element._id === this.dataRuleId;
       });
-      console.log(this.dataRule);
       this.datasources = await this.datarulesService.getAllDataSourceForOrganization(
         'id'
       );
@@ -55,8 +57,10 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
         condition: [this.dataRule.condition, Validators.required],
         token: [this.dataRule.token, [Validators.required,  this.noWhitespaceValidator]]
       });
-      console.log('Initialized');
-    } catch (error) {}
+      this.organization = await this.organizationService.getLocalOrganization(this.organizationId);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   ngOnDestroy() {
@@ -74,14 +78,15 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
   onSubmit() {
     const form = this.dataruleFormGroup.value;
     const datarule = {
-      id: this.dataRuleId,
+      _id: this.dataRuleId,
       name: form.name,
-      datasource: form.datasource,
+      datasourceID: form.datasource,
       identifier: form.identifier,
       condition: form.condition,
       token: form.token,
-      organization: this.organizationId
+      organizationID: this.organizationId
     };
+    this.dataruleService.editDataRule(datarule);
     console.log(datarule);
   }
 

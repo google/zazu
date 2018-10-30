@@ -28,7 +28,8 @@ export class CreateNewReportComponent implements OnInit {
     private router: Router,
     private organizationService: OrganizationService,
     private formBuilder: FormBuilder,
-    private datarulesService: DatarulesService
+    private datarulesService: DatarulesService,
+    private reportService: ReportService
   ) {}
   reports: ReportViewModel.SimpleReport[];
   organizations: OrganizationViewModel.SimpleOrganization[];
@@ -41,7 +42,6 @@ export class CreateNewReportComponent implements OnInit {
 
   async ngOnInit() {
     try {
-      this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();
       this.datasources = await this.datarulesService.getAllDataSourceForOrganization(
         'id'
       );
@@ -58,12 +58,15 @@ export class CreateNewReportComponent implements OnInit {
       });
       this.sub = this.route.params.subscribe(params => {
         this.organizationID = params['id'];
-        if (this.organizationID) {
-          this.selectedOrg = this.organizations.find(org => {
-            return org.id === this.organizationID;
-          });
-        }
       });
+      if (this.organizationID) {
+        this.selectedOrg = await this.organizationService.getLocalOrganization(
+          this.organizationID
+        );
+        console.log(this.selectedOrg);
+      } else {
+        this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();
+      }
       console.log(this.reportInfoForm.controls.datasourceRows);
     } catch (error) {
       console.log(error);
@@ -77,7 +80,7 @@ export class CreateNewReportComponent implements OnInit {
   initItemRows() {
     return this.formBuilder.group({
       name: ['', [Validators.required]],
-      datastudioId: ['', [Validators.required, this.noWhitespaceValidator]]
+      _id: ['', [Validators.required, this.noWhitespaceValidator]]
     });
   }
 
@@ -93,7 +96,7 @@ export class CreateNewReportComponent implements OnInit {
 
   selectOrg() {
     this.selectedOrg = this.organizations.find(org => {
-      return org.id === this.orgForm.value.organization;
+      return org._id === this.orgForm.value.organization;
     });
   }
 
@@ -134,9 +137,9 @@ export class CreateNewReportComponent implements OnInit {
       name: rForm.name,
       datastudioLink: rForm.datastudioLink,
       datasources: rForm.datasourceRows,
-      organization: organization
+      organizationID: organization
     };
-
+    this.reportService.createNewReport(report);
     console.log(report);
   }
 }

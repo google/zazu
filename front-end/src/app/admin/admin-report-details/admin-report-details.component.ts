@@ -27,8 +27,8 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
   organizationID;
   userID;
   reportID;
-  organization: OrganizationViewModel.SimpleOrganization = null;
-  user: UserViewModel.SimpleUserView = undefined;
+  organization = null;
+  user = undefined;
   report: ReportViewModel.ReportWithMetaData = null;
   userView: boolean;
   viewInitialized = false;
@@ -43,13 +43,16 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
     this.report = await this.reportService.getReport('reportID');
     if (this.userID !== undefined) {
       this.userView = true;
-      this.user = await this.userService.getUser('userID');
+      this.user = await this.userService.getLocalUser(this.userID);
     } else {
       this.userView = false;
+      this.user = false;
     }
-    this.organization = await this.organizationService.getOrganizationById(
-      'orgID'
-    );
+    if (this.organizationID) {
+      this.organization = await this.organizationService.getLocalOrganization(this.organizationID);
+    } else {
+      this.organization = false;
+    }
     this.viewInitialized = true;
   }
 

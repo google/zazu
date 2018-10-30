@@ -63,16 +63,16 @@ export class ReportService {
    * Create new Report
    * @param report - report object
    */
-  public async CreateNewReport(report: ReportViewModel.Report) {
-    return await null;
+  public async createNewReport(report: ReportViewModel.CreateNewReport) {
+    return await ((this.http.post(this.URL + 'createReport/', report)).toPromise());
   }
 
   /**
    * Editing Report
    * @param report - report object
    */
-  public async EditReport(report: ReportViewModel.EditReport) {
-    return await null;
+  public async editReport(report: ReportViewModel.EditReport) {
+    return await ((this.http.post(this.URL + 'editReport/', report)).toPromise());
   }
 
   /**
@@ -80,7 +80,6 @@ export class ReportService {
    * @param reportID - ID of the report you want to delete
    */
   public async deleteReport(reportID: string) {
-    console.log('Report Deleted: ' + reportID);
-    return await null;
+    return await ((this.http.post(this.URL + 'deleteReport/', reportID)).toPromise());
   }
 }

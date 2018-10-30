@@ -13,7 +13,6 @@ export class SearchNamePipe implements PipeTransform {
         const temp = value.filter(
           (el: any) => el.name.toLowerCase().indexOf(input) > -1
         );
-        console.log(temp.length);
         return temp;
       }
       return value;

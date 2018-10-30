@@ -17,7 +17,7 @@
     <div *ngIf="reports != null ">
       <div class="list">
         <div *ngFor="let report of reports | reportList: searchName: selectedOrganization : sortValue :  pagination.currentPage" class="card">
-          <div class="container" (click)="reportClicked(report.id)">
+          <div class="container" (click)="reportClicked(report._id)">
             <h4 class="title"><strong> {{report.name}}</strong></h4>
             <p class="secondary">{{report.organization.name}}</p>
             <p class="content"> {{report.date | date}} </p>
@@ -50,7 +50,7 @@
         <mat-form-field appearance="outline" class="select" *ngIf="organizations.length > 1">
           <mat-select formControlName="selectedOrganization">
             <mat-option value="All">All</mat-option>
-            <mat-option *ngFor="let organization of organizations" value="{{organization.id}}">{{organization.name}}</mat-option>
+            <mat-option *ngFor="let organization of organizations" value="{{organization._id}}">{{organization.name}}</mat-option>
           </mat-select>
         </mat-form-field>
         <br>

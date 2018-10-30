@@ -75,7 +75,6 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   onSearch() {
-    console.log(this.filterForm.value);
     this.paginationService.resetPage();
     const temp = this.filterForm.value;
     this.searchName = temp.name;

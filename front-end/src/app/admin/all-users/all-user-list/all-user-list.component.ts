@@ -19,6 +19,7 @@ export class AllUserListComponent implements OnInit {
   async ngOnInit() {
     try {
       this.users = await  this.userService.timeout();
+      this.userService.setLocalUsers(this.users);
       this.viewInitialized = true;
     } catch (error) {
       console.log('error');

@@ -5,7 +5,6 @@ import { UserService } from './../../shared/services/user.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as UserViewModel from '../../shared/view-models/user.viewmodel';
-import * as OrganizationViewModel from '../../shared/view-models/organization.viewmodel';
 import * as ReportViewModel from '../../shared/view-models/report.viewmodel';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
@@ -30,7 +29,7 @@ export class UserDetailsComponent implements OnInit {
   orgID: string;
   reports: ReportViewModel.SimpleReport[];
 
-  organization: OrganizationViewModel.SimpleOrganization; // Name of the org from previous view for breadcrumbs purposes
+  organization; // Name of the org from previous view for breadcrumbs purposes
   user: UserViewModel.User;
   viewInitialized = false;
 
@@ -40,9 +39,11 @@ export class UserDetailsComponent implements OnInit {
         this.orgID = params['id'];
         this.userID = params['userID'];
       });
-      this.organization = await this.organizationService.getOrganizationById(
-        this.orgID
-      );
+      if (this.orgID) {
+        this.organization = await this.organizationService.getLocalOrganization(this.orgID);
+      } else {
+        this.organization = false;
+      }
       this.user = await this.userService.getUser(this.userID);
       this.reports = await this.reportService.getReportByOrganizations([
         'orgIDs'

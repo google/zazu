@@ -3,10 +3,10 @@ import * as OrganizationViewModel from '../../shared/view-models/organization.vi
 
 // Will be used on User Details View
 export interface User {
-  id: string;
+  _id: string;
   firstName: string;
   lastName: string;
-  googleId: string;
+  googleID: string;
   secondaryEmail: string;
   /* Organizations is just a string of organizations ID that the user have access to */
   /* If the user is an admin, ogranizations is null */
@@ -16,7 +16,7 @@ export interface User {
 
 // Will be used on the User List Cards
 export interface SimpleUserView {
-  id: string;
+  _id: string;
   firstName: string;
   lastName: string;
   organizations: OrganizationViewModel.SimpleOrganization[];
@@ -27,7 +27,7 @@ export interface SimpleUserView {
 export interface CreateNewUser {
   firstName: string;
   lastName: string;
-  googleId: string;
+  googleID: string;
   secondaryEmail: string;
   organizations: string[];
   role: string;
@@ -35,16 +35,16 @@ export interface CreateNewUser {
 
 // View model for editing a user
 export interface EditUser {
-  id: string;
+  _id: string;
   firstName: string;
   lastName: string;
-  googleId: string;
+  googleID: string;
   secondaryEmail: string;
-  organization: OrganizationViewModel.SimpleOrganization[];
+  organizations: string[];
   role: string;
 }
 
 // View Model for deleting a user
 export interface DeleteUser {
-  id: string;
+  _id: string;
 }

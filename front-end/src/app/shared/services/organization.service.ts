@@ -10,6 +10,8 @@ export class OrganizationService {
 
   constructor(private http: HttpClient) {}
 
+  organizations = [];
+
   URL = '../../../assets/example-data/';
 
   /**
@@ -56,29 +58,56 @@ export class OrganizationService {
    * Method for creating new orgnization
    * @param organization - organization object
    */
-  public async CreateNewOrganization(organization: OrganizationViewModel.CreateNewOrganization) {
+  public async createNewOrganization(organization: OrganizationViewModel.CreateNewOrganization) {
     console.log('Organization Created');
-    console.log(organization);
-    return await null;
+    return await ((this.http.post(this.URL + 'createOrganization/', organization)).toPromise());
   }
 
   /**
    * Method for editing organization
    * @param organization - organiztion object
    */
-  public async EditOrganization(organization: OrganizationViewModel.EditOrganization) {
+  public async editOrganization(organization: OrganizationViewModel.EditOrganization) {
     console.log('Organization Edit: ');
-    console.log(organization);
-    return await null;
+    return await ((this.http.post(this.URL + 'editOrganization/', organization)).toPromise());
   }
 
   /**
    * Method for deleting organization
    * @param organizationID - ID of the organization you want to delete
    */
-  public async DeleteOrganization(organizationID: string) {
+  public async deleteOrganization(organizationID: string) {
     console.log('Organization Delete: ' + organizationID);
-    return await null;
+    return await ((this.http.post(this.URL + 'deleteOrganization/', organizationID)).toPromise());
   }
 
+  /********** LOCAL ORGANIZATION METHODS FOR OPTIMIZATION AND LESS API CALLS  **********/
+
+  /**
+   * Gets the organization based on local variable.
+   * This is created for breadcrumbs mostly
+   * @param id organization ID
+   */
+  public async getLocalOrganization(id) {
+    console.log('local org called');
+    const organization = this.organizations.find(org => {
+      return org._id === id;
+    });
+    if (!organization) {
+      try {
+        this.organizations = await this.getAllOrganizations();
+        this.getLocalOrganization(id);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    return organization;
+  }
+
+  /**
+   * Set Local Org
+   */
+  public setLocalOrg(org) {
+    this.organizations = org;
+  }
 }

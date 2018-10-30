@@ -18,7 +18,7 @@
               <mat-form-field appearance="fill" style="width:80%">
                 <mat-label>Select Organization</mat-label>
                 <mat-select formControlName="organization">
-                  <mat-option (click)="selectOrg()" *ngFor="let organization of organizations" value="{{organization.id}}">{{organization.name}}</mat-option>
+                  <mat-option (click)="selectOrg()" *ngFor="let organization of organizations" value="{{organization._id}}">{{organization.name}}</mat-option>
                 </mat-select>
                 <mat-error>
                   Organization is <strong>required</strong>
@@ -105,7 +105,7 @@
                   </i>
                   <mat-form-field appearance="fill" style="width:80%">
                     <mat-label>Data Studio ID</mat-label>
-                    <input formControlName="datastudioId" matInput placeholder="Data Studio ID">
+                    <input formControlName="_id" matInput placeholder="Data Studio ID">
                     <mat-error>
                       Data Studio ID is <strong>required</strong>
                     </mat-error>

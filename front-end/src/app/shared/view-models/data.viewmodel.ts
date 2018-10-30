@@ -4,7 +4,7 @@ import * as OrganizationViewModel from './organization.viewmodel';
  * Data Source
  */
 export interface DataSource {
-  id: string;
+  _id: string;
   name: string;
 }
 
@@ -12,7 +12,7 @@ export interface DataSource {
  * View model that i used for listing data rule
  */
 export interface DataRule {
-  id: string;
+  _id: string;
   name: string;
   organization: OrganizationViewModel.SimpleOrganization;
   datasource: DataSource;
@@ -36,7 +36,7 @@ export interface CreateNewDataRule {
 // ????????????? Do we need to specify the organization ID for this? Since we already know its for a specific organization anyway.
 // ????????????? I think all we need is the data rule id?
 export interface EditDataRule {
-  id: string;
+  _id: string;
   name: string;
   organizationID: string;
   datasourceID: string;
@@ -47,5 +47,5 @@ export interface EditDataRule {
 
 // View Model for deleting data rule
 export interface DeleteDataRule {
-  id: string;
+  _id: string;
 }

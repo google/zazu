@@ -1,8 +1,8 @@
+import { AuthGuard } from './auth/auth-guard.service';
 import { PaginationService } from './shared/services/pagination.service';
 import { AdminGuard } from './auth/admin-guard.service';
 import { AuthService } from './auth/auth.service';
 import { AppRoutingModule } from './app-routing.module';
-import { AngularMaterialModule } from './../angular-material/angular-material.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -16,9 +16,11 @@ import { ViewerComponent } from './viewer/viewer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
 import { LogoutComponent } from './auth/logout/logout.component';
+import { UnauthorizedComponent } from './auth/unauthorized/unauthorized.component';
+import { RedirectComponent } from './auth/redirect/redirect.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent,  ViewerComponent, LogoutComponent],
+  declarations: [AppComponent, LoginComponent,  ViewerComponent, LogoutComponent, UnauthorizedComponent, RedirectComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -34,7 +36,8 @@ import { LogoutComponent } from './auth/logout/logout.component';
     UserService,
     ReportService,
     OrganizationService,
-    PaginationService
+    PaginationService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })
