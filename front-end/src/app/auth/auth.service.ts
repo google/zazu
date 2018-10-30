@@ -23,7 +23,7 @@ export class AuthService {
    */
   public async isAuthenticated() {
     const isAuthenticated = await this.isLoggedIn();
-    return isAuthenticated.isLoggedIn;
+    return await isAuthenticated.isLoggedIn;
   }
 
   /**
