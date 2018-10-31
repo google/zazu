@@ -114,6 +114,18 @@ router.get('/getOrganizationById/:orgid', function(req, res) {
     });
 });
 
+router.post('/createOrganization/:org', function(req, res) {
+    console.log(req.params.org);
+    // Organization.create(req.params.org, function(err, results) {
+    //   if (err) {
+    //     res.send({"status": "500", "message": err.message });
+    //   }
+    //   else {
+    //     res.send({"status": "200", "message": results })
+    //   }
+    // });
+});
+
 router.get('/getAllReports', function(req, res) {
 
     var simpleReports = [];
