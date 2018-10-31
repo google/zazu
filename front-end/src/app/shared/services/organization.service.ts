@@ -63,7 +63,7 @@ export class OrganizationService {
    */
   public async createNewOrganization(organization: OrganizationViewModel.CreateNewOrganization) {
     console.log('Organization Created');
-    return await ((this.http.post(this.URL + 'createOrganization/', organization)).toPromise());
+    return await ((this.http.post('/api/' + 'createOrganization', organization)).toPromise());
   }
 
   /**
@@ -81,7 +81,7 @@ export class OrganizationService {
    */
   public async deleteOrganization(organizationID: string) {
     console.log('Organization Delete: ' + organizationID);
-    return await ((this.http.post(this.URL + 'deleteOrganization/', organizationID)).toPromise());
+    return await ((this.http.post('/api/' + 'deleteOrganization', {'orgID': organizationID })).toPromise());
   }
 
   /********** LOCAL ORGANIZATION METHODS FOR OPTIMIZATION AND LESS API CALLS  **********/

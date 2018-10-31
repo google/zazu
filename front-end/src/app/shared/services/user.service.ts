@@ -55,7 +55,7 @@ export class UserService {
    * @param user - user object for creating new user
    */
   public async createNewUser(user: UserViewModel.CreateNewUser) {
-    return await ((this.http.post(this.URL + 'createNewUser/', user)).toPromise());
+    return await ((this.http.post('/api/' + 'createNewUser/', user)).toPromise());
   }
 
   /**

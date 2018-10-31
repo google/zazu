@@ -24,7 +24,7 @@ var User = require('../models/user');
 var Datasource = require('../models/datasource');
 var Organization = require('../models/organization');
 var Report = require('../models/report');
-// var Rule = require('../../src/app/models/rule');
+var Rule = require('../models/rule');
 
 var utils = require('../utilities/utils');
 var config = require('../utilities/config');
@@ -78,6 +78,103 @@ router.get('/getUsersByOrganization/:id', function(req, res) {
   });
 });
 
+router.post('/createNewUser', function(req, res) {
+  var newUser = req.body;
+
+  User.create(newUser, function(err, results) {
+
+    var newUserId = results._id;
+
+    if (err) {
+      res.send({"status": "500", "message": err.message });
+    }
+    else {
+
+      var addNewUser = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.users_2` (user_id, googleID, role) VALUES ("' + newUserId + '", "' + newUser.googleID + '", "' + newUser.role + '")';
+
+      bigquery.createQueryStream(addNewUser)
+          .on('error', function(err) {
+             res.send({"status": "500", "message": err.message });
+          })
+          .on('data', function(data) {
+
+          })
+          .on('end', function() {
+
+            if (newUser.role === "admin") {
+
+              var findAllOrgs = 'SELECT organization_id FROM `' +  config.bq_instance + '.' + config.bq_dataset + '.vendors_2`';
+
+              bigquery.createQueryStream(findAllOrgs)
+                  .on('error', function(err) {
+                     res.send({"status": "500", "message": err.message });
+                  })
+                  .on('data', function(data) {
+
+                    var addNewAdminVendor = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' + newUserId + '", "' + data.organization_id + '")';
+
+                    bigquery.createQueryStream(addNewAdminVendor)
+                        .on('error', function(err) {
+                           res.send({"status": "500", "message": err.message });
+                        })
+                        .on('data', function(data) {
+                        })
+                        .on('end', function() {
+                        });
+                  })
+                  .on('end', function() {
+                    res.send({"status": "200", "userID": newUserId })
+                  });
+            }
+            else {
+              var findOrgIds = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.vendors_2` WHERE organization IN (';
+
+              for (var i = 0; i < (newUser.organizations.length - 1); i++) {
+                findOrgIds += '"' + newUser.organizations[i].name + '", ';
+
+                Organization.updateOne({ name: newUser.organizations[i].name }, { $inc: { usersCount: 1 } }, function(err1, res1) {
+
+                  if (err1) {
+                    res.send({"status": "500", "message": err1.message });
+                  }
+                });
+
+              }
+              findOrgIds += '"' + newUser.organizations[newUser.organizations.length - 1].name + '")';
+              Organization.updateOne({ name: newUser.organizations[newUser.organizations.length - 1].name }, { $inc: { usersCount: 1 } }, function(err1, res1) {
+
+                if (err1) {
+                  res.send({"status": "500", "message": err1.message });
+                }
+              });
+
+              bigquery.createQueryStream(findOrgIds)
+                  .on('error', function(err) {
+                     res.send({"status": "500", "message": err.message });
+                  })
+                  .on('data', function(data) {
+                    var addNewAdminVendor = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' + newUserId + '", "' + data.organization_id + '")';
+
+                    bigquery.createQueryStream(addNewAdminVendor)
+                        .on('error', function(err) {
+                           res.send({"status": "500", "message": err.message });
+                        })
+                        .on('data', function(data) {
+
+                        })
+                        .on('end', function() {
+                        });
+                  })
+                  .on('end', function() {
+                    res.send({"status": "200", "userID": newUserId })
+
+                  });
+
+            }
+          });
+    }
+});
+
 router.get('/getAllOrganizations', function(req, res) {
 
     Organization.find(function(err, docs) {
@@ -113,6 +210,128 @@ router.get('/getOrganizationById/:orgid', function(req, res) {
       res.send(docs);
     });
 });
+
+router.post('/createOrganization', function(req, res) {
+
+    var newOrg = req.body;
+    newOrg.reportsCount = "0";
+    newOrg.usersCount = "0";
+    newOrg.datarulesCount = "0";
+
+    Organization.create(newOrg, function(err, results) {
+      var newOrgId = results._id;
+
+      if (err) {
+        res.send({"status": "500", "message": err.message });
+      }
+      else {
+        var insertRow = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.vendors_2` (organization_id, organization) VALUES ("' + newOrgId + '","' + newOrg.name + '")';
+
+        bigquery.createQueryStream(insertRow)
+            .on('error', function(err) {
+               res.send({"status": "500", "message": err.message });
+            })
+            .on('data', function(data) {
+
+            })
+            .on('end', function() {
+
+              var retailerIdList = [];
+              var getRetailerIds = 'SELECT user_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.users_2` WHERE role = "admin"';
+
+              bigquery.createQueryStream(getRetailerIds)
+                .on('error', function(err) {
+                   res.send({"status": "500", "message": err.message });
+                })
+                .on('data', function(data) {
+
+                   var user_id = data.user_id;
+                   var addRetailerAccesses = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' + user_id + '", "' + newOrgId + '")';
+
+                   bigquery.createQueryStream(addRetailerAccesses)
+                     .on('error', function(err) {
+                        res.send({"status": "500", "message": err.message });
+                     })
+                     .on('data', function(data) {
+
+                     })
+                     .on('end', function() {
+
+                       User.updateOne({ _id: user_id }, { $push: { organizations: { _id: newOrgId, name: newOrg.name } } }, function(err, res1) {
+                         if (err) {
+                           console.log(err);
+                           res.send({"status": "500", "message": err.message });
+                         }
+                       });
+                     });
+                })
+                .on('end', function() {
+                  res.send({"status": "200", "orgID": newOrgId })
+                })
+
+            });
+      }
+    });
+});
+
+router.post('/deleteOrganization', function(req, res) {
+
+    var idToDelete = req.body.orgID
+
+    Organization.deleteOne({ _id: idToDelete }, function(err, results) {
+      if (err) {
+        res.send({"status": "500", "message": err.message });
+      }
+      else {
+        var delOrg = 'DELETE FROM `' + config.bq_instance + '.' + config.bq_dataset + '.vendors_2` WHERE organization_id = "' + req.body.orgID + '"';
+
+        bigquery.createQueryStream(delOrg)
+          .on('error', function(err) {
+             res.send({"status": "500", "message": err.message });
+          })
+          .on('data', function(data) {
+
+          })
+          .on('end', function() {
+
+            var delCurrentVendorView = 'DELETE FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor_2` WHERE organization_id = "' + req.body.orgID + '"';
+
+            bigquery.createQueryStream(delCurrentVendorView)
+              .on('error', function(err) {
+                 res.send({"status": "500", "message": err.message });
+              })
+              .on('data', function(data) {
+
+              })
+              .on('end', function() {
+
+                var delUserVendor = 'DELETE FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_vendor_roles_2` WHERE organization_id = "' + req.body.orgID + '"';
+
+                bigquery.createQueryStream(delUserVendor)
+                  .on('error', function(err) {
+                     res.send({"status": "500", "message": err.message });
+                  })
+                  .on('data', function(data) {
+
+                  })
+                  .on('end', function() {
+                    User.updateMany( { organizations: { $elemMatch : { _id: idToDelete } } }, { $pull: { organizations: { $elemMatch : { _id: idToDelete } } } }, function(err, res1) {
+                      if (err) {
+                        console.log(err);
+                        res.send({"status": "500", "message": err.message });
+                      }
+                      else {
+                        res.send({"status": "200", "results": results })
+                      }
+                    });
+                  });
+              });
+          });
+
+      }
+    });
+});
+
 
 router.get('/getAllReports', function(req, res) {
 
