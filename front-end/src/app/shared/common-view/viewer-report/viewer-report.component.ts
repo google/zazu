@@ -27,7 +27,7 @@ export class ViewerReportComponent implements OnInit, OnDestroy {
     this.sub = this.route.params.subscribe(params => {
       this.reportID = params['reportID'];
     });
-    this.report = await this.reportService.getReport('reportID');
+    this.report = await this.reportService.getReport('reportID', 'temp');
     this.reportsCount = await this.viewerService.reportsCount();
     this.initialized = await true;
   }

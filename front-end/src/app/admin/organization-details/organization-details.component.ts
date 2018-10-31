@@ -70,7 +70,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
       );
       console.log(this.organization);
       // gets reports for this organization
-      this.reports = await this.reportService.getReportByOrganization([this.organizationID]);
+      this.reports = await this.reportService.getReportByOrganization(this.organizationID);
 
       this.pageSubscription = this.paginationService.paginationChanged.subscribe(
         pagination => {
@@ -131,8 +131,8 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     this.router.navigate(['./u', userId], { relativeTo: this.route });
   }
 
-  goToReport(reportID) {
-    this.router.navigate(['./r', reportID], { relativeTo: this.route });
+  goToReport(report) {
+    this.router.navigate(['/admin/reports/r', report.reportID], { relativeTo: this.route, queryParams: { selectedOrg: report.orgID} } );
   }
 
   editRule(ruleID) {

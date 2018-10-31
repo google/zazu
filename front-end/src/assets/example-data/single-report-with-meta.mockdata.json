@@ -17,26 +17,12 @@
       "name": "The Old Navy"
     },
     "accessedBy": [{
-        "_id": 0,
-        "firstName": "Phop",
-        "lastName": "Ice"
-      },
-      {
-        "_id": 2,
-        "firstName": "Wen",
-        "lastName": "Dees"
-      }, {
-        "_id": 3,
-        "firstName": "Mack",
-        "lastName": "Donald"
-      }, {
-        "_id": 4,
-        "firstName": "Kay-ef",
-        "lastName": "Si"
-      }, {
-        "_id": 5,
-        "firstName": "Estar",
-        "lastName": "Bhuks"
-      }
+      "_id": "3",
+      "name": "The Old Navy"
+    },
+    {
+      "_id": "1",
+      "name": "The Lego Company"
+    }
     ]
   }

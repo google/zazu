@@ -31,7 +31,7 @@ export class ReportListComponent implements OnInit, OnDestroy, OnChanges {
   @Input()
   allowAdd: boolean;
   @Output()
-  reportID = new EventEmitter<string>();
+  report = new EventEmitter<any>();
   sub: any;
   pageSubscription: Subscription;
   organizations: OrganizationViewModel.SimpleOrganization[] = [];
@@ -49,6 +49,7 @@ export class ReportListComponent implements OnInit, OnDestroy, OnChanges {
 
   async ngOnInit() {
     try {
+      console.log(this.reports);
       this.paginationService.resetPage();
       this.sub = this.route.params.subscribe(params => {
         this.organizationID = params['id'];
@@ -78,12 +79,17 @@ export class ReportListComponent implements OnInit, OnDestroy, OnChanges {
           new FormControl('All')
         );
       }
+      console.log(this.organizations);
       this.formInitialize = true;
     }
   }
 
-  reportClicked(id: string) {
-    this.reportID.emit(id);
+  reportClicked(reportID, orgID) {
+    const report = {
+      reportID: reportID,
+      orgID: orgID
+    };
+    this.report.emit(report);
   }
 
   changeSort(sort) {

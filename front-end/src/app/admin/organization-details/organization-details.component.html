@@ -60,7 +60,7 @@
               </div>
 
 
-              <app-report-list [allowAdd]=true *ngIf="selectedTab === 0 && reportsInitialized && reports.length > 0 " [reports]="reports" (reportID)="goToReport($event)"
+              <app-report-list [allowAdd]=true *ngIf="selectedTab === 0 && reportsInitialized && reports.length > 0 " [reports]="reports" (report)="goToReport($event)"
                 style="display:flex; width: 100%; margin-bottom: 10px;"></app-report-list>
             </mat-tab>
             <mat-tab label="Users">

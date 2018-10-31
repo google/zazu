@@ -1,10 +1,11 @@
+
 <div class="breadcrumb-container">
   <div class="breadcrumb"> <span class="active"><i class="material-icons">
         assessment </i> Report List</span></div>
 </div>
 
 <div class="main-content-view" *ngIf="viewInitialized  && reports.length > 0">
-  <app-report-list [reports]="reports" [allowAdd]=true (reportID)="goToReport($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-report-list>
+  <app-report-list [reports]="reports" [allowAdd]=true (report)="goToReport($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-report-list>
 
 </div>
 
@@ -24,3 +25,4 @@
   <h2 class="title"> There are no reports.</h2>
   <h3 class="create-text" routerLink="../new-report"> Create new report</h3>
 </div>
+

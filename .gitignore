@@ -1,1 +1,3 @@
 node_modules/
+src/encryption
+src/utilities/config.js
