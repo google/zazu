@@ -20,8 +20,8 @@ export class DatarulesService {
     organizationID: string
   ): Promise<DataViewModel.DataRule[]> {
     return await this.http
-      .get<DataViewModel.DataRule[]>( this.URL +
-        'datarules.mockdata.json'
+      .get<DataViewModel.DataRule[]>( '/api' +
+        '/getDataRules/' + organizationID
       )
       .toPromise();
   }

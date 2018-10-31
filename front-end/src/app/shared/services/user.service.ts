@@ -20,7 +20,7 @@ export class UserService {
    *  Method for getting all users for all organizations
    */
   public async getAllUsers(): Promise<UserViewModel.SimpleUserView[]> {
-    return await ((this.http.get<UserViewModel.SimpleUserView[]>( this.URL + 'user-list.mockdata.json')).toPromise());
+    return await ((this.http.get<UserViewModel.SimpleUserView[]>( '/api' + '/getAllUsers')).toPromise());
   }
 
   /**
