@@ -19,7 +19,8 @@ export class OrganizationService {
    *  Primarily used in filters and breadcrumbs
    */
   public async getAllOrganizationsWithNoDetails(): Promise<OrganizationViewModel.SimpleOrganization[]> {
-    return await ((this.http.get<OrganizationViewModel.OrganizationDetails[]>( '/api' + '/getAllOrganizationsWithNoDetails')).toPromise());
+   return await ((this.http.get<OrganizationViewModel.OrganizationDetails[]>( '/api' + '/getAllOrganizationsWithNoDetails')).toPromise());
+   // return await ((this.http.get<OrganizationViewModel.OrganizationDetails[]>( this.URL + 'organizations.mockdata.json')).toPromise());
   }
 
 
@@ -28,6 +29,7 @@ export class OrganizationService {
    */
   public async getAllOrganizations(): Promise<OrganizationViewModel.OrganizationDetails[]> {
     return await ((this.http.get<OrganizationViewModel.OrganizationDetails[]>( '/api' + '/getAllOrganizations')).toPromise());
+    // return await ((this.http.get<OrganizationViewModel.OrganizationDetails[]>( this.URL + 'organizations.mockdata.json')).toPromise());
   }
 
  /**
@@ -36,6 +38,7 @@ export class OrganizationService {
   */
   public async getOrganizationById(id): Promise<OrganizationViewModel.OrganizationDetails> {
     return await  await ((this.http.get<OrganizationViewModel.OrganizationDetails>( '/api' + '/getOrganizationById/' + id)).toPromise());
+   // return await ((this.http.get<OrganizationViewModel.OrganizationDetails>( this.URL + 'single-organization.mockup.json')).toPromise());
   }
 
   /**

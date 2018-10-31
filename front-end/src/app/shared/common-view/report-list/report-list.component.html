@@ -11,14 +11,14 @@
     </div>
   </div>
   <p class="pagination" *ngIf="this.pagination" style="text-align: center"> <button mat-mini-fab (click)="previousPage()" color="white"
-    [disabled]="pagination.currentPage===1"> <i class="material-icons">
-      chevron_left
-    </i> </button>
-  {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)="nextPage() " [disabled]="pagination.currentPage === pagination.totalPages"
-    color="white"> <i class="material-icons">
-      chevron_right
-    </i> </button>
-</p>
+      [disabled]="pagination.currentPage===1"> <i class="material-icons">
+        chevron_left
+      </i> </button>
+    {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)="nextPage() " [disabled]="pagination.currentPage === pagination.totalPages"
+      color="white"> <i class="material-icons">
+        chevron_right
+      </i> </button>
+  </p>
 
 </div>
 <div class="right-main-content-view" *ngIf="formInitialize">
@@ -52,17 +52,22 @@
 
 
   <div class="add-button" *ngIf="allowAdd">
-    <button mat-fab class="button-fab" color="primary-button" *ngIf="organizationID" routerLink='new-report'> <i class="material-icons plus-icon">
-      add
-    </i>
-    <i class="material-icons back-icon">
-      assessment
-    </i></button>
-    <button mat-fab class="button-fab" color="primary-button" *ngIf="!organizationID" routerLink='../new-report'> <i class="material-icons plus-icon">
-      add
-    </i>
-    <i class="material-icons back-icon">
-      assessment
-    </i></button>
+    <button [matMenuTriggerFor]="menu" mat-fab class="button-fab" color="primary-button"> <i class="material-icons plus-icon">
+        add
+      </i>
+      <i class="material-icons back-icon">
+        assessment
+      </i></button>
   </div>
 </div>
+
+<mat-menu class="new-report-menu" #menu="matMenu" yPosition="above" [overlapTrigger]="false">
+  <button mat-menu-item routerLink="./new-report">
+    <mat-icon>create</mat-icon>
+    <span class="text">Create New Report</span>
+  </button>
+  <button mat-menu-item routerLink="./share-report">
+    <mat-icon>share</mat-icon>
+    <span  class="text">Share New Report</span>
+  </button>
+</mat-menu>

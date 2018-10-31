@@ -65,8 +65,8 @@ export class ViewerReportListComponent implements OnInit, OnDestroy {
 
   }
 
-  reportClicked(reportID: string) {
-      this.router.navigate(['../', reportID], { relativeTo: this.route });
+  reportClicked(reportID, orgID) {
+      this.router.navigate(['../', reportID], { relativeTo: this.route, queryParams: { selectedOrg: orgID} } );
   }
 
   changeSort(sort) {

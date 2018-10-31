@@ -25,7 +25,22 @@ export class ReportService {
     }
   }
 
-  /** */
+  /**
+   * Should be the same call as getAllReports()
+   * but this one keeps the org[]
+   */
+  public async getAllRawReports(): Promise<ReportViewModel.SimpleRawReport[]> {
+    return await this.http
+      .get<ReportViewModel.SimpleRawReport[]>(
+        this.URL + 'reports.mockdata.json'
+      )
+      .toPromise();
+  }
+
+  /**
+   * Seperates a report if it has more than one organization tied to it
+   * @param rawReports reports from server that has organization array
+   */
   private async cleanSimpleRawReport(
     rawReports: ReportViewModel.SimpleRawReport[]
   ): Promise<ReportViewModel.SimpleReport[]> {
@@ -55,43 +70,11 @@ export class ReportService {
   }
 
   /**
-   * Gets all the details(with meta data) for a specific report
-   * @param reportId - ID of the specific report
-   * @param orgID - ID of the organization whose report POV you want to show
-   */
-  public async getReport(
-    reportID,
-    orgID
-  ): Promise<ReportViewModel.ReportWithMetaData> {
-    return await this.http
-      .get<ReportViewModel.ReportWithMetaData>(
-        this.URL + 'single-report-with-meta.mockdata.json'
-      )
-      .toPromise();
-  }
-
-  /**
-   * Gets a specific report with no metadata
-   * @param reportId - ID of the specific report
-   * @param orgID - ID of the organization whose report POV you want to show
-   */
-  public async getReportNoMetaData(
-    reportID,
-    orgID
-  ): Promise<ReportViewModel.Report> {
-    return await this.http
-      .get<ReportViewModel.Report>(
-        this.URL + 'single-report-with-meta.mockdata.json'
-      )
-      .toPromise();
-  }
-
-  /**
    *  Gets the reports for a specific organization.
    * @param orgID ID of a specific organization
    * Used for Organization Details view
    */
-  public async getReportByOrganization(
+  public async getReportsByOrganization(
     orgID: string
   ): Promise<ReportViewModel.SimpleReport[]> {
     try {
@@ -116,20 +99,75 @@ export class ReportService {
   public async getReportByUser(
     userID: string
   ): Promise<ReportViewModel.SimpleReport[]> {
+    try {
+      const raw = await this.http
+        .get<ReportViewModel.SimpleRawReport[]>(
+          this.URL + 'reports.mockdata.json'
+        )
+        .toPromise();
+      const reports = await this.cleanSimpleRawReport(raw);
+      return reports;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  /**
+   * Gets all the details(with meta data) for a specific report and specific organization view
+   * @param reportId - ID of the specific report
+   * @param orgID - ID of the organization whose report POV you want to show
+   */
+  public async getReport(
+    reportID,
+    orgID
+  ): Promise<ReportViewModel.ReportWithMetaData> {
     return await this.http
-      .get<ReportViewModel.SimpleReport[]>(this.URL + 'reports.mockdata.json')
+      .get<ReportViewModel.ReportWithMetaData>(
+        this.URL + 'single-report-with-meta.mockdata.json',
+        {
+          params: {
+            reportID: reportID,
+            orgID: orgID
+          }
+        }
+      )
       .toPromise();
   }
 
   /**
-   *  Gets the reports for organization(s). Can be more than one
-   * @param orgIDs Array of the Organization IDs
+   * Gets all report details for editing report
+   * @param reportId - ID of the specific report
    */
-  public async getReportByOrganizations(
-    orgIDs: string[]
-  ): Promise<ReportViewModel.SimpleReport[]> {
+  public async getReportDetails(
+    reportID
+  ): Promise<ReportViewModel.ReportDetails> {
     return await this.http
-      .get<ReportViewModel.SimpleReport[]>(this.URL + 'reports.mockdata.json')
+      .get<ReportViewModel.ReportDetails>(
+        this.URL + 'single-report-details.mockdata.json'
+      )
+      .toPromise();
+  }
+
+  /**
+   * Gets a specific report with no metadata for a specific report and specific organization view
+   * @param reportId - ID of the specific report
+   * @param orgID - ID of the organization whose report POV you want to show
+   */
+  public async getReportNoMetaData(
+    reportID,
+    orgID
+  ): Promise<ReportViewModel.Report> {
+    return await this.http
+      .get<ReportViewModel.Report>(
+        this.URL + 'single-report-with-no-meta.mockdata.json',
+        {
+          params: {
+            reportID: reportID,
+            orgID: orgID
+          }
+        }
+      )
+
       .toPromise();
   }
 
@@ -138,7 +176,24 @@ export class ReportService {
    * @param report - report object
    */
   public async createNewReport(report: ReportViewModel.CreateNewReport) {
+    console.log('Report Created: ' + report);
     return await this.http.post(this.URL + 'createReport/', report).toPromise();
+  }
+
+  /**
+   * Share report by giving an organization access to it
+   * @param reportID report you want to share
+   * @param orgID orgID of you want to give access to this report
+   */
+  public async shareReport(reportID, orgID) {
+    const params = {
+      reportID: reportID,
+      orgID: orgID
+    };
+    console.log('Share Access for ' + JSON.stringify(params));
+    return await this.http
+      .post(this.URL + 'shareReport/', params)
+      .toPromise();
   }
 
   /**
@@ -150,12 +205,28 @@ export class ReportService {
   }
 
   /**
+   * Delete Organization Acccess for this report
+   * @param reportID - Report ID
+   * @param orgID - Organization ID of the organization in which should have their access revoked for this report
+   */
+  public async deleteOrgAccess(reportID, orgID) {
+    const params = {
+      reportID: reportID,
+      orgID: orgID
+    };
+    console.log('Delete Access for ' + JSON.stringify(params));
+    return await this.http
+      .post(this.URL + 'deleteOrgAccess/', params)
+      .toPromise();
+  }
+
+  /**
    * Delete Report
    * @param reportID - ID of the report you want to delete
    */
   public async deleteReport(reportID: string) {
     return await this.http
-      .post(this.URL + 'deleteReport/', reportID)
+      .post(this.URL + 'deleteReport/', { reportID: reportID })
       .toPromise();
   }
 }

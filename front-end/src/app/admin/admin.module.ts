@@ -22,7 +22,7 @@ import {
   DeleteReportConfirmation
 } from './admin-report-details/admin-report-details.component';
 import { UserListComponent } from '../shared/common-view/user-list/user-list.component';
-import { ReportListComponent } from '../shared/common-view/report-list/report-list.component';
+import { ReportListComponent, NewReportChoice } from '../shared/common-view/report-list/report-list.component';
 import { AllUsersComponent } from './all-users/all-users.component';
 import { AllReportsComponent } from './all-reports/all-reports.component';
 import { AllUserListComponent } from './all-users/all-user-list/all-user-list.component';
@@ -46,6 +46,7 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 import { EditReportComponent } from './edit-report/edit-report.component';
 import { SharedModule } from '../shared/shared.module';
 import { GhostComponent } from './ghost/ghost.component';
+import { EditReportAccessComponent } from './edit-report-access/edit-report-access.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,9 @@ import { GhostComponent } from './ghost/ghost.component';
     DeleteUserConfirmation,
     DeleteReportConfirmation,
     DeleteDataruleConfirmation,
-    GhostComponent
+    GhostComponent,
+    EditReportAccessComponent,
+    NewReportChoice
   ],
   imports: [
     CommonModule,
@@ -95,7 +98,8 @@ import { GhostComponent } from './ghost/ghost.component';
     DeleteOrganizationConfirmation,
     DeleteUserConfirmation,
     DeleteReportConfirmation,
-    DeleteDataruleConfirmation
+    DeleteDataruleConfirmation,
+    NewReportChoice
   ]
 })
 export class AdminModule {}

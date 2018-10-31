@@ -11,9 +11,9 @@ export interface OrganizationDetails {
   _id: string;
   name: string;
   categories: string[];
-  reportsCount: string;
-  usersCount: string;
-  datarulesCount: string;
+  reportsCount: number;
+  usersCount: number;
+  datarulesCount: number;
 }
 
 // View  Model for creating new Organization

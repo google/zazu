@@ -1,3 +1,4 @@
+
 <div class="form-container">
   <div class="card">
     <div class="form">
@@ -27,7 +28,7 @@
             </div>
             <div class="row">
 
-              <p class="create-new-text">Organization not on the list? <span class="create-new-button">Create New Organization </span></p>
+              <p class="create-new-text" >Organization not on the list? <span class="create-new-button" routerLink="../../o/new-organization">Create New Organization </span></p>
             </div>
             <div class="buttons">
               <button mat-button type='button' routerLink="../">Cancel</button>
@@ -118,7 +119,6 @@
             </div>
             <p class="custom-error" *ngIf="reportInfoForm.get('datasourceRows').getError('duplicate')">
                 Cannot have duplicate Data Sources </p>
-
             <p class="add-row" (click)="addNewRow()">+ Add another Data source</p>
             <div class="buttons">
               <button mat-button type='button' *ngIf="!organizationID" (click)="selectStep(0)">Back</button>

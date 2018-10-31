@@ -38,7 +38,7 @@ export class EditReportComponent implements OnInit {
   selectedOrg;
   organizationID;
   sub: any;
-  report: ReportViewModel.Report;
+  report: ReportViewModel.ReportDetails;
   reportID: string;
 
   async ngOnInit() {
@@ -46,18 +46,11 @@ export class EditReportComponent implements OnInit {
       this.sub = await this.route.params.subscribe(params => {
         this.reportID = params['reportID'];
       });
-      this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();
       this.datasources = await this.datarulesService.getAllDataSourceForOrganization(
         this.reportID);
-      this.report = await this.reportService.getReport(this.reportID, 'temp');
-      this.organizationID = this.report.organization._id;
-      if (this.organizationID) {
-        this.selectedOrg = this.organizations.find(org => {
-          return org._id === this.organizationID;
-        });
-      }
+      this.report = await this.reportService.getReportDetails(this.reportID);
+      this.organizations = this.report.organizations;
       this.reportInfoForm = this.formBuilder.group({
-        organization: [ this.report.organization._id, Validators.required],
         name: [this.report.name, [Validators.required, this.noWhitespaceValidator]],
         datastudioLink: [this.report.link, [Validators.required, this.noWhitespaceValidator]],
         datasourceRows: this.formBuilder.array(
@@ -128,7 +121,6 @@ export class EditReportComponent implements OnInit {
     const rForm = this.reportInfoForm.value;
     const report = {
       _id: this.reportID,
-      organizationID: this.organizationID,
       name: rForm.name,
       datastudioLink: rForm.datastudioLink,
       datasources: rForm.datasourceRows,

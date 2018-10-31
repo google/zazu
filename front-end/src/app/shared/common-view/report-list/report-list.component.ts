@@ -8,12 +8,14 @@ import {
   Output,
   EventEmitter,
   OnDestroy,
-  OnChanges
+  OnChanges,
+  Inject
 } from '@angular/core';
 import * as ReportViewModel from '../../view-models/report.viewmodel';
 import { PaginationService } from '../../services/pagination.service';
 import * as OrganizationViewModel from '../../view-models/organization.viewmodel';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-report-list',
@@ -24,7 +26,8 @@ export class ReportListComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     private paginationService: PaginationService,
     private organizationService: OrganizationService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public dialog: MatDialog,
   ) {}
   @Input()
   reports: ReportViewModel.SimpleReport[];
@@ -49,7 +52,6 @@ export class ReportListComponent implements OnInit, OnDestroy, OnChanges {
 
   async ngOnInit() {
     try {
-      console.log(this.reports);
       this.paginationService.resetPage();
       this.sub = this.route.params.subscribe(params => {
         this.organizationID = params['id'];
@@ -79,7 +81,6 @@ export class ReportListComponent implements OnInit, OnDestroy, OnChanges {
           new FormControl('All')
         );
       }
-      console.log(this.organizations);
       this.formInitialize = true;
     }
   }
@@ -126,4 +127,31 @@ export class ReportListComponent implements OnInit, OnDestroy, OnChanges {
   ngOnDestroy() {
     this.pageSubscription.unsubscribe();
   }
+
+
+  openDialog( ) {
+    const dialogRef = this.dialog.open(NewReportChoice, {
+
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+    });
+  }
 }
+
+@Component({
+  selector: 'new-report-choice',
+  templateUrl: 'new-report-choice.html'
+})
+export class NewReportChoice {
+  constructor(
+    public dialogRef: MatDialogRef<NewReportChoice>,
+    @Inject(MAT_DIALOG_DATA) public data
+  ) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+}
+
+

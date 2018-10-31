@@ -1,3 +1,4 @@
+import { EditReportAccessComponent } from './edit-report-access/edit-report-access.component';
 import { ViewerReportComponent } from './../shared/common-view/viewer-report/viewer-report.component';
 import { ViewerReportListComponent } from './../shared/common-view/viewer-report-list/viewer-report-list.component';
 import { GhostComponent } from './ghost/ghost.component';
@@ -49,11 +50,12 @@ const adminRoutes: Routes = [
           { path: ':id/u/:userID/ghost/:userName', component: GhostComponent, children: [
             { path: '', redirectTo: 'list'},
             { path: 'list', component: ViewerReportListComponent},
-            { path: ':reportID', component: ViewerReportComponent}
+            { path: ':reportID', component: ViewerReportComponent},
           ]},
           { path: ':id/u/:userID/edit-user', component: EditUserComponent },
           { path: ':id/r/:reportID', component: AdminReportDetailsComponent },
           { path: ':id/r/:reportID/edit-report', component: EditReportComponent},
+          { path: ':id/r/:reportID/edit-access', component: EditReportAccessComponent},
           {
             path: ':id/u/:userID/r/:reportID',
             component: AdminReportDetailsComponent
@@ -62,6 +64,9 @@ const adminRoutes: Routes = [
             path: ':id/u/:userID/r/:reportID/edit-report',
             component: EditReportComponent
           }
+          ,
+          {
+            path: ':id/u/:userID/r/:reportID/edit-access', component: EditReportAccessComponent},
         ]
       },
       {
@@ -78,7 +83,9 @@ const adminRoutes: Routes = [
             { path: ':reportID', component: ViewerReportComponent}
           ]},
           { path: 'u/:userID/edit-user', component: EditUserComponent },
-          { path: 'u/:userID/r/:reportID', component: AdminReportDetailsComponent}
+          { path: 'u/:userID/r/:reportID', component: AdminReportDetailsComponent},
+          { path: 'u/:userID/r/:reportID/edit-report', component: EditReportComponent},
+          { path: 'u/:userID/r/:reportID/edit-access', component: EditReportAccessComponent},
         ]
       },
       {
@@ -87,9 +94,11 @@ const adminRoutes: Routes = [
         children: [
           { path: '', redirectTo: 'list' },
           { path: 'list', component: AllReportListComponent },
-          { path: 'new-report', component: CreateNewReportComponent},
+          { path: 'list/new-report', component: CreateNewReportComponent},
+          { path: 'list/share-report', component: ShareReportComponent},
           { path: 'r/:reportID', component: AdminReportDetailsComponent },
-          { path: 'r/:reportID/edit-report', component: EditReportComponent}
+          { path: 'r/:reportID/edit-report', component: EditReportComponent},
+          { path: 'r/:reportID/edit-access', component: EditReportAccessComponent},
         ]
       }
     ]

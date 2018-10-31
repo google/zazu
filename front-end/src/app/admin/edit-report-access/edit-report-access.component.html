@@ -1,0 +1,35 @@
+<div class="form-container">
+  <div class="card">
+    <div class="form" *ngIf="accessForm">
+      <!-- *********************************  -->
+      <form [formGroup]="accessForm" (ngSubmit)="onSubmit()">
+        <h2 class="title"> Edit Report: <span class="input-header">Removing Organization Access</span></h2>
+        <hr>
+        <h4 style="margin-bottom: 5px" class="input-header"> Please select which organization should have their access revoked for this report <i class="material-icons info-icon">
+            info
+          </i></h4>
+          <h4 class="input-header">Report: {{report.name}}</h4>
+
+        <div class="row">
+
+
+          <i class="material-icons form-icon">
+            business
+          </i>
+          <mat-form-field appearance="fill" style="width:80%" class="select">
+            <mat-select formControlName="selectedOrganization">
+              <mat-option *ngFor="let org of organizations" value="{{org._id}}">{{org.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="buttons">
+          <button mat-button routerLink="../">Cancel</button>
+          <button class="done primary" [disabled]="!accessForm.valid" [ngClass]="{'button-disabled': !accessForm.valid}" mat-flat-button
+            type="submit">Done
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

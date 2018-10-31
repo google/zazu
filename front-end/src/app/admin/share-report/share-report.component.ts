@@ -34,6 +34,7 @@ export class ShareReportComponent  implements OnInit {
   selectedReport: ReportViewModel.SimpleReport;
   selectedOrg;
   organizationID;
+
   sub: any;
 
   async ngOnInit() {
@@ -49,14 +50,20 @@ export class ShareReportComponent  implements OnInit {
       this.sub = this.route.params.subscribe(params => {
         this.organizationID = params['id'];
       });
+      if (this.organizationID) {
+        this.selectedOrg = this.organizations.find(org => {
+          return org._id === this.organizationID;
+        });
+      }
     } catch (error) {
       console.log(error);
     }
   }
 
-  selectReport(id) {
+  selectReport(param) {
+    console.log(param);
     this.selectedReport = this.reports.find(report => {
-      return report._id === id;
+      return report._id === param.reportID;
     });
   }
 
@@ -64,9 +71,14 @@ export class ShareReportComponent  implements OnInit {
     this.stepper.selectedIndex = id;
   }
 
-  selectOrg() {
-   this.selectedOrg = this.organizations.find(org => {
-     return org._id === this.orgForm.value.organization;
-   });
+  orgSelected() {
+      this.selectedOrg = this.organizations.find(org => {
+        return org._id === this.orgForm.value.organization;
+      });
   }
+
+  onSubmit() {
+    this.reportService.shareReport(this.selectedReport._id, this.selectedOrg._id);
+  }
+
 }

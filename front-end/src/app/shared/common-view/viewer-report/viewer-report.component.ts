@@ -22,12 +22,14 @@ export class ViewerReportComponent implements OnInit, OnDestroy {
   report: ReportViewModel.Report;
   reportsCount;
   initialized = false;
+  selectedOrgID;
 
   async ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.reportID = params['reportID'];
     });
-    this.report = await this.reportService.getReport('reportID', 'temp');
+    this.selectedOrgID = this.route.snapshot.queryParamMap.get('selectedOrg');
+    this.report = await this.reportService.getReport(this.reportID, this.selectedOrgID);
     this.reportsCount = await this.viewerService.reportsCount();
     this.initialized = await true;
   }

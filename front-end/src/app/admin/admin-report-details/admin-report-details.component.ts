@@ -41,10 +41,9 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
       this.reportID = params['reportID'];
     });
     this.selectedOrgID = this.route.snapshot.queryParamMap.get('selectedOrg');
-    console.log(this.selectedOrgID);
 
 
-    this.report = await this.reportService.getReport(this.reportID, 'temp');
+    this.report = await this.reportService.getReport(this.reportID, this.selectedOrgID);
     if (this.userID !== undefined) {
       this.userView = true;
       this.user = await this.userService.getLocalUser(this.userID);

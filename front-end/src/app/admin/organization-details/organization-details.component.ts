@@ -70,7 +70,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
       );
       console.log(this.organization);
       // gets reports for this organization
-      this.reports = await this.reportService.getReportByOrganization(this.organizationID);
+      this.reports = await this.reportService.getReportsByOrganization(this.organizationID);
 
       this.pageSubscription = this.paginationService.paginationChanged.subscribe(
         pagination => {
@@ -109,7 +109,13 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
 
   // gets users for this organization
   async getUsers() {
-    this.users = await this.userService.getUsersByOrganization(this.organizationID);
+   // this.users = await this.userService.getUsersByOrganization(this.organizationID);
+    this.users = await this.userService.getAllUsers();
+    this.users = this.users.filter (user => {
+      for (const org of user.organizations) {
+        return org._id === this.organizationID;
+      }
+    });
     await this.userService.setLocalUsers(this.users);
   }
 
@@ -132,7 +138,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
   }
 
   goToReport(report) {
-    this.router.navigate(['/admin/reports/r', report.reportID], { relativeTo: this.route, queryParams: { selectedOrg: report.orgID} } );
+    this.router.navigate(['./r', report.reportID], { relativeTo: this.route, queryParams: { selectedOrg: report.orgID} } );
   }
 
   editRule(ruleID) {

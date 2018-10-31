@@ -37,6 +37,7 @@ export class CreateNewReportComponent implements OnInit {
   reportInfoForm: FormGroup;
   datasources: DataViewModel.DataSource[];
   selectedOrg;
+  rules;
   organizationID;
   sub: any;
 
@@ -59,10 +60,12 @@ export class CreateNewReportComponent implements OnInit {
       this.sub = this.route.params.subscribe(params => {
         this.organizationID = params['id'];
       });
+
       if (this.organizationID) {
         this.selectedOrg = await this.organizationService.getLocalOrganization(
           this.organizationID
         );
+        this.rules = await this.datarulesService.getDataRules(this.organizationID);
         console.log(this.selectedOrg);
       } else {
         this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();
@@ -94,10 +97,16 @@ export class CreateNewReportComponent implements OnInit {
     control.removeAt(index);
   }
 
-  selectOrg() {
-    this.selectedOrg = this.organizations.find(org => {
-      return org._id === this.orgForm.value.organization;
-    });
+  async selectOrg() {
+    try {
+      this.selectedOrg = this.organizations.find(org => {
+        return org._id === this.orgForm.value.organization;
+      });
+      this.rules = await this.datarulesService.getDataRules(this.selectedOrg._id);
+    } catch (error) {
+      console.log(error);
+    }
+
   }
 
   public noWhitespaceValidator(control: FormControl) {
@@ -123,6 +132,10 @@ export class CreateNewReportComponent implements OnInit {
       }
       return null;
     }
+  }
+
+  public noDataRuleValidator(control: FormControl) {
+
   }
 
   onSubmit() {

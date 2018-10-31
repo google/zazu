@@ -50,7 +50,7 @@ export class UserDetailsComponent implements OnInit {
         orgs.push(org._id);
       }
       console.log(this.user);
-      this.reports = await this.reportService.getReportByOrganizations(orgs);
+      this.reports = await this.reportService.getReportByUser(this.userID);
       this.viewInitialized = true;
     } catch (error) {
       console.log(error);
@@ -74,8 +74,8 @@ export class UserDetailsComponent implements OnInit {
     return this.userService.getUser(id);
   }
 
-  public goToReport(reportID) {
-    this.router.navigate(['./r', reportID], { relativeTo: this.route });
+  public goToReport(report) {
+    this.router.navigate(['./r', report.reportID], { relativeTo: this.route, queryParams: { selectedOrg: report.orgID} } );
   }
 
   openDialog() {

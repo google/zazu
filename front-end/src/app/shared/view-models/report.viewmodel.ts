@@ -43,6 +43,14 @@ import * as DataViewModel from './data.viewmodel';
     accessedBy: OrganizationViewModel.SimpleOrganization[];
   }
 
+  export interface ReportDetails {
+    _id: string;
+    name: string;
+    link: string;
+    organizations: OrganizationViewModel.SimpleOrganization[];
+    datasources: DataViewModel.DataSource[];
+  }
+
   // View Model for creating new report
   export interface CreateNewReport {
     name: string;
@@ -61,7 +69,6 @@ import * as DataViewModel from './data.viewmodel';
     _id: string;
     name: string;
     datastudioLink: string;
-    organizationID: string[];
     datasources: DataViewModel.DataSource[];
   }
 
