@@ -18,18 +18,19 @@ export class AuthService {
   VIEWACCESS = 'viewer';
   URL = ' URL GOES HERE ';
   role: Role;
-
+  /**
+   * Returns true or false
+   */
   public async isAuthenticated() {
-    // const isAuthenticated = await this.isLoggedIn();
-    // return isAuthenticated.isLoggedIn;
-    return await true;
+    const isAuthenticated = await this.isLoggedIn();
+    return await isAuthenticated.isLoggedIn;
   }
 
   /**
    * API call to check if user is logged in or not.
    */
   private async isLoggedIn(): Promise<IsLoggedIn> {
-    return await this.http.get<IsLoggedIn>(this.URL + 'API CALL').toPromise();
+    return await this.http.get<IsLoggedIn>('/api' + '/isLoggedIn').toPromise();
   }
 
 
@@ -37,7 +38,7 @@ export class AuthService {
    * API Call to check user role
    */
   private async getUserRole(): Promise<Role> {
-    this.role = await this.http.get<Role>(this.URL + 'API CALL').toPromise();
+    this.role = await this.http.get<Role>('/api' + '/getRole').toPromise();
     return this.role;
   }
 
@@ -45,8 +46,9 @@ export class AuthService {
    * Method for checking the user's role
    */
   public isAdmin() {
-    // return this.role.role === this.ADMIN;
-    return true;
+    this.getUserRole();
+    return this.role.role === this.ADMIN;
+
   }
 
   public isViewer() {

@@ -38,7 +38,7 @@ export class ShareReportComponent  implements OnInit {
 
   async ngOnInit() {
     try {
-      this.reports = await this.reportService.getReportByOrganization('orgID');
+      this.reports = await this.reportService.getAllReports();
       this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();
       this.datasources = await this.datarulesService.getAllDataSourceForOrganization(
         'id'

@@ -29,7 +29,6 @@ const adminRoutes: Routes = [
   {
     path: '',
     component: AdminComponent,
-    canActivate: [AdminGuard],
     children: [
       {
         path: 'o',

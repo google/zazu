@@ -68,8 +68,9 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
       this.organization = await this.organizationService.getOrganizationById(
         this.organizationID
       );
+      console.log(this.organization);
       // gets reports for this organization
-      this.reports = await this.reportService.getReportByOrganization('orgID');
+      this.reports = await this.reportService.getReportByOrganization([this.organizationID]);
 
       this.pageSubscription = this.paginationService.paginationChanged.subscribe(
         pagination => {
@@ -108,7 +109,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
 
   // gets users for this organization
   async getUsers() {
-    this.users = await this.userService.getUsersByOrganization('orgID');
+    this.users = await this.userService.getUsersByOrganization(this.organizationID);
     await this.userService.setLocalUsers(this.users);
   }
 
