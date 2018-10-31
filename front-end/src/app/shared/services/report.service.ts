@@ -13,7 +13,7 @@ export class ReportService {
    * Gets all the reports for all organizations
    */
   public async getAllReports(): Promise<ReportViewModel.SimpleReport[]> {
-  return await (this.http.get<ReportViewModel.SimpleReport[]>( '/api' + '/getAllReports')).toPromise();
+  return await (this.http.get<ReportViewModel.SimpleReport[]>( this.URL + 'reports.mockdata.json')).toPromise();
   }
 
   /**
@@ -21,7 +21,7 @@ export class ReportService {
    * @param id - ID of the specific reprot
    */
   public async getReport(id): Promise<ReportViewModel.ReportWithMetaData> {
-    return await (this.http.get<ReportViewModel.ReportWithMetaData>( '/api' + '/getAllReports/' + id)).toPromise();
+    return await (this.http.get<ReportViewModel.ReportWithMetaData>( this.URL + 'single-report-with-meta.mockdata.json')).toPromise();
   }
 
 
@@ -37,13 +37,8 @@ export class ReportService {
    *  Gets the reports for a specific organization. Can be more than one
    * @param orgIDs ID of a specific organization
    */
-<<<<<<< HEAD
   public async getReportByOrganization(orgIDs: string): Promise<ReportViewModel.SimpleReport[]> {
-    return await (this.http.get<ReportViewModel.SimpleReport[]>( '/api' + '/getReportByOrganization/' + orgIDs)).toPromise();
-=======
-  public async getReportByOrganization(orgIDs: string[]): Promise<ReportViewModel.SimpleReport[]> {
     return await (this.http.get<ReportViewModel.SimpleReport[]>( this.URL + 'reports.mockdata.json')).toPromise();
->>>>>>> 1bf6ba287c2ed6d08a1f028fa7d37bf2e52fe6f4
   }
 
 
