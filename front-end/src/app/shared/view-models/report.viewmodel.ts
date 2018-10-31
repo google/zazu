@@ -15,6 +15,14 @@ import * as DataViewModel from './data.viewmodel';
 
   // What I expect to get back for the report list
   // Also used for searching & filtering
+
+  export interface SimpleRawReport {
+    _id: string;
+    name: string;
+    organizations: OrganizationViewModel.SimpleOrganization[];
+    date: Date;
+  }
+
   export interface SimpleReport {
     _id: string;
     name: string;
@@ -32,7 +40,7 @@ import * as DataViewModel from './data.viewmodel';
     date: Date;
     createdBy: string;
     updatedBy: string;
-    accessedBy: UserViewModel.SimpleUserView[];
+    accessedBy: OrganizationViewModel.SimpleOrganization[];
   }
 
   // View Model for creating new report
@@ -43,12 +51,17 @@ import * as DataViewModel from './data.viewmodel';
     datasources: DataViewModel.DataSource[];
   }
 
+  export interface ShareReport {
+    _id: string;
+    organizationID: string;
+  }
+
   // View Model for editing report
   export interface EditReport {
     _id: string;
     name: string;
     datastudioLink: string;
-    organizationID: string;
+    organizationID: string[];
     datasources: DataViewModel.DataSource[];
   }
 

@@ -21,7 +21,7 @@ export class AllReportListComponent implements OnInit {
     }
   }
 
-  goToReport(reportID) {
-    this.router.navigate(['/admin/reports/r', reportID], { relativeTo: this.route });
+  goToReport(report) {
+    this.router.navigate(['/admin/reports/r', report.reportID], { relativeTo: this.route, queryParams: { selectedOrg: report.orgID} } );
   }
 }

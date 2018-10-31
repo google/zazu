@@ -49,7 +49,7 @@ export class EditReportComponent implements OnInit {
       this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();
       this.datasources = await this.datarulesService.getAllDataSourceForOrganization(
         this.reportID);
-      this.report = await this.reportService.getReport(this.reportID);
+      this.report = await this.reportService.getReport(this.reportID, 'temp');
       this.organizationID = this.report.organization._id;
       if (this.organizationID) {
         this.selectedOrg = this.organizations.find(org => {

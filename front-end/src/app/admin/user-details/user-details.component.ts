@@ -49,6 +49,7 @@ export class UserDetailsComponent implements OnInit {
       for ( const org of this.user.organizations) {
         orgs.push(org._id);
       }
+      console.log(this.user);
       this.reports = await this.reportService.getReportByOrganizations(orgs);
       this.viewInitialized = true;
     } catch (error) {

@@ -28,7 +28,7 @@ export class ViewerService {
   }
 
   async getReport(reportID): Promise<ReportViewModel.Report> {
-      return this.reportService.getReportNoMetaData(reportID);
+      return this.reportService.getReportNoMetaData(reportID, 'temp');
   }
 
   async reportsCount() {

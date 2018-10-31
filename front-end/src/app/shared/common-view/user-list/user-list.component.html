@@ -5,8 +5,9 @@
         class="card">
         <div class="container" (click)="userClicked(user._id)">
           <h4 class="title" style="font-weight: bold">{{user.firstName}} {{user.lastName}}</h4>
-          <p class="secondary"> Viewer : <span *ngFor="let org of user.organizations; let i = index">
+          <p class="secondary" *ngIf="user.role !== 'admin'"> Viewer : <span *ngFor="let org of user.organizations; let i = index">
               {{org.name}}<span *ngIf="i < user.organizations.length-1">, </span> </span> </p>
+              <p class="secondary" *ngIf="user.role === 'admin'"> Admin</p>
         </div>
       </div>
     </div>
