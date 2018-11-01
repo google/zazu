@@ -69,10 +69,11 @@ export class UserService {
 
   /**
    * Delete user
-   * @param userID - ID of the user you want to delete
+   * @param user - user object you want to dlete
    */
-  public async deleteUser(userID: string) {
-    return await ((this.http.post(this.URL + 'deleteUser/',  userID)).toPromise());
+  public async deleteUser(user) {
+    console.log('Deleting User: ' + JSON.stringify(user));
+    return await ((this.http.post(this.URL + 'deleteUser/',  user)).toPromise());
   }
 
 
