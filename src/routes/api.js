@@ -173,6 +173,7 @@ router.post('/createNewUser', function(req, res) {
             }
           });
     }
+  });
 });
 
 router.post('/deleteUser', function(req, res) {
