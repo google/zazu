@@ -24,6 +24,7 @@ export class ViewerReportComponent implements OnInit, OnDestroy {
   initialized = false;
   selectedOrgID;
 
+
   async ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.reportID = params['reportID'];

@@ -81,9 +81,13 @@ export class CreateNewUserComponent implements OnInit {
   onSubmit() {
     const firstForm = this.firstFormGroup.value;
     const secondForm = this.secondFormGroup.value;
-    let orgs = [];
+    const orgs = [];
     if (firstForm.role === 'viewer') {
-      orgs = firstForm.organizations;
+      for (const orgID of firstForm.organizations) {
+        orgs.push( this.organizations.find( org => {
+          return org._id === orgID;
+        }));
+      }
     }
     const newUser: UserViewModel.CreateNewUser = {
       firstName : secondForm.firstName,
