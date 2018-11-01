@@ -123,7 +123,29 @@ router.post('/createNewUser', function(req, res) {
                         });
                   })
                   .on('end', function() {
-                    res.send({"status": "200", "userID": newUserId })
+
+                    var orgList = [];
+
+                    Organization.find(function(err1, docs){
+                      if (err1) {
+                        res.send({"status": "500", "message": err1.message });
+                      }
+                      else {
+                        for (var i = 0; i < docs.length; i++) {
+                          orgList.push({ _id: docs[i]._id, name: docs[i].name });
+                        }
+
+                        User.updateOne({ _id: newUserId }, { organizations: orgList }, function(err2, res2){
+                          if (err2) {
+                            res.send({"status": "500", "message": err2.message });
+                          }
+                          else {
+                            res.send({"status": "200", "userID": newUserId })
+                          }
+                        });
+                      }
+
+                    });
                   });
             }
             else {
@@ -220,14 +242,17 @@ router.post('/deleteUser', function(req, res) {
                       if (deleteUser.role === "viewer") {
                         for (var i = 0; i < deleteUser.organizations.length; i++) {
 
-                          Organization.updateOne({ name: deleteUser.organizations[i].name }, { $inc: { usersCount: -1 } }, function(err1, res1) {
+                          Organization.updateOne({ _id : deleteUser.organizations[i]._id }, { $inc: { usersCount: -1 } }, function(err1, res1) {
 
                             if (err1) {
                               res.send({"status": "500", "message": err1.message });
                             }
                           });
                         }
-                        res.send({"status": "200", "userID": deleteUser._id })
+                        res.send({"status": "200", "userID": deleteUser._id });
+                      }
+                      else {
+                        res.send({"status": "200", "userID": deleteUser._id });
                       }
                     });
                 });
@@ -337,14 +362,14 @@ router.post('/createOrganization', function(req, res) {
 
 router.post('/deleteOrganization', function(req, res) {
 
-    var idToDelete = req.body.orgID
+    var orgDelete = req.body;
 
-    Organization.deleteOne({ _id: idToDelete }, function(err, results) {
+    Organization.deleteOne({ _id: orgDelete._id }, function(err, results) {
       if (err) {
         res.send({"status": "500", "message": err.message });
       }
       else {
-        var delOrg = 'DELETE FROM `' + config.bq_instance + '.' + config.bq_dataset + '.vendors_2` WHERE organization_id = "' + req.body.orgID + '"';
+        var delOrg = 'DELETE FROM `' + config.bq_instance + '.' + config.bq_dataset + '.vendors_2` WHERE organization_id = "' + orgDelete._id + '"';
 
         bigquery.createQueryStream(delOrg)
           .on('error', function(err) {
@@ -355,7 +380,7 @@ router.post('/deleteOrganization', function(req, res) {
           })
           .on('end', function() {
 
-            var delCurrentVendorView = 'DELETE FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor_2` WHERE organization_id = "' + req.body.orgID + '"';
+            var delCurrentVendorView = 'DELETE FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor_2` WHERE organization_id = "' + orgDelete._id + '"';
 
             bigquery.createQueryStream(delCurrentVendorView)
               .on('error', function(err) {
@@ -366,7 +391,7 @@ router.post('/deleteOrganization', function(req, res) {
               })
               .on('end', function() {
 
-                var delUserVendor = 'DELETE FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_vendor_roles_2` WHERE organization_id = "' + req.body.orgID + '"';
+                var delUserVendor = 'DELETE FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_vendor_roles_2` WHERE organization_id = "' + orgDelete._id + '"';
 
                 bigquery.createQueryStream(delUserVendor)
                   .on('error', function(err) {
@@ -376,7 +401,7 @@ router.post('/deleteOrganization', function(req, res) {
 
                   })
                   .on('end', function() {
-                    User.updateMany( { organizations: { $elemMatch : { _id: idToDelete } } }, { $pull: { organizations: { $elemMatch : { _id: idToDelete } } } }, function(err, res1) {
+                    User.updateMany( { organizations: { $elemMatch: { _id: orgDelete._id, name: orgDelete.name } } }, { $pull: { organizations: { _id: orgDelete._id, name: orgDelete.name  } } }, function(err, res1) {
                       if (err) {
                         console.log(err);
                         res.send({"status": "500", "message": err.message });
@@ -478,370 +503,7 @@ router.get('/isLoggedIn', (req, res) => {
     // if they aren't redirect them to the home page
 });
 
-// router.post('/addUser', (req, res) => {
-//
-//   var newUser = req.body;
-//   var orgNum = -1;
-//   var findId = 'SELECT count(*) AS total_users FROM `' + config.bq_instance + '.' + config.bq_dataset + '.users`';
-//
-//   bigquery.createQueryStream(findId)
-//      .on('error', function(err) {
-//         res.send({"status": "500", "message": err.message });
-//      })
-//      .on('data', function(row) {
-//
-//       var newId = row.total_users + 1;
-//       var insertRow = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.users` (user_id,google_email,email,organization,role) VALUES (' + newId + ',"' + newUser.google_email + '","' + newUser.email + '","' + newUser.organization + '","' + newUser.role + '")';
-//
-//       bigquery.createQueryStream(insertRow)
-//           .on('error', function(err) {
-//              res.send({"status": "500", "message": err.message });
-//           })
-//           .on('data', function(data) {
-//
-//           })
-//           .on('end', function() {
-//
-//             if (newUser.role == "vendor") {
-//
-//               var findOrg = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.vendors` WHERE organization = "' + newUser.organization + '"';
-//
-//               bigquery.createQueryStream(findOrg)
-//                  .on('error', function(err) {
-//                     res.send({"status": "500", "message": err.message });
-//                  })
-//                  .on('data', function(row) {
-//                    orgNum = row.organization_id;
-//
-//                   })
-//                  .on('end', function() {
-//
-//                       if (orgNum == -1) {
-//
-//                         User.find({role: "retailer"}, function(err, docs) {
-//                            if (err) {
-//                              console.log(err);
-//                              res.send({"status": "500", "message": err.message });
-//                            }
-//
-//                            for (var i = 0; i < docs.length; i++) {
-//                              if (docs[i].accesses.indexOf(newUser.organization) == -1 ) {
-//                                User.update({email: docs[i].email }, { $push: { accesses: newUser.organization } }, function(err, results) {
-//                                  if (err) {
-//                                    console.log(err);
-//                                    res.send({"status": "500", "message": err.message });
-//                                  }
-//                                });
-//                              }
-//                            }
-//                         });
-//
-//                         var newOrgId = 'SELECT count(*) AS total_orgs FROM `' + config.bq_instance + '.' + config.bq_dataset + '.vendors`';
-//
-//                         bigquery.createQueryStream(newOrgId)
-//                           .on('error', function(err) {
-//                               res.send({"status": "500", "message": err.message });
-//                           })
-//                           .on('data', function(data) {
-//
-//                              orgNum = data.total_orgs + 1;
-//                              var insertOrgRow = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.vendors` (organization_id,organization) VALUES (' + orgNum + ',"' + newUser.organization + '")';
-//
-//                              bigquery.createQueryStream(insertOrgRow)
-//                                 .on('error', function(err) {
-//                                     res.send({"status": "500", "message": err.message });
-//                                 })
-//                                 .on('data', function(data) {
-//
-//                                 })
-//                                 .on('end', function() {
-//
-//                                   var addVendorView = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor` (user_id, organization_id) VALUES (' + newId + ', ' + orgNum + ')';
-//
-//                                   bigquery.createQueryStream(addVendorView)
-//                                     .on('error', function(err) {
-//                                        res.send({"status": "500", "message": err.message });
-//                                     })
-//                                     .on('data', function(data) {
-//
-//                                     })
-//                                     .on('end', function() {
-//                                       var addVendorAccesses = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.user_vendor_roles` (user_id, organization_id) VALUES (' + newId + ', ' + orgNum + ')';
-//
-//                                       bigquery.createQueryStream(addVendorAccesses)
-//                                         .on('error', function(err) {
-//                                           res.send({"status": "500", "message": err.message });
-//                                         })
-//                                         .on('data', function(data) {
-//
-//                                         })
-//                                         .on('end', function() {
-//
-//                                           var retailerIdList = [];
-//                                           var getRetailerIds = 'SELECT user_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.users` WHERE role = "retailer"';
-//
-//                                           bigquery.createQueryStream(getRetailerIds)
-//                                             .on('error', function(err) {
-//                                                res.send({"status": "500", "message": err.message });
-//                                             })
-//                                             .on('data', function(data) {
-//
-//                                                var addRetailerAccesses = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.user_vendor_roles` (user_id, organization_id) VALUES (' + data.user_id + ', ' + orgNum + ')';
-//
-//                                                bigquery.createQueryStream(addRetailerAccesses)
-//                                                  .on('error', function(err) {
-//                                                     res.send({"status": "500", "message": err.message });
-//                                                  })
-//                                                  .on('data', function(data) {
-//
-//                                                  })
-//                                                  .on('end', function() {
-//
-//                                                  })
-//                                             })
-//                                             .on('end', function() {
-//
-//                                             })
-//
-//                                         });
-//                                     })
-//
-//                                 })
-//                           })
-//                           .on('end', function(){
-//                             User.create(newUser, function(err, results) {
-//                               if (err) {
-//                                 console.log(err);
-//                                 res.send({"status": "500", "message": err.message });
-//                               }
-//
-//                                 User.find(function(err, docs) {
-//                                   if (err) {
-//                                     res.send({"status": "500", "message": err.message });
-//                                   }
-//                                   res.send({"status": "200", "message": "User creation succeeded.", "users": docs });
-//                                 });
-//                             });
-//                           });
-//
-//                       }
-//
-//                     });
-//                  }
-//                  else if (newUser.role == "retailer") {
-//
-//                       var findAllOrg = 'SELECT * FROM `' + config.bq_instance + '.' + config.bq_dataset + '.vendors`';
-//                       var accessList = [];
-//
-//                       bigquery.createQueryStream(findAllOrg)
-//                         .on('error', function(err) {
-//                            res.send({"status": "500", "message": err.message });
-//                         })
-//                         .on('data', function(data) {
-//                             accessList.push(data.organization);
-//
-//                             var addRetailerPerm = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.user_vendor_roles` (user_id, organization_id) VALUES (' + newId + ', ' + data.organization_id + ')';
-//
-//                             bigquery.createQueryStream(addRetailerPerm)
-//                               .on('error', function(err) {
-//                                  res.send({"status": "500", "message": err.message });
-//                               })
-//                               .on('data', function(data) {
-//
-//                               })
-//                               .on('end', function() {
-//
-//                               });
-//                         })
-//                         .on('end', function() {
-//                           newUser.accesses = accessList;
-//
-//                           User.create(newUser, function(err, results) {
-//                             if (err) {
-//                               console.log(err);
-//                               res.send({"status": "500", "message": err.message });
-//                             }
-//
-//                               User.find(function(err, docs) {
-//                                 if (err) {
-//                                   res.send({"status": "500", "message": err.message });
-//                                 }
-//                                 res.send({"status": "200", "message": "User creation succeeded.", "users": docs });
-//                               });
-//                           });
-//                         })
-//
-//                  }
-//              });
-//
-//       })
-//      .on('end', function() {
-//
-//      });
-//
-// });
-//
-// router.post('/deleteUser', (req, res) => {
-//
-//   var delUser = req.body;
-//
-//   var findId = 'SELECT user_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.users` WHERE email = "' + delUser.email + '"';
-//
-//   bigquery.createQueryStream(findId)
-//      .on('error', function(err) {
-//         res.send({"status": "500", "message": err.message });
-//      })
-//      .on('data', function(row) {
-//
-//        var delRoles = 'DELETE FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_vendor_roles` WHERE user_id = ' + row.user_id;
-//
-//        bigquery.createQueryStream(delRoles)
-//           .on('error', function(err) {
-//              res.send({"status": "500", "message": err.message });
-//           })
-//           .on('data', function(data) {
-//
-//            })
-//           .on('end', function() {
-//
-//          });
-//
-//          var delRoleViews = 'DELETE FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor` WHERE user_id = ' + row.user_id;
-//
-//          bigquery.createQueryStream(delRoleViews)
-//             .on('error', function(err) {
-//                res.send({"status": "500", "message": err.message });
-//             })
-//             .on('data', function(data) {
-//
-//              })
-//             .on('end', function() {
-//
-//            });
-//       })
-//      .on('end', function() {
-//           var delBQUser = 'DELETE FROM `' + config.bq_instance + '.' + config.bq_dataset + '.users` WHERE email = "' + delUser.email + '"';
-//
-//           bigquery.createQueryStream(delBQUser)
-//              .on('error', function(err) {
-//                 res.send({"status": "500", "message": err.message });
-//              })
-//              .on('data', function(data) {
-//
-//               })
-//              .on('end', function() {
-//
-//                    User.remove({ name: delUser.name }, function(err, results) {
-//                      if (err) {
-//                        console.log(err);
-//                        res.send({"status": "500", "message": err.message });
-//                      }
-//
-//                      User.findOne({organization: delUser.organization}, function(err, docs){
-//
-//                         if (err) {
-//                          console.log(err);
-//                          res.send({"status": "500", "message": err.message });
-//                         }
-//
-//                         if (!docs) {
-//
-//                           var findOrgId = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.vendors` WHERE organization = "' + delUser.organization + '"';
-//
-//                           bigquery.createQueryStream(findOrgId)
-//                              .on('error', function(err) {
-//                                 res.send({"status": "500", "message": err.message });
-//                              })
-//                              .on('data', function(data) {
-//
-//                                   var orgId = data.organization_id;
-//
-//                                   var delRoleViews = 'DELETE FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_vendor_roles` WHERE organization_id = ' + orgId;
-//
-//                                   bigquery.createQueryStream(delRoleViews)
-//                                      .on('error', function(err) {
-//                                         res.send({"status": "500", "message": err.message });
-//                                      })
-//                                      .on('data', function(data) {
-//
-//                                       })
-//                                      .on('end', function() {
-//
-//                                        var delCurrentViews = 'DELETE FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor` WHERE organization_id = ' + orgId;
-//
-//                                        bigquery.createQueryStream(delCurrentViews)
-//                                           .on('error', function(err) {
-//                                              res.send({"status": "500", "message": err.message });
-//                                           })
-//                                           .on('data', function(data) {
-//
-//                                            })
-//                                           .on('end', function() {
-//                                           });
-//                                      });
-//                               })
-//                              .on('end', function() {
-//                              });
-//
-//                           var delOrg = 'DELETE FROM `' + config.bq_instance + '.' + config.bq_dataset + '.vendors` WHERE organization = "' + delUser.organization + '"';
-//
-//                           bigquery.createQueryStream(delOrg)
-//                              .on('error', function(err) {
-//                                 res.send({"status": "500", "message": err.message });
-//                              })
-//                              .on('data', function(data) {
-//
-//                               })
-//                              .on('end', function() {
-//
-//                             });
-//
-//                           User.find({role: "retailer"}, function(err, results) {
-//                                if (err) {
-//                                  console.log(err);
-//                                  res.send({"status": "500", "message": err.message });
-//                                }
-//
-//                                for (var i = 0; i < results.length; i++) {
-//                                  var rmIndex = results[i].accesses.indexOf(delUser.organization);
-//
-//                                  if ( rmIndex > -1 ) {
-//                                    var newAccesses = results[i].accesses.slice();
-//                                    newAccesses.splice(rmIndex, 1);
-//                                  }
-//
-//                                  User.update({email: results[i].email }, { accesses: newAccesses }, function(err, res) {
-//                                    if (err) {
-//                                      console.log(err);
-//                                      res.send({"status": "500", "message": err.message });
-//                                    }
-//                                  });
-//                                }
-//
-//                                User.find(function(err, docs) {
-//                                    if (err) {
-//                                      res.send({"status": "500", "message": err.message });
-//                                    }
-//                                    res.send({"status": "200", "message": "User deletion succeeded.", "users": docs });
-//                                });
-//                             });
-//                         }
-//                         else {
-//                           User.find(function(err, docs) {
-//                             if (err) {
-//                               res.send({"status": "500", "message": err.message });
-//                             }
-//                               res.send({"status": "200", "message": "User deletion succeeded.", "users": docs });
-//                             });
-//                         }
-//                      });
-//
-//                    });
-//
-//             });
-//     });
-//
-// });
+
 //
 // router.post('/editUser', (req, res) => {
 //

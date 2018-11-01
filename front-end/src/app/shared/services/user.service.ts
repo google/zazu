@@ -74,7 +74,7 @@ export class UserService {
    */
   public async deleteUser(user) {
     console.log('Deleting User: ' + JSON.stringify(user));
-    return await ((this.http.post(this.URL + 'deleteUser/',  user)).toPromise());
+    return await ((this.http.post('/api/' + 'deleteUser/',  user)).toPromise());
   }
 
 
