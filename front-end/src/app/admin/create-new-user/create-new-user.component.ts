@@ -98,6 +98,7 @@ export class CreateNewUserComponent implements OnInit {
       role: firstForm.role
     };
     this.userService.createNewUser(newUser);
+    console.log(newUser);
   }
 
   openDialog(stepper: MatStepper) {
