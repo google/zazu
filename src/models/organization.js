@@ -20,9 +20,9 @@ var Schema = mongoose.Schema;
 var orgSchema = new Schema({
   name: { type: String, required: true },
   categories: { type: [String], required: true },
-  reportsCount: { type: String, required: true }, // number of reports in this org
-  usersCount: { type: String, required: true }, // number of users that have access to this org
-  datarulesCount: { type: String, required: true }, // number of datarules in this org
+  reportsCount: { type: Number, required: true }, // number of reports in this org
+  usersCount: { type: Number, required: true }, // number of users that have access to this org
+  datarulesCount: { type: Number, required: true }, // number of datarules in this org
   created_at: Date,
   updated_at: Date
 });

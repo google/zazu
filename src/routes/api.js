@@ -175,6 +175,66 @@ router.post('/createNewUser', function(req, res) {
     }
 });
 
+router.post('/deleteUser', function(req, res) {
+  var deleteUser = req.body;
+
+  User.deleteOne({ _id: deleteUser._id }, function(err, results) {
+
+    if (err) {
+      res.send({"status": "500", "message": err.message });
+    }
+    else {
+
+      var deleteUserQuery = 'DELETE FROM `' + config.bq_instance + '.' + config.bq_dataset + '.users_2` WHERE user_id = "' + deleteUser._id + '"';
+
+      bigquery.createQueryStream(deleteUserQuery)
+          .on('error', function(err) {
+             res.send({"status": "500", "message": err.message });
+          })
+          .on('data', function(data) {
+
+          })
+          .on('end', function() {
+
+              var deleteUserVendor = 'DELETE FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_vendor_roles_2` WHERE user_id = "' + deleteUser._id + '"';
+
+              bigquery.createQueryStream(deleteUserVendor)
+                .on('error', function(err) {
+                  res.send({"status": "500", "message": err.message });
+                })
+                .on('data', function(data) {
+                })
+                .on('end', function() {
+
+                  var deleteCurrentVendorView = 'DELETE FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor_2` WHERE user_id = "' + deleteUser._id + '"';
+
+                  bigquery.createQueryStream(deleteCurrentVendorView)
+                    .on('error', function(err) {
+                      res.send({"status": "500", "message": err.message });
+                    })
+                    .on('data', function(data) {
+                    })
+                    .on('end', function() {
+
+                      if (deleteUser.role === "viewer") {
+                        for (var i = 0; i < deleteUser.organizations.length; i++) {
+
+                          Organization.updateOne({ name: deleteUser.organizations[i].name }, { $inc: { usersCount: -1 } }, function(err1, res1) {
+
+                            if (err1) {
+                              res.send({"status": "500", "message": err1.message });
+                            }
+                          });
+                        }
+                        res.send({"status": "200", "userID": deleteUser._id })
+                      }
+                    });
+                });
+          });
+    }
+  });
+});
+
 router.get('/getAllOrganizations', function(req, res) {
 
     Organization.find(function(err, docs) {
@@ -214,9 +274,9 @@ router.get('/getOrganizationById/:orgid', function(req, res) {
 router.post('/createOrganization', function(req, res) {
 
     var newOrg = req.body;
-    newOrg.reportsCount = "0";
-    newOrg.usersCount = "0";
-    newOrg.datarulesCount = "0";
+    newOrg.reportsCount = 0;
+    newOrg.usersCount = 0;
+    newOrg.datarulesCount = 0;
 
     Organization.create(newOrg, function(err, results) {
       var newOrgId = results._id;
