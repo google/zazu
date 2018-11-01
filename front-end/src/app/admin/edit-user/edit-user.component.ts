@@ -41,10 +41,10 @@ export class EditUserComponent implements OnInit {
   organizationID;
   userID: string;
   user: UserViewModel.User;
+  userRole;
   async ngOnInit() {
     try {
-      this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();
-
+      console.log(this.organizations);
       this.sub = this.route.params.subscribe(params => {
         this.organizationID = params['id'];
         this.userID = params['userID'];
@@ -55,7 +55,6 @@ export class EditUserComponent implements OnInit {
       }
       this.firstFormGroup = await this.formBuilder.group({
         role: [this.user.role, Validators.required],
-        organizations: ['', Validators.required],
         firstName: [
           this.user.firstName,
           [Validators.required, this.noWhitespaceValidator]
@@ -70,7 +69,16 @@ export class EditUserComponent implements OnInit {
         ],
         secondaryEmail: [this.user.secondaryEmail, Validators.email]
       });
-      await console.log(this.user);
+      this.userRole = this.user.role;
+      if (this.user.role === 'admin') {
+        this.firstFormGroup.removeControl('organizations');
+      }
+      if (this.user.role === 'viewer') {
+        this.firstFormGroup.addControl(
+          'organizations',
+          new FormControl('', Validators.required)
+        );
+      }
     } catch (error) {
       console.log(error);
     }
@@ -87,17 +95,40 @@ export class EditUserComponent implements OnInit {
       );
     }
   }
+  adminRolePressed() {
+    if (this.userRole === 'viewer') {
+      this.firstFormGroup.removeControl('organizations');
+    }
+    this.userRole = 'admin';
+  }
+
+  viewerCalled() {
+    if (this.userRole === 'admin') {
+      this.firstFormGroup.addControl(
+        'organizations',
+        new FormControl('', Validators.required)
+      );
+    }
+    this.userRole = 'viewer';
+  }
 
   /**
    * ON SUBMIT FOR CREATING NEW USER
    */
   onSubmit() {
     const firstForm = this.firstFormGroup.value;
-    let orgs = [];
-
-    if (firstForm.role === 'Viewer') {
-      orgs = firstForm.organizations;
-      const newUser: UserViewModel.EditUser = {
+    const orgs = [];
+    console.log('On Submit called');
+    let newUser: UserViewModel.EditUser;
+    if (firstForm.role === 'viewer') {
+      for (const orgID of firstForm.organizations) {
+        orgs.push(
+          this.organizations.find(org => {
+            return org._id === orgID;
+          })
+        );
+      }
+      newUser = {
         _id: this.userID,
         firstName: firstForm.firstName,
         lastName: firstForm.lastName,
@@ -106,22 +137,20 @@ export class EditUserComponent implements OnInit {
         organizations: orgs,
         role: firstForm.role
       };
-      this.userService.editUser(newUser);
-      console.log(newUser);
     }
-    if (firstForm.role === 'Admin') {
-      const newUser: UserViewModel.EditUser = {
+    if (firstForm.role === 'admin') {
+      newUser = {
         _id: this.userID,
         firstName: firstForm.firstName,
         lastName: firstForm.lastName,
         googleID: firstForm.email,
         secondaryEmail: firstForm.secondaryEmail,
-        organizations: [],
+        organizations: this.organizations,
         role: firstForm.role
       };
-      this.userService.editUser(newUser);
-      console.log(newUser);
     }
+    console.log(newUser);
+    this.userService.editUser(newUser);
   }
 
   openDialog() {
@@ -130,9 +159,11 @@ export class EditUserComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(true);
-      if (!result) {
+      if (result) {
+        this.adminRolePressed();
+      } else {
         this.firstFormGroup.controls['role'].setValue('Viewer');
+        this.viewerCalled();
       }
     });
   }

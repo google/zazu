@@ -224,9 +224,8 @@ export class ReportService {
    * Delete Report
    * @param reportID - ID of the report you want to delete
    */
-  public async deleteReport(reportID: string) {
-    return await this.http
-      .post(this.URL + 'deleteReport/', { reportID: reportID })
-      .toPromise();
+  public async deleteReport(report: ReportViewModel.ReportWithMetaData) {
+    console.log('report deleted: ' + JSON.stringify(report));
+    return await this.http.post(this.URL + 'deleteReport/', report).toPromise();
   }
 }

@@ -1,3 +1,4 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { OrganizationService } from './../../shared/services/organization.service';
 import { Component, OnInit, OnChanges } from '@angular/core';
 import {
@@ -17,12 +18,14 @@ import { FormGroup } from '@angular/forms';
 export class CreateNewOrganizationComponent implements OnInit {
   constructor(
     private organizatinonService: OrganizationService,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
   options = [];
 
   orgNameTooltip =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Peccata paria. Restinguet citius, si ardentem acceperit. Sed quid sentiat, non videtis. Vide, quantum, inquam, fallare, Torquate. Age, inquies, ista parva sunt.';
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Peccata paria. Restinguet citius, si ardentem acceperit.';
 
   filteredOptions: Observable<string[]>;
   selectedCategories = [''];
@@ -39,13 +42,10 @@ export class CreateNewOrganizationComponent implements OnInit {
         ]),
         itemRows: this._fb.array([this.initItemRows()], this.noDuplicate)
       });
-
     } catch (error) {
       console.log(error);
     }
   }
-
-
 
   addAnotherCategory() {
     this.selectedCategories.push('');
@@ -71,17 +71,24 @@ export class CreateNewOrganizationComponent implements OnInit {
     return this.orgForm.controls;
   }
 
-  onSubmit() {
-    const temp = [];
-
-    for (const itemname of this.orgForm.value.itemRows) {
-      temp.push(itemname.itemname);
-    }
-    const org = {
-      name: this.orgForm.value.orgName,
-      categories: temp
-    };
-    this.organizatinonService.createNewOrganization(org);
+  async onSubmit() {
+    try {
+      const temp = [];
+      for (const itemname of this.orgForm.value.itemRows) {
+        temp.push(itemname.itemname);
+      }
+      const org = {
+        name: this.orgForm.value.orgName,
+        categories: temp
+      };
+      const newOrg = await this.organizatinonService.createNewOrganization(
+        org
+      );
+      console.log(newOrg);
+      if (await newOrg.status === '200') {
+        await this.router.navigate(['../', newOrg.orgID], { relativeTo: this.route} );
+      }
+    } catch (error) {}
   }
 
   public noWhitespaceValidator(control: FormControl) {

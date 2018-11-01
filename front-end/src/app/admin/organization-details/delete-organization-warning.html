@@ -1,0 +1,16 @@
+<div class="dialog">
+  <h2 class="title warning"><i class="material-icons">
+      warning
+    </i>Cannot delete {{data.organization}}</h2>
+  <div mat-dialog-content>
+    <h4 class="subtitle">This organization must not have any users before you can delete it</h4>
+    <ul class="conditions">
+      <li> You must delete all users that have access to this organization</li>
+      <li> If a user has access to multiple organization including this one, you must revoke their access to this organization</li>
+      <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+    </ul>
+  </div>
+  <div mat-dialog-actions style="float:right">
+    <button mat-button (click)="onNoClick()">Back</button>
+  </div>
+</div>

@@ -13,8 +13,8 @@
                 <mat-form-field appearance="fill" style="width:80%">
                   <mat-label>Role</mat-label>
                   <mat-select formControlName="role" [(value)]="roleSelected" >
-                    <mat-option value="Admin" (click)="openDialog()">Admin</mat-option>
-                    <mat-option value="Viewer" (click)="checkRole()">Viewer</mat-option>
+                    <mat-option value="admin" (click)="openDialog()">Admin</mat-option>
+                    <mat-option value="viewer" (click)="viewerCalled()">Viewer</mat-option>
                   </mat-select>
                   <mat-error>
                       Role is <strong>required</strong>
@@ -25,7 +25,7 @@
                 </i>
               </div>
 
-              <div class="row" *ngIf="firstFormGroup.value.role === 'Viewer'">
+              <div class="row" *ngIf="firstFormGroup.value.role === 'viewer'">
                 <i class="material-icons form-icon">
                   business
                 </i>

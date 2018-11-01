@@ -61,9 +61,9 @@ export class OrganizationService {
    * Method for creating new orgnization
    * @param organization - organization object
    */
-  public async createNewOrganization(organization: OrganizationViewModel.CreateNewOrganization) {
+  public async createNewOrganization(organization: OrganizationViewModel.CreateNewOrganization): Promise<OrganizationViewModel.CreateOrganizationReturn> {
     console.log('Organization Created');
-    return await ((this.http.post('/api/' + 'createOrganization', organization)).toPromise());
+    return await ((this.http.post<OrganizationViewModel.CreateOrganizationReturn>('/api/' + 'createOrganization', organization)).toPromise());
   }
 
   /**
@@ -79,9 +79,9 @@ export class OrganizationService {
    * Method for deleting organization
    * @param organizationID - ID of the organization you want to delete
    */
-  public async deleteOrganization(organizationID: string) {
-    console.log('Organization Delete: ' + organizationID);
-    return await ((this.http.post('/api/' + 'deleteOrganization', {'orgID': organizationID })).toPromise());
+  public async deleteOrganization(organization) {
+    console.log('Organization Delete: ' + JSON.stringify(organization));
+    return await ((this.http.post('/api/' + 'deleteOrganization', organization)).toPromise());
   }
 
   /********** LOCAL ORGANIZATION METHODS FOR OPTIMIZATION AND LESS API CALLS  **********/

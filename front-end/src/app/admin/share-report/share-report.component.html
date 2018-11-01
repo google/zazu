@@ -37,9 +37,9 @@
           </form>
         </mat-step>
         <!-- ***** 2nd step: Selecting from list-->
-        <mat-step *ngIf="reports && selectedOrg">
+        <mat-step >
           <!-- selecting report -->
-          <form>
+          <form *ngIf="reports && selectedOrg">
             <div class="row">
               <h4 class="input-header"> Please Select a report to share to {{selectedOrg.name}} </h4>
             </div>
@@ -58,8 +58,8 @@
           </form>
         </mat-step>
 
-        <mat-step *ngIf="selectedReport && selectedOrg">
-          <form *ngIf="selectedReport">
+        <mat-step >
+          <form *ngIf="selectedReport && selectedOrg">
 
             <div class="row">
               <h4 class="input-header">New Report for {{selectedOrg.name}}</h4>

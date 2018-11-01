@@ -60,21 +60,27 @@ export class ShareReportComponent  implements OnInit {
     }
   }
 
-  selectReport(param) {
+  async selectReport(param) {
     console.log(param);
-    this.selectedReport = this.reports.find(report => {
+     this.selectedReport = await this.reports.find(report => {
       return report._id === param.reportID;
     });
+    if (this.organizationID) {
+      await this.selectStep(1);
+    } else {
+      await this.selectStep(2);
+    }
   }
 
   selectStep(id) {
     this.stepper.selectedIndex = id;
   }
 
-  orgSelected() {
-      this.selectedOrg = this.organizations.find(org => {
+  async orgSelected() {
+       this.selectedOrg = await this.organizations.find(org => {
         return org._id === this.orgForm.value.organization;
       });
+      await this.selectStep(1);
   }
 
   onSubmit() {

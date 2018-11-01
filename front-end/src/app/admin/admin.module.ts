@@ -10,7 +10,8 @@ import { AdminRoutingModule } from './admin-routing.module';
 import {
   OrganizationDetailsComponent,
   DeleteOrganizationConfirmation,
-  DeleteDataruleConfirmation
+  DeleteDataruleConfirmation,
+  DeleteOrganizationWarning
 } from './organization-details/organization-details.component';
 import { OrganizationComponent } from './organization/organization.component';
 import {
@@ -84,7 +85,8 @@ import { EditReportAccessComponent } from './edit-report-access/edit-report-acce
     DeleteDataruleConfirmation,
     GhostComponent,
     EditReportAccessComponent,
-    NewReportChoice
+    NewReportChoice,
+    DeleteOrganizationWarning
   ],
   imports: [
     CommonModule,
@@ -99,7 +101,8 @@ import { EditReportAccessComponent } from './edit-report-access/edit-report-acce
     DeleteUserConfirmation,
     DeleteReportConfirmation,
     DeleteDataruleConfirmation,
-    NewReportChoice
+    NewReportChoice,
+    DeleteOrganizationWarning
   ]
 })
 export class AdminModule {}

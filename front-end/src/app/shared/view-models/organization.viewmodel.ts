@@ -34,3 +34,7 @@ export interface DeleteOrganization {
   _id: string;
 }
 
+export interface CreateOrganizationReturn {
+  orgID: string;
+  status: string;
+}

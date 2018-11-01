@@ -182,7 +182,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.organizationService.deleteOrganization(this.organizationID);
+        this.organizationService.deleteOrganization(this.organization);
         this.router.navigate(['../list'], { relativeTo: this.route });
       }
     });
@@ -197,6 +197,17 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
         this.dataruleService.deleteDataRule(datarule._id);
       }
     });
+  }
+
+
+  async orgDeleteWarning() {
+    if (!this.users) {
+      await this.getUsers();
+    }
+    const dialogRef = this.dialog.open(DeleteOrganizationWarning, {
+      data: { users: this.users.length, organization: this.organization.name }
+    });
+    dialogRef.afterClosed().subscribe(result => {});
   }
 }
 
@@ -222,6 +233,22 @@ export class DeleteOrganizationConfirmation {
 export class DeleteDataruleConfirmation {
   constructor(
     public dialogRef: MatDialogRef<DeleteDataruleConfirmation>,
+    @Inject(MAT_DIALOG_DATA) public data
+  ) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+}
+
+
+@Component({
+  selector: 'delete-organization-warning',
+  templateUrl: 'delete-organization-warning.html'
+})
+export class DeleteOrganizationWarning {
+  constructor(
+    public dialogRef: MatDialogRef<DeleteOrganizationWarning>,
     @Inject(MAT_DIALOG_DATA) public data
   ) {}
 

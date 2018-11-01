@@ -20,6 +20,39 @@
 
 
 
+/***** CREATE NEW REPORT STYLES POPUP MENU *************/
+
+
+::ng-deep .new-report-menu.mat-menu-panel {
+  background-color: rgba(0, 0, 0, 0);
+
+  border: none;
+
+  box-shadow: none;
+
+
+}
+::ng-deep .new-report-menu.mat-menu-panel button .mat-icon {
+  background-color: $primary;
+
+  color: white !important;
+
+  border-radius: 50%;
+
+  padding: 7px;
+}
+
+::ng-deep .new-report-menu.mat-menu-panel button .text {
+  background-color: white;
+  padding: 10px;
+  box-shadow:  0 2px 4px gray;
+  border-radius: 5px;
+}
+
+
+::ng-deep .cdk-overlay-container {
+  background-color: rgba(50,50,50,0.5);
+}
 
 
 /**** BUTTONS STUFF   */
@@ -592,6 +625,10 @@ body {
   .delete {
     color: $danger-color !important;
 
+  }
+
+  .warning {
+    color: $warning !important;
   }
 
   p {

@@ -65,7 +65,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.reportService.deleteReport(this.reportID);
+        this.reportService.deleteReport(this.report);
         this.router.navigate(['../../'], { relativeTo: this.route });
       }
     });

@@ -50,13 +50,13 @@
               <div *ngIf="reportsInitialized && reports.length === 0 " class="empty-list">
                 <div class="icons">
                   <i class="material-icons main"> assessment </i>
-                  <button routerLink="./new-report" mat-fab class="button-fab add" color="primary-button"> <i class="material-icons">
+                  <button [matMenuTriggerFor]="createMenu" mat-fab class="button-fab add" color="primary-button"> <i class="material-icons">
                       add
                     </i>
                   </button>
                 </div>
                 <h2 class="title"> There are no reports.</h2>
-                <h3 class="create-text" routerLink="./new-report"> Create new report</h3>
+                <h3 class="create-text" [matMenuTriggerFor]="createMenu"> Create new report</h3>
               </div>
 
 
@@ -184,3 +184,16 @@
     </div>
   </div>
 </div>
+
+
+
+<mat-menu class="new-report-menu" #createMenu="matMenu" yPosition="above" [overlapTrigger]="false">
+  <button mat-menu-item routerLink="./new-report">
+    <mat-icon>create</mat-icon>
+    <span class="text">Create New Report</span>
+  </button>
+  <button mat-menu-item routerLink="./share-report">
+    <mat-icon>share</mat-icon>
+    <span  class="text">Share New Report&nbsp;</span>
+  </button>
+</mat-menu>
