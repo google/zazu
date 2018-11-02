@@ -1,7 +1,7 @@
 [{
     "_id": "5bb64d20f561abe8ae915e50",
     "name": "Lego Toys Manufacturing Report",
-    "date": "Wed Oct 08 1980 11:59:28 GMT-0400 (Eastern Daylight Time)",
+    "created_at": "Wed Oct 08 1980 11:59:28 GMT-0400 (Eastern Daylight Time)",
     "organizations": [{
       "_id": "1",
       "name": "The Lego Group"
@@ -10,7 +10,7 @@
   {
     "_id": "5bb64d20a7b3827a70c942fb",
     "name": "Ain't No Mountain High Enough Report",
-    "date": "Mon Feb 20 2012 23:08:43 GMT-0500 (Eastern Standard Time)",
+    "created_at": "Mon Feb 20 2012 23:08:43 GMT-0500 (Eastern Standard Time)",
     "organizations": [{
       "_id": "2",
       "name": "No Name"
@@ -22,7 +22,7 @@
   {
     "_id": "5bb64d20543ac58e56735425",
     "name": "Jeans Jeans JEANS! Annual Report",
-    "date": "Sat Aug 25 1973 10:35:38 GMT-0400 (Eastern Daylight Time)",
+    "created_at": "Sat Aug 25 1973 10:35:38 GMT-0400 (Eastern Daylight Time)",
     "organizations": [{
       "_id": "3",
       "name": "The Old Navy"
@@ -31,7 +31,7 @@
   {
     "_id": "5bb64d202aa909effa137f3b",
     "name": "Fail Tech Summary",
-    "date": "Mon Jun 01 1992 10:31:02 GMT-0400 (Eastern Daylight Time)",
+    "created_at": "Mon Jun 01 1992 10:31:02 GMT-0400 (Eastern Daylight Time)",
     "organizations": [{
       "_id": "4",
       "name": "VTech"
@@ -40,7 +40,7 @@
   {
     "_id": "5bb64d20c57575fed9f406a6",
     "name": "Games Annual Sales Report",
-    "date": "Sat Oct 31 1992 07:40:35 GMT-0500 (Eastern Standard Time)",
+    "created_at": "Sat Oct 31 1992 07:40:35 GMT-0500 (Eastern Standard Time)",
     "organizations": [{
       "_id": "5",
       "name": "Nintendo"
@@ -49,34 +49,34 @@
   {
     "_id": "5bb64d20021a7346fc234675",
     "name": "Example Report",
-    "date": "Fri Oct 20 1989 07:50:35 GMT-0400 (Eastern Daylight Time)",
+    "created_at": "Fri Oct 20 1989 07:50:35 GMT-0400 (Eastern Daylight Time)",
     "organizations": [{
       "_id": "6",
       "name": "Example Company"
     }]
   },
   {
-    "_id": "5bb64d205f97574019f04ea7",
+    "_id": "12321",
     "name": "New Lego Merchandise Report",
-    "date": "Mon May 08 1972 03:34:56 GMT-0400 (Eastern Daylight Time)",
+    "created_at": "Mon May 08 1972 03:34:56 GMT-0400 (Eastern Daylight Time)",
     "organizations": [{
       "_id": "1",
       "name": "The Lego Group"
     }]
   },
   {
-    "_id": "5bb64d205f97574019f04ea7",
+    "_id": "21321",
     "name": "Newer Lego Merchanidise Report",
-    "date": "Mon May 08 1972 03:34:56 GMT-0400 (Eastern Daylight Time)",
+    "created_at": "Mon May 08 1972 03:34:56 GMT-0400 (Eastern Daylight Time)",
     "organizations": [{
       "_id": "1",
       "name": "The Lego Group"
     }]
   },
   {
-    "_id": "5bb64d205f97574019f04ea7",
+    "_id": "21312321312",
     "name": "Hoodies are the new thing Report",
-    "date": "Mon May 08 1972 03:34:56 GMT-0400 (Eastern Daylight Time)",
+    "created_at": "Mon May 08 1972 03:34:56 GMT-0400 (Eastern Daylight Time)",
     "organizations": [{
       "_id": "3",
       "name": "The Old Navy"
@@ -84,9 +84,9 @@
   },
 
   {
-    "_id": "5bb64d205f97574019f04ea7",
+    "_id": "asdfasd",
     "name": "Budget Cuts Summary",
-    "date": "Mon May 08 1972 03:34:56 GMT-0400 (Eastern Daylight Time)",
+    "created_at": "Mon May 08 1972 03:34:56 GMT-0400 (Eastern Daylight Time)",
     "organizations": [{
       "_id": "5",
       "name": "Nintendo"
@@ -94,9 +94,9 @@
   },
 
   {
-    "_id": "5bb64d205f97574019f04ea7",
+    "_id": "asdfsad",
     "name": "Computer Sales Report",
-    "date": "Mon May 08 1972 03:34:56 GMT-0400 (Eastern Daylight Time)",
+    "created_at": "Mon May 08 1972 03:34:56 GMT-0400 (Eastern Daylight Time)",
     "organizations": [{
       "_id": "5",
       "name": "Nintendo"
@@ -104,27 +104,27 @@
   },
 
   {
-    "_id": "5bb64d205f97574019f04ea7",
+    "_id": "sadfsadfsdaf",
     "name": "Example Report 2",
-    "date": "Mon May 08 1972 03:34:56 GMT-0400 (Eastern Daylight Time)",
+    "created_at": "Mon May 08 1972 03:34:56 GMT-0400 (Eastern Daylight Time)",
     "organizations": [{
       "_id": "6",
       "name": "Example Company"
     }]
   },
   {
-    "_id": "5bb64d205f97574019f04ea7",
+    "_id": "sadfsda",
     "name": "Low Sales Report",
-    "date": "Mon May 08 1972 03:34:56 GMT-0400 (Eastern Daylight Time)",
+    "created_at": "Mon May 08 1972 03:34:56 GMT-0400 (Eastern Daylight Time)",
     "organizations": [{
       "_id": "2",
       "name": "No Name"
     }]
   },
   {
-    "_id": "5bb64d205f97574019f04ea7",
+    "_id": "sadfasdfsd",
     "name": "The Lego Report",
-    "date": "Mon May 08 1972 03:34:56 GMT-0400 (Eastern Daylight Time)",
+    "created_at": "Mon May 08 1972 03:34:56 GMT-0400 (Eastern Daylight Time)",
     "organizations": [{
       "_id": "1",
       "name": "The Lego Group"

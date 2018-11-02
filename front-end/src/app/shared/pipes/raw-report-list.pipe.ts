@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { PaginationService } from '../services/pagination.service';
 @Pipe({
-  name: 'reportList'
+  name: 'rawReportList'
 })
-export class ReportListPipe implements PipeTransform {
+export class RawReportListPipe implements PipeTransform {
   constructor(private paginationService: PaginationService) {}
   transform(
     reportList: any[],
@@ -26,9 +26,12 @@ export class ReportListPipe implements PipeTransform {
       // if there's a organization
       if (organization) {
         if (organization !== 'All') {
-          currentList = currentList.filter(
-            element => element.organization._id === organization
-          );
+          currentList = currentList.filter(element => {
+            const temp = element.organizations.filter(org => {
+              return org._id === organization;
+            });
+            return temp.length > 0;
+          });
         }
       }
       // if there's a sort

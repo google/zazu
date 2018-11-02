@@ -17,11 +17,11 @@
       <h4 class="info-title"> Report Information</h4>
       <p> Name: <span class="info">{{report.name}} </span></p>
       <p>Organization: <span class="info">{{report.organization.name}} </span></p>
-      <p>Date: <span class="info"> {{report.date | date }}</span> </p>
+      <p>Date: <span class="info"> {{report.created_at | date }}</span> </p>
       <p>Datastudio Link: <span class="info"> {{report.link}}</span></p>
       <p>Datasources: </p>
       <div *ngFor="let datasource of report.datasources; let i = index">
-        <p>&nbsp;&nbsp;&nbsp;&bull;<span class="info"> {{datasource.name}} </span> </p>
+        <p>&nbsp;&nbsp;&nbsp;&bull;<span class="info"> {{datasource}} </span> </p>
       </div>
     </div>
   </div>

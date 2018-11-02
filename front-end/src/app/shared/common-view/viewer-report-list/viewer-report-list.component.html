@@ -20,7 +20,7 @@
           <div class="container" (click)="reportClicked(report._id, report.organization._id)">
             <h4 class="title"><strong> {{report.name}}</strong></h4>
             <p class="secondary">{{report.organization.name}}</p>
-            <p class="content"> {{report.date | date}} </p>
+            <p class="content"> {{report.created_at | date}} </p>
           </div>
         </div>
       </div>

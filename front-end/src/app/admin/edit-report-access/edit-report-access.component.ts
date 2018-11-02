@@ -57,8 +57,10 @@ export class EditReportAccessComponent implements OnInit {
 
   onSubmit() {
     const temp = this.accessForm.value;
-    const orgID = temp.selectedOrganization;
-    this.reportService.deleteOrgAccess(this.reportID, orgID);
+    const org = this.organizations.find( x => {
+      return x._id === temp.selectedOrganization;
+    });
+    this.reportService.deleteOrgAccess(this.reportID, org);
   }
 
   public getForm() {

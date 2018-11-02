@@ -52,36 +52,37 @@ export class EditReportComponent implements OnInit {
       this.organizations = this.report.organizations;
       this.reportInfoForm = this.formBuilder.group({
         name: [this.report.name, [Validators.required, this.noWhitespaceValidator]],
-        datastudioLink: [this.report.link, [Validators.required, this.noWhitespaceValidator]],
-        datasourceRows: this.formBuilder.array(
-          [this.initItemRows('', '')],
-          this.noDuplicate
-        )
+        link: [this.report.link, [Validators.required, this.noWhitespaceValidator]],
+        datasources: [this.report.datasources, [Validators.required]],
+        dataStudioSourceIDs: this.formBuilder.array([this.initItemRows('')], this.noDuplicate)
       });
-      const control = <FormArray>this.reportInfoForm.controls['datasourceRows'];
+      console.log(this.report);
+      console.log(this.report.datasources);
+      this.reportInfoForm.controls['datasources'].setValue(this.report.datasources);
+      const control = <FormArray>this.reportInfoForm.controls['dataStudioSourceIDs'];
       control.removeAt(0);
-      for ( const datasource of this.report.datasources) {
-        this.addNewRow(datasource.name, datasource._id);
+      console.log( this.report.dataStudioSourceIDs);
+      for ( const id of this.report.dataStudioSourceIDs) {
+        this.addNewRow(id);
       }
     } catch (error) {
       console.log(error);
     }
   }
 
-  initItemRows(name, id) {
+  initItemRows(id) {
     return this.formBuilder.group({
-      name: [name, [Validators.required]],
-      datastudioId: [id, [Validators.required, this.noWhitespaceValidator]]
+      id: [id, [Validators.required]],
     });
   }
 
-  addNewRow(name, id) {
-    const control = <FormArray>this.reportInfoForm.controls['datasourceRows'];
-    control.push(this.initItemRows(name, id));
+  addNewRow(id) {
+    const control = <FormArray>this.reportInfoForm.controls['dataStudioSourceIDs'];
+    control.push(this.initItemRows(id));
   }
 
   deleteRow(index: number) {
-    const control = <FormArray>this.reportInfoForm.controls['datasourceRows'];
+    const control = <FormArray>this.reportInfoForm.controls['dataStudioSourceIDs'];
     control.removeAt(index);
   }
 
@@ -103,13 +104,12 @@ export class EditReportComponent implements OnInit {
     }
     if (array.value) {
       const temp = [];
-      for (const datasource of array.value) {
-        if (!temp.includes(datasource.name)) {
-          if (datasource.name !== '') {
-            temp.push(datasource.name);
+      for (const id of array.value) {
+        if (!temp.includes(id.id)) {
+          if (id.id !== '') {
+            temp.push(id.id);
           }
         } else {
-
           return { duplicate: true };
         }
       }
@@ -119,11 +119,19 @@ export class EditReportComponent implements OnInit {
 
   onSubmit() {
     const rForm = this.reportInfoForm.value;
+    const ids = [];
+    for (const id of rForm.dataStudioSourceIDs) {
+      ids.push(id.id);
+
+    }
     const report = {
       _id: this.reportID,
       name: rForm.name,
-      datastudioLink: rForm.datastudioLink,
-      datasources: rForm.datasourceRows,
+      link: rForm.link,
+      datasources: rForm.datasources,
+      organizations: this.report.organizations,
+      dataStudioSourceIDs: ids
+
     };
     this.reportService.editReport(report);
     console.log(report);

@@ -44,10 +44,10 @@
               <h4 class="input-header"> Please Select a report to share to {{selectedOrg.name}} </h4>
             </div>
             <div class="main-content-view" style="padding:0">
-              <app-report-list [reports]="reports" [allowAdd]=false (report)="selectReport($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-report-list>
+              <app-report-list [rawReports]="reports" [allowAdd]=false (report)="selectReport($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-report-list>
             </div>
             <div class="buttons">
-              <button mat-button matStepperPrevious *ngIf="!organizationID" >Cancel</button>
+              <button mat-button matStepperPrevious *ngIf="!organizationID" (click)="resetReports">Cancel</button>
               <button mat-button  *ngIf="organizationID" routerLink="../">Cancel</button>
               <button *ngIf="!organizationID" [disabled]="!selectedReport" [ngClass]="{'button-disabled': !selectedReport}"
                 (click)="selectStep(2)" class="done primary" mat-flat-button>Next</button>
@@ -65,13 +65,10 @@
               <h4 class="input-header">New Report for {{selectedOrg.name}}</h4>
             </div>
             <div class="row">
-              <p style="margin:0">This report is currently being used by "2" other organizations:</p>
-              <ul>
-                <li>
-                  Org 1
-                </li>
-                <li>
-                  Org 2
+              <p style="margin:0">This report is currently being used by {{selectedReport.organizations.length}} other organizations:</p>
+              <ul style="margin:0">
+                <li *ngFor="let org of selectedReport.organizations">
+                  {{org.name}}
                 </li>
               </ul>
             </div>
@@ -82,7 +79,7 @@
                     <div class="container">
                       <h4 class="title"><strong> {{selectedReport.name}}</strong></h4>
 
-                      <p class="content"> {{selectedReport.date | date}} </p>
+                      <p class="content"> {{selectedReport.created_at | date}} </p>
                     </div>
                   </div>
                 </div>

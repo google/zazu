@@ -19,7 +19,7 @@ export class ViewerReportComponent implements OnInit, OnDestroy {
 
   sub: any;
   reportID;
-  report: ReportViewModel.Report;
+  report: ReportViewModel.ReportWithMetaData;
   reportsCount;
   initialized = false;
   selectedOrgID;

@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ViewerReportComponent } from './common-view/viewer-report/viewer-report.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RawReportListPipe } from './pipes/raw-report-list.pipe';
 
 @NgModule({
   imports: [
@@ -15,11 +16,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   ],
   declarations: [
     ReportListPipe,
+    RawReportListPipe,
     ViewerReportComponent,
     ViewerReportListComponent
   ],
   exports: [
     ReportListPipe,
+    RawReportListPipe,
     ViewerReportComponent,
     ViewerReportListComponent,
     AngularMaterialModule

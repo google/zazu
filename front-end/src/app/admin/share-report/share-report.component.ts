@@ -14,7 +14,7 @@ import { MatStepper } from '@angular/material';
   templateUrl: './share-report.component.html',
   styleUrls: ['./share-report.component.scss']
 })
-export class ShareReportComponent  implements OnInit {
+export class ShareReportComponent implements OnInit {
   @ViewChild('stepper')
   stepper: MatStepper;
   constructor(
@@ -25,21 +25,22 @@ export class ShareReportComponent  implements OnInit {
     private formBuilder: FormBuilder,
     private datarulesService: DatarulesService
   ) {}
-  reports: ReportViewModel.SimpleReport[];
+  reports: ReportViewModel.SimpleRawReport[];
   organizations: OrganizationViewModel.SimpleOrganization[];
   orgForm: FormGroup;
   selectTypeForm: FormGroup;
 
   datasources: DataViewModel.DataSource[];
-  selectedReport: ReportViewModel.SimpleReport;
+  selectedReport: ReportViewModel.SimpleRawReport;
   selectedOrg;
   organizationID;
-
+  allReports;
   sub: any;
 
   async ngOnInit() {
     try {
-      this.reports = await this.reportService.getAllReports();
+      this.reports = await this.reportService.getAllRawReports();
+      this.allReports = this.reports ;
       this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();
       this.datasources = await this.datarulesService.getAllDataSourceForOrganization(
         'id'
@@ -61,8 +62,7 @@ export class ShareReportComponent  implements OnInit {
   }
 
   async selectReport(param) {
-    console.log(param);
-     this.selectedReport = await this.reports.find(report => {
+    this.selectedReport = await this.reports.find(report => {
       return report._id === param.reportID;
     });
     if (this.organizationID) {
@@ -72,19 +72,36 @@ export class ShareReportComponent  implements OnInit {
     }
   }
 
+  resetReports() {
+    this.reports = this.allReports;
+  }
+
   selectStep(id) {
     this.stepper.selectedIndex = id;
   }
 
   async orgSelected() {
-       this.selectedOrg = await this.organizations.find(org => {
-        return org._id === this.orgForm.value.organization;
-      });
-      await this.selectStep(1);
+    this.resetReports();
+    this.selectedOrg = await this.organizations.find(org => {
+      return org._id === this.orgForm.value.organization;
+    });
+
+    this.reports = this.reports.filter(report => {
+      return (
+        report.organizations.find(org => {
+          return org._id === this.orgForm.value.organization;
+        }) === undefined
+      );
+    });
+    await this.selectStep(1);
   }
 
   onSubmit() {
-    this.reportService.shareReport(this.selectedReport._id, this.selectedOrg._id);
+    const org = this.organizations.find(x => {
+      return x._id === this.selectedOrg._id;
+    });
+    const report = this.selectedReport;
+    report.organizations.push(org);
+    this.reportService.shareReport(report);
   }
-
 }

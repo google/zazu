@@ -51,7 +51,7 @@ export class ReportService {
           const temp1 = {
             name: report.name,
             _id: report._id,
-            date: report.date,
+            created_at: report.created_at,
             organization: org
           };
           reports.push(temp1);
@@ -60,7 +60,7 @@ export class ReportService {
         const temp2 = {
           name: report.name,
           _id: report._id,
-          date: report.date,
+          created_at: report.created_at,
           organization: report.organizations[0]
         };
         reports.push(temp2);
@@ -182,17 +182,13 @@ export class ReportService {
 
   /**
    * Share report by giving an organization access to it
-   * @param reportID report you want to share
-   * @param orgID orgID of you want to give access to this report
+   * @param report - the updated report object with new organization
    */
-  public async shareReport(reportID, orgID) {
-    const params = {
-      reportID: reportID,
-      orgID: orgID
-    };
-    console.log('Share Access for ' + JSON.stringify(params));
+  public async shareReport(report) {
+
+    console.log('Share Access for ' + JSON.stringify(report));
     return await this.http
-      .post(this.URL + 'shareReport/', params)
+      .post(this.URL + 'shareReport/', report)
       .toPromise();
   }
 

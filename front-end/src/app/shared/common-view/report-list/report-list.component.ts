@@ -29,10 +29,9 @@ export class ReportListComponent implements OnInit, OnDestroy, OnChanges {
     private route: ActivatedRoute,
     public dialog: MatDialog,
   ) {}
-  @Input()
-  reports: ReportViewModel.SimpleReport[];
-  @Input()
-  allowAdd: boolean;
+  @Input() reports: ReportViewModel.SimpleReport[];
+  @Input() allowAdd: boolean;
+  @Input() rawReports: ReportViewModel.SimpleRawReport[];
   @Output()
   report = new EventEmitter<any>();
   sub: any;
@@ -63,6 +62,7 @@ export class ReportListComponent implements OnInit, OnDestroy, OnChanges {
         }
       );
       this.paginationService.getPagination();
+
     } catch (error) {
       console.log(error);
     }
@@ -71,8 +71,33 @@ export class ReportListComponent implements OnInit, OnDestroy, OnChanges {
   async ngOnChanges() {
     if (this.reports != null && this.organizations != null) {
       for (const report of this.reports) {
-        if (!this.organizations.includes(report.organization)) {
+        const temp = this.organizations.filter( x => {
+          return x._id === report.organization._id;
+        });
+
+        if (temp.length === 0) {
           this.organizations.push(report.organization);
+        }
+
+      }
+      if (this.organizations.length > 1) {
+        this.filterForm.addControl(
+          'selectedOrganization',
+          new FormControl('All')
+        );
+      }
+      this.formInitialize = true;
+    }
+
+    if (this.rawReports != null && this.organizations != null) {
+      for (const report of this.rawReports) {
+        for (const org of report.organizations) {
+          const temp = this.organizations.filter( x => {
+            return x._id === org._id;
+          });
+          if (temp.length === 0) {
+            this.organizations.push(org);
+          }
         }
       }
       if (this.organizations.length > 1) {
@@ -83,9 +108,11 @@ export class ReportListComponent implements OnInit, OnDestroy, OnChanges {
       }
       this.formInitialize = true;
     }
+
   }
 
   reportClicked(reportID, orgID) {
+    console.log(reportID);
     const report = {
       reportID: reportID,
       orgID: orgID

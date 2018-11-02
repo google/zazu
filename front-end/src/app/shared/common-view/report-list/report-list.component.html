@@ -1,15 +1,26 @@
 <div class="left-main-content-view">
-  <div *ngIf="reports != null ">
+  <div *ngIf="reports != null">
     <div class="list">
       <div *ngFor="let report of reports | reportList: searchName: selectedOrganization : sortValue :  pagination.currentPage" class="card">
         <div class="container" (click)="reportClicked(report._id, report.organization._id)">
           <h4 class="title"><strong> {{report.name}}</strong></h4>
           <p class="secondary">{{report.organization.name}}</p>
-          <p class="content"> {{report.date | date}} </p>
+          <p class="content"> {{report.created_at | date}} </p>
         </div>
       </div>
     </div>
   </div>
+  <div *ngIf="rawReports != null">
+      <div class="list">
+        <div *ngFor="let report of rawReports | rawReportList: searchName: selectedOrganization : sortValue :  pagination.currentPage" class="card">
+          <div class="container" (click)="reportClicked(report._id, report.organizations[0]._id)">
+            <h4 class="title"><strong> {{report.name}}</strong></h4>
+            <p class="secondary"><span *ngFor="let org of report.organizations; let i = index">{{org.name}}<span *ngIf="i < report.organizations.length - 1">,&nbsp;</span> </span></p>
+            <p class="content"> {{report.created_at | date}} </p>
+          </div>
+        </div>
+      </div>
+    </div>
   <p class="pagination" *ngIf="this.pagination" style="text-align: center"> <button mat-mini-fab (click)="previousPage()" color="white"
       [disabled]="pagination.currentPage===1"> <i class="material-icons">
         chevron_left
@@ -19,7 +30,6 @@
         chevron_right
       </i> </button>
   </p>
-
 </div>
 <div class="right-main-content-view" *ngIf="formInitialize">
   <div class="filter">

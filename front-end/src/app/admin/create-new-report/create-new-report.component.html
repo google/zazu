@@ -1,4 +1,3 @@
-
 <div class="form-container">
   <div class="card">
     <div class="form">
@@ -28,7 +27,8 @@
             </div>
             <div class="row">
 
-              <p class="create-new-text" >Organization not on the list? <span class="create-new-button" routerLink="../../o/new-organization">Create New Organization </span></p>
+              <p class="create-new-text">Organization not on the list? <span class="create-new-button" routerLink="../../o/new-organization">Create
+                  New Organization </span></p>
             </div>
             <div class="buttons">
               <button mat-button type='button' routerLink="../">Cancel</button>
@@ -66,7 +66,7 @@
               </i>
               <mat-form-field appearance="fill" style="width:80%">
                 <mat-label>Data Studio Link</mat-label>
-                <input formControlName="datastudioLink" matInput placeholder="Data Studio Link">
+                <input formControlName="link" matInput placeholder="Data Studio Link">
                 <mat-error>
                   Data Studio Link is <strong>required</strong>
                 </mat-error>
@@ -76,49 +76,49 @@
               </i>
             </div>
 
-            <div formArrayName="datasourceRows">
-              <div *ngFor="let datasource of reportInfoForm.controls.datasourceRows.controls; let i=index" [formGroupName]="i">
-                <h4 class="input-header">Data Source {{i+1}}
-                    <i class="material-icons info-icon">
-                        info
-                      </i>
-                 </h4>
-                <div class="row">
-                  <i class="material-icons form-icon">
-                    storage
-                  </i>
-                  <mat-form-field appearance="fill" style="width:80%">
-                    <mat-label>Data Source</mat-label>
-                    <mat-select formControlName="name">
-                      <mat-option *ngFor="let datasource of datasources" value="{{datasource.name}}">{{datasource.name}}</mat-option>
-                    </mat-select>
-                    <mat-error>
-                      Data Source is <strong>required</strong>
-                    </mat-error>
-                  </mat-form-field>
-                  <i class="material-icons close-icon" *ngIf="reportInfoForm?.controls.datasourceRows?.controls.length > 1" (click)="deleteRow(i)">
-                      close
-                    </i>
-                </div>
-                <div class="row">
-                  <i class="material-icons form-icon">
-                    class
-                  </i>
-                  <mat-form-field appearance="fill" style="width:80%">
-                    <mat-label>Data Studio ID</mat-label>
-                    <input formControlName="_id" matInput placeholder="Data Studio ID">
-                    <mat-error>
-                      Data Studio ID is <strong>required</strong>
-                    </mat-error>
-                  </mat-form-field>
-                  <i class="material-icons info-icon">
-                    info
-                  </i>
-                </div>
+
+
+            <div class="row">
+              <i class="material-icons form-icon">
+                storage
+              </i>
+              <mat-form-field appearance="fill" style="width:80%">
+                <mat-label>Data Source</mat-label>
+                <mat-select formControlName="datasources" multiple>
+                  <mat-option *ngFor="let datasource of datasources" value="{{datasource.name}}">{{datasource.name}}</mat-option>
+                </mat-select>
+                <mat-error>
+                  Data Source is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+
+            </div>
+            <h4 class="input-header"> Data Studio data source ID <i class="material-icons info-icon">
+                info
+              </i></h4>
+            <div formArrayName="dataStudioSourceIDs">
+                <div *ngFor="let id of reportInfoForm.controls.dataStudioSourceIDs.controls; let i=index" [formGroupName]="i">
+              <div class="row">
+                <i class="material-icons form-icon">
+                  class
+                </i>
+                <mat-form-field appearance="fill" style="width:80%">
+                  <mat-label>Data Studio source ID</mat-label>
+                  <input formControlName="id" matInput placeholder="Data Studio ID">
+                  <mat-error>
+                    Data Studio Data Source ID <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+                <i class="material-icons close-icon" *ngIf="reportInfoForm?.controls.dataStudioSourceIDs?.controls.length > 1" (click)="deleteRow(i)">
+                  close
+                </i>
               </div>
             </div>
-            <p class="custom-error" *ngIf="reportInfoForm.get('datasourceRows').getError('duplicate')">
-                Cannot have duplicate Data Sources </p>
+            </div>
+
+
+            <p class="custom-error" *ngIf="reportInfoForm.get('dataStudioSourceIDs').getError('duplicate')">
+              Cannot have duplicate Data Sources </p>
             <p class="add-row" (click)="addNewRow()">+ Add another Data source</p>
             <div class="buttons">
               <button mat-button type='button' *ngIf="!organizationID" (click)="selectStep(0)">Back</button>

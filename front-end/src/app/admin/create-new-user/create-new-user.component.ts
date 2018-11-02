@@ -78,7 +78,7 @@ export class CreateNewUserComponent implements OnInit {
   /**
    * ON SUBMIT FOR CREATING NEW USER
    */
-  onSubmit() {
+  async onSubmit() {
     const firstForm = this.firstFormGroup.value;
     const secondForm = this.secondFormGroup.value;
     const orgs = [];
@@ -97,8 +97,9 @@ export class CreateNewUserComponent implements OnInit {
       organizations : orgs,
       role: firstForm.role
     };
-    this.userService.createNewUser(newUser);
-    console.log(newUser);
+    const userStatus = await this.userService.createNewUser(newUser);
+    console.log(userStatus);
+
   }
 
   openDialog(stepper: MatStepper) {

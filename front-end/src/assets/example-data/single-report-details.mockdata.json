@@ -2,24 +2,17 @@
   "_id": "5bb64d2028929bcb295337ab",
   "name": "Report Number 19",
   "link": "https://datastudio.com/randomUrl1234",
-  "datasources": [
-    {
-      "name": "Data Source 1",
-      "_id": "0"
-    },
-    {
-      "name": "Data Source 2",
-      "_id": "1"
-    }
-  ],
-  "organizations": [
-    {
-      "_id": "3",
-      "name": "The Old Navy"
-    },
-    {
-      "_id": "1",
-      "name": "The Lego Company"
-    }
+  "datasources": ["Data Source 1","Data Source 2"],
+  "created_at": "Fri May 04 2001 13:16:34 GMT-0400 (Eastern Daylight Time)",
+  "dataStudioSourceIDs": ["DSS 1", "DSS2"],
+  "organizations": [{
+    "_id": "3",
+    "name": "The Old Navy"
+  },
+  {
+    "_id": "1",
+    "name": "The Lego Company"
+  }
   ]
 }
+

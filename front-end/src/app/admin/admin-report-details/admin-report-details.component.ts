@@ -1,7 +1,7 @@
 import { UserService } from './../../shared/services/user.service';
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { ReportService } from '../../shared/services/report.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import * as UserViewModel from '../../shared/view-models/user.viewmodel';
 import * as OrganizationViewModel from '../../shared/view-models/organization.viewmodel';
 import * as ReportViewModel from '../../shared/view-models/report.viewmodel';
@@ -21,7 +21,8 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
     private organizationService: OrganizationService,
     public dialog: MatDialog,
     private router: Router,
-  ) {}
+  ) {
+  }
 
   sub: any;
   organizationID;
@@ -33,30 +34,38 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
   userView: boolean;
   viewInitialized = false;
   selectedOrgID;
-
+  selectedOrg;
   async ngOnInit() {
-    this.sub = this.route.params.subscribe(params => {
-      this.organizationID = params['id'];
-      this.userID = params['userID'];
-      this.reportID = params['reportID'];
-    });
-    this.selectedOrgID = this.route.snapshot.queryParamMap.get('selectedOrg');
+    try {
+      this.viewInitialized = false;
+      this.sub = this.route.params.subscribe(params => {
+        this.organizationID = params['id'];
+        this.userID = params['userID'];
+        this.reportID = params['reportID'];
+      });
+      this.selectedOrgID = await this.route.snapshot.queryParamMap.get('selectedOrg');
+      this.report = await this.reportService.getReport(this.reportID, this.selectedOrgID);
+      this.selectedOrg = await this.report.organizations.find( org => {
+        return org._id === this.selectedOrgID;
+      });
 
+      if (this.userID !== undefined) {
+        this.userView = true;
+        this.user = await this.userService.getLocalUser(this.userID);
+      } else {
+        this.userView = false;
+        this.user = false;
+      }
+      if (this.organizationID) {
+        this.organization = await this.organizationService.getLocalOrganization(this.organizationID);
+      } else {
+        this.organization = false;
+      }
+      this.viewInitialized = true;
+    } catch (error) {
 
-    this.report = await this.reportService.getReport(this.reportID, this.selectedOrgID);
-    if (this.userID !== undefined) {
-      this.userView = true;
-      this.user = await this.userService.getLocalUser(this.userID);
-    } else {
-      this.userView = false;
-      this.user = false;
     }
-    if (this.organizationID) {
-      this.organization = await this.organizationService.getLocalOrganization(this.organizationID);
-    } else {
-      this.organization = false;
-    }
-    this.viewInitialized = true;
+
   }
 
   openDialog( ) {
@@ -71,6 +80,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy() {
+    this.viewInitialized = false;
     this.sub.unsubscribe();
   }
 }

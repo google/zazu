@@ -9,8 +9,8 @@ import * as DataViewModel from './data.viewmodel';
     name: string;
     link: string;
     organization: OrganizationViewModel.SimpleOrganization;
-    datasources: DataViewModel.DataSource[];
-    date: Date;
+    datasources: string[];
+    created_at: Date;
   }
 
   // What I expect to get back for the report list
@@ -20,14 +20,14 @@ import * as DataViewModel from './data.viewmodel';
     _id: string;
     name: string;
     organizations: OrganizationViewModel.SimpleOrganization[];
-    date: Date;
+    created_at: Date;
   }
 
   export interface SimpleReport {
     _id: string;
     name: string;
     organization: OrganizationViewModel.SimpleOrganization;
-    date: Date;
+    created_at: Date;
   }
 
   // What I expect to get back when getting the report with meta data in Admin Report Details
@@ -35,12 +35,12 @@ import * as DataViewModel from './data.viewmodel';
     _id: string;
     name: string;
     link: string;
-    organization: OrganizationViewModel.SimpleOrganization;
-    datasources: DataViewModel.DataSource[];
-    date: Date;
+    organizations: OrganizationViewModel.SimpleOrganization[];
+    datasources: string[];
+    dataStudioSourceIDs: string[];
+    created_at: Date;
     createdBy: string;
     updatedBy: string;
-    accessedBy: OrganizationViewModel.SimpleOrganization[];
   }
 
   export interface ReportDetails {
@@ -48,28 +48,32 @@ import * as DataViewModel from './data.viewmodel';
     name: string;
     link: string;
     organizations: OrganizationViewModel.SimpleOrganization[];
-    datasources: DataViewModel.DataSource[];
+    datasources: string[];
+    dataStudioSourceIDs: string[];
   }
 
   // View Model for creating new report
   export interface CreateNewReport {
     name: string;
-    datastudioLink: string;
-    organizationID: string;
-    datasources: DataViewModel.DataSource[];
+    link: string;
+    organizations: OrganizationViewModel.SimpleOrganization[];
+    datasources: string[];
+    dataStudioSourceIDs: string[];
   }
 
   export interface ShareReport {
     _id: string;
-    organizationID: string;
+    organizationID: OrganizationViewModel.SimpleOrganization[];
   }
 
   // View Model for editing report
   export interface EditReport {
     _id: string;
     name: string;
-    datastudioLink: string;
-    datasources: DataViewModel.DataSource[];
+    link: string;
+    organizations: OrganizationViewModel.SimpleOrganization[];
+    datasources: string[];
+    dataStudioSourceIDs: string[];
   }
 
   // View Model for deleteing report

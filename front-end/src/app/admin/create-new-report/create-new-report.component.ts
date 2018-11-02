@@ -1,3 +1,4 @@
+import { DataRule } from './../../shared/view-models/data.viewmodel';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as ReportViewModel from '../../shared/view-models/report.viewmodel';
 import { ReportService } from 'src/app/shared/services/report.service';
@@ -51,11 +52,9 @@ export class CreateNewReportComponent implements OnInit {
       });
       this.reportInfoForm = this.formBuilder.group({
         name: ['', [Validators.required, this.noWhitespaceValidator]],
-        datastudioLink: ['', [Validators.required, this.noWhitespaceValidator]],
-        datasourceRows: this.formBuilder.array(
-          [this.initItemRows()],
-          this.noDuplicate
-        )
+        link: ['', [Validators.required, this.noWhitespaceValidator]],
+        datasources: ['', [Validators.required]],
+        dataStudioSourceIDs: this.formBuilder.array([this.initItemRows()], this.noDuplicate)
       });
       this.sub = this.route.params.subscribe(params => {
         this.organizationID = params['id'];
@@ -67,9 +66,8 @@ export class CreateNewReportComponent implements OnInit {
         );
         this.rules = await this.datarulesService.getDataRules(this.organizationID);
         console.log(this.selectedOrg);
-      } else {
-        this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();
       }
+      this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();
       console.log(this.reportInfoForm.controls.datasourceRows);
     } catch (error) {
       console.log(error);
@@ -82,18 +80,17 @@ export class CreateNewReportComponent implements OnInit {
 
   initItemRows() {
     return this.formBuilder.group({
-      name: ['', [Validators.required]],
-      _id: ['', [Validators.required, this.noWhitespaceValidator]]
+      id: ['', [Validators.required, this.noWhitespaceValidator]]
     });
   }
 
   addNewRow() {
-    const control = <FormArray>this.reportInfoForm.controls['datasourceRows'];
+    const control = <FormArray>this.reportInfoForm.controls['dataStudioSourceIDs'];
     control.push(this.initItemRows());
   }
 
   deleteRow(index: number) {
-    const control = <FormArray>this.reportInfoForm.controls['datasourceRows'];
+    const control = <FormArray>this.reportInfoForm.controls['dataStudioSourceIDs'];
     control.removeAt(index);
   }
 
@@ -121,10 +118,10 @@ export class CreateNewReportComponent implements OnInit {
     }
     if (array.value) {
       const temp = [];
-      for (const datasource of array.value) {
-        if (!temp.includes(datasource.name)) {
-          if (datasource.name !== '') {
-            temp.push(datasource.name);
+      for (const id of array.value) {
+        if (!temp.includes(id.id)) {
+          if (id.id !== '') {
+            temp.push(id.id);
           }
         } else {
           return { duplicate: true };
@@ -141,16 +138,26 @@ export class CreateNewReportComponent implements OnInit {
   onSubmit() {
     let organization;
     if (this.organizationID) {
-      organization = this.organizationID;
+      organization = this.organizations.find(org => {
+        return org._id === this.organizationID;
+      });
     } else {
-      organization = this.orgForm.value.organization;
+      organization =  organization = this.organizations.find(org => {
+        return org._id === this.orgForm.value.organization;
+      });
     }
     const rForm = this.reportInfoForm.value;
-    const report = {
+    const ids = [];
+    for (const id of rForm.dataStudioSourceIDs) {
+      ids.push(id.id);
+
+    }
+    const report: ReportViewModel.CreateNewReport = {
       name: rForm.name,
-      datastudioLink: rForm.datastudioLink,
-      datasources: rForm.datasourceRows,
-      organizationID: organization
+      link: rForm.link,
+      datasources: rForm.datasources,
+      organizations: organization,
+      dataStudioSourceIDs: ids
     };
     this.reportService.createNewReport(report);
     console.log(report);
