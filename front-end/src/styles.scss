@@ -168,7 +168,25 @@ body {
 
 }
 
-// the contents below breadcrumbs
+/****** NEW BAR FOR CREATE NEW NOTIFICATION *****/
+.new-bar{
+  background-color: rgb(96, 194, 57);
+  width: 100%;
+  text-align: center;
+  height: 45px;
+  position: fixed;
+  margin-top: 50px;
+  box-shadow: 0 3px 4px lightgray;
+  h4 {
+    color: white; margin: 0; margin-top: 10px
+  }
+}
+
+/**** MAIN CONTENT CONTAINER ****/
+
+.main-content-view.new {
+  padding-top: 100px;
+}
 .main-content-view {
   padding-top: 60px;
   padding-left: 30px;

@@ -48,10 +48,9 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
         'Identifier 3',
         'Identifier 4'
       ];
-      this.identifiers = await this.dataruleService.getIdentifiers();
+      this.identifiers = await this.dataruleService.getIdentifiers('datarule.datasource');
       this.dataruleFormGroup = this.formBuilder.group({
         name: [this.dataRule.name, [Validators.required,  this.noWhitespaceValidator]],
-        datasource: [this.dataRule.datasource, Validators.required],
         identifier: [this.dataRule.identifier, Validators.required],
         condition: [this.dataRule.condition, Validators.required],
         token: [this.dataRule.token, [Validators.required,  this.noWhitespaceValidator]]
@@ -79,7 +78,7 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
     const datarule = {
       _id: this.dataRuleId,
       name: form.name,
-      datasource: form.datasource,
+      datasource: String(this.dataRule.datasource),
       identifier: form.identifier,
       condition: form.condition,
       token: form.token,

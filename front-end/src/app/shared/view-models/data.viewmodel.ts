@@ -15,7 +15,7 @@ export interface DataRule {
   _id: string;
   name: string;
   organization: OrganizationViewModel.SimpleOrganization;
-  datasource: DataSource;
+  datasource: string;
   identifier: string;
   condition: string;
   token: string;

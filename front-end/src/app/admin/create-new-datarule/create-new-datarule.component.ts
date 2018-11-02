@@ -13,6 +13,7 @@ import * as DataViewModel from '../../shared/view-models/data.viewmodel';
 })
 export class CreateNewDataruleComponent implements OnInit, OnDestroy {
   dataruleFormGroup: FormGroup;
+  datasourceGroup: FormGroup;
   datasources: DataViewModel.DataSource[];
   constructor(
     private formBuilder: FormBuilder,
@@ -24,17 +25,20 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
   organizationId;
   sub: Subscription;
   organization;
+  selectedDataSource;
+  secondFormInitialized = false;
   async ngOnInit() {
     try {
       this.sub = this.route.params.subscribe(params => {
         this.organizationId = params['id'];
       });
       this.datasources = await this.datarulesService.getDataSources();
-      this.identifiers = await this.datarulesService.getIdentifiers();
+
+      this.datasourceGroup = this.formBuilder.group({
+        datasource: ['', Validators.required],
+      });
       this.dataruleFormGroup = this.formBuilder.group({
         name: ['', [Validators.required,  this.noWhitespaceValidator]],
-        datasource: ['', Validators.required],
-        identifier: ['', Validators.required],
         condition: ['', Validators.required],
         token: ['', [Validators.required,  this.noWhitespaceValidator]]
       });
@@ -48,6 +52,27 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
     }
   }
 
+  disableSecondForm() {
+    this.secondFormInitialized = false;
+    this.dataruleFormGroup.removeControl('identifier');
+    this.dataruleFormGroup.reset();
+  }
+
+  async sourceSelected() {
+    try {
+
+      this.selectedDataSource = await this.datasourceGroup.value.datasource;
+      this.identifiers = await this.datarulesService.getIdentifiers(this.selectedDataSource);
+      await this.dataruleFormGroup.addControl( 'identifier', new FormControl('', Validators.required));
+      this.secondFormInitialized = true;
+      this.dataruleFormGroup.reset();
+    } catch (error) {
+      console.log(error);
+
+    }
+
+  }
+
   public noWhitespaceValidator(control: FormControl) {
     const isWhitespace = (control.value || '').trim().length === 0;
     const isValid = !isWhitespace;
@@ -57,13 +82,14 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     const form = this.dataruleFormGroup.value;
+    const datasource = this.datasourceGroup.value.datasource;
     const org = {
       name: this.organization.name,
       _id: this.organization._id
     };
     const datarule = {
       name: form.name,
-      datasource: form.datasource,
+      datasource: datasource,
       identifier: form.identifier,
       condition: form.condition,
       token: form.token,

@@ -1,0 +1,9 @@
+::ng-deep .mat-horizontal-stepper-header-container {
+  display: none !important;
+
+}
+
+::ng-deep .mat-horizontal-content-container {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}

@@ -4,9 +4,12 @@
         keyboard_arrow_right </i> <i style="margin-left: -14px" class="material-icons arrow"> keyboard_arrow_right </i>&nbsp;&nbsp; <span
         class="active">{{organization.name}}
       </span> </div>
-  </div>
 
-  <div class="main-content-view">
+  </div>
+  <div *ngIf="new" class="new-bar">
+      <h4>User Created</h4>
+    </div>
+  <div class="main-content-view" [ngClass]="{'new': new}">
     <div class="full-content-view" *ngIf="viewInitialized">
       <div class="details">
         <div class="card">
