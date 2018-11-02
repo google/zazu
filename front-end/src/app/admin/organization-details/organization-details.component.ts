@@ -42,7 +42,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
   // users array
   users: UserViewModel.SimpleUserView[];
   selectedTab = 0;
-  dataSources: DataViewModel.DataSource[];
+  dataSources: string[];
   filterForm = new FormGroup({
     name: new FormControl(''),
     selectedDataSource: new FormControl('All')
@@ -58,6 +58,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
   usersInitialized = false;
   datarulesInitialized = false;
   viewInitialized = false;
+  new;
 
   async ngOnInit() {
     try {
@@ -77,6 +78,8 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
           this.pagination = pagination;
         }
       );
+      this.new = await this.route.snapshot.queryParamMap.get('new');
+      // this.new = true;
       this.viewInitialized = true;
       this.reportsInitialized = true;
     } catch (error) {

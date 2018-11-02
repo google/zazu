@@ -1,101 +1,125 @@
 <div class="form-container">
-  <div class="card">
+  <div class="card" *ngIf="organization">
     <div class="form">
-      <form [formGroup]="dataruleFormGroup" *ngIf="dataruleFormGroup" (ngSubmit)="onSubmit()">
-        <h2 class="title"> Create New Data Rule</h2>
-        <hr>
-        <div class="row">
-          <h4 class="input-header"> New Rule for {{organization.name}}</h4>
-          <i class="material-icons form-icon">
-            dns
-          </i>
-          <mat-form-field appearance="fill" style="width:80%">
-            <mat-label>Rule Name</mat-label>
-            <input formControlName="name" matInput placeholder="Enter Name">
-            <mat-error>
-              Rule name is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-          <i class="material-icons info-icon">
-            info
-          </i>
-        </div>
-        <div class="row">
-          <i class="material-icons form-icon">
-            storage
-          </i>
-          <mat-form-field appearance="fill" style="width:80%">
-            <mat-label>Data Source</mat-label>
-            <mat-select formControlName="datasource">
-              <mat-option *ngFor="let datasource of datasources" value="{{datasource}}">{{datasource}}</mat-option>
-            </mat-select>
-            <mat-error>
-              Data source is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-          <i class="material-icons info-icon">
-            info
-          </i>
-        </div>
-        <div class="row">
-          <i class="material-icons form-icon">
-            priority_high
-          </i>
-          <mat-form-field appearance="fill" style="width:80%">
-            <mat-label>Identifier</mat-label>
-            <mat-select formControlName="identifier">
-                <mat-option *ngFor="let identifier of identifiers" value="{{identifier}}">{{identifier}}</mat-option>
+      <h2 class="title"> Create New Data Rule</h2>
+      <hr>
 
-              </mat-select>
-            <mat-error>
-              Identifier is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-          <i class="material-icons info-icon">
-            info
-          </i>
-        </div>
-        <div class="row">
-          <i class="material-icons form-icon">
-            compare
-          </i>
-          <mat-form-field appearance="fill" style="width:80%">
-            <mat-label>Condition</mat-label>
-            <mat-select formControlName="condition">
-              <mat-option value="equals">Equals</mat-option>
-              <mat-option value="contains">Contains</mat-option>
-              <mat-option value="not equals">Not Equals</mat-option>
-            </mat-select>
-            <mat-error>
-              Condition is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-          <i class="material-icons info-icon">
-            info
-          </i>
+      <mat-horizontal-stepper linear #stepper>
+        <mat-step [stepControl]="datasourceGroup">
 
-        </div>
-        <div class="row">
-          <i class="material-icons form-icon">
-            title
-          </i>
-          <mat-form-field appearance="fill" style="width:80%">
-            <mat-label>Token</mat-label>
-            <input formControlName="token" matInput placeholder="Select Data Source">
-            <mat-error>
-              Token is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-          <i class="material-icons info-icon">
-            info
-          </i>
-        </div>
-        <div class="buttons">
-          <button mat-button routerLink="..">Cancel</button>
-          <button class="done primary" [disabled]="!dataruleFormGroup.valid" [ngClass]="{'button-disabled': !dataruleFormGroup.valid}"
-            mat-flat-button type="submit">Done </button>
-        </div>
-      </form>
+          <form [formGroup]="datasourceGroup" *ngIf="datasourceGroup">
+            <h4 class="input-header"> New Rule for {{organization.name}}</h4>
+            <h4 class="input-header"> Please select the Data Source</h4>
+            <div class="row">
+              <i class="material-icons form-icon">
+                storage
+              </i>
+              <mat-form-field appearance="fill" style="width:80%">
+                <mat-label>Data Source</mat-label>
+                <mat-select formControlName="datasource">
+                  <mat-option *ngFor="let datasource of datasources" value="{{datasource}}">{{datasource}}</mat-option>
+                </mat-select>
+                <mat-error>
+                  Data source is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              <i class="material-icons info-icon">
+                info
+              </i>
+            </div>
+            <div class="buttons">
+              <button mat-button type='button' routerLink="../">Cancel</button>
+              <button mat-button type='button' mat-flat-button class="done primary" [disabled]="!datasourceGroup.valid" [ngClass]="{'button-disabled': !datasourceGroup.valid}"
+                matStepperNext (click)='sourceSelected()'>Next</button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="dataruleFormGroup">
+            <div *ngIf="!secondFormInitialized" style="margin:auto; padding-top: 80px; text-align: center">
+                <mat-spinner style="margin:auto"></mat-spinner>
+                <p style="text-align: center;">Data Rule Infomation Loading...</p>
+              </div>
+          <form [formGroup]="dataruleFormGroup" *ngIf="dataruleFormGroup && secondFormInitialized" (ngSubmit)="onSubmit()">
+            <h4 class="input-header"> New Rule for {{organization.name}}</h4>
+            <h4 class="input-header"> Please enter the data rule information for <strong>{{datasourceGroup.value.datasource}}</strong></h4>
+            <div class="row">
+
+              <i class="material-icons form-icon">
+                dns
+              </i>
+              <mat-form-field appearance="fill" style="width:80%">
+                <mat-label>Rule Name</mat-label>
+                <input formControlName="name" matInput placeholder="Enter Name">
+                <mat-error>
+                  Rule name is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              <i class="material-icons info-icon">
+                info
+              </i>
+            </div>
+
+            <div class="row">
+              <i class="material-icons form-icon">
+                priority_high
+              </i>
+              <mat-form-field appearance="fill" style="width:80%">
+                <mat-label>Identifier</mat-label>
+                <mat-select formControlName="identifier">
+                  <mat-option *ngFor="let identifier of identifiers" value="{{identifier}}">{{identifier}}</mat-option>
+
+                </mat-select>
+                <mat-error>
+                  Identifier is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              <i class="material-icons info-icon">
+                info
+              </i>
+            </div>
+            <div class="row">
+              <i class="material-icons form-icon">
+                compare
+              </i>
+              <mat-form-field appearance="fill" style="width:80%">
+                <mat-label>Condition</mat-label>
+                <mat-select formControlName="condition">
+                  <mat-option value="equals">Equals</mat-option>
+                  <mat-option value="contains">Contains</mat-option>
+                  <mat-option value="not equals">Not Equals</mat-option>
+                </mat-select>
+                <mat-error>
+                  Condition is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              <i class="material-icons info-icon">
+                info
+              </i>
+
+            </div>
+            <div class="row">
+              <i class="material-icons form-icon">
+                title
+              </i>
+              <mat-form-field appearance="fill" style="width:80%">
+                <mat-label>Token</mat-label>
+                <input formControlName="token" matInput placeholder="Select Data Source">
+                <mat-error>
+                  Token is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              <i class="material-icons info-icon">
+                info
+              </i>
+            </div>
+            <div class="buttons">
+              <button mat-button matStepperPrevious (click)="disableSecondForm()">Back</button>
+              <button class="done primary" [disabled]="!dataruleFormGroup.valid" [ngClass]="{'button-disabled': !dataruleFormGroup.valid}"
+                mat-flat-button type="submit">Done </button>
+            </div>
+          </form>
+        </mat-step>
+      </mat-horizontal-stepper>
     </div>
   </div>
 </div>
