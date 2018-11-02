@@ -54,7 +54,7 @@ module.exports = {
     return updateRow;
   },
 
-  shareReport: function(file_id, datasource, user_email) {
+  shareReport: function(file_id, datasource_id_list, user_email) {
 
     const oAuth2Client = new OAuth2Client();
 
@@ -63,7 +63,7 @@ module.exports = {
     };
 
     const drive = google.drive({version: 'v3', auth: oAuth2Client });
-    var fileId = file_id;
+
     var permission =
       {
         'type': 'user',
@@ -82,43 +82,32 @@ module.exports = {
           return 1;
         } else {
           if (res.status == 200) {
-            drive.files.list({
-                 q: "name='" + datasource + "'",
-                fields: 'nextPageToken, files(id, name)',
-                spaces: 'drive',
-                pageToken: null
-              }, function (err, res) {
-                if (err) {
-                  // Handle error
-                  console.error(err);
-                }
-                else {
+            for (var i = 0; i < datasource_id_list.length; i++) {
 
-                  res.data.files.forEach(function (file) {
-                    console.log('Found file: ', file.name, file.id);
-                    drive.permissions.create({
-                        resource: permission,
-                        fileId: file.id,
-                        fields: 'id',
-                      }, function (err1, res1) {
-                          if (err1) {
-                            // Handle error...
-                            console.log(err1);
-                            return 1;
-                          } else {
-                            if (res1.status == 200) {
-                              return 0;
-                            }
-                          }
+              var datasource_id = datasource_id_list[i];
+              drive.permissions.create({
+                  resource: permission,
+                  fileId: datasource_id,
+                  fields: 'id',
+                }, function (err1, res1) {
+                    if (err1) {
+                      // Handle error...
+                      console.log(err1);
+                      return 1;
+                    } else {
+                      if (res1.status !== 200) {
+                        return 1;
+                      }
+                    }
 
-                        });
-                      });
-                      pageToken = res.nextPageToken;
-                  }
-                });
-              }
+                  });
             }
-
-          });
+            return 0;
+          }
+          else {
+            return 1;
+          }
         }
+      });
+  }
 };

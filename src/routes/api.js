@@ -510,8 +510,42 @@ router.post('/createReport', function(req, res) {
       res.send({"status": "500", "message": "Report creation error."});
     }
     else {
-      /* TO DO - Share report and datasource in drive with all users in org */
+      var orgList = newReport.organizations;
+      var file_url = newReport.link;
+      var extract_id = file_url.match(/reporting\/.*\/page/i);
+      var file_id  = extract_id.toString().split('/')[1];
 
+      var datasourceIdList = [];
+      for (var i = 0; i < newReport.dataStudioSourceIDs.length; i++) {
+        var datasourcelink = newReport.dataStudioSourceIDs[i];
+        var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
+        var datasource_id = extract_ds_link.toString().split('/')[1];
+
+        datasourceIdList.push(datasource_id);
+      }
+
+      User.find(function(err1, docs) {
+
+          if (err1) {
+            res.send({"status": "500", "message": "Report creation error."});
+          }
+          for (var j = 0; j < orgList.length; j++) {
+            for (var i = 0; i < docs.length; i++) {
+              for (var k = 0; k < docs[i].organizations; k++) {
+
+                if (orgList[j] === docs[i].organizations[k]) {
+
+                  result = utils.shareReport(file_id, datasourceIdList, docs[i].googleID);
+
+                  if (result === 1) {
+                    res.send({"status": "500", "message": "Report creation error."});
+                  }
+
+                }
+              }
+            }
+          }
+      });
 
       res.send({"status": "200", "results": results._id });
     }
