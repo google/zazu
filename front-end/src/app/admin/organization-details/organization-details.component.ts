@@ -176,6 +176,18 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
+  async deleteOrg() {
+    if (!this.users) {
+      await this.getUsers();
+    }
+    await console.log(this.users.length);
+    if ( await this.users.length  > 1 ) {
+      await this.orgDeleteWarning();
+    } else {
+      await this.openDialog();
+    }
+  }
+
   openDialog() {
     const dialogRef = this.dialog.open(DeleteOrganizationConfirmation, {
       data: { organization: this.organization.name }
@@ -201,9 +213,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
 
 
   async orgDeleteWarning() {
-    if (!this.users) {
-      await this.getUsers();
-    }
+
     const dialogRef = this.dialog.open(DeleteOrganizationWarning, {
       data: { users: this.users.length, organization: this.organization.name }
     });
