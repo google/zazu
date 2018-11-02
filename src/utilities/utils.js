@@ -12,6 +12,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
+var {google} = require('googleapis');
+const {OAuth2Client} = require('google-auth-library');
+
+var config = require('./config');
+
 module.exports = {
 
   buildPermissionsQuery: function(bq_instance, bq_dataset, bq_client_data_perms, organization_id_list, identifier, identifierType, condition, token) {
@@ -47,5 +52,73 @@ module.exports = {
     }
 
     return updateRow;
-  }
+  },
+
+  shareReport: function(file_id, datasource, user_email) {
+
+    const oAuth2Client = new OAuth2Client();
+
+    oAuth2Client.credentials = {
+       access_token: config.access_token
+    };
+
+    const drive = google.drive({version: 'v3', auth: oAuth2Client });
+    var fileId = file_id;
+    var permission =
+      {
+        'type': 'user',
+        'role': 'reader',
+        'emailAddress': user_email
+      };
+    // Using the NPM module 'async'
+    drive.permissions.create({
+        resource: permission,
+        fileId: file_id,
+        fields: 'id',
+      }, function (err, res) {
+        if (err) {
+          // Handle error...
+          console.log(err);
+          return 1;
+        } else {
+          if (res.status == 200) {
+            drive.files.list({
+                 q: "name='" + datasource + "'",
+                fields: 'nextPageToken, files(id, name)',
+                spaces: 'drive',
+                pageToken: null
+              }, function (err, res) {
+                if (err) {
+                  // Handle error
+                  console.error(err);
+                }
+                else {
+
+                  res.data.files.forEach(function (file) {
+                    console.log('Found file: ', file.name, file.id);
+                    drive.permissions.create({
+                        resource: permission,
+                        fileId: file.id,
+                        fields: 'id',
+                      }, function (err1, res1) {
+                          if (err1) {
+                            // Handle error...
+                            console.log(err1);
+                            return 1;
+                          } else {
+                            if (res1.status == 200) {
+                              return 0;
+                            }
+                          }
+
+                        });
+                      });
+                      pageToken = res.nextPageToken;
+                  }
+                });
+              }
+            }
+
+          });
+        }
 };

@@ -8,6 +8,7 @@ var passport = require('passport');
 var fs = require('fs');
 //var sleep = require('sleep');
 var CronJob = require('cron').CronJob;
+var {google} = require('googleapis');
 var config = require('./utilities/config');
 //var utils = require('./utilities/utils');
 
@@ -61,6 +62,7 @@ passport.use(new GoogleStrategy({
          }
          if (user) {
             // if a user is found, log them in
+            config.access_token = accessToken;
             return done(null, user);
          }
          else {
@@ -83,7 +85,7 @@ app.use(session({
 // Set our api routes
 app.use('/api', api);
 
-app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email', 'https://www.googleapis.com/auth/drive'] }));
 
 app.get('/auth/google/callback',
   passport.authenticate('google', {
@@ -91,12 +93,6 @@ app.get('/auth/google/callback',
         failureRedirect : '/'
   })
 );
-
-app.get('/users', (req, res) => {
-    res.json({
-        name: 'Eldon'
-    });
-})
 
 /**
  * Get port from environment and store in Express.

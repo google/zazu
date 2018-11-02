@@ -511,6 +511,8 @@ router.post('/createReport', function(req, res) {
     }
     else {
       /* TO DO - Share report and datasource in drive with all users in org */
+
+
       res.send({"status": "200", "results": results._id });
     }
 
@@ -637,6 +639,19 @@ router.get('/listDatasources', function(req, res) {
 
 });
 
+router.get('/listIdentifiers/:name', function(req, res) {
+
+    var table_id = req.params.name;
+    var dataset = bigquery.dataset(config.bq_views_dataset);
+    var table = dataset.table(table_id);
+
+    table.getMetadata().then(function(data) {
+        var identifiers = data[0].schema.fields;
+
+        res.send({"status": "200", "message": "Table listing succeeded.", "identifiers": identifiers });
+    });
+
+});
 
 //
 // router.post('/editUser', (req, res) => {
@@ -1050,104 +1065,6 @@ router.get('/listDatasources', function(req, res) {
 //
 // });
 //
-// // Report management APIs
-//
-// // route for showing the rules page
-// router.get('/reports', function(req, res) {
-//
-//       res.render('reports', {
-//           user : req.user // get the user out of session and pass to template
-//       });
-//
-// });
-//
-// router.get('/listDatasources', function(req, res) {
-//
-//     var dsList = [];
-//     var dataset = bigquery.dataset(config.bq_views_dataset);
-//
-//     dataset.getTables(function(err, tables) {
-//         if (err) {
-//           res.send({"status": "500", "message": err.message });
-//         }
-//
-//         for (var i = 0; i < tables.length; i++) {
-//             dsList.push(tables[i].id);
-//         }
-//         res.send({"status": "200", "message": "Table listing succeeded.", "tables": dsList });
-//     });
-//
-// });
-//
-// router.post('/listIdentifiers', function(req, res) {
-//
-//     var table_id = req.body.datasource;
-//     var dataset = bigquery.dataset(config.bq_views_dataset);
-//     var table = dataset.table(table_id);
-//
-//     table.getMetadata().then(function(data) {
-//         var identifiers = data[0].schema.fields;
-//
-//         res.send({"status": "200", "message": "Table listing succeeded.", "identifiers": identifiers });
-//     });
-//
-// });
-//
-// router.get('/listOrgs', function(req, res) {
-//
-//   var orgList = [];
-//   var currUser;
-//
-//   User.findOne({ _id: req.session.passport.user.id }, function(err, doc) {
-//      if (err) {
-//         res.send({"status": "500", "message": "Report list retrieved error."});
-//      }
-//
-//      var findUserId = 'SELECT user_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.users` WHERE email = "' + doc.email + '"';
-//
-//      bigquery.createQueryStream(findUserId)
-//         .on('error', function(err) {
-//            res.send({"status": "500", "message": err.message });
-//         })
-//         .on('data', function(data) {
-//           currUser = data.user_id;
-//
-//           var findVisibilities = 'SELECT b.organization FROM `' + config.bq_instance + '.' + config.bq_dataset + '.vendors` as b INNER JOIN `' + config.bq_instance + '.' + config.bq_dataset + '.user_vendor_roles` as a on b.organization_id = a.organization_id where a.user_id = ' + currUser;
-//
-//           bigquery.createQueryStream(findVisibilities)
-//              .on('error', function(err) {
-//                 res.send({"status": "500", "message": err.message });
-//              })
-//              .on('data', function(visib) {
-//                 orgList.push(visib.organization);
-//              })
-//              .on('end', function() {
-//
-//                var findCurrView = 'SELECT b.organization FROM `' + config.bq_instance + '.' + config.bq_dataset + '.vendors` as b INNER JOIN `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor` as a on b.organization_id = a.organization_id WHERE a.user_id = ' + currUser;
-//
-//                bigquery.createQueryStream(findCurrView)
-//                   .on('error', function(err) {
-//                      res.send({"status": "500", "message": err.message });
-//                   })
-//                   .on('data', function(result) {
-//
-//                      if (orgList.indexOf(result.organization) > -1) {
-//                        orgList.splice(orgList.indexOf(result.organization), 1);
-//                        orgList.unshift(result.organization);
-//                      }
-//                   })
-//                   .on('end', function() {
-//                     res.send({"status": "200", "message": "Organization list retrieved.", "orgs": orgList });
-//                   });
-//              });
-//
-//         })
-//         .on('end', function() {
-//         });
-//   });
-//
-// });
-//
 // router.post('/listReports', function(req, res) {
 //
 //   if (req.session.passport.user.role == "retailer") {
@@ -1278,46 +1195,6 @@ router.get('/listDatasources', function(req, res) {
 //
 // });
 //
-// router.post('/addReport', (req, res) => {
-//
-//   var newReport = req.body;
-//
-//   Report.create(newReport, function(err, results) {
-//     if (err) {
-//       console.log(err);
-//       res.send({"status": "500", "message": err.message });
-//     }
-//
-//     Report.find(function(err, results) {
-//       if (err) {
-//         res.send({"status": "500", "message": err.message });
-//       }
-//       res.send({"status": "200", "message": "Report creation succeeded.", "reports": results });
-//     });
-//
-//   });
-// });
-//
-//
-// router.post('/deleteReport', (req, res) => {
-//
-//   var delReport = req.body;
-//   // save the user
-//   Report.remove({ name: delReport.name }, function(err, results) {
-//     if (err) {
-//       console.log(err);
-//       res.send({"status": "500", "message": err.message });
-//     }
-//
-//     Report.find(function(err, docs) {
-//       if (err) {
-//         res.send({"status": "500", "message": err.message });
-//       }
-//       res.send({"status": "200", "message": "Report deletion succeeded.", "reports": docs });
-//     });
-//   });
-//
-// });
 //
 // router.post('/editReport', (req, res) => {
 //
@@ -1340,19 +1217,6 @@ router.get('/listDatasources', function(req, res) {
 //
 // });
 //
-// router.post('/getReport', (req, res) => {
-//
-//   var reportId = req.body.report_id;
-//
-//   Report.findOne({ _id : reportId }, function(err, doc) {
-//     if (err) {
-//       console.log(err);
-//       res.send({"status": "500", "message": err.message });
-//     }
-//     res.send({"status": "200", "message": "Report fetch succeeded.", "report": doc });
-//   });
-//
-// });
 //
 // router.post('/isReportUserAuthed', (req, res) => {
 //
@@ -1380,19 +1244,6 @@ router.get('/listDatasources', function(req, res) {
 //     })
 //   });
 //
-// });
-//
-// // route middleware to make sure a user is logged in
-// router.get('/isLoggedIn', (req, res) => {
-//     // if user is authenticated in the session, carry on
-//     if ((req.session.passport)&&(req.session.passport.user.id)&&(req.session.passport.user != "")) {
-//       res.send({"status": "200", "message": "User logged in.", "isLoggedIn": true });
-//     }
-//     else {
-//       res.send({"status": "403", "message": "User not logged in.", "isLoggedIn": false });
-//     }
-//
-//     // if they aren't redirect them to the home page
 // });
 //
 // router.get('/getRole', (req, res) => {
