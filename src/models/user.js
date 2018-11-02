@@ -22,7 +22,7 @@ var userSchema = new Schema({
   lastName: { type: String, required: true },
   googleID: { type: String, required: true, unique: true },
   secondaryEmail: { type: String, required: false, unique: true },
-  organizations: { type: [{ id: String, name: String }], required: true },
+  organizations: { type: [{ _id: String, name: String }], required: true },
   role: { type: String, required: true },
   created_at: Date,
   updated_at: Date

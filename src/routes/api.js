@@ -457,9 +457,9 @@ router.get('/getReportByOrganization/:id', function(req, res) {
     else {
       for (var i = 0; i < docs.length; i++) {
         for (var j = 0; j < docs[i].organizations[j]; j++) {
-          if (docs[i].organizations[j].id == req.params.id) {
+          if (docs[i].organizations[j]._id == req.params.id) {
 
-            reportsByOrg.push({ "_id": docs[i]._id, "name": docs[i].name, "organizations": docs[i].organizations, "date": docs[i].created_at });
+            reportsByOrg.push(docs[i]);
 
           }
         }
@@ -469,26 +469,148 @@ router.get('/getReportByOrganization/:id', function(req, res) {
   });
 });
 
-// router.get('/getDataRules/:orgid', function(req, res) {
-//
-//   var rulesByOrg = [];
-//
-//   Rule.find(function(err, docs) {
-//     if (err) {
-//       res.send({"status": "500", "message": "User list retrieved error."});
-//     }
-//     else {
-//       for (var i = 0; i < docs.length; i++) {
-//           if (docs[i].organization.id == req.params.id) {
-//
-//             rulesByOrg.push(docs[i]);
-//
-//           }
-//       }
-//       res.send(rulesByOrg);
-//     }
-//   });
-// });
+router.get('/getReportByUser/:id', function(req, res) {
+
+  var reportsByUser = [];
+
+  User.find({ _id: req.params.id }, function(err, docs) {
+    if (err) {
+      res.send({"status": "500", "message": "User retrieved error."});
+    }
+    else {
+      var userOrgList = docs[0].organizations;
+
+      Report.find(function(err, reports) {
+        if (err) {
+          res.send({"status": "500", "message": "Report list retrieved error."});
+        }
+        else {
+
+          for (var i = 0; i < reports.length; i++) {
+            for (var k = 0; k < reports[i].organizations.length; k++) {
+              for (var j = 0; j < userOrgList[j]; j++) {
+                if (userOrgList[j]._id == reports[i].organizations[k]._id) {
+
+                  reportsByUser.push(reports[i]);
+
+                }
+              }
+            }
+          }
+          res.send(reportsByUser);
+        }
+      });
+    }
+  });
+});
+
+router.post('/createReport', function(req, res) {
+
+  var newReport = req.body;
+  newReport.createdBy = req.session.passport.user.id;
+  newReport.updatedBy = "";
+
+  Report.create(newReport, function(err, results) {
+
+    if (err) {
+      res.send({"status": "500", "message": "Report creation error."});
+    }
+    else {
+      /* TO DO - Share report and datasource in drive with all users in org */
+      res.send({"status": "200", "results": results._id });
+    }
+
+  });
+});
+
+
+router.post('/deleteReport', function(req, res) {
+
+  var deleteReport = req.body;
+
+  Report.removeOne(deleteReport, function(err, results) {
+
+    if (err) {
+      res.send({"status": "500", "message": "Report deletion error."});
+    }
+    else {
+      /* TO DO - Unshare report and datasource in drive with all users in all orgs of the report */
+      res.send({"status": "200", "results": results });
+    }
+
+  });
+});
+
+router.get('/getDataRules/:orgid', function(req, res) {
+
+  var rulesByOrg = [];
+
+  Rule.find(function(err, docs) {
+    if (err) {
+      res.send({"status": "500", "message": "Rule list retrieved error."});
+    }
+    else {
+      for (var i = 0; i < docs.length; i++) {
+          if (docs[i].organization._id == req.params.id) {
+
+            rulesByOrg.push(docs[i]);
+
+          }
+      }
+      res.send(rulesByOrg);
+    }
+  });
+});
+
+router.post('/addRule', (req, res) => {
+
+  var newRule = req.body;
+
+  var updateRow = utils.buildPermissionsQuery(config.bq_instance, config.bq_client_dataset, config.bq_client_data_perms, [ newRule.organization._id ], newRule.identifier, newRule.identifierType, newRule.condition, newRule.token);
+
+  bigquery.createQueryStream(updateRow)
+    .on('error', function(err) {
+      res.send({"status": "500", "message": err.message });
+    })
+    .on('data', function(data) {
+
+    })
+    .on('end', function() {
+
+        Rule.create(newRule, function(err, results) {
+          if (err) {
+            res.send({"status": "500", "message": err.message });
+          }
+          res.send({"status": "200", "message": "Rule creation succeeded.", "results": results });
+
+        })
+    });
+});
+
+router.post('/deleteRule', (req, res) => {
+
+  var delRule = req.body;
+  var updateRow = utils.buildPermissionsQuery(config.bq_instance, config.bq_client_dataset, config.bq_client_data_perms, [""], delRule.identifier, delRule.identifierType, delRule.condition, delRule.token);
+
+  bigquery.createQueryStream(updateRow)
+    .on('error', function(err) {
+        res.send({"status": "500", "message": err.message });
+    })
+    .on('data', function(data) {
+
+    })
+    .on('end', function() {
+        Rule.removeOne({ _id : delRule._id }, function(err, results) {
+          if (err) {
+            console.log(err);
+            res.send({"status": "500", "message": err.message });
+          }
+          res.send({"status": "200", "message": "Rule deletion succeeded.", "results": results });
+
+        });
+    })
+
+});
 
 // route middleware to make sure a user is logged in
 router.get('/isLoggedIn', (req, res) => {
@@ -501,6 +623,24 @@ router.get('/isLoggedIn', (req, res) => {
     }
 
     // if they aren't redirect them to the home page
+});
+
+router.get('/listDatasources', function(req, res) {
+
+    var dsList = [];
+    var dataset = bigquery.dataset(config.bq_views_dataset);
+
+    dataset.getTables(function(err, tables) {
+        if (err) {
+          res.send({"status": "500", "message": err.message });
+        }
+
+        for (var i = 0; i < tables.length; i++) {
+            dsList.push(tables[i].id);
+        }
+        res.send({"status": "200", "message": "Table listing succeeded.", "tables": dsList });
+    });
+
 });
 
 
@@ -846,106 +986,9 @@ router.get('/isLoggedIn', (req, res) => {
 // //     });
 // // });
 //
-// // Rule management APIs
 //
-// // route for showing the rules page
-// router.get('/rules', function(req, res) {
-//
-//     res.render('rules', {
-//         user : req.user // get the user out of session and pass to template
-//     });
-// });
-//
-// router.get('/listRules', function(req, res) {
-//
-//   Rule.find(function(err, docs) {
-//     if (err) {
-//       res.send({"status": "500", "message": "Rule list retrieved error."});
-//     }
-//     res.send({"status": "200", "message": "Rule list retrieved.", "rules": docs });
-//   });
-// });
-//
-// router.post('/addRule', (req, res) => {
-//
-//   var newRule = req.body;
-//   var permsList = [];
-//
-//   for (var i = 0; i < newRule.organization.length; i++) {
-//
-//     var findId = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.vendors` WHERE organization = "' + newRule.organization[i] + '"';
-//
-//     bigquery.createQueryStream(findId)
-//        .on('error', function(err) {
-//           res.send({"status": "500", "message": err.message });
-//        })
-//        .on('data', function(row) {
-//           permsList.push(row.organization_id);
-//
-//           if (permsList.length === newRule.organization.length) {
-//
-//             var updateRow = utils.buildPermissionsQuery(config.bq_instance, config.bq_client_dataset, config.bq_client_data_perms, permsList, newRule.identifier, newRule.identifierType, newRule.condition, newRule.token);
-//
-//             bigquery.createQueryStream(updateRow)
-//                 .on('error', function(err) {
-//                    res.send({"status": "500", "message": err.message });
-//                 })
-//                 .on('data', function(data) {
-//
-//                 })
-//                 .on('end', function() {
-//
-//                   Rule.create(newRule, function(err, results) {
-//                       if (err) {
-//                         res.send({"status": "500", "message": err.message });
-//                       }
-//
-//                       Rule.find(function(err, docs) {
-//                         if (err) {
-//                           res.send({"status": "500", "message": err.message });
-//                         }
-//                         res.send({"status": "200", "message": "Rule creation succeeded.", "rules": docs });
-//                       });
-//                     });
-//                 })
-//           }
-//         })
-//        .on('end', function() {
-//
-//        });
-//   }
-//
-// });
-//
-// router.post('/deleteRule', (req, res) => {
-//
-//   var delRule = req.body;
-//   var updateRow = utils.buildPermissionsQuery(config.bq_instance, config.bq_client_dataset, config.bq_client_data_perms, [""], delRule.identifier, delRule.identifierType, delRule.condition, delRule.token);
-//
-//   bigquery.createQueryStream(updateRow)
-//     .on('error', function(err) {
-//         res.send({"status": "500", "message": err.message });
-//     })
-//     .on('data', function(data) {
-//
-//     })
-//     .on('end', function() {
-//         Rule.remove({ name: delRule.name }, function(err, results) {
-//           if (err) {
-//             console.log(err);
-//             res.send({"status": "500", "message": err.message });
-//           }
-//
-//           Rule.find(function(err, docs) {
-//             if (err) {
-//               res.send({"status": "500", "message": err.message });
-//             }
-//             res.send({"status": "200", "message": "Rule deletion succeeded.", "rules": docs });
-//           });
-//         });
-//     })
-//
-// });
+
+
 //
 // router.post('/editRule', (req, res) => {
 //
