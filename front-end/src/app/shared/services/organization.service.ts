@@ -38,7 +38,7 @@ export class OrganizationService {
   */
   public async getOrganizationById(id): Promise<OrganizationViewModel.OrganizationDetails> {
     return await  await ((this.http.get<OrganizationViewModel.OrganizationDetails>( '/api' + '/getOrganizationById/' + id)).toPromise());
-   // return await ((this.http.get<OrganizationViewModel.OrganizationDetails>( this.URL + 'single-organization.mockup.json')).toPromise());
+    // return await ((this.http.get<OrganizationViewModel.OrganizationDetails>( this.URL + 'single-organization.mockup.json')).toPromise());
   }
 
   /**

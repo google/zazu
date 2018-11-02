@@ -19,26 +19,22 @@ export class DatarulesService {
   public async getDataRules(
     organizationID: string
   ): Promise<DataViewModel.DataRule[]> {
-    return await this.http
-      .get<DataViewModel.DataRule[]>( '/api' +
-        '/getDataRules/' + organizationID
-      )
-      .toPromise();
+    return await this.http.get<DataViewModel.DataRule[]>( '/api' + '/getDataRules/' + organizationID).toPromise();
+    // return await this.http.get<DataViewModel.DataRule[]>(this.URL + '/datarules.mockdata.json').toPromise();
   }
 
   /**
-   * Getting the list of all Datasource for specific organization
-   * @param orgID - ID of organization you want to get all available data source for it
+   * Getting the list of all Datasources
    */
-  public async getAllDataSourceForOrganization(
-    orgID: string
-  ): Promise<DataViewModel.DataSource[]> {
-    return await this.http
-      .get<DataViewModel.DataSource[]>('/api' +
-        '/listDatasources'
-      )
-      .toPromise();
+  public async getDataSources(): Promise<DataViewModel.DataSource[]> {
+    return await this.http.get<DataViewModel.DataSource[]>('/api' + '/listDatasources').toPromise();
+    //  return await this.http.get<DataViewModel.DataSource[]>(this.URL +'datasources.mockdata.json').toPromise();
   }
+
+ public async getIdentifiers(): Promise<string[]> {
+   return await this.http.get<string[]>('/api' + '/listIdentifiers').toPromise();
+   // return await this.http.get<string[]>(this.URL + 'identifiers.mockdata.json').toPromise();
+ }
 
   /**
    * Create new data rule
@@ -60,7 +56,9 @@ export class DatarulesService {
    * Delete Data rule
    * @param dataruleID - id of the data rule you want to delete
    */
-  public async deleteDataRule(dataruleID: string) {
-    return await ((this.http.post(this.URL + 'deleteRule/', dataruleID)).toPromise());
+  public async deleteDataRule(datarule) {
+    console.log('Data rule delete');
+    console.log(datarule);
+    return await ((this.http.post(this.URL + 'deleteRule/', datarule)).toPromise());
   }
 }

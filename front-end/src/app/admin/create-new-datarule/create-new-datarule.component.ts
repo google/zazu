@@ -29,16 +29,8 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
       this.sub = this.route.params.subscribe(params => {
         this.organizationId = params['id'];
       });
-      this.datasources = await this.datarulesService.getAllDataSourceForOrganization(
-        'id'
-      );
-
-      this.identifiers = [
-        'Identifier 1',
-        'Identifier 2',
-        'Identifier 3',
-        'Identifier 4'
-      ];
+      this.datasources = await this.datarulesService.getDataSources();
+      this.identifiers = await this.datarulesService.getIdentifiers();
       this.dataruleFormGroup = this.formBuilder.group({
         name: ['', [Validators.required,  this.noWhitespaceValidator]],
         datasource: ['', Validators.required],
@@ -62,15 +54,20 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
     return isValid ? null : { whitespace: true };
   }
 
+
   onSubmit() {
     const form = this.dataruleFormGroup.value;
+    const org = {
+      name: this.organization.name,
+      _id: this.organization._id
+    };
     const datarule = {
       name: form.name,
-      datasourceID: form.datasource,
+      datasource: form.datasource,
       identifier: form.identifier,
       condition: form.condition,
       token: form.token,
-      organizationID: this.organizationId
+      organization: org
     };
     console.log(datarule);
     this.datarulesService.createNewDataRule(datarule);

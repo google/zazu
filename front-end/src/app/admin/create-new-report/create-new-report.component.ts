@@ -44,9 +44,7 @@ export class CreateNewReportComponent implements OnInit {
 
   async ngOnInit() {
     try {
-      this.datasources = await this.datarulesService.getAllDataSourceForOrganization(
-        'id'
-      );
+      this.datasources = await this.datarulesService.getDataSources();
       this.orgForm = this.formBuilder.group({
         organization: ['', Validators.required]
       });

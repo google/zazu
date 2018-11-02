@@ -40,9 +40,7 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
       this.dataRule = this.dataRules.find( element => {
         return element._id === this.dataRuleId;
       });
-      this.datasources = await this.datarulesService.getAllDataSourceForOrganization(
-        'id'
-      );
+      this.datasources = await this.datarulesService.getDataSources();
 
       this.identifiers = [
         'Identifier 1',
@@ -50,6 +48,7 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
         'Identifier 3',
         'Identifier 4'
       ];
+      this.identifiers = await this.dataruleService.getIdentifiers();
       this.dataruleFormGroup = this.formBuilder.group({
         name: [this.dataRule.name, [Validators.required,  this.noWhitespaceValidator]],
         datasource: [this.dataRule.datasource, Validators.required],
@@ -80,11 +79,11 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
     const datarule = {
       _id: this.dataRuleId,
       name: form.name,
-      datasourceID: form.datasource,
+      datasource: form.datasource,
       identifier: form.identifier,
       condition: form.condition,
       token: form.token,
-      organizationID: this.organizationId
+      organization: this.dataRule.organization
     };
     this.dataruleService.editDataRule(datarule);
     console.log(datarule);

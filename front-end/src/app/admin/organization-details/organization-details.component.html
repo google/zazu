@@ -97,11 +97,11 @@
                           <h4 class="title">{{rule.name}}</h4><br>
                         </mat-panel-title>
                         <mat-panel-description>
-                          <h5>{{rule.datasource.name}}</h5>
+                          <h5>{{rule.datasource}}</h5>
                         </mat-panel-description>
                       </mat-expansion-panel-header>
                       <hr>
-                      <p>Created At: {{rule.date | date }}</p>
+                      <p>Created At: {{rule.created_at | date }}</p>
                       <p>Identifier: {{rule.identifier}}</p>
                       <p>Condition: {{rule.condition}}</p>
                       <p>Token: {{rule.token}}</p>
@@ -136,7 +136,7 @@
                       <mat-form-field appearance="outline" class="select">
                         <mat-select formControlName="selectedDataSource">
                           <mat-option value="All">All</mat-option>
-                          <mat-option *ngFor="let datasource of dataSources" value="{{datasource._id}}">{{datasource.name}}</mat-option>
+                          <mat-option *ngFor="let datasource of dataSources" value="{{datasource}}">{{datasource}}</mat-option>
                         </mat-select>
                       </mat-form-field>
                       <br>

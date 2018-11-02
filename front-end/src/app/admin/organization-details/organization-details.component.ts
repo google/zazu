@@ -122,10 +122,11 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
   // gets data rules for this organization
   async getRules() {
     this.rules = await this.dataruleService.getDataRules(this.organizationID);
+    console.log(this.rules);
     this.dataSources = [];
     for (const rule of this.rules) {
       if (((this.dataSources.filter(datasource => {
-        return datasource._id === rule.datasource._id;
+        return datasource === rule.datasource;
       })).length === 0)) {
         this.dataSources.push(rule.datasource);
       }
@@ -206,7 +207,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.dataruleService.deleteDataRule(datarule._id);
+        this.dataruleService.deleteDataRule(datarule);
       }
     });
   }

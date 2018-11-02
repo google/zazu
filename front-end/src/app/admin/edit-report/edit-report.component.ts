@@ -46,8 +46,7 @@ export class EditReportComponent implements OnInit {
       this.sub = await this.route.params.subscribe(params => {
         this.reportID = params['reportID'];
       });
-      this.datasources = await this.datarulesService.getAllDataSourceForOrganization(
-        this.reportID);
+      this.datasources = await this.datarulesService.getDataSources();
       this.report = await this.reportService.getReportDetails(this.reportID);
       this.organizations = this.report.organizations;
       this.reportInfoForm = this.formBuilder.group({

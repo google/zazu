@@ -42,9 +42,7 @@ export class ShareReportComponent implements OnInit {
       this.reports = await this.reportService.getAllRawReports();
       this.allReports = this.reports ;
       this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();
-      this.datasources = await this.datarulesService.getAllDataSourceForOrganization(
-        'id'
-      );
+      this.datasources = await this.datarulesService.getDataSources();
       this.orgForm = this.formBuilder.group({
         organization: ['', Validators.required]
       });

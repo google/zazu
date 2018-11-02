@@ -19,14 +19,14 @@ export interface DataRule {
   identifier: string;
   condition: string;
   token: string;
-  date: Date;
+  created_at: Date;
 }
 
 // View Model for creating new DataRule
 export interface CreateNewDataRule {
   name: string;
-  organizationID: string;
-  datasourceID: string;
+  organization: OrganizationViewModel.SimpleOrganization;
+  datasource: string;
   identifier: string;
   condition: string;
   token: string;
@@ -38,8 +38,8 @@ export interface CreateNewDataRule {
 export interface EditDataRule {
   _id: string;
   name: string;
-  organizationID: string;
-  datasourceID: string;
+  organization: OrganizationViewModel.SimpleOrganization;
+  datasource: string;
   identifier: string;
   condition: string;
   token: string;

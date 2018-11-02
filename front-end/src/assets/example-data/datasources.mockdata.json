@@ -1,10 +1,1 @@
-[
-  {
-    "_id": "0",
-    "name": "Data Source 1"
-  },
-  {
-    "_id": "1",
-    "name": "Data Source 2"
-  }
-]
+["Data Source 1", "Data Source 2", "Data Source 3"]
