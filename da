@@ -1,0 +1,74 @@
+[33mcommit 2d8264b85000cab1f83d594d7b20e572e4f0b615[m[33m ([m[1;36mHEAD -> [m[1;32mzazuV2.0[m[33m)[m
+Author: eldon <eldon.gonio@gmail.com>
+Date:   Fri Nov 2 00:16:03 2018 -0400
+
+    fixed report changes
+
+[33mcommit 509f52c6614b3c5e34a58cc5db700779152536b1[m[33m ([m[1;31morigin/zazuV2.0[m[33m)[m
+Author: eldon <eldon.gonio@gmail.com>
+Date:   Thu Nov 1 18:27:30 2018 -0400
+
+    merged
+
+[33mcommit 9960ac8b778d03631a44743f8ddb4bda7e684615[m
+Merge: d9d5843 dc49a18
+Author: eldon <eldon.gonio@gmail.com>
+Date:   Thu Nov 1 18:23:18 2018 -0400
+
+    Merge branch 'zazuV2.0' of github.com:google/zazu into zazuV2.0
+
+[33mcommit d9d5843408101932d1c267928af2232199d9b0ab[m
+Author: eldon <eldon.gonio@gmail.com>
+Date:   Thu Nov 1 18:23:12 2018 -0400
+
+    added user warning when doing organization delete
+
+[33mcommit dc49a18468da5f93374e4f49a3fb964d46f7bea4[m
+Author: Maria Attarian <jmattarian@jmattarian-macbookpro.roam.corp.google.com>
+Date:   Thu Nov 1 15:15:45 2018 -0700
+
+    User create and delete tested.
+
+[33mcommit 6791e3afa730408df6a3852672535a2cf851de2c[m
+Author: eldon <eldon.gonio@gmail.com>
+Date:   Thu Nov 1 16:46:19 2018 -0400
+
+    uncommented config.js
+
+[33mcommit 0049013d5d1f9652518b169cb8a3958b814bc4c1[m
+Author: eldon <eldon.gonio@gmail.com>
+Date:   Thu Nov 1 16:43:41 2018 -0400
+
+    changed some UI, changed org delete to pass org object instead of ID
+
+[33mcommit 798c6e1793f5d975fdb47976a9bdabcca0d9ed5a[m
+Author: eldon <eldon.gonio@gmail.com>
+Date:   Thu Nov 1 14:41:01 2018 -0400
+
+    fixed create new user form
+
+[33mcommit 5b83e8784240889334d8f982d17c553d60639572[m
+Author: Maria Attarian <jmattarian@jmattarian-macbookpro.roam.corp.google.com>
+Date:   Thu Nov 1 10:59:48 2018 -0700
+
+    fixing typo
+
+[33mcommit 203136c2520e8a374228f6ad812784f36c8babcf[m
+Merge: ea637af 450b597
+Author: Maria Attarian <jmattarian@jmattarian-macbookpro.roam.corp.google.com>
+Date:   Wed Oct 31 17:25:23 2018 -0700
+
+    Merge branch 'zazuV2.0' of github.com:google/zazu into zazuV2.0
+    Converting Org counts to ints.
+
+[33mcommit ea637af206ecce7da225ed7fa51d3a8c09a16844[m
+Author: Maria Attarian <jmattarian@jmattarian-macbookpro.roam.corp.google.com>
+Date:   Wed Oct 31 17:25:16 2018 -0700
+
+    Delete Org
+
+[33mcommit 450b5976244312dc32872e83c107fe8c801463e0[m
+Author: eldon <eldon.gonio@gmail.com>
+Date:   Wed Oct 31 20:19:56 2018 -0400
+
+    changed delete user to pass object instead of id
