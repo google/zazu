@@ -21,7 +21,6 @@ const BigQuery = require('@google-cloud/bigquery');
 const bigquery = new BigQuery();
 
 var User = require('../models/user');
-var Datasource = require('../models/datasource');
 var Organization = require('../models/organization');
 var Report = require('../models/report');
 var Rule = require('../models/rule');
@@ -421,17 +420,12 @@ router.post('/deleteOrganization', function(req, res) {
 
 router.get('/getAllReports', function(req, res) {
 
-    var simpleReports = [];
-
     Report.find(function(err, docs) {
       if (err) {
         res.send({"status": "500", "message": "Report list retrieved error."});
       }
       else {
-        for (var i = 0; i < docs.length; i++) {
-            simpleReports.push({ "_id": docs[i]._id, "name": docs[i].name, "organizations": docs[i].organizations, "date": docs[i].created_at });
-        }
-        res.send(simpleReports);
+        res.send(docs);
       }
     });
 });

@@ -34,8 +34,8 @@ export class DatarulesService {
     orgID: string
   ): Promise<DataViewModel.DataSource[]> {
     return await this.http
-      .get<DataViewModel.DataSource[]>(this.URL +
-        'datasources.mockdata.json'
+      .get<DataViewModel.DataSource[]>('/api' +
+        '/listDatasources'
       )
       .toPromise();
   }
