@@ -19,10 +19,10 @@ var Schema = mongoose.Schema;
 // create a schema
 var reportSchema = new Schema({
   name: { type: String, required: true, unique: true },
-  organizations: { type: [{ id: String, name: String }], required: true },
+  organizations: { type: [{ _id: String, name: String }], required: true },
   link: { type: String, required: true }, // data studio link
   datasourceId: { type: String, required: true },  //data source id
-  datasources: { type: [{ name: String, id: String }], required: true },
+  datasources: { type: [{ name: String, _id: String }], required: true },
   createdBy: { type: String, required: true }, // the admin who created it
   updatedBy: { type: String, required: true },  // the admin who last updated it
   accessedBy: { type: [String], required: true }, // all “viewer” user names who can access it

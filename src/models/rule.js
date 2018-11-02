@@ -22,8 +22,8 @@ var ruleSchema = new Schema({
   identifier: { type: String, required: true },
   condition: { type: String, required: true },
   token: { type: String, required: true },
-  organization: { type: { id: String, name: String }, required: true },
-  datasource: { type: { id: String, name: String }, required: true },
+  organization: { type: { _id: String, name: String }, required: true },
+  datasource: { type: { _id: String, name: String }, required: true },
   created_at: Date,
   updated_at: Date
 });
