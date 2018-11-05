@@ -159,7 +159,7 @@ export class CreateNewReportComponent implements OnInit {
       organizations: org,
       dataStudioSourceIDs: ids
     };
-    // this.reportService.createNewReport(report);
+    this.reportService.createNewReport(report);
     console.log(report);
   }
 }
