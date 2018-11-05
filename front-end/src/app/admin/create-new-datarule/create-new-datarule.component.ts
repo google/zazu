@@ -11,6 +11,8 @@ import * as DataViewModel from '../../shared/view-models/data.viewmodel';
   templateUrl: './create-new-datarule.component.html',
   styleUrls: ['./create-new-datarule.component.scss']
 })
+
+
 export class CreateNewDataruleComponent implements OnInit, OnDestroy {
   dataruleFormGroup: FormGroup;
   datasourceGroup: FormGroup;
@@ -21,7 +23,7 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private organizationService: OrganizationService,
   ) {}
-  identifiers: string[];
+  identifiers: DataViewModel.Identifier[];
   organizationId;
   sub: Subscription;
   organization;

@@ -12,27 +12,17 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) { }
 
   async ngOnInit() {
+
+    /*
     try {
-      // If the user is authenticated
-      /*
-      console.log('log in init');
-      console.log(await this.authService.isAuthenticated());
-      if (await this.authService.isAuthenticated()) {
-        console.log(await this.authService.isAuthenticated());
-        console.log('checking');
-        if (this.authService.isAdmin()) {
-          this.router.navigate(['../admin'], {relativeTo: this.route});
-        } else {
-          this.router.navigate(['../user'], {relativeTo: this.route});
-        }
+      const status  = await this.authService.isLoggedIn();
+      if (status.isLoggedIn) {
+        this.router.navigate(['../redirect'], {relativeTo: this.route});
       }
-      */
-
-
     } catch (error) {
 
     }
-
+    */
   }
 
 }

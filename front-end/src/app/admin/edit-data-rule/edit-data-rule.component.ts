@@ -23,7 +23,7 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
     private organizationService: OrganizationService,
     private dataruleService: DatarulesService
   ) {}
-  identifiers: string[];
+  identifiers: DataViewModel.Identifier[];
   organizationId;
   sub: Subscription;
   dataRules: DataViewModel.DataRule[];
@@ -36,19 +36,12 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
         this.organizationId = params['id'];
         this.dataRuleId = params['ruleID'];
       });
-      this.dataRules = await this.datarulesService.getDataRules('orgID');
+      this.dataRules = await this.datarulesService.getDataRules(this.organizationId);
       this.dataRule = this.dataRules.find( element => {
         return element._id === this.dataRuleId;
       });
       this.datasources = await this.datarulesService.getDataSources();
-
-      this.identifiers = [
-        'Identifier 1',
-        'Identifier 2',
-        'Identifier 3',
-        'Identifier 4'
-      ];
-      this.identifiers = await this.dataruleService.getIdentifiers('datarule.datasource');
+      this.identifiers = await this.dataruleService.getIdentifiers(this.dataRule.datasource);
       this.dataruleFormGroup = this.formBuilder.group({
         name: [this.dataRule.name, [Validators.required,  this.noWhitespaceValidator]],
         identifier: [this.dataRule.identifier, Validators.required],

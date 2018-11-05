@@ -8,6 +8,10 @@ export interface DataSource {
   name: string;
 }
 
+export interface Identifier {
+  name: string;
+}
+
 /**
  * View model that i used for listing data rule
  */

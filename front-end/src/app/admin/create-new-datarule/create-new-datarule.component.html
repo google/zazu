@@ -66,7 +66,7 @@
               <mat-form-field appearance="fill" style="width:80%">
                 <mat-label>Identifier</mat-label>
                 <mat-select formControlName="identifier">
-                  <mat-option *ngFor="let identifier of identifiers" value="{{identifier}}">{{identifier}}</mat-option>
+                  <mat-option *ngFor="let identifier of identifiers" value="{{identifier.name}}">{{identifier.name}}</mat-option>
 
                 </mat-select>
                 <mat-error>

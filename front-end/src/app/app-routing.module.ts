@@ -9,6 +9,7 @@ import { ViewerComponent } from './viewer/viewer.component';
 import { ViewerReportListComponent } from './shared/common-view/viewer-report-list/viewer-report-list.component';
 import { ViewerReportComponent } from './shared/common-view/viewer-report/viewer-report.component';
 import { AuthGuard } from './auth/auth-guard.service';
+import { RedirectComponent } from './auth/redirect/redirect.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,10 @@ const routes: Routes = [
         path: '',
         redirectTo: 'login',
         pathMatch: 'full'
+      },
+      {
+        path: 'redirect',
+        component: RedirectComponent
       },
       {
         path: 'login',

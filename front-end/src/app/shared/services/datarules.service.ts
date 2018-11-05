@@ -31,8 +31,8 @@ export class DatarulesService {
     // return await this.http.get<DataViewModel.DataSource[]>(this.URL + 'datasources.mockdata.json').toPromise();
   }
 
- public async getIdentifiers(datasource): Promise<string[]> {
-   return await this.http.get<string[]>('/api' + '/listIdentifiers/' + datasource).toPromise();
+ public async getIdentifiers(datasource): Promise<DataViewModel.Identifier[]> {
+   return await this.http.get<DataViewModel.Identifier[]>('/api' + '/listIdentifiers/' + datasource).toPromise();
    // return await this.http.get<string[]>(this.URL + 'identifiers.mockdata.json').toPromise();
  }
 
