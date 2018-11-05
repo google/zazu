@@ -41,7 +41,7 @@ export class DatarulesService {
    * @param datarule - datarule object
    */
   public async createNewDataRule(datarule: DataViewModel.CreateNewDataRule) {
-    return await ((this.http.post(this.URL + 'createRule/', datarule)).toPromise());
+    return await ((this.http.post('/api/' + 'createRule/', datarule)).toPromise());
   }
 
   /**
@@ -59,6 +59,6 @@ export class DatarulesService {
   public async deleteDataRule(datarule) {
     console.log('Data rule delete');
     console.log(datarule);
-    return await ((this.http.post(this.URL + 'deleteRule/', datarule)).toPromise());
+    return await ((this.http.post('/api/' + 'deleteRule/', datarule)).toPromise());
   }
 }

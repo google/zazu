@@ -558,7 +558,7 @@ router.post('/deleteReport', function(req, res) {
 
   var deleteReport = req.body;
 
-  Report.removeOne(deleteReport, function(err, results) {
+  Report.deleteOne(deleteReport, function(err, results) {
 
     if (err) {
       res.send({"status": "500", "message": "Report deletion error."});
@@ -581,7 +581,7 @@ router.get('/getDataRules/:orgid', function(req, res) {
     }
     else {
       for (var i = 0; i < docs.length; i++) {
-          if (docs[i].organization._id == req.params.id) {
+          if (docs[i].organization._id == req.params.orgid) {
 
             rulesByOrg.push(docs[i]);
 
@@ -592,7 +592,7 @@ router.get('/getDataRules/:orgid', function(req, res) {
   });
 });
 
-router.post('/addRule', (req, res) => {
+router.post('/createRule', (req, res) => {
 
   var newRule = req.body;
 
@@ -611,9 +611,15 @@ router.post('/addRule', (req, res) => {
           if (err) {
             res.send({"status": "500", "message": err.message });
           }
-          res.send({"status": "200", "message": "Rule creation succeeded.", "results": results });
-
-        })
+          Organization.updateOne({ _id: newRule.organization._id }, { $inc: { datarulesCount: 1 } }, function(err1, res1) {
+            if (err1) {
+              res.send({"status": "500", "message": err1.message });
+            }
+            else {
+              res.send({"status": "200", "message": "Rule creation succeeded.", "results": results });
+            }
+          });
+        });
     });
 });
 
@@ -630,26 +636,30 @@ router.post('/deleteRule', (req, res) => {
 
     })
     .on('end', function() {
-        Rule.removeOne({ _id : delRule._id }, function(err, results) {
+        Rule.deleteOne({ _id : delRule._id }, function(err, results) {
           if (err) {
-            console.log(err);
             res.send({"status": "500", "message": err.message });
           }
-          res.send({"status": "200", "message": "Rule deletion succeeded.", "results": results });
-
+          Organization.updateOne({ _id: delRule.organization._id }, { $inc: { datarulesCount: -1 } }, function(err1, res1) {
+            if (err1) {
+              res.send({"status": "500", "message": err1.message });
+            }
+            else {
+              res.send({"status": "200", "message": "Rule deletion succeeded.", "results": results });
+            }
+          });
         });
-    })
-
+    });
 });
 
 // route middleware to make sure a user is logged in
 router.get('/isLoggedIn', (req, res) => {
     // if user is authenticated in the session, carry on
     if ((req.session.passport)&&(req.session.passport.user.id)&&(req.session.passport.user != "")) {
-      res.send({"status": "200", "message": "User logged in.", "isLoggedIn": true, "role": req.session.passport.user.role });
+      res.send({"status": "200", "message": "User logged in.", "isLoggedIn": true, "role": req.session.passport.user.role, "user": req.session.passport.user.id });
     }
     else {
-      res.send({"status": "403", "message": "User not logged in.", "isLoggedIn": false, "role": "None" });
+      res.send({"status": "403", "message": "User not logged in.", "isLoggedIn": false, "role": "None", "user": "None" });
     }
 
     // if they aren't redirect them to the home page
