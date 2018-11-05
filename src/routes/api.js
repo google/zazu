@@ -646,10 +646,10 @@ router.post('/deleteRule', (req, res) => {
 router.get('/isLoggedIn', (req, res) => {
     // if user is authenticated in the session, carry on
     if ((req.session.passport)&&(req.session.passport.user.id)&&(req.session.passport.user != "")) {
-      res.send({"status": "200", "message": "User logged in.", "isLoggedIn": true });
+      res.send({"status": "200", "message": "User logged in.", "isLoggedIn": true, "role": req.session.passport.user.role });
     }
     else {
-      res.send({"status": "403", "message": "User not logged in.", "isLoggedIn": false });
+      res.send({"status": "403", "message": "User not logged in.", "isLoggedIn": false, "role": "None" });
     }
 
     // if they aren't redirect them to the home page
@@ -668,7 +668,7 @@ router.get('/listDatasources', function(req, res) {
         for (var i = 0; i < tables.length; i++) {
             dsList.push(tables[i].id);
         }
-        res.send({"status": "200", "message": "Table listing succeeded.", "tables": dsList });
+        res.send(dsList);
     });
 
 });
@@ -682,9 +682,21 @@ router.get('/listIdentifiers/:name', function(req, res) {
     table.getMetadata().then(function(data) {
         var identifiers = data[0].schema.fields;
 
-        res.send({"status": "200", "message": "Table listing succeeded.", "identifiers": identifiers });
+        res.send(identifiers);
     });
 
+});
+
+router.get('/getRole', (req, res) => {
+    // if user is authenticated in the session, carry on
+    if ((req.session.passport)&&(req.session.passport.user.role)&&(req.session.passport.user != "")) {
+      res.send({"status": "200", "message": "User logged in.", "role": req.session.passport.user.role });
+    }
+    else {
+      res.send({"status": "403", "message": "User not logged in.", "role": "none" });
+    }
+
+    // if they aren't redirect them to the home page
 });
 
 //
@@ -1279,17 +1291,6 @@ router.get('/listIdentifiers/:name', function(req, res) {
 //   });
 //
 // });
-//
-// router.get('/getRole', (req, res) => {
-//     // if user is authenticated in the session, carry on
-//     if ((req.session.passport)&&(req.session.passport.user.role)&&(req.session.passport.user != "")) {
-//       res.send({"status": "200", "message": "User logged in.", "role": req.session.passport.user.role });
-//     }
-//     else {
-//       res.send({"status": "403", "message": "User not logged in.", "role": "none" });
-//     }
-//
-//     // if they aren't redirect them to the home page
-// });
+
 
 module.exports = router;

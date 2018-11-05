@@ -15,7 +15,7 @@ export class ReportService {
     try {
       const raw = await this.http
         .get<ReportViewModel.SimpleRawReport[]>(
-          this.URL + 'reports.mockdata.json'
+          '/api' + '/getAllReports'
         )
         .toPromise();
       const reports = await this.cleanSimpleRawReport(raw);
@@ -32,7 +32,7 @@ export class ReportService {
   public async getAllRawReports(): Promise<ReportViewModel.SimpleRawReport[]> {
     return await this.http
       .get<ReportViewModel.SimpleRawReport[]>(
-        this.URL + 'reports.mockdata.json'
+        '/api' + '/getAllReports'
       )
       .toPromise();
   }
@@ -80,7 +80,7 @@ export class ReportService {
     try {
       const raw = await this.http
         .get<ReportViewModel.SimpleRawReport[]>(
-          this.URL + 'reports.mockdata.json'
+          '/api' + '/getReportByOrganization/' + orgID
         )
         .toPromise();
       const reports = (await this.cleanSimpleRawReport(raw)).filter(report => {
@@ -102,7 +102,7 @@ export class ReportService {
     try {
       const raw = await this.http
         .get<ReportViewModel.SimpleRawReport[]>(
-          this.URL + 'reports.mockdata.json'
+          '/api' + '/getReportByUser/' + userID
         )
         .toPromise();
       const reports = await this.cleanSimpleRawReport(raw);
@@ -143,7 +143,7 @@ export class ReportService {
   ): Promise<ReportViewModel.ReportDetails> {
     return await this.http
       .get<ReportViewModel.ReportDetails>(
-        this.URL + 'single-report-details.mockdata.json'
+        '/api' + '/getAllReports/' + reportID
       )
       .toPromise();
   }
@@ -159,7 +159,7 @@ export class ReportService {
   ): Promise<ReportViewModel.Report> {
     return await this.http
       .get<ReportViewModel.Report>(
-        this.URL + 'single-report-with-no-meta.mockdata.json',
+        '/api' + '/getAllReports',
         {
           params: {
             reportID: reportID,
@@ -177,7 +177,7 @@ export class ReportService {
    */
   public async createNewReport(report: ReportViewModel.CreateNewReport) {
     console.log('Report Created: ' + report);
-    return await this.http.post(this.URL + 'createReport/', report).toPromise();
+    return await this.http.post('/api' + '/createReport/', report).toPromise();
   }
 
   /**

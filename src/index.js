@@ -89,7 +89,7 @@ app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'e
 
 app.get('/auth/google/callback',
   passport.authenticate('google', {
-        successRedirect : '/users',
+        successRedirect : '/',
         failureRedirect : '/'
   })
 );
