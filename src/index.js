@@ -28,6 +28,8 @@ const app = express();
 
 app.use(express.static('front-end/dist/front-end'));
 
+
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -113,3 +115,8 @@ app.set('port', port);
 const server = https.createServer(options, app);
 
 server.listen(port, () => console.log(`API running on localhost:${port}`));
+
+
+app.use('*', (req, res, next) => {
+  res.sendFile(path.join(__dirname, '../front-end/dist/front-end/index.html'));
+});

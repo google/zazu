@@ -13,16 +13,16 @@ export class LoginComponent implements OnInit {
 
   async ngOnInit() {
 
-    /*
+
     try {
       const status  = await this.authService.isLoggedIn();
       if (status.isLoggedIn) {
         this.router.navigate(['../redirect'], {relativeTo: this.route});
       }
     } catch (error) {
-
+      console.log(error);
     }
-    */
+
   }
 
 }
