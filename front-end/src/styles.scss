@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import "main-style-variables.scss";
+@import 'main-style-variables.scss';
 
 .primary {
   background-color: $primary-button-color !important;
@@ -18,17 +18,13 @@
   color: white;
 }
 
-
-
 /***** CREATE NEW REPORT STYLES POPUP MENU *************/
-
-
 ::ng-deep .new-report-menu.mat-menu-panel {
-  background-color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0) !important;
 
-  border: none;
+  border: none !important;
 
-  box-shadow: none;
+  box-shadow: none !important;
 
 
 }
@@ -69,8 +65,7 @@
 
   .main {
     font-size: 200px;
-    color:
-      $empty-list-icon-color;
+    color: $empty-list-icon-color;
   }
 
   .add {
@@ -97,14 +92,11 @@
   .create-text:hover {
     cursor: pointer;
   }
-
 }
-
 
 /******* PAGINATION STYLES *****/
 
 .pagination {
-
   .mat-white {
     background-color: white;
   }
@@ -113,7 +105,6 @@
     color: grey;
   }
 }
-
 
 html,
 body {
@@ -124,7 +115,6 @@ body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
 }
-
 
 /****** BREADCRUMBS STYLES *****/
 
@@ -165,22 +155,9 @@ body {
     color: $breadcrumb-active;
     cursor: initial;
   }
-
 }
 
-/****** NEW BAR FOR CREATE NEW NOTIFICATION *****/
-.new-bar{
-  background-color: rgb(96, 194, 57);
-  width: 100%;
-  text-align: center;
-  height: 45px;
-  position: fixed;
-  margin-top: 50px;
-  box-shadow: 0 3px 4px lightgray;
-  h4 {
-    color: white; margin: 0; margin-top: 10px
-  }
-}
+
 
 /**** MAIN CONTENT CONTAINER ****/
 
@@ -192,6 +169,7 @@ body {
   padding-left: 30px;
   padding-right: 30px;
   display: flex;
+  transition: padding-top 0.5s;
 
   .full-content-view {
     width: 100%;
@@ -222,12 +200,9 @@ body {
     border: $card-border;
     max-width: 1080px;
 
-
-
     .container {
       padding: 10px 20px;
     }
-
   }
 
   .card:hover {
@@ -265,7 +240,6 @@ body {
     font-weight: 500;
   }
 
-
   .secondary {
     color: $card-secondary-color;
     margin: 2.5px 0;
@@ -287,7 +261,6 @@ body {
     i {
       position: relative;
       top: 5px;
-
     }
 
     .left {
@@ -305,10 +278,8 @@ body {
   }
 }
 
-
 /***** SORT AND FILTER STYLE *****/
 .right-main-content-view {
-
   .filter,
   .sort {
     padding: 15px;
@@ -338,15 +309,12 @@ body {
   }
 
   .filter {
-
     .search,
     .select {
       font-size: 12px;
       width: 100%;
       max-width: 300px;
     }
-
-
 
     .mat-stroked-button.reset {
       min-height: 23px !important;
@@ -358,14 +326,12 @@ body {
       border-radius: 2px;
       float: right;
       margin-top: -5px;
-
     }
 
     .mat-raised-button.search {
       border: $filter-search-button-border;
       border-radius: 2px;
     }
-
   }
 
   .mat-primary-button {
@@ -375,7 +341,6 @@ body {
   .add-button {
     float: right;
     margin: 40px 20px;
-
 
     .button-fab {
       width: 90px;
@@ -405,7 +370,6 @@ body {
         right: 5px;
       }
 
-
       &::ng-deep .mat-button-wrapper {
         line-height: 14px;
         padding: 0;
@@ -419,7 +383,6 @@ body {
       }
     }
   }
-
 }
 
 /****** FORMS STYLE ******/
@@ -443,8 +406,6 @@ body {
 .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline {
   color: $form-field-focused !important;
 }
-
-
 
 .label-color {
   color: $mat-label-color !important;
@@ -473,7 +434,6 @@ body {
     margin-right: 34px;
     width: 100%;
   }
-
 
   .form-icon {
     color: $form-icon-color;
@@ -510,7 +470,6 @@ body {
   .add-row:hover {
     cursor: pointer;
   }
-
 
   .close-icon:hover {
     color: $info-icon-color;
@@ -583,15 +542,9 @@ body {
   }
 
   .new-report-choice-text {
-    color:
-      $input-header-color;
+    color: $input-header-color;
     font-weight: 500;
   }
-
-
-
-
-
 
   .mat-form-field-empty.mat-form-field-label {
     color: $form-field-focused;
@@ -609,7 +562,8 @@ body {
     background-color: $form-active-underline-color;
   }
 
-  .mat-form-field-appearance-fill.mat-form-field-invalid .mat-form-field-ripple {
+  .mat-form-field-appearance-fill.mat-form-field-invalid
+    .mat-form-field-ripple {
     background-color: $form-error-color;
   }
 
@@ -618,7 +572,6 @@ body {
   }
 }
 
-
 .mat-select-panel .mat-option.mat-selected {
   .mat-option-text {
     color: $primary;
@@ -626,10 +579,8 @@ body {
 
   .mat-pseudo-checkbox {
     background: $primary;
-
   }
 }
-
 
 /****************** DIALOG ******************/
 .dialog {
@@ -642,7 +593,6 @@ body {
 
   .delete {
     color: $danger-color !important;
-
   }
 
   .warning {
@@ -669,7 +619,6 @@ body {
     margin-bottom: 0;
   }
 }
-
 
 /******** COMMON STYLES & MEDIA QUERIES ****/
 
@@ -718,7 +667,6 @@ h6 {
   font-size: 2em;
 }
 
-
 @media (min-width: 48em) {
   h1 {
     font-size: 2em;
@@ -733,7 +681,7 @@ h6 {
   }
 
   h4 {
-    font-size: 1.0em;
+    font-size: 1em;
   }
 
   .display-1 {
@@ -754,7 +702,6 @@ h6 {
 }
 
 @media (min-width: 62em) {
-
   html,
   body {
     font-size: 16px !important;
@@ -762,7 +709,6 @@ h6 {
 }
 
 @media (min-width: 75em) {
-
   html,
   body {
     font-size: 18px !important;

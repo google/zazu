@@ -9,7 +9,7 @@
 
 
 }
-::ng-deep .new-report-menu.mat-menu-panel button .mat-icon {
+::ng-deep .cdk-overlay-container .new-report-menu.mat-menu-panel button .mat-icon {
   background-color: $primary;
 
   color: white !important;
@@ -19,7 +19,7 @@
   padding: 7px;
 }
 
-::ng-deep .new-report-menu.mat-menu-panel button .text {
+::ng-deep .cdk-overlay-container .new-report-menu.mat-menu-panel button .text {
   background-color: white;
   padding: 10px;
   box-shadow:  0 2px 4px gray;

@@ -35,27 +35,42 @@ const adminRoutes: Routes = [
         path: 'o',
         component: OrganizationComponent,
         children: [
-          { path: '', redirectTo: 'list' },
           { path: 'list', component: OrganizationListComponent },
-          { path: 'new-organization', component: CreateNewOrganizationComponent},
-          { path: 'share-report', component: ShareReportComponent},
+          {
+            path: 'new-organization',
+            component: CreateNewOrganizationComponent
+          },
+          { path: 'share-report', component: ShareReportComponent },
           { path: ':id', component: OrganizationDetailsComponent },
-          { path: ':id/new-user', component: CreateNewUserComponent},
-          { path: ':id/new-report', component: CreateNewReportComponent},
-          { path: ':id/share-report', component: ShareReportComponent},
-          { path: ':id/edit-organization', component: EditOrganizationComponent},
-          { path: ':id/new-rule', component: CreateNewDataruleComponent},
-          { path: ':id/edit-rule/:ruleID', component: EditDataRuleComponent},
+          { path: ':id/new-user', component: CreateNewUserComponent },
+          { path: ':id/new-report', component: CreateNewReportComponent },
+          { path: ':id/share-report', component: ShareReportComponent },
+          {
+            path: ':id/edit-organization',
+            component: EditOrganizationComponent
+          },
+          { path: ':id/new-rule', component: CreateNewDataruleComponent },
+          { path: ':id/edit-rule/:ruleID', component: EditDataRuleComponent },
           { path: ':id/u/:userID', component: UserDetailsComponent },
-          { path: ':id/u/:userID/ghost/:userName', component: GhostComponent, children: [
-            { path: '', redirectTo: 'list'},
-            { path: 'list', component: ViewerReportListComponent},
-            { path: ':reportID', component: ViewerReportComponent},
-          ]},
+          {
+            path: ':id/u/:userID/ghost/:userName',
+            component: GhostComponent,
+            children: [
+              { path: '', redirectTo: 'list' },
+              { path: 'list', component: ViewerReportListComponent },
+              { path: ':reportID', component: ViewerReportComponent }
+            ]
+          },
           { path: ':id/u/:userID/edit-user', component: EditUserComponent },
           { path: ':id/r/:reportID', component: AdminReportDetailsComponent },
-          { path: ':id/r/:reportID/edit-report', component: EditReportComponent},
-          { path: ':id/r/:reportID/edit-access', component: EditReportAccessComponent},
+          {
+            path: ':id/r/:reportID/edit-report',
+            component: EditReportComponent
+          },
+          {
+            path: ':id/r/:reportID/edit-access',
+            component: EditReportAccessComponent
+          },
           {
             path: ':id/u/:userID/r/:reportID',
             component: AdminReportDetailsComponent
@@ -63,44 +78,63 @@ const adminRoutes: Routes = [
           {
             path: ':id/u/:userID/r/:reportID/edit-report',
             component: EditReportComponent
-          }
-          ,
+          },
           {
-            path: ':id/u/:userID/r/:reportID/edit-access', component: EditReportAccessComponent},
+            path: ':id/u/:userID/r/:reportID/edit-access',
+            component: EditReportAccessComponent
+          },
+          { path: '', redirectTo: 'list', pathMatch: 'full' }
         ]
       },
       {
         path: 'users',
         component: AllUsersComponent,
         children: [
-          { path: '', redirectTo: 'list' },
           { path: 'list', component: AllUserListComponent },
-          { path: 'new-user', component: CreateNewUserComponent},
+          { path: 'new-user', component: CreateNewUserComponent },
           { path: 'u/:userID', component: UserDetailsComponent },
-          { path: 'u/:userID/ghost/:userName', component: GhostComponent, children: [
-            { path: '', redirectTo: 'list'},
-            { path: 'list', component: ViewerReportListComponent},
-            { path: ':reportID', component: ViewerReportComponent}
-          ]},
+          {
+            path: 'u/:userID/ghost/:userName',
+            component: GhostComponent,
+            children: [
+              { path: '', redirectTo: 'list' },
+              { path: 'list', component: ViewerReportListComponent },
+              { path: ':reportID', component: ViewerReportComponent }
+            ]
+          },
           { path: 'u/:userID/edit-user', component: EditUserComponent },
-          { path: 'u/:userID/r/:reportID', component: AdminReportDetailsComponent},
-          { path: 'u/:userID/r/:reportID/edit-report', component: EditReportComponent},
-          { path: 'u/:userID/r/:reportID/edit-access', component: EditReportAccessComponent},
+          {
+            path: 'u/:userID/r/:reportID',
+            component: AdminReportDetailsComponent
+          },
+          {
+            path: 'u/:userID/r/:reportID/edit-report',
+            component: EditReportComponent
+          },
+          {
+            path: 'u/:userID/r/:reportID/edit-access',
+            component: EditReportAccessComponent
+          },
+          { path: '', redirectTo: 'list' , pathMatch: 'full'}
         ]
       },
       {
         path: 'reports',
         component: AllReportsComponent,
         children: [
-          { path: '', redirectTo: 'list' },
           { path: 'list', component: AllReportListComponent },
-          { path: 'list/new-report', component: CreateNewReportComponent},
-          { path: 'list/share-report', component: ShareReportComponent},
+          { path: 'list/new-report', component: CreateNewReportComponent },
+          { path: 'list/share-report', component: ShareReportComponent },
           { path: 'r/:reportID', component: AdminReportDetailsComponent },
-          { path: 'r/:reportID/edit-report', component: EditReportComponent},
-          { path: 'r/:reportID/edit-access', component: EditReportAccessComponent},
+          { path: 'r/:reportID/edit-report', component: EditReportComponent },
+          {
+            path: 'r/:reportID/edit-access',
+            component: EditReportAccessComponent
+          },
+          { path: '', redirectTo: 'list', pathMatch: 'full' },
         ]
-      }
+      },
+      { path: '', redirectTo: 'o', pathMatch: 'full' },
     ]
   }
 ];

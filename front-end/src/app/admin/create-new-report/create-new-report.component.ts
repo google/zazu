@@ -150,14 +150,16 @@ export class CreateNewReportComponent implements OnInit {
       ids.push(id.id);
 
     }
+    const org = [];
+    org.push(organization);
     const report: ReportViewModel.CreateNewReport = {
       name: rForm.name,
       link: rForm.link,
       datasources: rForm.datasources,
-      organizations: organization,
+      organizations: org,
       dataStudioSourceIDs: ids
     };
-    this.reportService.createNewReport(report);
+    // this.reportService.createNewReport(report);
     console.log(report);
   }
 }

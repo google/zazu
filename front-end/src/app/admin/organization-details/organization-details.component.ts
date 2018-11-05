@@ -79,7 +79,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
         }
       );
       this.new = await this.route.snapshot.queryParamMap.get('new');
-      // this.new = true;
+      this.new = true;
       this.viewInitialized = true;
       this.reportsInitialized = true;
     } catch (error) {
@@ -108,6 +108,10 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     if (this.pageSubscription) {
       this.pageSubscription.unsubscribe();
     }
+  }
+
+  closeNewBar() {
+    this.new = false;
   }
 
   // gets users for this organization

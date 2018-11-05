@@ -1,13 +1,17 @@
 <div *ngIf="organization != null">
   <div class="breadcrumb-container">
-    <div> <span routerLink="../"><i class="material-icons"> business </i> Organization List </span> &nbsp;&nbsp; <i class="material-icons arrow">
+    <div> <span routerLink="../list"><i class="material-icons"> business </i> Organization List </span> &nbsp;&nbsp; <i class="material-icons arrow">
         keyboard_arrow_right </i> <i style="margin-left: -14px" class="material-icons arrow"> keyboard_arrow_right </i>&nbsp;&nbsp; <span
         class="active">{{organization.name}}
       </span> </div>
 
   </div>
   <div *ngIf="new" class="new-bar">
-      <h4>User Created</h4>
+      <h4><i class="material-icons check">
+        check
+        </i >Success: Organization Created <i (click)="closeNewBar()" class="material-icons close">
+        close
+        </i></h4>
     </div>
   <div class="main-content-view" [ngClass]="{'new': new}">
     <div class="full-content-view" *ngIf="viewInitialized">
