@@ -22,9 +22,9 @@ var reportSchema = new Schema({
   organizations: { type: [{ _id: String, name: String }], required: true },
   link: { type: String, required: true }, // data studio link
   dataStudioSourceIDs: [{ type: String, required: true }],  //data source id
-  datasources: { type: [{ name: String, _id: String }], required: true },
+  datasources: { type: [String], required: true },
   createdBy: { type: String, required: true }, // the admin who created it
-  updatedBy: { type: String, required: true },  // the admin who last updated it
+  updatedBy: { type: String },  // the admin who last updated it
   created_at: Date,
   updated_at: Date
 });

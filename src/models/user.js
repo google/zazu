@@ -21,7 +21,7 @@ var userSchema = new Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   googleID: { type: String, required: true, unique: true },
-  secondaryEmail: { type: String, required: false, unique: true },
+  secondaryEmail: { type: String, required: false },
   organizations: { type: [{ _id: String, name: String }], required: true },
   role: { type: String, required: true },
   created_at: Date,
