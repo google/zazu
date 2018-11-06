@@ -83,6 +83,7 @@ export class ReportService {
           '/api' + '/getReportByOrganization/' + orgID
         )
         .toPromise();
+      console.log(raw);
       const reports = (await this.cleanSimpleRawReport(raw)).filter(report => {
         return report.organization._id === orgID;
       });

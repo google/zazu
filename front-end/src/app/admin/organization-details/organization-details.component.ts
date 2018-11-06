@@ -83,9 +83,9 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
       this.reportsInitialized = true;
       if (this.newRule) {
         this.selectedTab = 2;
+        this.selected(2);
       } else {
         this.selectedTab = 0;
-        this.selected(2);
       }
       this.viewInitialized = true;
     } catch (error) {

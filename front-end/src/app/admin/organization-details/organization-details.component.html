@@ -20,7 +20,7 @@
         close
         </i></h4>
     </div>
-  <div class="main-content-view" [ngClass]="{'new': new, 'new': newRule}">
+  <div class="main-content-view" [ngClass]="{'new': new || newRule }">
     <div class="full-content-view" *ngIf="viewInitialized">
       <div class="details">
         <div class="card">
