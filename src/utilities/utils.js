@@ -54,7 +54,7 @@ module.exports = {
     return updateRow;
   },
 
-  shareReport: function(file_id, datasource_id_list, user_email, revoke) {
+  shareReport: function(file_id, datasource_id_list, user_email, revoke, callback) {
 
     const oAuth2Client = new OAuth2Client();
 
@@ -71,6 +71,9 @@ module.exports = {
         'emailAddress': user_email
       };
     if (revoke == 0) {
+
+      console.log("Sharing the report file...");
+
       drive.permissions.create({
           resource: permission,
           fileId: file_id,
@@ -79,12 +82,15 @@ module.exports = {
           if (err) {
             // Handle error...
             console.log(err);
-            return 1;
+            callback(1);
           } else {
+            console.log(res.status);
             if (res.status == 200) {
               for (var i = 0; i < datasource_id_list.length; i++) {
 
                 var datasource_id = datasource_id_list[i];
+
+                console.log("Sharing the report datasource...");
                 drive.permissions.create({
                     resource: permission,
                     fileId: datasource_id,
@@ -93,19 +99,20 @@ module.exports = {
                       if (err1) {
                         // Handle error...
                         console.log(err1);
-                        return 1;
+                        callback(1);
                       } else {
+                        console.log(res.status);
                         if (res1.status !== 200) {
-                          return 1;
+                          callback(1);
                         }
                       }
 
                     });
               }
-              return 0;
+              callback(0);
             }
             else {
-              return 1;
+              callback(1);
             }
           }
         });
@@ -119,7 +126,7 @@ module.exports = {
           if (err) {
             // Handle error...
             console.log(err);
-            return 1;
+            callback(1);
           } else {
             if (res.status == 200) {
               for (var i = 0; i < datasource_id_list.length; i++) {
@@ -133,19 +140,19 @@ module.exports = {
                       if (err1) {
                         // Handle error...
                         console.log(err1);
-                        return 1;
+                        callback(1);
                       } else {
                         if (res1.status !== 200) {
-                          return 1;
+                          callback(1);
                         }
                       }
 
                     });
               }
-              return 0;
+              callback(0);
             }
             else {
-              return 1;
+              callback(1);
             }
           }
         });
