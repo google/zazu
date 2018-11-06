@@ -443,15 +443,16 @@ router.get('/getAllReports/:id', function(req, res) {
 router.get('/getReportByOrganization/:id', function(req, res) {
 
   var reportsByOrg = [];
-  console.log(req.params.id);
+
   Report.find(function(err, docs) {
     if (err) {
       res.send({"status": "500", "message": "Report list retrieved error."});
     }
     else {
-      console.log(docs);
+
       for (var i = 0; i < docs.length; i++) {
-        for (var j = 0; j < docs[i].organizations[j]; j++) {
+        for (var j = 0; j < docs[i].organizations.length; j++) {
+
           if (docs[i].organizations[j]._id === req.params.id) {
 
             reportsByOrg.push(docs[i]);
@@ -459,7 +460,6 @@ router.get('/getReportByOrganization/:id', function(req, res) {
           }
         }
       }
-      console.log(reportsByOrg);
       res.send(reportsByOrg);
     }
   });
@@ -532,7 +532,7 @@ router.post('/createReport', function(req, res) {
           }
           for (var j = 0; j < orgList.length; j++) {
             for (var i = 0; i < docs.length; i++) {
-              for (var k = 0; k < docs[i].organizations; k++) {
+              for (var k = 0; k < docs[i].organizations.length; k++) {
 
                 if (orgList[j] === docs[i].organizations[k]) {
                   result = utils.shareReport(file_id, datasourceIdList, docs[i].googleID, 0);
