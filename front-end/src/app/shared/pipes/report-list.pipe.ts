@@ -59,14 +59,18 @@ export class ReportListPipe implements PipeTransform {
           currentList.length / this.paginationService.pagination.itemsPerPage
         )
       );
-
-      return currentList.slice(
-        this.paginationService.pagination.currentPage *
-          this.paginationService.pagination.itemsPerPage -
-          this.paginationService.pagination.itemsPerPage,
-        this.paginationService.pagination.itemsPerPage *
-          this.paginationService.pagination.currentPage
-      );
+      if (currentList.length === 0) {
+        const reports = [{ empty: true }];
+        return reports;
+      } else {
+        return currentList.slice(
+          this.paginationService.pagination.currentPage *
+            this.paginationService.pagination.itemsPerPage -
+            this.paginationService.pagination.itemsPerPage,
+          this.paginationService.pagination.itemsPerPage *
+            this.paginationService.pagination.currentPage
+        );
+      }
     }
 
     return currentList;

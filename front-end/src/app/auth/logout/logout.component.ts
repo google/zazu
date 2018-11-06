@@ -1,3 +1,4 @@
+import { AuthService } from './../auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LogoutComponent implements OnInit {
 
-  constructor() { }
+  constructor(private auth: AuthService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    console.log('Logging Out...');
+    await this.auth.logout();
   }
 
 }

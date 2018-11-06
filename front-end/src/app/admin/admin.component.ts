@@ -17,7 +17,7 @@ import {
 })
 export class AdminComponent implements OnInit, OnDestroy {
   minimized = false;
-  constructor(private route: Router, private ghostService: GhostService,  public dialog: MatDialog, private authService: AuthService) {}
+  constructor(private router: Router, private ghostService: GhostService,  public dialog: MatDialog, private authService: AuthService) {}
   ghostSubscription: Subscription;
   ghostStatus: boolean;
   ngOnInit() {
@@ -27,7 +27,7 @@ export class AdminComponent implements OnInit, OnDestroy {
       }
     );
     this.ghostService.getStatus();
-    this.route.navigate(['admin/o']);
+    this.router.navigate(['admin/o']);
   }
 
   toggleMenu() {
@@ -46,8 +46,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-       console.log('logout!');
-       this.authService.logout();
+      this.router.navigate(['logout']);
       }
     });
   }

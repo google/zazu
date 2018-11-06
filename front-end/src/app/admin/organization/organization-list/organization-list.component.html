@@ -5,8 +5,8 @@
 <div class="main-content-view">
   <div class="left-main-content-view" *ngIf="initialized  && organizations.length > 0">
     <div class="list" *ngIf="pagination">
-      <div *ngFor="let organization of organizations  |   orgList:  search: selectedCategories : sortValue: pagination.currentPage " class="card">
-        <div class="container" (click)="goToDetails(organization._id)">
+      <div *ngFor="let organization of organizations  |   orgList:  search: selectedCategories : sortValue: pagination.currentPage " [ngClass]="{'card': !organization.empty}">
+        <div class="container" (click)="goToDetails(organization._id)"  *ngIf="!organization.empty">
           <h2 class="title">{{organization.name}}</h2>
           <h4 class="secondary"><span *ngFor="let category of organization.categories, let i = index">{{category}}<span *ngIf="i < organization.categories.length -1">,&nbsp;&nbsp;</span>
             </span> </h4>
@@ -22,9 +22,18 @@
               </i> {{organization.datarulesCount}} Data Rules</span>
           </p>
         </div>
+        <div class="no-result" *ngIf="organization.empty && organizations.length > 1">
+            <p class="icon"><i class="material-icons">
+                search
+                </i></p>
+            <h3 class="title">
+              No result found.
+            </h3>
+            <p class="text"> We can't find any organization matching your search.</p>
+          </div>
       </div>
     </div>
-    <p class="pagination" *ngIf="this.pagination" style="text-align: center"> <button mat-mini-fab (click)="previousPage()" color="white"
+    <p class="pagination" *ngIf="this.pagination && this.pagination.totalPages > 1" style="text-align: center"> <button mat-mini-fab (click)="previousPage()" color="white"
         [disabled]="pagination.currentPage===1"> <i class="material-icons">
           chevron_left
         </i> </button>

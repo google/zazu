@@ -45,6 +45,6 @@ export class AuthService {
   }
 
   public async logout() {
-    return await this.http.get<IsLoggedIn>('/api' + '/logout').toPromise();
+    await this.http.get('/api' + '/logout').toPromise();
   }
 }
