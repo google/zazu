@@ -506,6 +506,7 @@ router.post('/createReport', function(req, res) {
   var newReport = req.body;
   newReport.createdBy = req.session.passport.user.id;
   newReport.updatedBy = "";
+  var result = 0;
 
   Report.create(newReport, function(err, results) {
 
@@ -535,8 +536,16 @@ router.post('/createReport', function(req, res) {
             for (var i = 0; i < docs.length; i++) {
               for (var k = 0; k < docs[i].organizations.length; k++) {
 
-                if (orgList[j] === docs[i].organizations[k]) {
-                  result = utils.shareReport(file_id, datasourceIdList, docs[i].googleID, 0);
+                if (orgList[j]._id === docs[i].organizations[k]._id) {
+                  utils.shareReport(file_id, datasourceIdList, docs[i].googleID, 0, function(ret) {
+                    if (ret === 1) {
+                      console.log("Report sharing failed.");
+                      var result = 1;
+                    }
+                    else {
+                      console.log("Report shared successfully.");
+                    }
+                  });
 
                   if (result === 1) {
                     res.send({"status": "500", "message": "Sharing report error."});
@@ -546,6 +555,7 @@ router.post('/createReport', function(req, res) {
               }
             }
           }
+
           for (var i = 0; i < newReport.organizations.length; i++) {
             Organization.updateOne({ _id: newReport.organizations[i]._id }, { $inc: { reportsCount: 1 } }, function(err1, res1) {
               if (err1) {
@@ -573,14 +583,14 @@ router.post('/deleteReport', function(req, res) {
       res.send({"status": "500", "message": "Report deletion error."});
     }
     else {
-      var orgList = newReport.organizations;
-      var file_url = newReport.link;
+      var orgList = deleteReport.organizations;
+      var file_url = deleteReport.link;
       var extract_id = file_url.match(/reporting\/.*\/page/i);
       var file_id = extract_id.toString().split('/')[1];
 
       var datasourceIdList = [];
-      for (var i = 0; i < newReport.dataStudioSourceIDs.length; i++) {
-        var datasourcelink = newReport.dataStudioSourceIDs[i];
+      for (var i = 0; i < deleteReport.dataStudioSourceIDs.length; i++) {
+        var datasourcelink = deleteReport.dataStudioSourceIDs[i];
         var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
         var datasource_id = extract_ds_link.toString().split('/')[1];
 
@@ -593,9 +603,9 @@ router.post('/deleteReport', function(req, res) {
           }
           for (var j = 0; j < orgList.length; j++) {
             for (var i = 0; i < docs.length; i++) {
-              for (var k = 0; k < docs[i].organizations; k++) {
+              for (var k = 0; k < docs[i].organizations.length; k++) {
 
-                if (orgList[j] === docs[i].organizations[k]) {
+                if (orgList[j]._id === docs[i].organizations[k]._id) {
                   result = utils.shareReport(file_id, datasourceIdList, docs[i].googleID, 1);
 
                   if (result === 1) {
@@ -606,8 +616,8 @@ router.post('/deleteReport', function(req, res) {
               }
             }
           }
-          for (var i = 0; i < newReport.organizations.length; i++) {
-            Organization.updateOne({ _id: newReport.organizations[i]._id }, { $inc: { reportsCount: -1 } }, function(err1, res1) {
+          for (var i = 0; i < deleteReport.organizations.length; i++) {
+            Organization.updateOne({ _id: deleteReport.organizations[i]._id }, { $inc: { reportsCount: -1 } }, function(err1, res1) {
               if (err1) {
                 res.send({"status": "500", "message": err1.message });
               }
