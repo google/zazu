@@ -443,21 +443,23 @@ router.get('/getAllReports/:id', function(req, res) {
 router.get('/getReportByOrganization/:id', function(req, res) {
 
   var reportsByOrg = [];
-
+  console.log(req.params.id);
   Report.find(function(err, docs) {
     if (err) {
       res.send({"status": "500", "message": "Report list retrieved error."});
     }
     else {
+      console.log(docs);
       for (var i = 0; i < docs.length; i++) {
         for (var j = 0; j < docs[i].organizations[j]; j++) {
-          if (docs[i].organizations[j]._id == req.params.id) {
+          if (docs[i].organizations[j]._id === req.params.id) {
 
             reportsByOrg.push(docs[i]);
 
           }
         }
       }
+      console.log(reportsByOrg);
       res.send(reportsByOrg);
     }
   });
@@ -513,7 +515,7 @@ router.post('/createReport', function(req, res) {
       var orgList = newReport.organizations;
       var file_url = newReport.link;
       var extract_id = file_url.match(/reporting\/.*\/page/i);
-      var file_id  = extract_id.toString().split('/')[1];
+      var file_id = extract_id.toString().split('/')[1];
 
       var datasourceIdList = [];
       for (var i = 0; i < newReport.dataStudioSourceIDs.length; i++) {
@@ -525,29 +527,35 @@ router.post('/createReport', function(req, res) {
       }
 
       User.find(function(err1, docs) {
-
           if (err1) {
-            res.send({"status": "500", "message": "Report creation error."});
+            res.send({"status": "500", "message": "Retrieving users error."});
           }
           for (var j = 0; j < orgList.length; j++) {
             for (var i = 0; i < docs.length; i++) {
               for (var k = 0; k < docs[i].organizations; k++) {
 
                 if (orgList[j] === docs[i].organizations[k]) {
-
-                  result = utils.shareReport(file_id, datasourceIdList, docs[i].googleID);
+                  result = utils.shareReport(file_id, datasourceIdList, docs[i].googleID, 0);
 
                   if (result === 1) {
-                    res.send({"status": "500", "message": "Report creation error."});
+                    res.send({"status": "500", "message": "Sharing report error."});
                   }
 
                 }
               }
             }
           }
+          for (var i = 0; i < newReport.organizations.length; i++) {
+            Organization.updateOne({ _id: newReport.organizations[i]._id }, { $inc: { reportsCount: 1 } }, function(err1, res1) {
+              if (err1) {
+                res.send({"status": "500", "message": err1.message });
+              }
+            });
+          }
+          res.send({"status": "200", "results": results._id });
+
       });
 
-      res.send({"status": "200", "results": results._id });
     }
 
   });
@@ -564,8 +572,49 @@ router.post('/deleteReport', function(req, res) {
       res.send({"status": "500", "message": "Report deletion error."});
     }
     else {
-      /* TO DO - Unshare report and datasource in drive with all users in all orgs of the report */
-      res.send({"status": "200", "results": results });
+      var orgList = newReport.organizations;
+      var file_url = newReport.link;
+      var extract_id = file_url.match(/reporting\/.*\/page/i);
+      var file_id = extract_id.toString().split('/')[1];
+
+      var datasourceIdList = [];
+      for (var i = 0; i < newReport.dataStudioSourceIDs.length; i++) {
+        var datasourcelink = newReport.dataStudioSourceIDs[i];
+        var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
+        var datasource_id = extract_ds_link.toString().split('/')[1];
+
+        datasourceIdList.push(datasource_id);
+      }
+
+      User.find(function(err1, docs) {
+          if (err1) {
+            res.send({"status": "500", "message": "Report creation error."});
+          }
+          for (var j = 0; j < orgList.length; j++) {
+            for (var i = 0; i < docs.length; i++) {
+              for (var k = 0; k < docs[i].organizations; k++) {
+
+                if (orgList[j] === docs[i].organizations[k]) {
+                  result = utils.shareReport(file_id, datasourceIdList, docs[i].googleID, 1);
+
+                  if (result === 1) {
+                    res.send({"status": "500", "message": "Report creation error."});
+                  }
+
+                }
+              }
+            }
+          }
+          for (var i = 0; i < newReport.organizations.length; i++) {
+            Organization.updateOne({ _id: newReport.organizations[i]._id }, { $inc: { reportsCount: -1 } }, function(err1, res1) {
+              if (err1) {
+                res.send({"status": "500", "message": err1.message });
+              }
+            });
+          }
+          res.send({"status": "200", "results": results._id });
+
+      });
     }
 
   });

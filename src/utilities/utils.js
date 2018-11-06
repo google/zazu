@@ -54,7 +54,7 @@ module.exports = {
     return updateRow;
   },
 
-  shareReport: function(file_id, datasource_id_list, user_email) {
+  shareReport: function(file_id, datasource_id_list, user_email, revoke) {
 
     const oAuth2Client = new OAuth2Client();
 
@@ -70,44 +70,85 @@ module.exports = {
         'role': 'reader',
         'emailAddress': user_email
       };
-    // Using the NPM module 'async'
-    drive.permissions.create({
-        resource: permission,
-        fileId: file_id,
-        fields: 'id',
-      }, function (err, res) {
-        if (err) {
-          // Handle error...
-          console.log(err);
-          return 1;
-        } else {
-          if (res.status == 200) {
-            for (var i = 0; i < datasource_id_list.length; i++) {
-
-              var datasource_id = datasource_id_list[i];
-              drive.permissions.create({
-                  resource: permission,
-                  fileId: datasource_id,
-                  fields: 'id',
-                }, function (err1, res1) {
-                    if (err1) {
-                      // Handle error...
-                      console.log(err1);
-                      return 1;
-                    } else {
-                      if (res1.status !== 200) {
-                        return 1;
-                      }
-                    }
-
-                  });
-            }
-            return 0;
-          }
-          else {
+    if (revoke == 0) {
+      drive.permissions.create({
+          resource: permission,
+          fileId: file_id,
+          fields: 'id',
+        }, function (err, res) {
+          if (err) {
+            // Handle error...
+            console.log(err);
             return 1;
+          } else {
+            if (res.status == 200) {
+              for (var i = 0; i < datasource_id_list.length; i++) {
+
+                var datasource_id = datasource_id_list[i];
+                drive.permissions.create({
+                    resource: permission,
+                    fileId: datasource_id,
+                    fields: 'id',
+                  }, function (err1, res1) {
+                      if (err1) {
+                        // Handle error...
+                        console.log(err1);
+                        return 1;
+                      } else {
+                        if (res1.status !== 200) {
+                          return 1;
+                        }
+                      }
+
+                    });
+              }
+              return 0;
+            }
+            else {
+              return 1;
+            }
           }
-        }
-      });
+        });
+    }
+    else {
+      drive.permissions.delete({
+          resource: permission,
+          fileId: file_id,
+          fields: 'id',
+        }, function (err, res) {
+          if (err) {
+            // Handle error...
+            console.log(err);
+            return 1;
+          } else {
+            if (res.status == 200) {
+              for (var i = 0; i < datasource_id_list.length; i++) {
+
+                var datasource_id = datasource_id_list[i];
+                drive.permissions.delete({
+                    resource: permission,
+                    fileId: datasource_id,
+                    fields: 'id',
+                  }, function (err1, res1) {
+                      if (err1) {
+                        // Handle error...
+                        console.log(err1);
+                        return 1;
+                      } else {
+                        if (res1.status !== 200) {
+                          return 1;
+                        }
+                      }
+
+                    });
+              }
+              return 0;
+            }
+            else {
+              return 1;
+            }
+          }
+        });
+    }
   }
 };
