@@ -44,7 +44,7 @@ export class AuthService {
     }
   }
 
-  public logOut() {
-    // DO LOGOUT STUFF HERE;
+  public async logout() {
+    return await this.http.get<IsLoggedIn>('/api' + '/logout').toPromise();
   }
 }

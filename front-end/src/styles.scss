@@ -18,17 +18,42 @@
   color: white;
 }
 
+
+
+
+/******* LOADING SPINNER ********/
+
+.mat-progress-spinner circle, .mat-spinner circle {
+  stroke: $primary;
+  }
+
+.spinner-container {
+  margin: auto;
+  padding-top: 50px;
+  .spinner {
+    margin: auto;
+  }
+  p {
+    text-align: center;
+    margin: 3px 0;
+  }
+  .title {
+    text-align: center;
+    margin: 3px 0;
+    font-weight: 500;
+  }
+}
+
 /***** CREATE NEW REPORT STYLES POPUP MENU *************/
-::ng-deep .new-report-menu.mat-menu-panel {
+
+.cdk-overlay-container .new-report-menu.mat-menu-panel {
   background-color: rgba(0, 0, 0, 0) !important;
 
   border: none !important;
 
   box-shadow: none !important;
-
-
 }
-::ng-deep .new-report-menu.mat-menu-panel button .mat-icon {
+.cdk-overlay-container .new-report-menu.mat-menu-panel button .mat-icon {
   background-color: $primary;
 
   color: white !important;
@@ -38,18 +63,16 @@
   padding: 7px;
 }
 
-::ng-deep .new-report-menu.mat-menu-panel button .text {
+.cdk-overlay-container .new-report-menu.mat-menu-panel button .text {
   background-color: white;
   padding: 10px;
-  box-shadow:  0 2px 4px gray;
+  box-shadow: 0 2px 4px gray;
   border-radius: 5px;
 }
 
-
-::ng-deep .cdk-overlay-container {
-  background-color: rgba(50,50,50,0.5);
+.cdk-overlay-container {
+  // background-color: rgba(50, 50, 50, 0.5);
 }
-
 
 /**** BUTTONS STUFF   */
 .button-disabled {
@@ -157,7 +180,45 @@ body {
   }
 }
 
+/****** NEW BAR FOR CREATE NEW NOTIFICATION *****/
+.new-bar {
+  background-color: $sucess;
+  width: 100%;
+  text-align: center;
+  height: 45px;
+  position: fixed;
+  margin-top: 50px;
+  box-shadow: 0 3px 4px lightgray;
+  z-index: 999;
+  h4 {
+    color: white;
+    margin: 0;
+    margin-top: 5px;
+    margin-right: 10%;
+    font-weight: normal;
+    i {
+      position: relative;
+      top: 5px;
+    }
 
+    i.close {
+      position: fixed;
+      top: initial;
+      right: 20px;
+      margin-top: 6px;
+    }
+
+    i.close:hover {
+      cursor: pointer;
+    }
+
+    i.check {
+      padding-right: 10px;
+      font-weight: bold;
+    }
+  }
+  transition: height 0.5s;
+}
 
 /**** MAIN CONTENT CONTAINER ****/
 

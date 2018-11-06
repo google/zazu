@@ -44,6 +44,7 @@ export class EditUserComponent implements OnInit {
   userRole;
   async ngOnInit() {
     try {
+      this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();
       console.log(this.organizations);
       this.sub = this.route.params.subscribe(params => {
         this.organizationID = params['id'];

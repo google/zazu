@@ -29,7 +29,7 @@ export class CreateNewOrganizationComponent implements OnInit {
 
   filteredOptions: Observable<string[]>;
   selectedCategories = [''];
-
+  sending = false;
   orgForm: FormGroup;
 
   async ngOnInit() {
@@ -74,6 +74,7 @@ export class CreateNewOrganizationComponent implements OnInit {
   async onSubmit() {
     try {
       const temp = [];
+      this.sending = true;
       for (const itemname of this.orgForm.value.itemRows) {
         temp.push(itemname.itemname);
       }
@@ -86,9 +87,11 @@ export class CreateNewOrganizationComponent implements OnInit {
       );
       console.log(newOrg);
       if (await newOrg.status === '200') {
-        await this.router.navigate(['../', newOrg.orgID], { relativeTo: this.route} );
+        await this.router.navigate(['../', newOrg.orgID], { relativeTo: this.route, queryParams: { new: 'new'}} );
       }
-    } catch (error) {}
+    } catch (error) {
+      this.sending = false;
+    }
   }
 
   public noWhitespaceValidator(control: FormControl) {

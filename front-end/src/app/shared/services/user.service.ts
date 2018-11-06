@@ -54,7 +54,7 @@ export class UserService {
    * Create new user
    * @param user - user object for creating new user
    */
-  public async createNewUser(user: UserViewModel.CreateNewUser) {
+  public async createNewUser(user: UserViewModel.CreateNewUser): Promise<any> {
     console.log('Creating new user + ' + JSON.stringify(user));
     return await ((this.http.post('/api/' + 'createNewUser/', user)).toPromise());
   }
@@ -64,7 +64,7 @@ export class UserService {
    * @param user - user object for editing user
    */
   public async editUser(user: UserViewModel.EditUser) {
-    return await ((this.http.post(this.URL + 'editUser/', user)).toPromise());
+    return await ((this.http.post('/api/' + 'editUser/', user)).toPromise());
   }
 
 

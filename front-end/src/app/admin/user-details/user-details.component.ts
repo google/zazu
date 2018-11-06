@@ -32,7 +32,7 @@ export class UserDetailsComponent implements OnInit {
   organization; // Name of the org from previous view for breadcrumbs purposes
   user: UserViewModel.User;
   viewInitialized = false;
-
+  new = false;
   async ngOnInit() {
     try {
       this.sub = this.route.params.subscribe(params => {
@@ -51,6 +51,7 @@ export class UserDetailsComponent implements OnInit {
       }
       console.log(this.user);
       this.reports = await this.reportService.getReportByUser(this.userID);
+      this.new = (await this.route.snapshot.queryParamMap.get('new')) === 'new';
       this.viewInitialized = true;
     } catch (error) {
       console.log(error);
@@ -62,6 +63,11 @@ export class UserDetailsComponent implements OnInit {
     this.ghostsService.activatedGhost();
     this.router.navigate(['./ghost', userName], { relativeTo: this.route });
   }
+
+  closeNewBar() {
+    this.new = false;
+  }
+
 
 
   // Gets the name of the organization for breadcrumbs & user acceses

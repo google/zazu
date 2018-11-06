@@ -1,5 +1,5 @@
 import { UserService } from 'src/app/shared/services/user.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OrganizationService } from './../../shared/services/organization.service';
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import * as OrganizationViewModel from './../../shared/view-models/organization.viewmodel';
@@ -31,7 +31,8 @@ export class CreateNewUserComponent implements OnInit {
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
     private route: ActivatedRoute,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router,
   ) {}
   sub: any;
   roleSelected;
@@ -42,6 +43,7 @@ export class CreateNewUserComponent implements OnInit {
   selectedOrganizationNames: OrganizationViewModel.SimpleOrganization[];
   allowSecondaryEmail = false;
   organizationID;
+  sending = false;
   async ngOnInit() {
     try {
       this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();
@@ -79,6 +81,7 @@ export class CreateNewUserComponent implements OnInit {
    * ON SUBMIT FOR CREATING NEW USER
    */
   async onSubmit() {
+    this.sending = true;
     const firstForm = this.firstFormGroup.value;
     const secondForm = this.secondFormGroup.value;
     const orgs = [];
@@ -97,8 +100,16 @@ export class CreateNewUserComponent implements OnInit {
       organizations : orgs,
       role: firstForm.role
     };
-    const userStatus = await this.userService.createNewUser(newUser);
+    try {
+      const userStatus = await this.userService.createNewUser(newUser);
     console.log(userStatus);
+      if (userStatus.status === '200') {
+        await this.router.navigate(['../u', userStatus.userID], { relativeTo: this.route, queryParams: { new: 'new'}} );
+      }
+    } catch (error) {
+
+    }
+
 
   }
 

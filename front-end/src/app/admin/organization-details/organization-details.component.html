@@ -13,7 +13,14 @@
         close
         </i></h4>
     </div>
-  <div class="main-content-view" [ngClass]="{'new': new}">
+    <div *ngIf="newRule" class="new-bar">
+      <h4><i class="material-icons check">
+        check
+        </i >Success: Data Rule Created <i (click)="closeNewBar()" class="material-icons close">
+        close
+        </i></h4>
+    </div>
+  <div class="main-content-view" [ngClass]="{'new': new, 'new': newRule}">
     <div class="full-content-view" *ngIf="viewInitialized">
       <div class="details">
         <div class="card">
@@ -47,7 +54,7 @@
         </div>
 
         <div class="tabs">
-          <mat-tab-group (selectedIndexChange)="selected($event)">
+          <mat-tab-group (selectedIndexChange)="selected($event)" [selectedIndex]="selectedTab">
             <mat-tab label="Reports">
               <div *ngIf="!reportsInitialized" style="margin:auto; padding-top: 50px; text-align: center">
                 <mat-spinner style="margin:auto"></mat-spinner>

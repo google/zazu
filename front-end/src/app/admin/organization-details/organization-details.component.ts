@@ -59,7 +59,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
   datarulesInitialized = false;
   viewInitialized = false;
   new;
-
+  newRule = false;
   async ngOnInit() {
     try {
       this.sub = this.route.params.subscribe(params => {
@@ -78,10 +78,16 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
           this.pagination = pagination;
         }
       );
-      this.new = await this.route.snapshot.queryParamMap.get('new');
-      this.new = true;
-      this.viewInitialized = true;
+      this.new = (await this.route.snapshot.queryParamMap.get('new')) === 'new';
+      this.newRule = (await this.route.snapshot.queryParamMap.get('newRule')) === 'new';
       this.reportsInitialized = true;
+      if (this.newRule) {
+        this.selectedTab = 2;
+      } else {
+        this.selectedTab = 0;
+        this.selected(2);
+      }
+      this.viewInitialized = true;
     } catch (error) {
       console.log(error);
     }
@@ -112,6 +118,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
 
   closeNewBar() {
     this.new = false;
+    this.newRule = false;
   }
 
   // gets users for this organization

@@ -3,7 +3,7 @@ import { ReportListPipe } from './../shared/pipes/report-list.pipe';
 import { SearchNamePipe } from './../shared/pipes/search-name.pipe';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdminComponent } from './admin.component';
+import { AdminComponent, LogoutConfirmation } from './admin.component';
 import { OrganizationListComponent } from './organization/organization-list/organization-list.component';
 import { AngularMaterialModule } from '../../angular-material/angular-material.module';
 import { AdminRoutingModule } from './admin-routing.module';
@@ -86,7 +86,8 @@ import { EditReportAccessComponent } from './edit-report-access/edit-report-acce
     GhostComponent,
     EditReportAccessComponent,
     NewReportChoice,
-    DeleteOrganizationWarning
+    DeleteOrganizationWarning,
+    LogoutConfirmation
   ],
   imports: [
     CommonModule,
@@ -102,7 +103,8 @@ import { EditReportAccessComponent } from './edit-report-access/edit-report-acce
     DeleteReportConfirmation,
     DeleteDataruleConfirmation,
     NewReportChoice,
-    DeleteOrganizationWarning
+    DeleteOrganizationWarning,
+    LogoutConfirmation
   ]
 })
 export class AdminModule {}

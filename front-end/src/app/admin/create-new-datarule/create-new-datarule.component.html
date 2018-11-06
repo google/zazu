@@ -1,4 +1,4 @@
-<div class="form-container">
+<div class="form-container" *ngIf="!sending">
   <div class="card" *ngIf="organization">
     <div class="form">
       <h2 class="title"> Create New Data Rule</h2>
@@ -122,4 +122,10 @@
       </mat-horizontal-stepper>
     </div>
   </div>
+</div>
+
+<div *ngIf="sending" class="spinner-container">
+  <mat-spinner class="spinner"></mat-spinner>
+  <h3 class="title">Creating New Data Rule</h3>
+  <p >Please wait</p>
 </div>

@@ -19,11 +19,15 @@
     </div>
 
   </div>
-
-  <div class="main-content-view">
+  <div *ngIf="new" class="new-bar">
+    <h4><i class="material-icons check">
+      check
+      </i >Success: User Created <i (click)="closeNewBar()" class="material-icons close">
+      close
+      </i></h4>
+  </div>
+  <div class="main-content-view" [ngClass]="{'new': new}">
     <div class="full-content-view">
-
-
       <div class="details">
         <div class="more-button">
           <button mat-icon-button [matMenuTriggerFor]="menu">
@@ -31,7 +35,7 @@
           </button>
 
           <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="ghostView()">User View</button>
+            <button mat-menu-item (click)="ghostView()" *ngIf="user.role !== 'admin'">User View</button>
             <mat-divider></mat-divider>
             <button mat-menu-item routerLink="./edit-user">Edit</button>
             <button mat-menu-item (click)="openDialog()">Delete</button>
@@ -56,7 +60,7 @@
   </div>
 </div>
 
-<div *ngIf="!viewInitialized " style="margin:auto; padding-top: 80px; text-align: center">
-  <mat-spinner style="margin:auto"></mat-spinner>
-  <p style="text-align: center;">User Loading...</p>
+<div *ngIf="!viewInitialized " class='spinner-container'>
+  <mat-spinner class="spinner"></mat-spinner>
+  <p >User Loading...</p>
 </div>

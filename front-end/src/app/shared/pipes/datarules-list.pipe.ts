@@ -29,7 +29,7 @@ export class DataRulesListPipe implements PipeTransform {
       if (datasource) {
         if (datasource !== 'All') {
           currentList = currentList.filter(
-            element => element.datasource._id === datasource
+            element => element.datasource === datasource
           );
         }
       }

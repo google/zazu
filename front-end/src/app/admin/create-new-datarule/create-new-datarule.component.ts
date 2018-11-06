@@ -1,6 +1,6 @@
 import { OrganizationService } from 'src/app/shared/services/organization.service';
 import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatarulesService } from './../../shared/services/datarules.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -22,6 +22,7 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
     private datarulesService: DatarulesService,
     private route: ActivatedRoute,
     private organizationService: OrganizationService,
+    private router: Router
   ) {}
   identifiers: DataViewModel.Identifier[];
   organizationId;
@@ -29,6 +30,7 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
   organization;
   selectedDataSource;
   secondFormInitialized = false;
+  sending = false;
   async ngOnInit() {
     try {
       this.sub = this.route.params.subscribe(params => {
@@ -82,7 +84,8 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
   }
 
 
-  onSubmit() {
+  async onSubmit() {
+    this.sending = true;
     const form = this.dataruleFormGroup.value;
     const datasource = this.datasourceGroup.value.datasource;
     const org = {
@@ -97,7 +100,10 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
       token: form.token,
       organization: org
     };
-    console.log(datarule);
-    this.datarulesService.createNewDataRule(datarule);
+
+
+    const ruleStatus = await this.datarulesService.createNewDataRule(datarule);
+    console.log(ruleStatus);
+    await this.router.navigate(['../'], { relativeTo: this.route, queryParams: { newRule: 'new'}} );
   }
 }
