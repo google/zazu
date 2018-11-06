@@ -85,6 +85,8 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
     return isValid ? null : { whitespace: true };
   }
 
+
+
   async onSubmit() {
     try {
       this.sending = true;
@@ -103,7 +105,7 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
       if (status.status === '200') {
         await this.router.navigate(['../../'], {
           relativeTo: this.route,
-          queryParams: { ruleEdited: 'true' }
+          queryParams: { ruleEdited: 'true'}
         });
       } else {
         this.sending = false;

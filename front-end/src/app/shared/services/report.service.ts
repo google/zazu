@@ -18,6 +18,7 @@ export class ReportService {
           '/api' + '/getAllReports'
         )
         .toPromise();
+      console.log(raw);
       const reports = await this.cleanSimpleRawReport(raw);
       return await reports;
     } catch (error) {
@@ -117,10 +118,23 @@ export class ReportService {
   public async getReport(
     reportID,
     orgID
-  ): Promise<ReportViewModel.ReportWithMetaData> {
+  )  {
+
+    const raw = await this.http
+        .get<ReportViewModel.SimpleRawReport[]>(
+          '/api' + '/getAllReports'
+        )
+        .toPromise();
+
+    const report = raw.find( element => {
+      return element._id === reportID;
+    });
+
+    return  <ReportViewModel.ReportWithMetaData>report;
+    /*
     return await this.http
       .get<ReportViewModel.ReportWithMetaData>(
-        this.URL + 'single-report-with-meta.mockdata.json',
+        '/api' + 'single-report-with-meta.mockdata.json',
         {
           params: {
             reportID: reportID,
@@ -129,6 +143,7 @@ export class ReportService {
         }
       )
       .toPromise();
+      */
   }
 
   /**
@@ -194,7 +209,7 @@ export class ReportService {
    * @param report - report object
    */
   public async editReport(report: ReportViewModel.EditReport) {
-    return await this.http.post(this.URL + 'editReport/', report).toPromise();
+    return await this.http.post('/api/' + 'editReport/', report).toPromise();
   }
 
   /**

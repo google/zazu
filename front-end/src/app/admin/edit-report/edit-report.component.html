@@ -83,7 +83,7 @@
                   Cannot have duplicate Data Sources </p>
                 <p class="add-row" (click)="addNewRow()">+ Add another Data source</p>
               <div class="buttons">
-                <button mat-button type='button' routerLink="../">Back</button>
+                <button mat-button type='button' (click)="goBack()">Back</button>
                 <button mat-button type='submit' mat-flat-button class="done primary" [disabled]="!reportInfoForm.valid" [ngClass]="{'button-disabled': !reportInfoForm.valid}">Done</button>
               </div>
             </form>

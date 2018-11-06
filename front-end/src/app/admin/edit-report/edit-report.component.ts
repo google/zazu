@@ -42,6 +42,7 @@ export class EditReportComponent implements OnInit {
   report: ReportViewModel.ReportDetails;
   reportID: string;
   sending = false;
+  selectedOrgID;
   async ngOnInit() {
     try {
       this.sub = await this.route.params.subscribe(params => {
@@ -50,6 +51,7 @@ export class EditReportComponent implements OnInit {
       this.datasources = await this.datarulesService.getDataSources();
       this.report = await this.reportService.getReportDetails(this.reportID);
       this.organizations = this.report.organizations;
+      this.selectedOrgID = await this.route.snapshot.queryParamMap.get('selectedOrg');
       this.reportInfoForm = this.formBuilder.group({
         name: [
           this.report.name,
@@ -134,6 +136,11 @@ export class EditReportComponent implements OnInit {
     }
   }
 
+  goBack() {
+    console.log('back thing');
+    this.router.navigate(['../'], { relativeTo: this.route, queryParams: { selectedOrg: this.selectedOrgID}} );
+  }
+
   async onSubmit() {
     try {
       const rForm = this.reportInfoForm.value;
@@ -149,10 +156,10 @@ export class EditReportComponent implements OnInit {
         organizations: this.report.organizations,
         dataStudioSourceIDs: ids
       };
-      const status =  await <any>this.reportService.editReport(report);
       console.log(report);
+      const status =  await <any>this.reportService.editReport(report);
       if (status.status === '200') {
-        await this.router.navigate(['../'], { relativeTo: this.route, queryParams: { edited: 'true'}} );
+        await this.router.navigate(['../'], { relativeTo: this.route, queryParams: { edited: 'true', selectedOrg: this.selectedOrgID}} );
       } else {
         this.sending = false;
         this.snackBar.open('Error: ' + status.message, 'Dismiss', {
