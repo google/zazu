@@ -5,6 +5,7 @@ import { DatarulesService } from './../../shared/services/datarules.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as DataViewModel from '../../shared/view-models/data.viewmodel';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-create-new-datarule',
@@ -22,7 +23,8 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
     private datarulesService: DatarulesService,
     private route: ActivatedRoute,
     private organizationService: OrganizationService,
-    private router: Router
+    private router: Router,
+    public snackBar: MatSnackBar
   ) {}
   identifiers: DataViewModel.Identifier[];
   organizationId;
@@ -102,8 +104,15 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
     };
 
 
-    const ruleStatus = await this.datarulesService.createNewDataRule(datarule);
+    const ruleStatus = <any>await this.datarulesService.createNewDataRule(datarule);
     console.log(ruleStatus);
-    await this.router.navigate(['../'], { relativeTo: this.route, queryParams: { newRule: 'new'}} );
+    if ( ruleStatus.status === '200') {
+      await this.router.navigate(['../'], { relativeTo: this.route, queryParams: { newRule: 'new'}} );
+    } else {
+      this.sending = false;
+      this.snackBar.open('Error: ' + ruleStatus.message, 'Dismiss', {
+        duration: 5000,
+      });
+    }
   }
 }

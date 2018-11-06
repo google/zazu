@@ -13,7 +13,8 @@ import {
   MatDialog,
   MatDialogRef,
   MAT_DIALOG_DATA,
-  MatStepper
+  MatStepper,
+  MatSnackBar
 } from '@angular/material';
 import * as UserViewModel from '../../shared/view-models/user.viewmodel';
 
@@ -33,6 +34,7 @@ export class CreateNewUserComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService,
     private router: Router,
+    public snackBar: MatSnackBar
   ) {}
   sub: any;
   roleSelected;
@@ -105,8 +107,14 @@ export class CreateNewUserComponent implements OnInit {
     console.log(userStatus);
       if (userStatus.status === '200') {
         await this.router.navigate(['../u', userStatus.userID], { relativeTo: this.route, queryParams: { new: 'new'}} );
+      } else {
+        this.sending = false;
+        this.snackBar.open('Error: ' + userStatus.message, 'Dismiss', {
+          duration: 5000,
+        });
       }
     } catch (error) {
+      this.sending = false;
 
     }
 

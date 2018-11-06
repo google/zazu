@@ -6,21 +6,19 @@
       </span> </div>
 
   </div>
-  <div *ngIf="new" class="new-bar">
-      <h4><i class="material-icons check">
+  <div *ngIf="new || newRule || edited || ruleEdited" class="new-bar">
+    <h4><i class="material-icons check">
         check
-        </i >Success: Organization Created <i (click)="closeNewBar()" class="material-icons close">
+      </i>
+      <span *ngIf="new">Success: Organization Created</span>
+      <span *ngIf="newRule">Success: Data Rule Created</span>
+      <span *ngIf="edited">Success: Organization Edited </span>
+      <span *ngIf="ruleEdited"> Success: Data rule edited</span>
+      <i (click)="closeNewBar()" class="material-icons close">
         close
-        </i></h4>
-    </div>
-    <div *ngIf="newRule" class="new-bar">
-      <h4><i class="material-icons check">
-        check
-        </i >Success: Data Rule Created <i (click)="closeNewBar()" class="material-icons close">
-        close
-        </i></h4>
-    </div>
-  <div class="main-content-view" [ngClass]="{'new': new || newRule }">
+      </i></h4>
+  </div>
+  <div class="main-content-view" [ngClass]="{'new': new || newRule || edited || ruleEdited }">
     <div class="full-content-view" *ngIf="viewInitialized">
       <div class="details">
         <div class="card">
@@ -36,7 +34,7 @@
           </div>
           <div class="container">
             <h2 class="title">{{organization.name}}</h2>
-            <h4 class="secondary"><span *ngFor="let category of organization.categories">{{category}} &nbsp; </span> </h4>
+            <h4 class="secondary"><span *ngFor="let category of organization.categories; let i = index">{{category}}<span *ngIf="i < organization.categories.length -1">,&nbsp;&nbsp;</span> </span> </h4>
             <p class="stats">
               <span class="left"><i class="material-icons">
                   assessment
@@ -74,28 +72,29 @@
               </div>
 
 
-              <app-report-list [allowAdd]=true *ngIf="selectedTab === 0 && reportsInitialized && reports.length > 0 " [reports]="reports" (report)="goToReport($event)"
-                style="display:flex; width: 100%; margin-bottom: 10px;"></app-report-list>
+              <app-report-list [allowAdd]=true *ngIf="selectedTab === 0 && reportsInitialized && reports.length > 0 " [reports]="reports"
+                (report)="goToReport($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-report-list>
             </mat-tab>
             <mat-tab label="Users">
               <div *ngIf="!usersInitialized" style="margin:auto; padding-top: 50px; text-align: center">
                 <mat-spinner style="margin:auto"></mat-spinner>
                 <p style="text-align: center;">Users Loading...</p>
               </div>
-              <app-user-list *ngIf="selectedTab === 1 && usersInitialized && users.length > 0 " [users]="users" (userID)="goToUser($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-user-list>
+              <app-user-list *ngIf="selectedTab === 1 && usersInitialized && users.length > 0 " [users]="users" (userID)="goToUser($event)"
+                style="display:flex; width: 100%; margin-bottom: 10px;"></app-user-list>
 
 
               <div *ngIf="usersInitialized && users.length === 0 && selectedTab === 1  " class="empty-list">
-                  <div class="icons">
-                    <i class="material-icons main"> person_outline </i>
-                    <button routerLink="./new-user" mat-fab class="button-fab add" color="primary-button"> <i class="material-icons">
-                        add
-                      </i>
-                    </button>
-                  </div>
-                  <h2 class="title"> There are no users.</h2>
-                  <h3 class="create-text" routerLink="./new-user"> Create new user</h3>
+                <div class="icons">
+                  <i class="material-icons main"> person_outline </i>
+                  <button routerLink="./new-user" mat-fab class="button-fab add" color="primary-button"> <i class="material-icons">
+                      add
+                    </i>
+                  </button>
                 </div>
+                <h2 class="title"> There are no users.</h2>
+                <h3 class="create-text" routerLink="./new-user"> Create new user</h3>
+              </div>
             </mat-tab>
             <mat-tab label="Data Rules">
               <div *ngIf="!datarulesInitialized" style="margin:auto; padding-top: 50px; text-align: center">
@@ -177,16 +176,16 @@
               </div>
 
               <div *ngIf="datarulesInitialized && rules.length === 0 && selectedTab === 2 " class="empty-list">
-                  <div class="icons">
-                    <i class="material-icons main"> dns </i>
-                    <button routerLink="./new-rule" mat-fab class="button-fab add" color="primary-button"> <i class="material-icons">
-                        add
-                      </i>
-                    </button>
-                  </div>
-                  <h2 class="title"> There are no data rules.</h2>
-                  <h3 class="create-text" routerLink="./new-rule"> Create new data rule</h3>
+                <div class="icons">
+                  <i class="material-icons main"> dns </i>
+                  <button routerLink="./new-rule" mat-fab class="button-fab add" color="primary-button"> <i class="material-icons">
+                      add
+                    </i>
+                  </button>
                 </div>
+                <h2 class="title"> There are no data rules.</h2>
+                <h3 class="create-text" routerLink="./new-rule"> Create new data rule</h3>
+              </div>
             </mat-tab>
           </mat-tab-group>
         </div>
@@ -208,6 +207,6 @@
   </button>
   <button mat-menu-item routerLink="./share-report">
     <mat-icon>share</mat-icon>
-    <span  class="text">Share New Report&nbsp;</span>
+    <span class="text">Share New Report&nbsp;</span>
   </button>
 </mat-menu>

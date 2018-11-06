@@ -14,7 +14,7 @@ import {
 } from '@angular/forms';
 import * as DataViewModel from '../../shared/view-models/data.viewmodel';
 import { DatarulesService } from 'src/app/shared/services/datarules.service';
-import { MatStepper } from '@angular/material';
+import { MatStepper, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-create-new-report',
@@ -30,7 +30,8 @@ export class CreateNewReportComponent implements OnInit {
     private organizationService: OrganizationService,
     private formBuilder: FormBuilder,
     private datarulesService: DatarulesService,
-    private reportService: ReportService
+    private reportService: ReportService,
+    public snackBar: MatSnackBar
   ) {}
   reports: ReportViewModel.SimpleReport[];
   organizations: OrganizationViewModel.SimpleOrganization[];
@@ -41,6 +42,7 @@ export class CreateNewReportComponent implements OnInit {
   rules;
   organizationID;
   sub: any;
+  sending = false;
 
   async ngOnInit() {
     try {
@@ -52,7 +54,10 @@ export class CreateNewReportComponent implements OnInit {
         name: ['', [Validators.required, this.noWhitespaceValidator]],
         link: ['', [Validators.required, this.noWhitespaceValidator]],
         datasources: ['', [Validators.required]],
-        dataStudioSourceIDs: this.formBuilder.array([this.initItemRows()], this.noDuplicate)
+        dataStudioSourceIDs: this.formBuilder.array(
+          [this.initItemRows()],
+          this.noDuplicate
+        )
       });
       this.sub = this.route.params.subscribe(params => {
         this.organizationID = params['id'];
@@ -62,7 +67,9 @@ export class CreateNewReportComponent implements OnInit {
         this.selectedOrg = await this.organizationService.getLocalOrganization(
           this.organizationID
         );
-        this.rules = await this.datarulesService.getDataRules(this.organizationID);
+        this.rules = await this.datarulesService.getDataRules(
+          this.organizationID
+        );
         console.log(this.selectedOrg);
       }
       this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();
@@ -83,12 +90,16 @@ export class CreateNewReportComponent implements OnInit {
   }
 
   addNewRow() {
-    const control = <FormArray>this.reportInfoForm.controls['dataStudioSourceIDs'];
+    const control = <FormArray>(
+      this.reportInfoForm.controls['dataStudioSourceIDs']
+    );
     control.push(this.initItemRows());
   }
 
   deleteRow(index: number) {
-    const control = <FormArray>this.reportInfoForm.controls['dataStudioSourceIDs'];
+    const control = <FormArray>(
+      this.reportInfoForm.controls['dataStudioSourceIDs']
+    );
     control.removeAt(index);
   }
 
@@ -97,11 +108,12 @@ export class CreateNewReportComponent implements OnInit {
       this.selectedOrg = this.organizations.find(org => {
         return org._id === this.orgForm.value.organization;
       });
-      this.rules = await this.datarulesService.getDataRules(this.selectedOrg._id);
+      this.rules = await this.datarulesService.getDataRules(
+        this.selectedOrg._id
+      );
     } catch (error) {
       console.log(error);
     }
-
   }
 
   public noWhitespaceValidator(control: FormControl) {
@@ -129,26 +141,24 @@ export class CreateNewReportComponent implements OnInit {
     }
   }
 
-  public noDataRuleValidator(control: FormControl) {
+  public noDataRuleValidator(control: FormControl) {}
 
-  }
-
-  onSubmit() {
+  async onSubmit() {
+    this.sending = true;
     let organization;
     if (this.organizationID) {
-      organization = this.organizations.find(org => {
-        return org._id === this.organizationID;
+      organization = this.organizations.find(element => {
+        return element._id === this.organizationID;
       });
     } else {
-      organization =  organization = this.organizations.find(org => {
-        return org._id === this.orgForm.value.organization;
+      organization = organization = this.organizations.find(element => {
+        return element._id === this.orgForm.value.organization;
       });
     }
     const rForm = this.reportInfoForm.value;
     const ids = [];
     for (const id of rForm.dataStudioSourceIDs) {
       ids.push(id.id);
-
     }
     const org = [];
     org.push(organization);
@@ -159,7 +169,22 @@ export class CreateNewReportComponent implements OnInit {
       organizations: org,
       dataStudioSourceIDs: ids
     };
-    this.reportService.createNewReport(report);
+    try {
+      const status = await (<any>this.reportService.createNewReport(report));
+      if (status.status === '200') {
+        await this.router.navigate(['../', status.reportID], {
+          relativeTo: this.route,
+          queryParams: { new: 'new' }
+        });
+      } else {
+        this.sending = false;
+        this.snackBar.open('Error: ' + status.message, 'Dismiss', {
+          duration: 5000
+        });
+      }
+    } catch (error) {
+      this.sending = false;
+    }
     console.log(report);
   }
 }

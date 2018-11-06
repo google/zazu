@@ -60,6 +60,8 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
   viewInitialized = false;
   new;
   newRule = false;
+  edited = false;
+  ruleEdited = false;
   async ngOnInit() {
     try {
       this.sub = this.route.params.subscribe(params => {
@@ -69,7 +71,6 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
       this.organization = await this.organizationService.getOrganizationById(
         this.organizationID
       );
-      console.log(this.organization);
       // gets reports for this organization
       this.reports = await this.reportService.getReportsByOrganization(this.organizationID);
 
@@ -80,6 +81,8 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
       );
       this.new = (await this.route.snapshot.queryParamMap.get('new')) === 'new';
       this.newRule = (await this.route.snapshot.queryParamMap.get('newRule')) === 'new';
+      this.edited = (await this.route.snapshot.queryParamMap.get('edited')) === 'true';
+      this.ruleEdited = (await this.route.snapshot.queryParamMap.get('ruleEdited')) === 'true';
       this.reportsInitialized = true;
       if (this.newRule) {
         this.selectedTab = 2;
@@ -119,6 +122,8 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
   closeNewBar() {
     this.new = false;
     this.newRule = false;
+    this.edited = false;
+    this.ruleEdited = false;
   }
 
   // gets users for this organization
@@ -136,7 +141,6 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
   // gets data rules for this organization
   async getRules() {
     this.rules = await this.dataruleService.getDataRules(this.organizationID);
-    console.log(this.rules);
     this.dataSources = [];
     for (const rule of this.rules) {
       if (((this.dataSources.filter(datasource => {
@@ -145,7 +149,6 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
         this.dataSources.push(rule.datasource);
       }
     }
-    console.log(this.dataSources);
   }
 
   goToUser(userId) {
@@ -195,7 +198,6 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     if (!this.users) {
       await this.getUsers();
     }
-    await console.log(this.users.length);
     if ( await this.users.length  > 1 ) {
       await this.orgDeleteWarning();
     } else {

@@ -9,8 +9,9 @@ import {
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as OrganizationViewModel from '../../shared/view-models/organization.viewmodel';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-edit-organization',
@@ -21,7 +22,9 @@ export class EditOrganizationComponent implements OnInit {
   constructor(
     private organizatinonService: OrganizationService,
     private _fb: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
+    public snackBar: MatSnackBar
   ) {}
   options = [];
 
@@ -36,6 +39,7 @@ export class EditOrganizationComponent implements OnInit {
   orgs: OrganizationViewModel.OrganizationDetails[];
   org: OrganizationViewModel.OrganizationDetails;
   orgForm: FormGroup;
+  sending = false;
   async ngOnInit() {
     try {
       this.sub = this.route.params.subscribe(params => {
@@ -96,18 +100,35 @@ export class EditOrganizationComponent implements OnInit {
     return this.orgForm.controls;
   }
 
-  onSubmit() {
-    const temp = [];
-
-    for (const itemname of this.orgForm.value.itemRows) {
-      temp.push(itemname.itemname);
+  async onSubmit() {
+    this.sending = true;
+    try {
+      const temp = [];
+      for (const itemname of this.orgForm.value.itemRows) {
+        temp.push(itemname.itemname);
+      }
+      const org = {
+        _id: this.organizationID,
+        name: this.orgForm.value.orgName,
+        categories: temp
+      };
+      const status = <any>await this.organizatinonService.editOrganization(org);
+      if (status.status === '200') {
+        await this.router.navigate(['../'], { relativeTo: this.route, queryParams: { edited: 'true'}} );
+      } else {
+        this.sending = false;
+        this.snackBar.open('Error: ' + status.message, 'Dismiss', {
+          duration: 5000,
+        });
+      }
+    } catch (error) {
+      this.sending = false;
+      this.snackBar.open('Error: ' + error.error.error.message, 'Dismiss', {
+        duration: 5000,
+      });
+      console.log(error);
     }
-    const org = {
-      _id: this.organizationID,
-      name: this.orgForm.value.orgName,
-      categories: temp
-    };
-    this.organizatinonService.editOrganization(org);
+
   }
 
   public noWhitespaceValidator(control: FormControl) {

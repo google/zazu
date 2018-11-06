@@ -26,7 +26,14 @@
       close
       </i></h4>
   </div>
-  <div class="main-content-view" [ngClass]="{'new': new}">
+  <div *ngIf="edited" class="new-bar">
+    <h4><i class="material-icons check">
+      check
+      </i >Success: User Edited <i (click)="closeNewBar()" class="material-icons close">
+      close
+      </i></h4>
+  </div>
+  <div class="main-content-view" [ngClass]="{'new': new || edited}">
     <div class="full-content-view">
       <div class="details">
         <div class="more-button">
@@ -36,7 +43,7 @@
 
           <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="ghostView()" *ngIf="user.role !== 'admin'">User View</button>
-            <mat-divider></mat-divider>
+            <mat-divider *ngIf="user.role !== 'admin'" ></mat-divider>
             <button mat-menu-item routerLink="./edit-user">Edit</button>
             <button mat-menu-item (click)="openDialog()">Delete</button>
           </mat-menu>

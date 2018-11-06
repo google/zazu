@@ -37,10 +37,19 @@
         keyboard_arrow_right </i>&nbsp;&nbsp; <span class="active"> {{report.name}} ({{selectedOrg.name}})</span> </div>
   </div>
 
-
-  <div class="main-content-view" *ngIf="viewInitialized" >
+  <div *ngIf="new || edited" class="new-bar">
+    <h4><i class="material-icons check">
+        check
+      </i>
+      <span *ngIf="new"> Success: Organization Created </span>
+      <span *ngIf="edited"> Success: Organization Created </span>
+      <i (click)="closeNewBar()" class="material-icons close">
+        close
+      </i></h4>
+  </div>
+  <div class="main-content-view" *ngIf="viewInitialized" [ngClass]="{'new': new || edited }">
     <div class="left-main-content-view">
-      <iframe class="report" src="https://datastudio.google.com/embed/reporting/1XuwM0G2Rx55jEWX_Rus05td2IHN0PnQI/page/1M" frameborder="0"
+      <iframe class="report" src="{{report.link}}" frameborder="0"
         style="border:0" allowfullscreen></iframe>
     </div>
     <div class="right-main-content-view">
