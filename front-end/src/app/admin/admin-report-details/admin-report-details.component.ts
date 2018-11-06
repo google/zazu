@@ -2,11 +2,9 @@ import { UserService } from './../../shared/services/user.service';
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { ReportService } from '../../shared/services/report.service';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
-import * as UserViewModel from '../../shared/view-models/user.viewmodel';
-import * as OrganizationViewModel from '../../shared/view-models/organization.viewmodel';
 import * as ReportViewModel from '../../shared/view-models/report.viewmodel';
 import { OrganizationService } from '../../shared/services/organization.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-admin-report-details',
@@ -21,6 +19,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
     private organizationService: OrganizationService,
     public dialog: MatDialog,
     private router: Router,
+    public snackBar: MatSnackBar
   ) {
   }
 
@@ -35,6 +34,8 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
   viewInitialized = false;
   selectedOrgID;
   selectedOrg;
+  new = false;
+  edited = false;
   async ngOnInit() {
     try {
       this.viewInitialized = false;
@@ -45,6 +46,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
       });
       this.selectedOrgID = await this.route.snapshot.queryParamMap.get('selectedOrg');
       this.report = await this.reportService.getReport(this.reportID, this.selectedOrgID);
+      console.log(this.report);
       this.selectedOrg = await this.report.organizations.find( org => {
         return org._id === this.selectedOrgID;
       });
@@ -61,27 +63,42 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
       } else {
         this.organization = false;
       }
+      this.new = (await this.route.snapshot.queryParamMap.get('new')) === 'new';
+      this.edited = (await this.route.snapshot.queryParamMap.get('edited')) === 'true';
       this.viewInitialized = true;
     } catch (error) {
-
+      console.log(error);
     }
 
   }
 
-  openDialog( ) {
+  async openDialog( ) {
     const dialogRef = this.dialog.open(DeleteReportConfirmation, {
       data: { report: this.report.name}
     });
-    dialogRef.afterClosed().subscribe(result => {
+     dialogRef.afterClosed().subscribe(async result => {
       if (result) {
-        this.reportService.deleteReport(this.report);
-        this.router.navigate(['../../'], { relativeTo: this.route });
+        const status = await <any>this.reportService.deleteReport(this.report);
+        if (status.status === '200') {
+          this.router.navigate(['../../'], { relativeTo: this.route });
+        } else {
+          this.snackBar.open('Error: ' + status.message, 'Dismiss', {
+            duration: 5000,
+          });
+        }
       }
     });
   }
+
   ngOnDestroy() {
     this.viewInitialized = false;
     this.sub.unsubscribe();
+  }
+
+
+  closeNewBar() {
+    this.new = false;
+    this.edited = false;
   }
 }
 

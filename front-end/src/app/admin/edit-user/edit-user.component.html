@@ -1,4 +1,4 @@
-<div class="form-container">
+<div class="form-container" *ngIf="!sending">
   <div class="card" *ngIf="firstFormGroup  && user">
     <div class="form">
       <h2 class="title">Edit User: <span class="input-header"> {{user.firstName}}   {{user.lastName}}    </span></h2>
@@ -118,4 +118,10 @@
           </form>
     </div>
   </div>
+</div>
+
+<div *ngIf="sending" class="spinner-container">
+  <mat-spinner class="spinner"></mat-spinner>
+  <h3 class="title">Editing Information</h3>
+  <p >Please wait</p>
 </div>

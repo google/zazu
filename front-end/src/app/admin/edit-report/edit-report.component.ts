@@ -13,7 +13,7 @@ import {
 } from '@angular/forms';
 import * as DataViewModel from '../../shared/view-models/data.viewmodel';
 import { DatarulesService } from 'src/app/shared/services/datarules.service';
-import { MatStepper } from '@angular/material';
+import { MatStepper, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-edit-report',
@@ -29,7 +29,8 @@ export class EditReportComponent implements OnInit {
     private organizationService: OrganizationService,
     private formBuilder: FormBuilder,
     private datarulesService: DatarulesService,
-    private reportService: ReportService
+    private reportService: ReportService,
+    public snackBar: MatSnackBar
   ) {}
   organizations: OrganizationViewModel.SimpleOrganization[];
   orgForm: FormGroup;
@@ -40,7 +41,7 @@ export class EditReportComponent implements OnInit {
   sub: any;
   report: ReportViewModel.ReportDetails;
   reportID: string;
-
+  sending = false;
   async ngOnInit() {
     try {
       this.sub = await this.route.params.subscribe(params => {
@@ -50,18 +51,31 @@ export class EditReportComponent implements OnInit {
       this.report = await this.reportService.getReportDetails(this.reportID);
       this.organizations = this.report.organizations;
       this.reportInfoForm = this.formBuilder.group({
-        name: [this.report.name, [Validators.required, this.noWhitespaceValidator]],
-        link: [this.report.link, [Validators.required, this.noWhitespaceValidator]],
+        name: [
+          this.report.name,
+          [Validators.required, this.noWhitespaceValidator]
+        ],
+        link: [
+          this.report.link,
+          [Validators.required, this.noWhitespaceValidator]
+        ],
         datasources: [this.report.datasources, [Validators.required]],
-        dataStudioSourceIDs: this.formBuilder.array([this.initItemRows('')], this.noDuplicate)
+        dataStudioSourceIDs: this.formBuilder.array(
+          [this.initItemRows('')],
+          this.noDuplicate
+        )
       });
       console.log(this.report);
       console.log(this.report.datasources);
-      this.reportInfoForm.controls['datasources'].setValue(this.report.datasources);
-      const control = <FormArray>this.reportInfoForm.controls['dataStudioSourceIDs'];
+      this.reportInfoForm.controls['datasources'].setValue(
+        this.report.datasources
+      );
+      const control = <FormArray>(
+        this.reportInfoForm.controls['dataStudioSourceIDs']
+      );
       control.removeAt(0);
-      console.log( this.report.dataStudioSourceIDs);
-      for ( const id of this.report.dataStudioSourceIDs) {
+      console.log(this.report.dataStudioSourceIDs);
+      for (const id of this.report.dataStudioSourceIDs) {
         this.addNewRow(id);
       }
     } catch (error) {
@@ -71,17 +85,21 @@ export class EditReportComponent implements OnInit {
 
   initItemRows(id) {
     return this.formBuilder.group({
-      id: [id, [Validators.required]],
+      id: [id, [Validators.required]]
     });
   }
 
   addNewRow(id) {
-    const control = <FormArray>this.reportInfoForm.controls['dataStudioSourceIDs'];
+    const control = <FormArray>(
+      this.reportInfoForm.controls['dataStudioSourceIDs']
+    );
     control.push(this.initItemRows(id));
   }
 
   deleteRow(index: number) {
-    const control = <FormArray>this.reportInfoForm.controls['dataStudioSourceIDs'];
+    const control = <FormArray>(
+      this.reportInfoForm.controls['dataStudioSourceIDs']
+    );
     control.removeAt(index);
   }
 
@@ -116,23 +134,37 @@ export class EditReportComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-    const rForm = this.reportInfoForm.value;
-    const ids = [];
-    for (const id of rForm.dataStudioSourceIDs) {
-      ids.push(id.id);
-
+  async onSubmit() {
+    try {
+      const rForm = this.reportInfoForm.value;
+      const ids = [];
+      for (const id of rForm.dataStudioSourceIDs) {
+        ids.push(id.id);
+      }
+      const report = {
+        _id: this.reportID,
+        name: rForm.name,
+        link: rForm.link,
+        datasources: rForm.datasources,
+        organizations: this.report.organizations,
+        dataStudioSourceIDs: ids
+      };
+      const status =  await <any>this.reportService.editReport(report);
+      console.log(report);
+      if (status.status === '200') {
+        await this.router.navigate(['../'], { relativeTo: this.route, queryParams: { edited: 'true'}} );
+      } else {
+        this.sending = false;
+        this.snackBar.open('Error: ' + status.message, 'Dismiss', {
+          duration: 5000,
+        });
+      }
+    } catch (error) {
+      this.sending = false;
+      this.snackBar.open('Error: ' + error.error.error.message, 'Dismiss', {
+        duration: 5000,
+      });
+      console.log(error);
     }
-    const report = {
-      _id: this.reportID,
-      name: rForm.name,
-      link: rForm.link,
-      datasources: rForm.datasources,
-      organizations: this.report.organizations,
-      dataStudioSourceIDs: ids
-
-    };
-    this.reportService.editReport(report);
-    console.log(report);
   }
 }

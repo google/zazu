@@ -631,6 +631,10 @@ body {
   .mat-form-field.mat-focused.mat-form-field-invalid .mat-form-field-label {
     color: $form-error-color !important;
   }
+
+  .mat-form-field .mat-form-field-infix input.mat-input-element {
+    height: 20px;
+  }
 }
 
 .mat-select-panel .mat-option.mat-selected {

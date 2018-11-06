@@ -83,7 +83,7 @@ const adminRoutes: Routes = [
             path: ':id/u/:userID/r/:reportID/edit-access',
             component: EditReportAccessComponent
           },
-          { path: '', redirectTo: 'list', pathMatch: 'full' }
+          { path: '**', redirectTo: 'list', pathMatch: 'full' }
         ]
       },
       {
@@ -115,7 +115,7 @@ const adminRoutes: Routes = [
             path: 'u/:userID/r/:reportID/edit-access',
             component: EditReportAccessComponent
           },
-          { path: '', redirectTo: 'list' , pathMatch: 'full'}
+          { path: '**', redirectTo: 'list' , pathMatch: 'full'}
         ]
       },
       {
@@ -131,10 +131,10 @@ const adminRoutes: Routes = [
             path: 'r/:reportID/edit-access',
             component: EditReportAccessComponent
           },
-          { path: '', redirectTo: 'list', pathMatch: 'full' },
+          { path: '**', redirectTo: 'list', pathMatch: 'full' },
         ]
       },
-      { path: '', redirectTo: 'o', pathMatch: 'full' },
+      { path: '**', redirectTo: 'o', pathMatch: 'full' },
     ]
   }
 ];

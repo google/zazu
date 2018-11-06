@@ -78,15 +78,12 @@ export class ReportService {
     orgID: string
   ): Promise<ReportViewModel.SimpleReport[]> {
     try {
-      const raw = await this.http
-        .get<ReportViewModel.SimpleRawReport[]>(
-          '/api' + '/getReportByOrganization/' + orgID
-        )
-        .toPromise();
+      const raw = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByOrganization/' + orgID).toPromise();
+      console.log(raw);
+      console.log(this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByOrganization/' + orgID).toPromise());
       const reports = (await this.cleanSimpleRawReport(raw)).filter(report => {
         return report.organization._id === orgID;
       });
-
       return reports;
     } catch (error) {
       console.log(error);

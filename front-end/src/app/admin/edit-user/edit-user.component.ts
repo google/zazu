@@ -1,5 +1,5 @@
 import { NewUserOrganizationConfirmation } from './../create-new-user/create-new-user.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OrganizationService } from './../../shared/services/organization.service';
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import * as OrganizationViewModel from './../../shared/view-models/organization.viewmodel';
@@ -13,7 +13,8 @@ import {
   MatDialog,
   MatDialogRef,
   MAT_DIALOG_DATA,
-  MatStepper
+  MatStepper,
+  MatSnackBar
 } from '@angular/material';
 import * as UserViewModel from '../../shared/view-models/user.viewmodel';
 import { UserService } from 'src/app/shared/services/user.service';
@@ -29,7 +30,9 @@ export class EditUserComponent implements OnInit {
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
     private route: ActivatedRoute,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router,
+    public snackBar: MatSnackBar
   ) {}
   sub: any;
   roleSelected;
@@ -42,6 +45,7 @@ export class EditUserComponent implements OnInit {
   userID: string;
   user: UserViewModel.User;
   userRole;
+  sending = false;
   async ngOnInit() {
     try {
       this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();
@@ -116,42 +120,55 @@ export class EditUserComponent implements OnInit {
   /**
    * ON SUBMIT FOR CREATING NEW USER
    */
-  onSubmit() {
-    const firstForm = this.firstFormGroup.value;
-    const orgs = [];
-    console.log('On Submit called');
-    let newUser: UserViewModel.EditUser;
-    if (firstForm.role === 'viewer') {
-      for (const orgID of firstForm.organizations) {
-        orgs.push(
-          this.organizations.find(org => {
-            return org._id === orgID;
-          })
-        );
+  async onSubmit() {
+    try {
+      this.sending = true;
+      const firstForm = this.firstFormGroup.value;
+      const orgs = [];
+      console.log('On Submit called');
+      let newUser: UserViewModel.EditUser;
+      if (firstForm.role === 'viewer') {
+        for (const orgID of firstForm.organizations) {
+          orgs.push(
+            this.organizations.find(org => {
+              return org._id === orgID;
+            })
+          );
+        }
+        newUser = {
+          _id: this.userID,
+          firstName: firstForm.firstName,
+          lastName: firstForm.lastName,
+          googleID: firstForm.email,
+          secondaryEmail: firstForm.secondaryEmail,
+          organizations: orgs,
+          role: firstForm.role
+        };
       }
-      newUser = {
-        _id: this.userID,
-        firstName: firstForm.firstName,
-        lastName: firstForm.lastName,
-        googleID: firstForm.email,
-        secondaryEmail: firstForm.secondaryEmail,
-        organizations: orgs,
-        role: firstForm.role
-      };
+      if (firstForm.role === 'admin') {
+        newUser = {
+          _id: this.userID,
+          firstName: firstForm.firstName,
+          lastName: firstForm.lastName,
+          googleID: firstForm.email,
+          secondaryEmail: firstForm.secondaryEmail,
+          organizations: this.organizations,
+          role: firstForm.role
+        };
+      }
+      console.log(newUser);
+      const status = await <any>this.userService.editUser(newUser);
+      if (status.status === '200') {
+        await this.router.navigate(['../'], { relativeTo: this.route, queryParams: { edited: 'true'}} );
+      } else {
+        this.sending = false;
+        this.snackBar.open('Error: ' + status.message, 'Dismiss', {
+          duration: 5000,
+        });
+      }
+    } catch (error) {
+
     }
-    if (firstForm.role === 'admin') {
-      newUser = {
-        _id: this.userID,
-        firstName: firstForm.firstName,
-        lastName: firstForm.lastName,
-        googleID: firstForm.email,
-        secondaryEmail: firstForm.secondaryEmail,
-        organizations: this.organizations,
-        role: firstForm.role
-      };
-    }
-    console.log(newUser);
-    this.userService.editUser(newUser);
   }
 
   openDialog() {

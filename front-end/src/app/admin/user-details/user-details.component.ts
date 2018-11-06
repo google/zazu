@@ -33,6 +33,7 @@ export class UserDetailsComponent implements OnInit {
   user: UserViewModel.User;
   viewInitialized = false;
   new = false;
+  edited = false;
   async ngOnInit() {
     try {
       this.sub = this.route.params.subscribe(params => {
@@ -52,6 +53,7 @@ export class UserDetailsComponent implements OnInit {
       console.log(this.user);
       this.reports = await this.reportService.getReportByUser(this.userID);
       this.new = (await this.route.snapshot.queryParamMap.get('new')) === 'new';
+      this.edited = (await this.route.snapshot.queryParamMap.get('edited')) === 'true';
       this.viewInitialized = true;
     } catch (error) {
       console.log(error);
@@ -66,6 +68,7 @@ export class UserDetailsComponent implements OnInit {
 
   closeNewBar() {
     this.new = false;
+    this.edited = false;
   }
 
 
