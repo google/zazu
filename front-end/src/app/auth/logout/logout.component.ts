@@ -10,9 +10,9 @@ export class LogoutComponent implements OnInit {
 
   constructor(private auth: AuthService) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     console.log('Logging Out...');
-    await this.auth.logout();
+    this.auth.logout();
   }
 
 }

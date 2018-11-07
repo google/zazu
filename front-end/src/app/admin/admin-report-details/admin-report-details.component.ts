@@ -72,6 +72,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
 
       const patt = new RegExp('\/c\/(.)+\/reporting');
       const replaceLink = this.report.link.replace(patt, '/embed/reporting');
+      console.log(replaceLink);
       this.embedLink = this.sanitizer.bypassSecurityTrustResourceUrl(replaceLink);
       console.log(this.embedLink);
 
