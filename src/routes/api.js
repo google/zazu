@@ -17,6 +17,7 @@ const router = express.Router();
 
 const passport = require('passport');
 const BigQuery = require('@google-cloud/bigquery');
+const sleep = require('sleep');
 
 const bigquery = new BigQuery();
 
@@ -620,6 +621,7 @@ router.post('/createReport', function(req, res) {
       }
 
       User.find(function(err1, docs) {
+<<<<<<< HEAD
         if (err1) {
           res.send({ status: '500', message: 'Retrieving users error.' });
         }
@@ -639,6 +641,30 @@ router.post('/createReport', function(req, res) {
                     } else {
                       console.log('Report shared successfully.');
                     }
+=======
+          if (err1) {
+            res.send({"status": "500", "message": "Retrieving users error."});
+          }
+          for (var j = 0; j < orgList.length; j++) {
+            for (var i = 0; i < docs.length; i++) {
+              for (var k = 0; k < docs[i].organizations.length; k++) {
+
+                if (orgList[j]._id === docs[i].organizations[k]._id) {
+                setTimeout(function() {
+                   utils.shareReport(file_id, datasourceIdList, docs[i].googleID, 0, function(ret) {
+                      if (ret === 1) {
+                        console.log("Report sharing failed.");
+                        var result = 1;
+                      }
+                      else {
+                        console.log("Report shared successfully.");
+                      }
+                    });
+                  }, 5000);
+
+                  if (result === 1) {
+                    res.send({"status": "500", "message": "Sharing report error."});
+>>>>>>> f012c0659104cca3d39ce734c6cc0a0e2022868f
                   }
                 );
 
