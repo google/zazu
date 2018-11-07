@@ -30,6 +30,7 @@ var config = require('../utilities/config');
 
 
 router.get('/logout', function(req, res) {
+  console.log('logout called');
     req.logout();
     res.redirect('/');
 });

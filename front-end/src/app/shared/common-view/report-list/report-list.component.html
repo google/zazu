@@ -1,13 +1,23 @@
 <div class="left-main-content-view">
   <div *ngIf="reports != null">
     <div class="list">
-      <div *ngFor="let report of reports | reportList: searchName: selectedOrganization : sortValue :  pagination.currentPage" class="card">
-        <div class="container" (click)="reportClicked(report._id, report.organization._id)">
+      <div *ngFor="let report of reports | reportList: searchName: selectedOrganization : sortValue :  pagination.currentPage"  [ngClass]="{'card': !report.empty}">
+        <div class="container" (click)="reportClicked(report._id, report.organization._id)" *ngIf="!report.empty">
           <h4 class="title"><strong> {{report.name}}</strong></h4>
           <p class="secondary">{{report.organization.name}}</p>
           <p class="content"> {{report.created_at | date}} </p>
         </div>
+        <div class="no-result" *ngIf="report.empty && reports.length > 1">
+            <p class="icon"><i class="material-icons">
+                search
+                </i></p>
+            <h3 class="title">
+              No result found.
+            </h3>
+            <p class="text"> We can't find any report matching your search.</p>
+          </div>
       </div>
+
     </div>
   </div>
   <div *ngIf="rawReports != null">
@@ -21,7 +31,7 @@
         </div>
       </div>
     </div>
-  <p class="pagination" *ngIf="this.pagination" style="text-align: center"> <button mat-mini-fab (click)="previousPage()" color="white"
+  <p class="pagination" *ngIf="this.pagination && this.pagination.totalPages > 1" style="text-align: center"> <button mat-mini-fab (click)="previousPage()" color="white"
       [disabled]="pagination.currentPage===1"> <i class="material-icons">
         chevron_left
       </i> </button>

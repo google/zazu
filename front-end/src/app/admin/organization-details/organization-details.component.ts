@@ -11,7 +11,7 @@ import * as UserViewModel from '../../shared/view-models/user.viewmodel';
 import { PaginationService } from '../../shared/services/pagination.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-organization-details',
@@ -27,7 +27,8 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     private reportService: ReportService,
     private userService: UserService,
     private paginationService: PaginationService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public snackBar: MatSnackBar
   ) {}
   // Subscription for route
   sub: any;
@@ -62,6 +63,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
   newRule = false;
   edited = false;
   ruleEdited = false;
+  deletedRule;
   async ngOnInit() {
     try {
       this.sub = this.route.params.subscribe(params => {
@@ -212,18 +214,25 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.organizationService.deleteOrganization(this.organization);
-        this.router.navigate(['../list'], { relativeTo: this.route });
+        this.router.navigate(['../list'], { relativeTo: this.route, queryParams: { deletedOrg: this.organization.name} });
       }
     });
   }
 
-  deleteRule(datarule: DataViewModel.DataRule) {
+  async deleteRule(datarule: DataViewModel.DataRule) {
     const dialogRef = this.dialog.open(DeleteDataruleConfirmation, {
       data: { datarule: datarule.name }
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async result => {
       if (result) {
-        this.dataruleService.deleteDataRule(datarule);
+        const status = await <any>this.dataruleService.deleteDataRule(datarule);
+        console.log(status);
+        if (status.status === '200') {
+          await this.getRules();
+          this.snackBar.open( 'Data Rule "' +  datarule.name + '" Successfully Deleted' , 'Dismiss', {
+            duration: 5000,
+          });
+        }
       }
     });
   }

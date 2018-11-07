@@ -4,7 +4,6 @@ import { PaginationService } from '../services/pagination.service';
   name: 'datarulesList'
 })
 export class DataRulesListPipe implements PipeTransform {
-
   constructor(private paginationService: PaginationService) {}
 
   transform(
@@ -12,7 +11,7 @@ export class DataRulesListPipe implements PipeTransform {
     searchName: string,
     datasource: string,
     sort: string,
-    page: number,
+    page: number
   ): any {
     if (rules) {
       let currentList = rules;
@@ -33,43 +32,46 @@ export class DataRulesListPipe implements PipeTransform {
           );
         }
       }
-     // if there's a sort
-     if (sort) {
-      if (sort === 'Alphabetical') {
-        const sorted = currentList.sort(
-          (a, b) => (a.name > b.name ? 1 : a.name === b.name ? 0 : -1)
-        );
-        if (sort.charAt(0) === '-') {
-          sorted.reverse();
+      // if there's a sort
+      if (sort) {
+        if (sort === 'Alphabetical') {
+          const sorted = currentList.sort(
+            (a, b) => (a.name > b.name ? 1 : a.name === b.name ? 0 : -1)
+          );
+          if (sort.charAt(0) === '-') {
+            sorted.reverse();
+          }
+          currentList = sorted;
         }
-        currentList = sorted;
+        if (sort === 'Latest') {
+          const sorted = currentList.sort(
+            (a, b) =>
+              new Date(a.date) < new Date(b.date)
+                ? 1
+                : new Date(a.date) === new Date(b.date)
+                  ? 0
+                  : -1
+          );
+          currentList = sorted;
+        }
       }
-      if (sort === 'Latest') {
-        const sorted = currentList.sort(
-          (a, b) =>
-            new Date(a.date) < new Date(b.date)
-              ? 1
-              : new Date(a.date) === new Date(b.date)
-                ? 0
-                : -1
-        );
-        currentList = sorted;
-      }
-    }
       this.paginationService.changeTotalPages(
         Math.ceil(
           currentList.length / this.paginationService.pagination.itemsPerPage
         )
       );
-
-      return currentList.slice(
-        this.paginationService.pagination.currentPage *
-          this.paginationService.pagination.itemsPerPage -
-          this.paginationService.pagination.itemsPerPage,
-        this.paginationService.pagination.itemsPerPage *
-          this.paginationService.pagination.currentPage
-      );
-
+      if (currentList.length === 0) {
+        const reports = [{ empty: true }];
+        return reports;
+      } else {
+        return currentList.slice(
+          this.paginationService.pagination.currentPage *
+            this.paginationService.pagination.itemsPerPage -
+            this.paginationService.pagination.itemsPerPage,
+          this.paginationService.pagination.itemsPerPage *
+            this.paginationService.pagination.currentPage
+        );
+      }
     }
     return rules;
   }

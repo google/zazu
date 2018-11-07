@@ -34,7 +34,8 @@
           </div>
           <div class="container">
             <h2 class="title">{{organization.name}}</h2>
-            <h4 class="secondary"><span *ngFor="let category of organization.categories; let i = index">{{category}}<span *ngIf="i < organization.categories.length -1">,&nbsp;&nbsp;</span> </span> </h4>
+            <h4 class="secondary"><span *ngFor="let category of organization.categories; let i = index">{{category}}<span *ngIf="i < organization.categories.length -1">,&nbsp;&nbsp;</span>
+              </span> </h4>
             <p class="stats">
               <span class="left"><i class="material-icons">
                   assessment
@@ -103,30 +104,43 @@
               </div>
               <div class="data-rules-section" *ngIf="selectedTab === 2 && datarulesInitialized && rules.length > 0">
                 <div class="left-main-content-view">
-                  <mat-accordion *ngFor="let rule of rules | datarulesList : searchName : selectedDataSource : sortValue : pagination.currentPage; let i = index">
-                    <mat-expansion-panel class="data-rules-card">
-                      <mat-expansion-panel-header>
-                        <mat-panel-title>
-                          <h4 class="title">{{rule.name}}</h4><br>
-                        </mat-panel-title>
-                        <mat-panel-description>
-                          <h5>{{rule.datasource}}</h5>
-                        </mat-panel-description>
-                      </mat-expansion-panel-header>
-                      <hr>
-                      <p>Created At: {{rule.created_at | date }}</p>
-                      <p>Identifier: {{rule.identifier}}</p>
-                      <p>Condition: {{rule.condition}}</p>
-                      <p>Token: {{rule.token}}</p>
-                      <div class="buttons">
-                        <button mat-button color="danger" (click)="deleteRule(rule)">Delete</button>
-                        <button mat-button color="primary" (click)="editRule(rule._id)">Edit</button>
-                      </div>
-                    </mat-expansion-panel>
-                    <br>
-                  </mat-accordion>
-                  <p class="pagination" *ngIf="this.pagination" style="text-align: center"> <button mat-mini-fab (click)="previousPage()"
-                      color="white" [disabled]="pagination.currentPage===1"> <i class="material-icons">
+                  <div *ngFor="let rule of rules | datarulesList : searchName : selectedDataSource : sortValue : pagination.currentPage; let i = index">
+                    <mat-accordion *ngIf="!rule.empty">
+                      <mat-expansion-panel class="data-rules-card">
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            <h4 class="title">{{rule.name}}</h4><br>
+                          </mat-panel-title>
+                          <mat-panel-description>
+                            <h5>{{rule.datasource}}</h5>
+                          </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <hr>
+                        <p>Created At: {{rule.created_at | date }}</p>
+                        <p>Identifier: {{rule.identifier}}</p>
+                        <p>Condition: {{rule.condition}}</p>
+                        <p>Token: {{rule.token}}</p>
+                        <div class="buttons">
+                          <button mat-button color="danger" (click)="deleteRule(rule)">Delete</button>
+                          <button mat-button color="primary" (click)="editRule(rule._id)">Edit</button>
+                        </div>
+                      </mat-expansion-panel>
+                      <br>
+                    </mat-accordion>
+
+                    <div class="no-result" *ngIf="rule.empty && rules.length > 0">
+                      <p class="icon"><i class="material-icons">
+                          search
+                        </i></p>
+                      <h3 class="title">
+                        No result found.
+                      </h3>
+                      <p class="text"> We can't find any rules matching your search.</p>
+                    </div>
+                  </div>
+
+                  <p class="pagination" *ngIf="this.pagination && this.pagination.totalPages > 1" style="text-align: center"> <button
+                      mat-mini-fab (click)="previousPage()" color="white" [disabled]="pagination.currentPage===1"> <i class="material-icons">
                         chevron_left
                       </i> </button>
                     {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)="nextPage() "

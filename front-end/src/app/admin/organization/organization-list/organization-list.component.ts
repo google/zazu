@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import * as OrganizationViewModel from '../../../shared/view-models/organization.viewmodel';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-organization-list',
@@ -16,7 +17,8 @@ export class OrganizationListComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private organizationService: OrganizationService,
-    private paginationService: PaginationService
+    private paginationService: PaginationService,
+    public snackBar: MatSnackBar
   ) {}
   sorts = ['Alphabetical', 'Most Reports', 'Most Users', 'Most Data Rules'];
   // Array of all organizations
@@ -28,20 +30,21 @@ export class OrganizationListComponent implements OnInit, OnDestroy {
   search = '';
   selectedCategories: string[] = [];
   viewChange = false;
-
   pagination;
   pageSubscription: Subscription;
-
+  deletedOrg;
   // form group for filter
   filterForm = new FormGroup({
     name: new FormControl('')
   });
   initialized = false;
+
   async ngOnInit() {
     // Gets all organizations OnInit
     try {
       this.organizations = await this.organizationService.getAllOrganizations();
       this.organizationService.setLocalOrg(this.organizations);
+      this.deletedOrg = await this.route.snapshot.queryParamMap.get('deletedOrg');
       await this.getAllCategories(this.organizations);
       for (const category of this.categories) {
         this.filterForm.addControl(category, new FormControl(''));
@@ -52,6 +55,11 @@ export class OrganizationListComponent implements OnInit, OnDestroy {
       this.paginationService.getPagination();
       this.paginationService.changePage(1);
       this.initialized = true;
+      if (this.deletedOrg) {
+        this.snackBar.open( this.deletedOrg + ' Successfully Deleted' , 'Dismiss', {
+          duration: 5000,
+        });
+      }
     } catch (error) {
       console.log(error);
     }

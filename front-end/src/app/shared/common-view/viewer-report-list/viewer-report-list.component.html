@@ -25,7 +25,7 @@
         </div>
       </div>
     </div>
-    <p class="pagination" *ngIf="this.pagination" style="text-align: center"> <button mat-mini-fab (click)="previousPage()" color="white"
+    <p class="pagination" *ngIf="this.pagination && this.pagination.totalPages > 1" style="text-align: center"> <button mat-mini-fab (click)="previousPage()" color="white"
         [disabled]="pagination.currentPage===1"> <i class="material-icons">
           chevron_left
         </i> </button>

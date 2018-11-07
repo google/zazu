@@ -21,6 +21,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private router: Router,
     public snackBar: MatSnackBar,
+    private sanitizer: DomSanitizer
   ) {
   }
 
@@ -68,11 +69,12 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
       this.new = (await this.route.snapshot.queryParamMap.get('new')) === 'new';
       this.edited = (await this.route.snapshot.queryParamMap.get('edited')) === 'true';
       console.log(this.report.link);
-      /*
+
       const patt = new RegExp('\/c\/(.)+\/reporting');
       const replaceLink = this.report.link.replace(patt, '/embed/reporting');
       this.embedLink = this.sanitizer.bypassSecurityTrustResourceUrl(replaceLink);
-      */
+      console.log(this.embedLink);
+
       this.viewInitialized = true;
 
     } catch (error) {

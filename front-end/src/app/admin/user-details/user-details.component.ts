@@ -95,7 +95,7 @@ export class UserDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.userService.deleteUser(this.user);
-        this.router.navigate(['../../'], { relativeTo: this.route });
+        this.router.navigate(['../../'], { relativeTo: this.route , queryParams: {deletedUser: this.user.firstName}});
       }
     });
   }

@@ -18,14 +18,12 @@
   color: white;
 }
 
-
-
-
 /******* LOADING SPINNER ********/
 
-.mat-progress-spinner circle, .mat-spinner circle {
+.mat-progress-spinner circle,
+.mat-spinner circle {
   stroke: $primary;
-  }
+}
 
 .spinner-container {
   margin: auto;
@@ -246,6 +244,27 @@ body {
 
   .left-main-content-view {
     width: 65%;
+    .no-result {
+      text-align: center;
+      margin: 5px 0;
+      .icon {
+        text-align: center;
+        i {
+          font-size: 100px;
+          color: $no-result-icon-color;
+        }
+      }
+      .title {
+        font-weight: 500;
+        color: $no-result-title-color;
+        margin: 5px 0;
+      }
+      .text {
+        text-align: center;
+        color: $no-result-text-color;
+        margin: 0;
+      }
+    }
   }
 
   .right-main-content-view {
