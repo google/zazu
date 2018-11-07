@@ -536,13 +536,24 @@ router.post('/createReport', function(req, res) {
               for (var k = 0; k < docs[i].organizations.length; k++) {
 
                 if (orgList[j]._id === docs[i].organizations[k]._id) {
-                  utils.shareReport(file_id, datasourceIdList, docs[i].googleID, 0, function(ret) {
+                  utils.shareReport(file_id, docs[i].googleID, 0, function(ret) {
                     if (ret === 1) {
                       console.log("Report sharing failed.");
                       var result = 1;
                     }
                     else {
                       console.log("Report shared successfully.");
+                    }
+
+                    for (var l = 0; l < datasourceIdList.length; l++) {
+                      utils.shareReport(datasourceIdList[l], docs[i].googleID, 0, function(ret) {
+                        if (ret === 1) {
+                          console.log("Report sharing failed.");
+                          var result = 1;
+                        }
+                        else {
+                          console.log("Report shared successfully.");
+                        }
                     }
                   });
 
