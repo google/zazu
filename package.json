@@ -21,7 +21,8 @@
     "mongoose": "^5.3.7",
     "passport": "^0.4.0",
     "passport-google-oauth": "^1.0.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "sleep": "^5.2.3"
   },
   "devDependencies": {
     "@angular/cli": "^7.0.3"
