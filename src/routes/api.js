@@ -17,6 +17,7 @@ const router = express.Router();
 
 const passport = require('passport');
 const BigQuery = require('@google-cloud/bigquery');
+const sleep = require('sleep');
 
 const bigquery = new BigQuery();
 
@@ -30,7 +31,6 @@ var config = require('../utilities/config');
 
 
 router.get('/logout', function(req, res) {
-  console.log('logout called');
     req.logout();
     res.redirect('/');
 });
@@ -537,26 +537,17 @@ router.post('/createReport', function(req, res) {
               for (var k = 0; k < docs[i].organizations.length; k++) {
 
                 if (orgList[j]._id === docs[i].organizations[k]._id) {
-                  utils.shareReport(file_id, docs[i].googleID, 0, function(ret) {
-                    if (ret === 1) {
-                      console.log("Report sharing failed.");
-                      var result = 1;
-                    }
-                    else {
-                      console.log("Report shared successfully.");
-                    }
-
-                    for (var l = 0; l < datasourceIdList.length; l++) {
-                      utils.shareReport(datasourceIdList[l], docs[i].googleID, 0, function(ret) {
-                        if (ret === 1) {
-                          console.log("Report sharing failed.");
-                          var result = 1;
-                        }
-                        else {
-                          console.log("Report shared successfully.");
-                        }
-                    }
-                  });
+                setTimeout(function() {
+                   utils.shareReport(file_id, datasourceIdList, docs[i].googleID, 0, function(ret) {
+                      if (ret === 1) {
+                        console.log("Report sharing failed.");
+                        var result = 1;
+                      }
+                      else {
+                        console.log("Report shared successfully.");
+                      }
+                    });
+                  }, 5000);
 
                   if (result === 1) {
                     res.send({"status": "500", "message": "Sharing report error."});

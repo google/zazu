@@ -54,7 +54,7 @@ module.exports = {
     return updateRow;
   },
 
-  shareReport: function(file_id, user_email, revoke, callback) {
+  shareReport: function(file_id, datasource_id_list, user_email, revoke, callback) {
 
     const oAuth2Client = new OAuth2Client();
 
@@ -72,6 +72,8 @@ module.exports = {
       };
     if (revoke == 0) {
 
+      console.log("Sharing report...");
+
       drive.permissions.create({
           resource: permission,
           fileId: file_id,
@@ -82,7 +84,34 @@ module.exports = {
             console.log(err);
             callback(1);
           } else {
+            console.log(res.status);
             if (res.status == 200) {
+              for (var i = 0; i < datasource_id_list.length; i++) {
+
+                var datasource_id = datasource_id_list[i];
+
+                setTimeout(function(){
+                  console.log("Sharing datasource...");
+                  drive.permissions.create({
+                      resource: permission,
+                      fileId: datasource_id,
+                      fields: 'id',
+                    }, function (err1, res1) {
+                        if (err1) {
+                          // Handle error...
+                          console.log(err1);
+                          callback(1);
+                        } else {
+                          console.log(res1.status);
+
+                          if (res1.status !== 200) {
+                            callback(1);
+                          }
+                        }
+
+                      });
+                  }, 5000);
+              }
               callback(0);
             }
             else {
@@ -92,6 +121,9 @@ module.exports = {
         });
     }
     else {
+
+      console.log("Revoking shared report...");
+
       drive.permissions.delete({
           resource: permission,
           fileId: file_id,
@@ -102,7 +134,31 @@ module.exports = {
             console.log(err);
             callback(1);
           } else {
+            console.log(res.status);
             if (res.status == 200) {
+              for (var i = 0; i < datasource_id_list.length; i++) {
+
+                console.log("Revoking shared datasource...");
+
+                var datasource_id = datasource_id_list[i];
+                drive.permissions.delete({
+                    resource: permission,
+                    fileId: datasource_id,
+                    fields: 'id',
+                  }, function (err1, res1) {
+                      if (err1) {
+                        // Handle error...
+                        console.log(err1);
+                        callback(1);
+                      } else {
+                        console.log(res1.status);
+                        if (res1.status !== 200) {
+                          callback(1);
+                        }
+                      }
+
+                    });
+              }
               callback(0);
             }
             else {
