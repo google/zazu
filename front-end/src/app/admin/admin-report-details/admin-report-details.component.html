@@ -49,7 +49,7 @@
   </div>
   <div class="main-content-view" *ngIf="viewInitialized" [ngClass]="{'new': new || edited }">
     <div class="left-main-content-view">
-      <iframe class="report" src="{{embedLink}}" frameborder="0"
+      <iframe class="report" [src]="embedLink" frameborder="0"
         style="border:0" allowfullscreen></iframe>
     </div>
     <div class="right-main-content-view">

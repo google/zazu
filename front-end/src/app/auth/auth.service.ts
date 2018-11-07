@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 interface IsLoggedIn {
   status: string;
@@ -7,7 +8,6 @@ interface IsLoggedIn {
   isLoggedIn: boolean;
   role: string;
 }
-
 
 @Injectable()
 export class AuthService {
@@ -44,7 +44,8 @@ export class AuthService {
     }
   }
 
-  public async logout() {
-    await this.http.get('/api' + '/logout').toPromise();
+  public logout() {
+    console.log('Logout called');
+    this.http.get('/api' + '/logout').subscribe();
   }
 }
