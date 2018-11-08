@@ -8,7 +8,7 @@
                 <h4 class="input-header"> Please Enter Report Information</h4>
 
               <div class="row">
-                <i class="material-icons form-icon">
+                <i class="material-icons form-icon" >
                   assessment
                 </i>
                 <mat-form-field appearance="fill" style="width:80%">
@@ -18,7 +18,7 @@
                     Report name is <strong>required</strong>
                   </mat-error>
                 </mat-form-field>
-                <i class="material-icons info-icon">
+                <i class="material-icons info-icon"  matTooltip="{{tooltip.name}}">
                   info
                 </i>
               </div>
@@ -33,7 +33,7 @@
                     Data Studio Link is <strong>required</strong>
                   </mat-error>
                 </mat-form-field>
-                <i class="material-icons info-icon">
+                <i class="material-icons info-icon" matTooltip="{{tooltip.datastudioLink}}">
                   info
                 </i>
               </div>
@@ -53,9 +53,11 @@
                       Data Source is <strong>required</strong>
                     </mat-error>
                   </mat-form-field>
-
+                  <i class="material-icons info-icon" matTooltip="{{tooltip.datasource}}">
+                      info
+                    </i>
                 </div>
-                <h4 class="input-header"> Data Studio data source ID <i class="material-icons info-icon">
+                <h4 class="input-header"> Data Studio data source ID <i class="material-icons info-icon" matTooltip="{{tooltip.datastudioSource}}">
                     info
                   </i></h4>
                 <div formArrayName="dataStudioSourceIDs">

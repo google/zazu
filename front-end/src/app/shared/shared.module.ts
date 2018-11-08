@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ViewerReportComponent } from './common-view/viewer-report/viewer-report.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RawReportListPipe } from './pipes/raw-report-list.pipe';
+import { LogoutConfirmation } from '../admin/admin.component';
 
 @NgModule({
   imports: [
@@ -18,14 +19,19 @@ import { RawReportListPipe } from './pipes/raw-report-list.pipe';
     ReportListPipe,
     RawReportListPipe,
     ViewerReportComponent,
-    ViewerReportListComponent
+    ViewerReportListComponent,
+    LogoutConfirmation
   ],
   exports: [
     ReportListPipe,
     RawReportListPipe,
     ViewerReportComponent,
     ViewerReportListComponent,
-    AngularMaterialModule
+    AngularMaterialModule,
+    LogoutConfirmation
+  ],
+  entryComponents: [
+    LogoutConfirmation
   ]
 })
 export class SharedModule {}

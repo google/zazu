@@ -30,9 +30,8 @@ var utils = require('../utilities/utils');
 var config = require('../utilities/config');
 
 router.get('/logout', function(req, res) {
-  console.log('logout called');
-  req.logout();
-  // res.redirect('/');
+  req.session.destroy();
+  res.send({ status: '200', message: 'User logged out' });
 });
 
 router.get('/getAllUsers', function(req, res) {
@@ -621,27 +620,6 @@ router.post('/createReport', function(req, res) {
       }
 
       User.find(function(err1, docs) {
-<<<<<<< HEAD
-        if (err1) {
-          res.send({ status: '500', message: 'Retrieving users error.' });
-        }
-        for (var j = 0; j < orgList.length; j++) {
-          for (var i = 0; i < docs.length; i++) {
-            for (var k = 0; k < docs[i].organizations.length; k++) {
-              if (orgList[j]._id === docs[i].organizations[k]._id) {
-                utils.shareReport(
-                  file_id,
-                  datasourceIdList,
-                  docs[i].googleID,
-                  0,
-                  function(ret) {
-                    if (ret === 1) {
-                      console.log('Report sharing failed.');
-                      var result = 1;
-                    } else {
-                      console.log('Report shared successfully.');
-                    }
-=======
           if (err1) {
             res.send({"status": "500", "message": "Retrieving users error."});
           }
@@ -664,13 +642,7 @@ router.post('/createReport', function(req, res) {
 
                   if (result === 1) {
                     res.send({"status": "500", "message": "Sharing report error."});
->>>>>>> f012c0659104cca3d39ce734c6cc0a0e2022868f
                   }
-                );
-
-                if (result === 1) {
-                  res.send({ status: '500', message: 'Sharing report error.' });
-                }
               }
             }
           }

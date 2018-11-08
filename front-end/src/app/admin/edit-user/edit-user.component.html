@@ -20,7 +20,7 @@
                       Role is <strong>required</strong>
                     </mat-error>
                 </mat-form-field>
-                <i class="material-icons info-icon">
+                <i class="material-icons info-icon" matTooltip="{{tooltip.role}}">
                   info
                 </i>
               </div>
@@ -38,7 +38,7 @@
                       Organization is <strong>required</strong>
                     </mat-error>
                 </mat-form-field>
-                <i class="material-icons info-icon">
+                <i class="material-icons info-icon" matTooltip="{{tooltip.organization}}">
                   info
                 </i>
                 <p class="create-new-text" style="padding-left: 35px;
@@ -58,7 +58,7 @@
                   First Name is <strong>required</strong>
                 </mat-error>
               </mat-form-field>
-              <i class="material-icons info-icon">
+              <i class="material-icons info-icon" matTooltip="{{tooltip.first}}">
                 info
               </i>
             </div>
@@ -73,7 +73,7 @@
                   Last Name is <strong>required</strong>
                 </mat-error>
               </mat-form-field>
-              <i class="material-icons info-icon">
+              <i class="material-icons info-icon" matTooltip="{{tooltip.last}}">
                 info
               </i>
             </div>
@@ -82,7 +82,7 @@
                 email
               </i>
               <mat-form-field appearance="fill" style="width:80%">
-                <mat-label>Gmail</mat-label>
+                <mat-label>Gmail (Google Account)</mat-label>
                 <input  type="email" formControlName="email" matInput placeholder="">
                 <mat-error *ngIf="firstFormGroup?.controls.email?.errors?.required ">
                   Email is <strong>required</strong>
@@ -91,7 +91,7 @@
                  Must be in email format
                 </mat-error>
               </mat-form-field>
-              <i class="material-icons info-icon">
+              <i class="material-icons info-icon" matTooltip="{{tooltip.gmail}}">
                 info
               </i>
             </div>
@@ -107,7 +107,7 @@
                   Must be in email format
                  </mat-error>
               </mat-form-field>
-              <i class="material-icons info-icon">
+              <i class="material-icons info-icon" matTooltip="{{tooltip.secondary}}">
                 info
               </i>
             </div>

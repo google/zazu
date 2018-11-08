@@ -2,8 +2,8 @@
   <div class="breadcrumb"> <span class="active"><i class="material-icons">
         assessment </i> Report List</span></div>
 </div>
-<div class="main-content-view">
-  <div class="left-main-content-view" *ngIf="initialized">
+<div class="main-content-view" >
+  <div class="left-main-content-view" *ngIf="initialized && reports.length > 0">
     <div *ngIf="selectedOrganization && organizations.length > 1">
       <h2 *ngIf="selectedOrganization && organizations.length > 1" style="width: 100%; margin-bottom: 5px;"><span *ngIf="selectedOrganization !== 'All'">{{selectedOrgName.name}}</span><span
           *ngIf="selectedOrganization === 'All'"> All Organizations</span> </h2>
@@ -37,7 +37,7 @@
 
   </div>
 
-  <div class="right-main-content-view" *ngIf="initialized">
+  <div class="right-main-content-view" *ngIf="initialized && reports.length > 0">
     <div class="filter">
       <form [formGroup]="filterForm" (ngSubmit)="onSearch()">
         <button class="reset" mat-stroked-button (click)="searchFormReset()">RESET</button>
@@ -72,5 +72,13 @@
   <div *ngIf="!initialized" style="margin:auto; padding-top: 50px;">
     <mat-spinner></mat-spinner>
     <p style="text-align: center;">Loading...</p>
+  </div>
+
+  <div *ngIf="reports.length === 0 " class="empty-list" >
+    <div class="icons">
+      <i class="material-icons main"> assessment </i>
+    </div>
+    <h2 class="title" style="font-weight: 500"> No Reports </h2>
+    <h4 class="title" style="font-weight: 300"> It looks like there's no report available for you right now.</h4>
   </div>
 </div>

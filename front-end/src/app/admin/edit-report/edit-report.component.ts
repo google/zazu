@@ -43,6 +43,17 @@ export class EditReportComponent implements OnInit {
   reportID: string;
   sending = false;
   selectedOrgID;
+
+
+  tooltip = {
+    name: 'A general name for the report that users from each organization will see when accessing reports.',
+    datastudioLink: 'The link to the datastudio url for this report. (eg. https://datastudio.google.com/c/u/0/reporting/0B_U5RNpwhcE6QXg4SXFBVGUwMjg/page/6zXD/preview)',
+    datastudioSource: 'The link to the datastudio source for this report. (eg. https://datastudio.google.com/c/u/0/reporting/0B_U5RNpwhcE6QXg4SXFBVGUwMjg/page/6zXD/preview)',
+    datasource: 'Select the data sources used from within BigQuery for this report.  These data sources should match the data sources used in data studio to generate this report.'
+  };
+
+
+
   async ngOnInit() {
     try {
       this.sub = await this.route.params.subscribe(params => {

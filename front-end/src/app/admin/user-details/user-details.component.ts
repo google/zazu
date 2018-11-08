@@ -1,3 +1,4 @@
+import { ViewerService } from './../../shared/services/viewer.service';
 import { GhostService } from './../../shared/services/ghost.service';
 import { ReportService } from './../../shared/services/report.service';
 import { OrganizationService } from './../../shared/services/organization.service';
@@ -21,7 +22,8 @@ export class UserDetailsComponent implements OnInit {
     private organizationService: OrganizationService,
     private reportService: ReportService,
     public dialog: MatDialog,
-    private ghostsService: GhostService
+    private ghostsService: GhostService,
+    private viewerService: ViewerService
   ) {}
 
   sub: any;
@@ -63,6 +65,7 @@ export class UserDetailsComponent implements OnInit {
   ghostView() {
     const userName = this.user.firstName + ' ' + this.user.lastName;
     this.ghostsService.activatedGhost();
+    this.viewerService.setUserID(this.user._id);
     this.router.navigate(['./ghost', userName], { relativeTo: this.route });
   }
 

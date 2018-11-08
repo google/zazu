@@ -103,6 +103,7 @@ export class ReportService {
           '/api' + '/getReportByUser/' + userID
         )
         .toPromise();
+      console.log(raw);
       const reports = await this.cleanSimpleRawReport(raw);
       return reports;
     } catch (error) {

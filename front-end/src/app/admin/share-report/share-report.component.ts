@@ -37,6 +37,10 @@ export class ShareReportComponent implements OnInit {
   allReports;
   sub: any;
 
+  tooltip = {
+    organization: 'Please select the organizations that should access this report.  Not: A report can be accessed by many organizations, the data rules applied to each organization filter the data seen in the report',
+  };
+
   async ngOnInit() {
     try {
       this.reports = await this.reportService.getAllRawReports();

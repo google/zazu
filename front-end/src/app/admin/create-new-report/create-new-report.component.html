@@ -9,7 +9,7 @@
           <form [formGroup]="orgForm">
 
             <div class="row">
-              <h4 class="input-header"> Please select organization for new report <i class="material-icons info-icon">
+              <h4 class="input-header"> Please select organization for new report <i class="material-icons info-icon" matTooltip={{tooltip.organization}}>
                   info
                 </i></h4>
               <i class="material-icons form-icon">
@@ -56,7 +56,7 @@
                   Report name is <strong>required</strong>
                 </mat-error>
               </mat-form-field>
-              <i class="material-icons info-icon">
+              <i class="material-icons info-icon" matTooltip={{tooltip.name}}>
                 info
               </i>
             </div>
@@ -71,7 +71,7 @@
                   Data Studio Link is <strong>required</strong>
                 </mat-error>
               </mat-form-field>
-              <i class="material-icons info-icon">
+              <i class="material-icons info-icon" matTooltip={{tooltip.datastudioLink}}>
                 info
               </i>
             </div>
@@ -91,9 +91,11 @@
                   Data Source is <strong>required</strong>
                 </mat-error>
               </mat-form-field>
-
+              <i class="material-icons info-icon" matTooltip={{tooltip.datasource}}>
+                  info
+                </i>
             </div>
-            <h4 class="input-header"> Data Studio data source ID <i class="material-icons info-icon">
+            <h4 class="input-header"> Data Studio data source ID <i class="material-icons info-icon" matTooltip={{tooltip.datastudioSource}}>
                 info
               </i></h4>
             <div formArrayName="dataStudioSourceIDs">

@@ -87,7 +87,6 @@ import { EditReportAccessComponent } from './edit-report-access/edit-report-acce
     EditReportAccessComponent,
     NewReportChoice,
     DeleteOrganizationWarning,
-    LogoutConfirmation
   ],
   imports: [
     CommonModule,
@@ -104,7 +103,7 @@ import { EditReportAccessComponent } from './edit-report-access/edit-report-acce
     DeleteDataruleConfirmation,
     NewReportChoice,
     DeleteOrganizationWarning,
-    LogoutConfirmation
+
   ]
 })
 export class AdminModule {}

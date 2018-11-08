@@ -9,7 +9,7 @@
             <form [formGroup]="firstFormGroup">
               <ng-template matStepLabel>Fill out your name</ng-template>
               <div class="row">
-                <h4 class="input-header"> Please select role for new user <i class="material-icons info-icon">
+                <h4 class="input-header"> Please select role for new user <i class="material-icons info-icon" matTooltip="{{tooltip.role}}">
                     info
                   </i></h4>
                 <i class="material-icons form-icon">
@@ -27,7 +27,7 @@
                 </mat-form-field>
               </div>
               <div class="row" *ngIf="roleSelected === 'viewer'">
-                <h4 class="input-header"> Please select organization(s) for new user <i class="material-icons info-icon">
+                <h4 class="input-header" > Please select organization(s) for new user <i class="material-icons info-icon"  matTooltip="{{tooltip.organization}}">
                     info
                   </i></h4>
                 <i class="material-icons form-icon">
@@ -68,7 +68,7 @@
                   First Name is <strong>required</strong>
                 </mat-error>
               </mat-form-field>
-              <i class="material-icons info-icon">
+              <i class="material-icons info-icon" matTooltip="{{tooltip.first}}">
                 info
               </i>
             </div>
@@ -83,7 +83,7 @@
                   Last Name is <strong>required</strong>
                 </mat-error>
               </mat-form-field>
-              <i class="material-icons info-icon">
+              <i class="material-icons info-icon" matTooltip="{{tooltip.last}}">
                 info
               </i>
             </div>
@@ -92,7 +92,7 @@
                 email
               </i>
               <mat-form-field appearance="fill" style="width:80%">
-                <mat-label>Gmail</mat-label>
+                <mat-label>Gmail (Google Account)</mat-label>
                 <input  type="email" formControlName="email" matInput placeholder="">
                 <mat-error *ngIf="secondFormGroup?.controls.email?.errors?.required ">
                   Email is <strong>required</strong>
@@ -101,7 +101,7 @@
                  Must be in email format
                 </mat-error>
               </mat-form-field>
-              <i class="material-icons info-icon">
+              <i class="material-icons info-icon" matTooltip="{{tooltip.gmail}}">
                 info
               </i>
             </div>
@@ -118,7 +118,7 @@
                  </mat-error>
 
               </mat-form-field>
-              <i class="material-icons info-icon">
+              <i class="material-icons info-icon" matTooltip="{{tooltip.secondary}}">
                 info
               </i>
             </div>
