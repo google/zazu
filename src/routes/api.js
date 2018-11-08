@@ -18,6 +18,7 @@ const router = express.Router();
 const passport = require('passport');
 const BigQuery = require('@google-cloud/bigquery');
 const sleep = require('sleep');
+const async = require('async');
 
 const bigquery = new BigQuery();
 
@@ -610,54 +611,59 @@ router.post('/createReport', function(req, res) {
       var extract_id = file_url.match(/reporting\/.*\/page/i);
       var file_id = extract_id.toString().split('/')[1];
 
-      var datasourceIdList = [];
+      var filesIdList = [file_id];
       for (var i = 0; i < newReport.dataStudioSourceIDs.length; i++) {
         var datasourcelink = newReport.dataStudioSourceIDs[i];
         var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
         var datasource_id = extract_ds_link.toString().split('/')[1];
 
-        datasourceIdList.push(datasource_id);
+        filesIdList.push(datasource_id);
       }
 
       User.find(function(err1, docs) {
-          if (err1) {
-            res.send({"status": "500", "message": "Retrieving users error."});
-          }
-          for (var j = 0; j < orgList.length; j++) {
-            for (var i = 0; i < docs.length; i++) {
+        if (err1) {
+          res.send({ status: '500', message: 'Retrieving users error.' });
+        }
+        var permsList = [];
+
+        for (var i = 0; i < docs.length; i++) {
+            for (var j = 0; j < orgList.length; j++) {
               for (var k = 0; k < docs[i].organizations.length; k++) {
+                for (var l = 0; l < filesIdList.length; l++) {
 
-                if (orgList[j]._id === docs[i].organizations[k]._id) {
-                setTimeout(function() {
-                   utils.shareReport(file_id, datasourceIdList, docs[i].googleID, 0, function(ret) {
-                      if (ret === 1) {
-                        console.log("Report sharing failed.");
-                        var result = 1;
-                      }
-                      else {
-                        console.log("Report shared successfully.");
-                      }
-                    });
-                  }, 5000);
-
-                  if (result === 1) {
-                    res.send({"status": "500", "message": "Sharing report error."});
+                  if ((orgList[j]._id === docs[i].organizations[k]._id)&&(docs[i]._id.toString() !== req.session.passport.user.id)) {
+                    permsList.push({ "googleID": docs[i].googleID, "file_id": filesIdList[l] });
                   }
+                }
               }
+            }
+          }
+
+        for (var i = 0; i < permsList.length; i++) {
+          for (var j = 0; j < filesIdList.length; j++) {
+            sleep.sleep(5);
+            utils.shareReport(filesIdList[j], permsList[i].googleID, 0, function(ret) {
+                    if (ret === 1) {
+                      console.log("Report sharing failed.");
+                      var result = 1;
+                    }
+                    else {
+                      console.log("Report shared successfully.");
+                    }
+            });
+            sleep.sleep(5);
+            if (result === 1) {
+                res.send({"status": "500", "message": "Sharing report error."});
             }
           }
         }
 
         for (var i = 0; i < newReport.organizations.length; i++) {
-          Organization.updateOne(
-            { _id: newReport.organizations[i]._id },
-            { $inc: { reportsCount: 1 } },
-            function(err1, res1) {
+            Organization.updateOne({ _id: newReport.organizations[i]._id }, { $inc: { reportsCount: 1 } }, function(err1, res1) {
               if (err1) {
                 res.send({ status: '500', message: err1.message });
               }
-            }
-          );
+            });
         }
         res.send({ status: '200', results: results._id });
       });
@@ -667,6 +673,7 @@ router.post('/createReport', function(req, res) {
 
 router.post('/deleteReport', function(req, res) {
   var deleteReport = req.body;
+  var result = 0;
 
   Report.deleteOne(deleteReport, function(err, results) {
     if (err) {
@@ -677,40 +684,51 @@ router.post('/deleteReport', function(req, res) {
       var extract_id = file_url.match(/reporting\/.*\/page/i);
       var file_id = extract_id.toString().split('/')[1];
 
-      var datasourceIdList = [];
+      var filesIdList = [file_id];
       for (var i = 0; i < deleteReport.dataStudioSourceIDs.length; i++) {
         var datasourcelink = deleteReport.dataStudioSourceIDs[i];
         var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
         var datasource_id = extract_ds_link.toString().split('/')[1];
 
-        datasourceIdList.push(datasource_id);
+        filesIdList.push(datasource_id);
       }
 
       User.find(function(err1, docs) {
         if (err1) {
           res.send({ status: '500', message: 'Report creation error.' });
         }
-        for (var j = 0; j < orgList.length; j++) {
-          for (var i = 0; i < docs.length; i++) {
-            for (var k = 0; k < docs[i].organizations.length; k++) {
-              if (orgList[j]._id === docs[i].organizations[k]._id) {
-                result = utils.shareReport(
-                  file_id,
-                  datasourceIdList,
-                  docs[i].googleID,
-                  1
-                );
+        var permsList = [];
 
-                if (result === 1) {
-                  res.send({
-                    status: '500',
-                    message: 'Report creation error.'
-                  });
+        for (var i = 0; i < docs.length; i++) {
+            for (var j = 0; j < orgList.length; j++) {
+              for (var k = 0; k < docs[i].organizations.length; k++) {
+                console.log(docs[i]._id);
+                if ((orgList[j]._id === docs[i].organizations[k]._id)&&(docs[i]._id.toString() !== req.session.passport.user.id)) {
+                  permsList.push({ "googleID": docs[i].googleID });
                 }
               }
             }
           }
+
+        for (var i = 0; i < permsList.length; i++) {
+          for (var j = 0; j < filesIdList.length; j++) {
+            sleep.sleep(5);
+            utils.shareReport(filesIdList[j], permsList[i].googleID, 0, function(ret) {
+                    if (ret === 1) {
+                      console.log("Report sharing failed.");
+                      var result = 1;
+                    }
+                    else {
+                      console.log("Report shared successfully.");
+                    }
+            });
+            sleep.sleep(5);
+            if (result === 1) {
+                res.send({"status": "500", "message": "Sharing report error."});
+            }
+          }
         }
+
         for (var i = 0; i < deleteReport.organizations.length; i++) {
           Organization.updateOne(
             { _id: deleteReport.organizations[i]._id },
