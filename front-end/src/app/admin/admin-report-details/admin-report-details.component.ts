@@ -39,6 +39,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
   new = false;
   edited = false;
   embedLink;
+  permissions;
   async ngOnInit() {
     try {
       this.viewInitialized = false;
@@ -89,12 +90,15 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
   }
 
   async openDialog( ) {
+    this.permissions = await this.getPermissions();
+    console.log(this.permissions);
     const dialogRef = this.dialog.open(DeleteReportConfirmation, {
       data: { report: this.report.name}
     });
      dialogRef.afterClosed().subscribe(async result => {
       if (result) {
-        const status = await <any>this.reportService.deleteReport(this.report);
+        const status = await <any>this.reportService.deleteReport(this.report, this.permissions.permissions);
+        console.log(status);
         if (status.status === '200') {
           this.router.navigate(['../../'], { relativeTo: this.route, queryParams: { selectedOrg: this.selectedOrgID} });
         } else {
@@ -104,6 +108,10 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+
+  async getPermissions() {
+    return await this.reportService.getPermissionsToRevoke(this.report);
   }
 
   ngOnDestroy() {
@@ -117,6 +125,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
     this.edited = false;
   }
 }
+
 
 
 @Component({

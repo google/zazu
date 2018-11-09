@@ -259,21 +259,15 @@ export class ReportService {
    * Calls the permissions API  then sends it to delete API along with the report object
    * @param report - report object you want to delete
    */
-  public async deleteReport(report: ReportViewModel.ReportWithMetaData) {
+  public async deleteReport(report: ReportViewModel.ReportWithMetaData, permissions) {
     console.log('report deleted: ' + JSON.stringify(report));
     if (await this.authService.canSend()) {
-      const permissions = <any>await this.getPermissionsToRevoke(report);
-      console.log('************ PERMISSIONSSS**************');
-      console.log(permissions);
-      if ( await permissions.status === '200') {
         const  parameter = {
           report: report,
-          permissions: permissions.permissions
+          permissions: permissions
         };
-        console.log('************ PARAMETER**************');
         console.log(parameter);
-        return await this.http.post('/api/' + 'deleteReport/', parameter).toPromise();
-      }
+       return await this.http.post('/api/' + 'deleteReport/', parameter).toPromise();
     } else {
       return await {
         status: '403',
@@ -286,10 +280,11 @@ export class ReportService {
    * Helper used in delete report.
    * To retrieve the list of file permissions to be revoked
    */
-  private async getPermissionsToRevoke(
+  public async getPermissionsToRevoke(
     report: ReportViewModel.ReportWithMetaData
   ) {
     if (await this.authService.canSend()) {
+      console.log('Getting permissions called...');
       return await this.http.post('/api/' + 'getPermissionsToRevoke/', report).toPromise();
     } else {
       return await {
