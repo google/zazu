@@ -17,8 +17,6 @@ const router = express.Router();
 
 const passport = require('passport');
 const BigQuery = require('@google-cloud/bigquery');
-const sleep = require('sleep');
-const async = require('async');
 
 const bigquery = new BigQuery();
 
@@ -26,6 +24,7 @@ var User = require('../models/user');
 var Organization = require('../models/organization');
 var Report = require('../models/report');
 var Rule = require('../models/rule');
+var Permission = require('../models/permission');
 
 var utils = require('../utilities/utils');
 var config = require('../utilities/config');
@@ -630,20 +629,19 @@ router.post('/createReport', function(req, res) {
         for (var i = 0; i < docs.length; i++) {
             for (var j = 0; j < orgList.length; j++) {
               for (var k = 0; k < docs[i].organizations.length; k++) {
-                for (var l = 0; l < filesIdList.length; l++) {
-
                   if ((orgList[j]._id === docs[i].organizations[k]._id)&&(docs[i]._id.toString() !== req.session.passport.user.id)) {
-                    permsList.push({ "googleID": docs[i].googleID, "file_id": filesIdList[l] });
+                    permsList.push({
+                        'type': 'user',
+                        'role': 'reader',
+                        'emailAddress': docs[i].googleID
+                      });
                   }
-                }
               }
             }
           }
 
-        for (var i = 0; i < permsList.length; i++) {
           for (var j = 0; j < filesIdList.length; j++) {
-            sleep.sleep(5);
-            utils.shareReport(filesIdList[j], permsList[i].googleID, 0, function(ret) {
+            utils.shareReport(filesIdList[j], permsList, 0, function(ret) {
                     if (ret === 1) {
                       console.log("Report sharing failed.");
                       var result = 1;
@@ -652,12 +650,10 @@ router.post('/createReport', function(req, res) {
                       console.log("Report shared successfully.");
                     }
             });
-            sleep.sleep(5);
             if (result === 1) {
                 res.send({"status": "500", "message": "Sharing report error."});
             }
           }
-        }
 
         for (var i = 0; i < newReport.organizations.length; i++) {
             Organization.updateOne({ _id: newReport.organizations[i]._id }, { $inc: { reportsCount: 1 } }, function(err1, res1) {
@@ -675,6 +671,7 @@ router.post('/createReport', function(req, res) {
 router.post('/deleteReport', function(req, res) {
   var deleteReport = req.body;
   var result = 0;
+  var filePermsList = [];
 
   Report.deleteOne(deleteReport, function(err, results) {
     if (err) {
@@ -694,27 +691,38 @@ router.post('/deleteReport', function(req, res) {
         filesIdList.push(datasource_id);
       }
 
+
       User.find(function(err1, docs) {
         if (err1) {
           res.send({ status: '500', message: 'Report creation error.' });
         }
-        var permsList = [];
+        var usersToRevoke = [];
 
         for (var i = 0; i < docs.length; i++) {
             for (var j = 0; j < orgList.length; j++) {
               for (var k = 0; k < docs[i].organizations.length; k++) {
-                console.log(docs[i]._id);
+
                 if ((orgList[j]._id === docs[i].organizations[k]._id)&&(docs[i]._id.toString() !== req.session.passport.user.id)) {
-                  permsList.push({ "googleID": docs[i].googleID });
-                }
+                    usersToRevoke.push(docs[i].googleID);
+                 }
               }
             }
-          }
+        }
 
-        for (var i = 0; i < permsList.length; i++) {
-          for (var j = 0; j < filesIdList.length; j++) {
-            sleep.sleep(5);
-            utils.shareReport(filesIdList[j], permsList[i].googleID, 0, function(ret) {
+        for (var i = 0; i < filesIdList.length; i++) {
+          console.log(filesIdList);
+          console.log(filesIdList[i]);
+          Permission.find({ fileId: filesIdList[i], googleID: { $in: usersToRevoke } }, function(err, docs1) {
+            if (err) {
+              res.send({ status: '500', message: 'Report creation error.' });
+            }
+            var permsList = [];
+            for (var l = 0; l < docs1.length; l++) {
+              permsList.push(docs1[l].drivePermId);
+            }
+            console.log(permsList);
+            console.log(filesIdList[i]);
+            utils.shareReport(filesIdList[i], permsList, 1, function(ret) {
                     if (ret === 1) {
                       console.log("Report sharing failed.");
                       var result = 1;
@@ -723,11 +731,12 @@ router.post('/deleteReport', function(req, res) {
                       console.log("Report shared successfully.");
                     }
             });
-            sleep.sleep(5);
+
             if (result === 1) {
                 res.send({"status": "500", "message": "Sharing report error."});
             }
-          }
+          });
+
         }
 
         for (var i = 0; i < deleteReport.organizations.length; i++) {
