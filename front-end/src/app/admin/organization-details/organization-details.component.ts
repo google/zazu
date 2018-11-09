@@ -132,12 +132,15 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
   async getUsers() {
    // this.users = await this.userService.getUsersByOrganization(this.organizationID);
     this.users = await this.userService.getAllUsers();
+    await this.userService.setLocalUsers(this.users);
     this.users = this.users.filter (user => {
       for (const org of user.organizations) {
         return org._id === this.organizationID;
       }
     });
-    await this.userService.setLocalUsers(this.users);
+    this.users = this.users.filter (user => {
+      return user.role === 'viewer';
+    });
   }
 
   // gets data rules for this organization
@@ -200,7 +203,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     if (!this.users) {
       await this.getUsers();
     }
-    if ( await this.users.length  > 1 ) {
+    if ( await this.users.length  > 0 ) {
       await this.orgDeleteWarning();
     } else {
       await this.openDialog();

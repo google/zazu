@@ -15,11 +15,23 @@ import * as DataViewModel from '../../shared/view-models/data.viewmodel';
 import { DatarulesService } from 'src/app/shared/services/datarules.service';
 import { MatStepper, MatSnackBar } from '@angular/material';
 
+interface OrganizationWithRules {
+  _id: string;
+  name: string;
+  rules: DataViewModel.DataRule[];
+}
+interface MissingRules {
+  _id: string;
+  name: string;
+  missingRules: string[];
+}
+
 @Component({
   selector: 'app-edit-report',
   templateUrl: './edit-report.component.html',
   styleUrls: ['./edit-report.component.scss']
 })
+
 export class EditReportComponent implements OnInit {
   @ViewChild('stepper')
   stepper: MatStepper;
@@ -43,6 +55,19 @@ export class EditReportComponent implements OnInit {
   reportID: string;
   sending = false;
   selectedOrgID;
+  rules: DataViewModel.DataRule[] = [];
+  missingRules: MissingRules[] = [];
+  organizationRules: OrganizationWithRules[] = [];
+
+  tooltip = {
+    name: 'A general name for the report that users from each organization will see when accessing reports.',
+    datastudioLink: 'The link to the datastudio url for this report. (eg. https://datastudio.google.com/c/u/0/reporting/0B_U5RNpwhcE6QXg4SXFBVGUwMjg/page/6zXD/preview)',
+    datastudioSource: 'The link to the datastudio source for this report. (eg. https://datastudio.google.com/c/u/0/reporting/0B_U5RNpwhcE6QXg4SXFBVGUwMjg/page/6zXD/preview)',
+    datasource: 'Select the data sources used from within BigQuery for this report.  These data sources should match the data sources used in data studio to generate this report.'
+  };
+
+
+
   async ngOnInit() {
     try {
       this.sub = await this.route.params.subscribe(params => {
@@ -52,6 +77,22 @@ export class EditReportComponent implements OnInit {
       this.report = await this.reportService.getReportDetails(this.reportID);
       this.organizations = this.report.organizations;
       this.selectedOrgID = await this.route.snapshot.queryParamMap.get('selectedOrg');
+      for (const org of this.organizations) {
+        const temp = {
+          _id: org._id,
+          name: org.name,
+          rules: await await this.datarulesService.getDataRules(org._id)
+        };
+        const temp2 = {
+          _id: org._id,
+          name: org.name,
+          missingRules: [],
+        };
+        this.organizationRules.push(temp);
+        this.missingRules.push(temp2);
+      }
+
+      console.log(this.organizationRules);
       this.reportInfoForm = this.formBuilder.group({
         name: [
           this.report.name,
@@ -61,7 +102,7 @@ export class EditReportComponent implements OnInit {
           this.report.link,
           [Validators.required, this.noWhitespaceValidator]
         ],
-        datasources: [this.report.datasources, [Validators.required]],
+        datasources: [this.report.datasources, [Validators.required, this.noDataRuleValidator.bind(this)]],
         dataStudioSourceIDs: this.formBuilder.array(
           [this.initItemRows('')],
           this.noDuplicate
@@ -111,6 +152,10 @@ export class EditReportComponent implements OnInit {
     });
   }
 
+  newRule(id) {
+    this.router.navigate(['admin/o', id]);
+  }
+
   public noWhitespaceValidator(control: FormControl) {
     const isWhitespace = (control.value || '').trim().length === 0;
     const isValid = !isWhitespace;
@@ -134,6 +179,38 @@ export class EditReportComponent implements OnInit {
       }
       return null;
     }
+  }
+
+  public noDataRuleValidator(control: FormControl): Validators {
+    for (const item of this.missingRules) {
+      item.missingRules = [];
+    }
+    if (control.value) {
+      for (const datasource of control.value) {
+        for ( const org of this.organizationRules) {
+            const temp = org.rules.filter( rule => {
+              return rule.datasource === datasource;
+            });
+            if (temp.length === 0) {
+              const temp2 = this.missingRules.find(item => {
+                return item._id === org._id;
+              });
+              temp2.missingRules.push(datasource);
+            }
+        }
+      }
+      let count = 0;
+      console.log(this.missingRules);
+      for (const x of this.missingRules) {
+        count = count + x.missingRules.length ;
+      }
+      if (count > 0) {
+        return { missingRules: true };
+      } else {
+        return null;
+      }
+    }
+    return null;
   }
 
   goBack() {

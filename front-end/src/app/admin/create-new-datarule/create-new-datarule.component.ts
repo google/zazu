@@ -33,6 +33,16 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
   selectedDataSource;
   secondFormInitialized = false;
   sending = false;
+
+  tooltip = {
+    name: 'Give this data rule a name.  This is helpful later if you choose to edit or delete data rules.',
+    identifier: 'Select the column name for this data rule.',
+    condition: 'Select the comparative logic for this data rule',
+    token: 'Select the comparison value for this data rule.',
+    datasource: 'Select a data source for this rule, each rule can only be applied to a single data source.  If you’d like to apply the rule to many data sources, you must create multiple rules.'
+  };
+
+
   async ngOnInit() {
     try {
       this.sub = this.route.params.subscribe(params => {

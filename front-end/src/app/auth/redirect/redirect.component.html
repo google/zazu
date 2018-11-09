@@ -1,3 +1,18 @@
-<p>
-  redirect works!
-</p>
+<div class="signing-container" *ngIf="status">
+  <div class="signing-card">
+    <div class="spinner-container">
+      <mat-spinner class="spinner"></mat-spinner>
+    </div>
+    <h2>Welcome {{ status.role | titlecase }}</h2>
+    <p>Please wait a moment while we redirect you to the app.</p>
+    <p>
+      If it doesn't redirect you automatically,
+      <span class="here" routerLink="/admin" *ngIf="status.role === 'admin'"
+        >Click here</span
+      >
+      <span   class="here" routerLink="/user" *ngIf="status.role === 'viewer'"
+        >Click here</span
+      >
+    </p>
+  </div>
+</div>

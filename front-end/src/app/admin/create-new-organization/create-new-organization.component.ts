@@ -27,7 +27,8 @@ export class CreateNewOrganizationComponent implements OnInit {
   options = [];
 
   orgNameTooltip =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Peccata paria. Restinguet citius, si ardentem acceperit.';
+    'Specify a name for the organization, it can always be changed later.';
+  categoryToolTip = 'Pick or create a useful category for this organization, helpful for filtering organizations.';
 
   filteredOptions: Observable<string[]>;
   selectedCategories = [''];

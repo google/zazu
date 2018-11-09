@@ -1,13 +1,27 @@
 <div class="dialog">
-    <h2 class="title delete"><i class="material-icons">
-        warning
-      </i> Delete {{data.report}}?</h2>
-    <div mat-dialog-content>
-      <h4 class="subtitle">Warning: this cannot be undone</h4>
-      <p>Iam id ipsum absurdum, maximum malum neglegi. Quoniam, si dis placet, ab Epicuro loqui discimus. Duo Reges: constructio interrete.</p>
-    </div>
-    <div mat-dialog-actions style="float:right">
-      <button mat-button (click)="onNoClick()">Cancel</button>
-      <button mat-button mat-flat-button [mat-dialog-close]="true" class="danger" cdkFocusInitial>Continue</button>
-    </div>
+  <h2 class="title delete">
+    <i class="material-icons"> warning </i> Delete {{ data.report }}?
+  </h2>
+  <div mat-dialog-content>
+    <h4 class="subtitle">Warning: this cannot be undone</h4>
+    <p>
+      Deleting this report will delete the report for all organizations. If you
+      wish to remove this report for a specific organization, please edit the
+      report and de-select organizations that you would like to revoke access.
+      Note, deleting this report does not delete the report or data sources in
+      data studio, not does it delete any data in BigQuery.
+    </p>
   </div>
+  <div mat-dialog-actions style="float:right">
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button
+      mat-button
+      mat-flat-button
+      [mat-dialog-close]="true"
+      class="danger"
+      cdkFocusInitial
+    >
+      Continue
+    </button>
+  </div>
+</div>

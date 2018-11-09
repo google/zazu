@@ -29,7 +29,9 @@ export class EditOrganizationComponent implements OnInit {
   options = [];
 
   orgNameTooltip =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Peccata paria. Restinguet citius, si ardentem acceperit. ';
+    'Specify a name for the organization, it can always be changed later.';
+  categoryToolTip =
+    'Pick or create a useful category for this organization, helpful for filtering organizations.';
 
   myControl = new FormControl();
   filteredOptions: Observable<string[]>;
@@ -45,7 +47,9 @@ export class EditOrganizationComponent implements OnInit {
       this.sub = this.route.params.subscribe(params => {
         this.organizationID = params['id'];
       });
-      this.org = await this.organizatinonService.getLocalOrganization(this.organizationID);
+      this.org = await this.organizatinonService.getLocalOrganization(
+        this.organizationID
+      );
       this.options = await this.organizatinonService.getAllCategories();
       this.filteredOptions = this.myControl.valueChanges.pipe(
         startWith(''),
@@ -114,21 +118,23 @@ export class EditOrganizationComponent implements OnInit {
       };
       const status = <any>await this.organizatinonService.editOrganization(org);
       if (status.status === '200') {
-        await this.router.navigate(['../'], { relativeTo: this.route, queryParams: { edited: 'true'}} );
+        await this.router.navigate(['../'], {
+          relativeTo: this.route,
+          queryParams: { edited: 'true' }
+        });
       } else {
         this.sending = false;
         this.snackBar.open('Error: ' + status.message, 'Dismiss', {
-          duration: 5000,
+          duration: 5000
         });
       }
     } catch (error) {
       this.sending = false;
       this.snackBar.open('Error: ' + error.error.error.message, 'Dismiss', {
-        duration: 5000,
+        duration: 5000
       });
       console.log(error);
     }
-
   }
 
   public noWhitespaceValidator(control: FormControl) {

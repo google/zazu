@@ -12,7 +12,7 @@
               <h4 class="input-header"> Please select organization to share report <i class="material-icons info-icon">
                   info
                 </i></h4>
-              <i class="material-icons form-icon">
+              <i class="material-icons form-icon" matTooltip="{{tooltip.organization}}">
                 business
               </i>
               <mat-form-field appearance="fill" style="width:80%">
@@ -47,7 +47,7 @@
               <app-report-list [rawReports]="reports" [allowAdd]=false (report)="selectReport($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-report-list>
             </div>
             <div class="buttons">
-              <button mat-button matStepperPrevious *ngIf="!organizationID" (click)="resetReports">Cancel</button>
+              <button mat-button matStepperPrevious *ngIf="!organizationID" (click)="resetReports()">Back</button>
               <button mat-button  *ngIf="organizationID" routerLink="../">Cancel</button>
               <button *ngIf="!organizationID" [disabled]="!selectedReport" [ngClass]="{'button-disabled': !selectedReport}"
                 (click)="selectStep(2)" class="done primary" mat-flat-button>Next</button>
@@ -60,13 +60,12 @@
 
         <mat-step >
           <form *ngIf="selectedReport && selectedOrg">
-
             <div class="row">
               <h4 class="input-header">New Report for {{selectedOrg.name}}</h4>
             </div>
             <div class="row">
-              <p style="margin:0">This report is currently being used by {{selectedReport.organizations.length}} other organizations:</p>
-              <ul style="margin:0">
+              <p style="margin: 0; margin-top: 5px">This report is currently being used by {{selectedReport.organizations.length}} other organizations:</p>
+              <ul style="margin: 0; margin-top: 5px">
                 <li *ngFor="let org of selectedReport.organizations">
                   {{org.name}}
                 </li>
@@ -84,8 +83,17 @@
                 </div>
               </div>
             </div>
+            <div class="row" *ngIf="missingRules.length > 0">
+              <p class="error-paragraph">The organization {{this.selectedOrg.name}} is missing a rule for the following data sources used in this report:</p>
+              <ul class="error-paragraph">
+                <li *ngFor="let rule of missingRules">
+                  {{rule}}
+                </li>
+              </ul>
+              <p class="text-click-redirect" (click)="newRule()">Click here to go to {{this.selectedOrg.name}}</p>
+            </div>
             <div class="buttons">
-              <button mat-button matStepperPrevious>Cancel</button><button class="done primary" mat-flat-button (click)="onSubmit()">Done</button>
+              <button mat-button matStepperPrevious>Back</button><button class="done primary" [ngClass]="{'button-disabled': missingRules.length > 0}" mat-flat-button (click)="onSubmit()" [disabled]="missingRules.length > 0">Done</button>
             </div>
           </form>
         </mat-step>

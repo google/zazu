@@ -30,9 +30,8 @@ var utils = require('../utilities/utils');
 var config = require('../utilities/config');
 
 router.get('/logout', function(req, res) {
-  console.log('logout called');
-  req.logout();
-  // res.redirect('/');
+  req.session.destroy();
+  res.send({ status: '200', message: 'User logged out' });
 });
 
 router.get('/getAllUsers', function(req, res) {

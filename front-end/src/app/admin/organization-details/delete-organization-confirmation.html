@@ -7,11 +7,10 @@
     </i>Delete {{data.organization}}?</h2>
   <div mat-dialog-content>
     <h4 class="subtitle">Warning: this cannot be undone</h4>
-    <ul class="conditions">
-      <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-      <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-      <li> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-    </ul>
+   <p> Deleting an organization will unlink all reports and delete data rules for
+    this organization. The report templates are not deleted and can be found
+    directly at
+    <a href="https://datastudio.google.com." target="_blank">https://datastudio.google.com.</a></p>
   </div>
   <div mat-dialog-actions style="float:right">
     <button mat-button (click)="onNoClick()">Cancel</button>

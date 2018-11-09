@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
@@ -7,11 +8,12 @@ interface IsLoggedIn {
   message: string;
   isLoggedIn: boolean;
   role: string;
+  user: string;
 }
 
 @Injectable()
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   ADMIN = 'admin';
   VIEWER = 'viewer';
@@ -35,6 +37,15 @@ export class AuthService {
     }
   }
 
+  public async canSend(): Promise<boolean> {
+    try {
+      const status = await this.isLoggedIn();
+      return await (status.isLoggedIn && status.role === 'admin');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   public async isViewer() {
     try {
       const roleStatus = await this.isLoggedIn();
@@ -44,8 +55,11 @@ export class AuthService {
     }
   }
 
-  public logout() {
+  public async logout() {
     console.log('Logout called');
-    this.http.get('/api' + '/logout').subscribe();
+    const status = await (<any>this.http.get('/api' + '/logout').toPromise());
+    if (status.status === '200') {
+      this.router.navigate(['/logout']);
+    }
   }
 }

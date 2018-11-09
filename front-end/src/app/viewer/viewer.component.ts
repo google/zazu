@@ -1,4 +1,7 @@
+import { AuthService } from './../auth/auth.service';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
+import { LogoutConfirmation } from '../admin/admin.component';
 
 @Component({
   selector: 'app-viewer',
@@ -7,9 +10,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewerComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService, public dialog: MatDialog) { }
 
   ngOnInit() {
   }
 
+  logout() {
+    const dialogRef = this.dialog.open(LogoutConfirmation, {
+      data: {  }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+      this.authService.logout();
+      }
+    });
+  }
 }

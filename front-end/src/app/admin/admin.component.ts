@@ -27,7 +27,6 @@ export class AdminComponent implements OnInit, OnDestroy {
       }
     );
     this.ghostService.getStatus();
-    this.router.navigate(['admin/o']);
   }
 
   toggleMenu() {
@@ -46,7 +45,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-      this.router.navigate(['logout']);
+      this.authService.logout();
       }
     });
   }

@@ -21,6 +21,7 @@ import * as DataViewModel from './data.viewmodel';
     name: string;
     organizations: OrganizationViewModel.SimpleOrganization[];
     created_at: Date;
+    datasources: string[];
   }
 
   export interface SimpleReport {

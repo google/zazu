@@ -7,9 +7,8 @@
         <!-- First Step -->
         <mat-step [stepControl]="orgForm" *ngIf="orgForm && !organizationID">
           <form [formGroup]="orgForm">
-
             <div class="row">
-              <h4 class="input-header"> Please select organization for new report <i class="material-icons info-icon">
+              <h4 class="input-header"> Please select organization for new report <i class="material-icons info-icon" matTooltip={{tooltip.organization}}>
                   info
                 </i></h4>
               <i class="material-icons form-icon">
@@ -26,14 +25,13 @@
               </mat-form-field>
             </div>
             <div class="row">
-
-              <p class="create-new-text">Organization not on the list? <span class="create-new-button" routerLink="../../o/new-organization">Create
+              <p class="create-new-text">Organization not on the list? <span class="create-new-button" routerLink="../../../o/new-organization">Create
                   New Organization </span></p>
             </div>
             <div class="buttons">
               <button mat-button type='button' routerLink="../">Cancel</button>
               <button mat-button type='button' mat-flat-button class="done primary" [disabled]="!orgForm.valid" [ngClass]="{'button-disabled': !orgForm.valid}"
-                matStepperNext>Next</button>
+                matStepperNext (click)="resetForm()">Next</button>
             </div>
           </form>
         </mat-step>
@@ -56,7 +54,7 @@
                   Report name is <strong>required</strong>
                 </mat-error>
               </mat-form-field>
-              <i class="material-icons info-icon">
+              <i class="material-icons info-icon" matTooltip={{tooltip.name}}>
                 info
               </i>
             </div>
@@ -70,8 +68,9 @@
                 <mat-error>
                   Data Studio Link is <strong>required</strong>
                 </mat-error>
+
               </mat-form-field>
-              <i class="material-icons info-icon">
+              <i class="material-icons info-icon" matTooltip={{tooltip.datastudioLink}}>
                 info
               </i>
             </div>
@@ -87,13 +86,23 @@
                 <mat-select formControlName="datasources" multiple>
                   <mat-option *ngFor="let datasource of datasources" value="{{datasource}}">{{datasource}}</mat-option>
                 </mat-select>
-                <mat-error>
+                <mat-error *ngIf="reportInfoForm.get('datasources')?.getError('required')">
                   Data Source is <strong>required</strong>
                 </mat-error>
-              </mat-form-field>
+                <mat-error *ngIf="reportInfoForm.get('datasources')?.getError('missingRules')">
 
+                </mat-error>
+              </mat-form-field>
+              <i class="material-icons info-icon" matTooltip={{tooltip.datasource}}>
+                  info
+                </i>
+                <div style="width: 80%; padding-left: 35px;  " *ngIf="reportInfoForm.get('datasources')?.getError('missingRules')">
+                  <p class="error-paragraph"> The organization {{this.selectedOrg.name}} is missing a rule for the following data sources:</p>
+                  <p *ngFor="let rule of missingRules" class="error-paragraph">&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;{{rule}}&nbsp; &nbsp;</p>
+                  <p class="text-click-redirect" style="padding-left:0" (click)="newRule()">Click here to go to {{this.selectedOrg.name}}</p>
+                </div>
             </div>
-            <h4 class="input-header"> Data Studio data source ID <i class="material-icons info-icon">
+            <h4 class="input-header"> Data Studio data source ID <i class="material-icons info-icon" matTooltip={{tooltip.datastudioSource}}>
                 info
               </i></h4>
             <div formArrayName="dataStudioSourceIDs">

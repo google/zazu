@@ -1,3 +1,4 @@
+import { AuthService } from './../../auth/auth.service';
 import { Injectable } from '@angular/core';
 import * as ReportViewModel from '../view-models/report.viewmodel';
 import { HttpClient } from '@angular/common/http';
@@ -5,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ReportService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
   URL = '../../../assets/example-data/';
 
   /**
@@ -14,9 +15,7 @@ export class ReportService {
   public async getAllReports(): Promise<ReportViewModel.SimpleReport[]> {
     try {
       const raw = await this.http
-        .get<ReportViewModel.SimpleRawReport[]>(
-          '/api' + '/getAllReports'
-        )
+        .get<ReportViewModel.SimpleRawReport[]>('/api' + '/getAllReports')
         .toPromise();
       console.log(raw);
       const reports = await this.cleanSimpleRawReport(raw);
@@ -32,9 +31,7 @@ export class ReportService {
    */
   public async getAllRawReports(): Promise<ReportViewModel.SimpleRawReport[]> {
     return await this.http
-      .get<ReportViewModel.SimpleRawReport[]>(
-        '/api' + '/getAllReports'
-      )
+      .get<ReportViewModel.SimpleRawReport[]>('/api' + '/getAllReports')
       .toPromise();
   }
 
@@ -79,9 +76,19 @@ export class ReportService {
     orgID: string
   ): Promise<ReportViewModel.SimpleReport[]> {
     try {
-      const raw = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByOrganization/' + orgID).toPromise();
+      const raw = await this.http
+        .get<ReportViewModel.SimpleRawReport[]>(
+          '/api' + '/getReportByOrganization/' + orgID
+        )
+        .toPromise();
       console.log(raw);
-      console.log(this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByOrganization/' + orgID).toPromise());
+      console.log(
+        this.http
+          .get<ReportViewModel.SimpleRawReport[]>(
+            '/api' + '/getReportByOrganization/' + orgID
+          )
+          .toPromise()
+      );
       const reports = (await this.cleanSimpleRawReport(raw)).filter(report => {
         return report.organization._id === orgID;
       });
@@ -103,6 +110,7 @@ export class ReportService {
           '/api' + '/getReportByUser/' + userID
         )
         .toPromise();
+      console.log(raw);
       const reports = await this.cleanSimpleRawReport(raw);
       return reports;
     } catch (error) {
@@ -115,22 +123,16 @@ export class ReportService {
    * @param reportId - ID of the specific report
    * @param orgID - ID of the organization whose report POV you want to show
    */
-  public async getReport(
-    reportID,
-    orgID
-  )  {
-
+  public async getReport(reportID, orgID) {
     const raw = await this.http
-        .get<ReportViewModel.SimpleRawReport[]>(
-          '/api' + '/getAllReports'
-        )
-        .toPromise();
+      .get<ReportViewModel.SimpleRawReport[]>('/api' + '/getAllReports')
+      .toPromise();
 
-    const report = raw.find( element => {
+    const report = raw.find(element => {
       return element._id === reportID;
     });
 
-    return  <ReportViewModel.ReportWithMetaData>report;
+    return <ReportViewModel.ReportWithMetaData>report;
     /*
     return await this.http
       .get<ReportViewModel.ReportWithMetaData>(
@@ -154,9 +156,7 @@ export class ReportService {
     reportID
   ): Promise<ReportViewModel.ReportDetails> {
     return await this.http
-      .get<ReportViewModel.ReportDetails>(
-        '/api' + '/getAllReports/' + reportID
-      )
+      .get<ReportViewModel.ReportDetails>('/api' + '/getAllReports/' + reportID)
       .toPromise();
   }
 
@@ -170,15 +170,12 @@ export class ReportService {
     orgID
   ): Promise<ReportViewModel.Report> {
     return await this.http
-      .get<ReportViewModel.Report>(
-        '/api' + '/getAllReports',
-        {
-          params: {
-            reportID: reportID,
-            orgID: orgID
-          }
+      .get<ReportViewModel.Report>('/api' + '/getAllReports', {
+        params: {
+          reportID: reportID,
+          orgID: orgID
         }
-      )
+      })
 
       .toPromise();
   }
@@ -189,7 +186,16 @@ export class ReportService {
    */
   public async createNewReport(report: ReportViewModel.CreateNewReport) {
     console.log('Report Created: ' + report);
-    return await this.http.post('/api' + '/createReport/', report).toPromise();
+    if (await this.authService.canSend()) {
+      return await this.http
+        .post('/api' + '/createReport/', report)
+        .toPromise();
+    } else {
+      return await {
+        status: '403',
+        message: 'You do not have permission to perform this action'
+      };
+    }
   }
 
   /**
@@ -197,11 +203,17 @@ export class ReportService {
    * @param report - the updated report object with new organization
    */
   public async shareReport(report) {
-
     console.log('Share Access for ' + JSON.stringify(report));
-    return await this.http
-      .post(this.URL + 'shareReport/', report)
-      .toPromise();
+    if (await this.authService.canSend()) {
+      return await this.http
+        .post(this.URL + 'shareReport/', report)
+        .toPromise();
+    } else {
+      return await {
+        status: '403',
+        message: 'You do not have permission to perform this action'
+      };
+    }
   }
 
   /**
@@ -209,7 +221,14 @@ export class ReportService {
    * @param report - report object
    */
   public async editReport(report: ReportViewModel.EditReport) {
-    return await this.http.post('/api/' + 'editReport/', report).toPromise();
+    if (await this.authService.canSend()) {
+      return await this.http.post('/api/' + 'editReport/', report).toPromise();
+    } else {
+      return await {
+        status: '403',
+        message: 'You do not have permission to perform this action'
+      };
+    }
   }
 
   /**
@@ -223,9 +242,16 @@ export class ReportService {
       orgID: orgID
     };
     console.log('Delete Access for ' + JSON.stringify(params));
-    return await this.http
-      .post(this.URL + 'deleteOrgAccess/', params)
-      .toPromise();
+    if (await this.authService.canSend()) {
+      return await this.http
+        .post(this.URL + 'deleteOrgAccess/', params)
+        .toPromise();
+    } else {
+      return await {
+        status: '403',
+        message: 'You do not have permission to perform this action'
+      };
+    }
   }
 
   /**
@@ -234,6 +260,15 @@ export class ReportService {
    */
   public async deleteReport(report: ReportViewModel.ReportWithMetaData) {
     console.log('report deleted: ' + JSON.stringify(report));
-    return await this.http.post('/api/' + 'deleteReport/', report).toPromise();
+    if (await this.authService.canSend()) {
+      return await this.http
+        .post('/api/' + 'deleteReport/', report)
+        .toPromise();
+    } else {
+      return await {
+        status: '403',
+        message: 'You do not have permission to perform this action'
+      };
+    }
   }
 }

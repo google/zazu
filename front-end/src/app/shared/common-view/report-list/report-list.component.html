@@ -7,7 +7,7 @@
           <p class="secondary">{{report.organization.name}}</p>
           <p class="content"> {{report.created_at | date}} </p>
         </div>
-        <div class="no-result" *ngIf="report.empty && reports.length > 1">
+        <div class="no-result" *ngIf="report.empty && reports.length > 0">
             <p class="icon"><i class="material-icons">
                 search
                 </i></p>

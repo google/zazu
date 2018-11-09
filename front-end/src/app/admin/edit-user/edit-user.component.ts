@@ -46,6 +46,16 @@ export class EditUserComponent implements OnInit {
   user: UserViewModel.User;
   userRole;
   sending = false;
+
+  tooltip = {
+    role: 'Viewer access provides users the ability to view reports that are shared with them. Warning! Admin access provides the user with full access to create, update and edit reports.Admin access should only be provided to users who have full access to the data.',
+    organization: 'Select one or many organizations this user is permitted to access',
+    first : 'Enter the user\'s first name',
+    last: 'Enter the user\'s last name',
+    gmail: 'Specify the user’s Google Account.  A Google account is required to allow the user to log in as well as view the reports.',
+    secondary: '(Optional) Add another email address for this user. Doesn\'t have to be a Google Account'
+  };
+
   async ngOnInit() {
     try {
       this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();

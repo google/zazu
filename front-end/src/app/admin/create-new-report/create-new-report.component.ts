@@ -10,7 +10,8 @@ import {
   FormBuilder,
   Validators,
   FormControl,
-  FormArray
+  FormArray,
+  FormGroupDirective
 } from '@angular/forms';
 import * as DataViewModel from '../../shared/view-models/data.viewmodel';
 import { DatarulesService } from 'src/app/shared/services/datarules.service';
@@ -39,10 +40,24 @@ export class CreateNewReportComponent implements OnInit {
   reportInfoForm: FormGroup;
   datasources: DataViewModel.DataSource[];
   selectedOrg;
-  rules;
+  rules: DataViewModel.DataRule[] = [];
   organizationID;
   sub: any;
   sending = false;
+  missingRules = [];
+
+  tooltip = {
+    organization:
+      'A report must be linked to one an organizations.  Note you can always update permissions later for which organizations can access the report.',
+    name:
+      'A general name for the report that users from each organization will see when accessing reports.',
+    datastudioLink:
+      'The link to the datastudio url for this report. (eg. https://datastudio.google.com/c/u/0/reporting/0B_U5RNpwhcE6QXg4SXFBVGUwMjg/page/6zXD/preview)',
+    datastudioSource:
+      'The link to the datastudio source for this report. (eg. https://datastudio.google.com/c/u/0/reporting/0B_U5RNpwhcE6QXg4SXFBVGUwMjg/page/6zXD/preview)',
+    datasource:
+      'Select the data sources used from within BigQuery for this report.  These data sources should match the data sources used in data studio to generate this report.'
+  };
 
   async ngOnInit() {
     try {
@@ -53,7 +68,10 @@ export class CreateNewReportComponent implements OnInit {
       this.reportInfoForm = this.formBuilder.group({
         name: ['', [Validators.required, this.noWhitespaceValidator]],
         link: ['', [Validators.required, this.noWhitespaceValidator]],
-        datasources: ['', [Validators.required]],
+        datasources: [
+          '',
+          [Validators.required, this.noDataRuleValidator.bind(this)]
+        ],
         dataStudioSourceIDs: this.formBuilder.array(
           [this.initItemRows()],
           this.noDuplicate
@@ -95,6 +113,11 @@ export class CreateNewReportComponent implements OnInit {
     );
     control.push(this.initItemRows());
   }
+  resetForm(formDirective: FormGroupDirective) {
+    this.reportInfoForm.reset();
+    this.reportInfoForm.markAsPristine();
+    this.reportInfoForm.markAsUntouched();
+  }
 
   deleteRow(index: number) {
     const control = <FormArray>(
@@ -103,7 +126,12 @@ export class CreateNewReportComponent implements OnInit {
     control.removeAt(index);
   }
 
+  newRule() {
+    this.router.navigate(['admin/o', this.selectedOrg._id]);
+  }
+
   async selectOrg() {
+    console.log('selected org called');
     try {
       this.selectedOrg = this.organizations.find(org => {
         return org._id === this.orgForm.value.organization;
@@ -111,6 +139,7 @@ export class CreateNewReportComponent implements OnInit {
       this.rules = await this.datarulesService.getDataRules(
         this.selectedOrg._id
       );
+      console.log(this.rules);
     } catch (error) {
       console.log(error);
     }
@@ -141,7 +170,25 @@ export class CreateNewReportComponent implements OnInit {
     }
   }
 
-  public noDataRuleValidator(control: FormControl) {}
+  public noDataRuleValidator(control: FormControl): Validators {
+    this.missingRules = [];
+    if (control.value) {
+      for (const datasource of control.value) {
+        const temp = this.rules.filter(rule => {
+          return rule.datasource === datasource;
+        });
+        if (temp.length === 0) {
+          this.missingRules.push(datasource);
+        }
+      }
+      if (this.missingRules.length > 0) {
+        return { missingRules: true };
+      } else {
+        return null;
+      }
+    }
+    return null;
+  }
 
   async onSubmit() {
     this.sending = true;

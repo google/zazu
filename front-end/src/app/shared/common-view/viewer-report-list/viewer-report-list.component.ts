@@ -14,7 +14,7 @@ import { PaginationService } from '../../services/pagination.service';
 })
 export class ViewerReportListComponent implements OnInit, OnDestroy {
   constructor(private viewerService: ViewerService, private router: Router,  private paginationService: PaginationService, private route: ActivatedRoute) {}
-  reports: ReportViewModel.SimpleReport[];
+  reports: ReportViewModel.SimpleReport[] = [];
   organizations = [];
   initialized = false;
   filterForm = new FormGroup({
@@ -39,6 +39,7 @@ export class ViewerReportListComponent implements OnInit, OnDestroy {
       );
       this.paginationService.getPagination();
       this.reports = await this.viewerService.getReports();
+      console.log(this.reports);
       if (this.reports.length === 1) {
         this.router.navigate(['../', this.reports[0]._id], { relativeTo: this.route });
       }
