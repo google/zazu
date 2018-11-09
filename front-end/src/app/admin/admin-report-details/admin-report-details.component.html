@@ -7,7 +7,7 @@
         class="material-icons arrow"> keyboard_arrow_right </i>&nbsp;&nbsp; <span routerLink="../../">
         {{organization.name}}</span>
       &nbsp;&nbsp; <i class="material-icons arrow"> keyboard_arrow_right </i> <i style="margin-left: -14px" class="material-icons arrow">
-        keyboard_arrow_right </i>&nbsp;&nbsp; <span class="active"> {{report.name}} ({{selectedOrg.name}})</span> </div>
+        keyboard_arrow_right </i>&nbsp;&nbsp; <span class="active"> {{report.name}} </span> </div>
 
     <!-- Breadcrumbs for report when navigation from user under organization list -->
     <div class="breadcrumb" *ngIf="userView && organizationID != undefined"> <span routerLink="../../../../../"> <i class="material-icons">
