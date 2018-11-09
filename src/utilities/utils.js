@@ -113,11 +113,12 @@ module.exports = {
     else {
 
       console.log("Revoking shared report...");
+      console.log(permissions);
       async.eachSeries(permissions, function (permission, callback) {
 
           drive.permissions.delete({
-              fileId: file_id,
-              permissionId: permission
+              fileId: permission.fileId,
+              permissionId: permission.drivePermId
             }, function (err, res) {
               if (err) {
                 // Handle error...
@@ -125,11 +126,11 @@ module.exports = {
                 //callback(1);
               } else {
                 console.log(res.status);
-                console.log("Saving permissions...");
+                console.log("Removing permissions...");
 
                 if (res.status == 204) {
 
-                    Permission.deleteOne({ drivePermId: permission }, function(err4, docs1) {
+                    Permission.deleteOne({ drivePermId: permission.drivePermId }, function(err4, docs1) {
                       if (err4) {
                         callback(1);
                       }
