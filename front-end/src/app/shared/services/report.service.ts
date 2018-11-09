@@ -262,14 +262,16 @@ export class ReportService {
   public async deleteReport(report: ReportViewModel.ReportWithMetaData) {
     console.log('report deleted: ' + JSON.stringify(report));
     if (await this.authService.canSend()) {
-      const permissions = await this.getPermissionsToRevoke(report);
-      const  parameter = {
-        report: report,
-        permissions: permissions
-      };
-      return await this.http
-        .post('/api/' + 'deleteReport/', parameter)
-        .toPromise();
+      const permissions = <any>await this.getPermissionsToRevoke(report);
+      if ( await permissions.status === '200') {
+        const  parameter = {
+          report: report,
+          permissions: permissions.permissions
+        };
+        return await this.http
+          .post('/api/' + 'deleteReport/', parameter)
+          .toPromise();
+      }
     } else {
       return await {
         status: '403',
