@@ -669,6 +669,7 @@ router.post('/createReport', function(req, res) {
 });
 
 router.post('/getPermissionsToRevoke', function(req, res) {
+
   var deleteReport = req.body;
 
   var permsList = [];
