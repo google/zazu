@@ -1,7 +1,7 @@
 import { AuthService } from './../../auth/auth.service';
 import { Injectable } from '@angular/core';
 import * as ReportViewModel from '../view-models/report.viewmodel';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
@@ -263,14 +263,16 @@ export class ReportService {
     console.log('report deleted: ' + JSON.stringify(report));
     if (await this.authService.canSend()) {
       const permissions = <any>await this.getPermissionsToRevoke(report);
+      console.log('************ PERMISSIONSSS**************');
+      console.log(permissions);
       if ( await permissions.status === '200') {
         const  parameter = {
           report: report,
           permissions: permissions.permissions
         };
-        return await this.http
-          .post('/api/' + 'deleteReport/', parameter)
-          .toPromise();
+        console.log('************ PARAMETER**************');
+        console.log(parameter);
+        return await this.http.post('/api/' + 'deleteReport/', parameter).toPromise();
       }
     } else {
       return await {
@@ -288,9 +290,7 @@ export class ReportService {
     report: ReportViewModel.ReportWithMetaData
   ) {
     if (await this.authService.canSend()) {
-      return await this.http
-        .get('/api/' + 'getPermissionsToRevoke/' + report)
-        .toPromise();
+      return await this.http.post('/api/' + 'getPermissionsToRevoke/', report).toPromise();
     } else {
       return await {
         status: '403',

@@ -668,7 +668,8 @@ router.post('/createReport', function(req, res) {
   });
 });
 
-router.get('/getPermissionsToRevoke', function(req, res) {
+router.post('/getPermissionsToRevoke', function(req, res) {
+  console.log('PERMISSION CALLED');
   var deleteReport = req.body;
 
   var permsList = [];
