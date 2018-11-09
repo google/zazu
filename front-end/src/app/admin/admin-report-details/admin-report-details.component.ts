@@ -95,6 +95,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
      dialogRef.afterClosed().subscribe(async result => {
       if (result) {
         const status = await <any>this.reportService.deleteReport(this.report);
+        console.log(status);
         if (status.status === '200') {
           this.router.navigate(['../../'], { relativeTo: this.route, queryParams: { selectedOrg: this.selectedOrgID} });
         } else {
