@@ -91,6 +91,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
 
   async openDialog( ) {
     this.permissions = await this.getPermissions();
+    console.log(this.permissions);
     const dialogRef = this.dialog.open(DeleteReportConfirmation, {
       data: { report: this.report.name}
     });

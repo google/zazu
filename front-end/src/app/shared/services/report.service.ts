@@ -266,7 +266,8 @@ export class ReportService {
           report: report,
           permissions: permissions
         };
-        return await this.http.post('/api/' + 'deleteReport/', parameter).toPromise();
+        console.log(parameter);
+       return await this.http.post('/api/' + 'deleteReport/', parameter).toPromise();
     } else {
       return await {
         status: '403',
