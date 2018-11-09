@@ -1,3 +1,4 @@
+import { AuthService } from './../../auth/auth.service';
 import { OrganizationDetails } from './../view-models/organization.viewmodel';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -8,7 +9,7 @@ import * as OrganizationViewModel from '../view-models/organization.viewmodel';
 })
 export class OrganizationService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   organizations = [];
 
@@ -61,9 +62,12 @@ export class OrganizationService {
    * Method for creating new orgnization
    * @param organization - organization object
    */
-  public async createNewOrganization(organization: OrganizationViewModel.CreateNewOrganization): Promise<OrganizationViewModel.CreateOrganizationReturn> {
-    console.log('Organization Created');
-    return await ((this.http.post<OrganizationViewModel.CreateOrganizationReturn>('/api/' + 'createOrganization', organization)).toPromise());
+  public async createNewOrganization(organization: OrganizationViewModel.CreateNewOrganization) {
+    if (await this.authService.canSend()) {
+      return await ((this.http.post<OrganizationViewModel.CreateOrganizationReturn>('/api/' + 'createOrganization', organization)).toPromise());
+    } else {
+      return await {status: '403', message: 'You do not have permission to perform this action' };
+    }
   }
 
   /**
@@ -71,8 +75,11 @@ export class OrganizationService {
    * @param organization - organiztion object
    */
   public async editOrganization(organization: OrganizationViewModel.EditOrganization) {
-    console.log('Organization Edit: ');
-    return await ((this.http.post(this.URL + 'editOrganization/', organization)).toPromise());
+    if (await this.authService.canSend()) {
+      return await ((this.http.post('/api' + '/editOrganization/', organization)).toPromise());
+    } else {
+      return await {status: '403', message: 'You do not have permission to perform this action'};
+    }
   }
 
   /**
@@ -80,8 +87,11 @@ export class OrganizationService {
    * @param organizationID - ID of the organization you want to delete
    */
   public async deleteOrganization(organization) {
-    console.log('Organization Delete: ' + JSON.stringify(organization));
+    if (await this.authService.canSend()) {
     return await ((this.http.post('/api/' + 'deleteOrganization', organization)).toPromise());
+    } else {
+      return await {status: '403', message: 'You do not have permission to perform this action'};
+    }
   }
 
   /********** LOCAL ORGANIZATION METHODS FOR OPTIMIZATION AND LESS API CALLS  **********/

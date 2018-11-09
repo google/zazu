@@ -1,3 +1,4 @@
+import { AuthGuard } from './../auth/auth-guard.service';
 import { EditReportAccessComponent } from './edit-report-access/edit-report-access.component';
 import { ViewerReportComponent } from './../shared/common-view/viewer-report/viewer-report.component';
 import { ViewerReportListComponent } from './../shared/common-view/viewer-report-list/viewer-report-list.component';
@@ -30,10 +31,12 @@ const adminRoutes: Routes = [
   {
     path: '',
     component: AdminComponent,
+    canActivate:  [AdminGuard, AuthGuard],
     children: [
       {
         path: 'o',
         component: OrganizationComponent,
+        canActivate:  [AdminGuard, AuthGuard],
         children: [
           { path: 'list', component: OrganizationListComponent },
           {
@@ -89,6 +92,7 @@ const adminRoutes: Routes = [
       {
         path: 'users',
         component: AllUsersComponent,
+        canActivate:  [AdminGuard, AuthGuard],
         children: [
           { path: 'list', component: AllUserListComponent },
           { path: 'new-user', component: CreateNewUserComponent },
@@ -121,6 +125,7 @@ const adminRoutes: Routes = [
       {
         path: 'reports',
         component: AllReportsComponent,
+        canActivate:  [AdminGuard, AuthGuard],
         children: [
           { path: 'list', component: AllReportListComponent },
           { path: 'list/new-report', component: CreateNewReportComponent },

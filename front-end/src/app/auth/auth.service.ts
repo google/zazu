@@ -37,6 +37,15 @@ export class AuthService {
     }
   }
 
+  public async canSend(): Promise<boolean> {
+    try {
+      const status = await this.isLoggedIn();
+      return await (status.isLoggedIn && status.role === 'admin');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   public async isViewer() {
     try {
       const roleStatus = await this.isLoggedIn();
@@ -48,8 +57,8 @@ export class AuthService {
 
   public async logout() {
     console.log('Logout called');
-    const status = await <any>this.http.get('/api' + '/logout').toPromise();
-    if ( status.status === '200' ) {
+    const status = await (<any>this.http.get('/api' + '/logout').toPromise());
+    if (status.status === '200') {
       this.router.navigate(['/logout']);
     }
   }

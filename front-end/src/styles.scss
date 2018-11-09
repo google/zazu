@@ -48,6 +48,11 @@
 
 /***** CREATE NEW REPORT STYLES POPUP MENU *************/
 
+.mat-horizontal-content-container {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
 .cdk-overlay-container .new-report-menu.mat-menu-panel {
   background-color: rgba(0, 0, 0, 0) !important;
 
@@ -493,6 +498,22 @@ body {
 
 .label-color {
   color: $mat-label-color !important;
+}
+
+.error-paragraph {
+  margin: 0;
+  margin-top: 5px;
+  color: $danger-color;
+  font-size: 80%;
+}
+
+.text-click-redirect {
+  padding-left:0; padding-top: 5px; color: $primary-button-color;
+  font-size: 80%;
+}
+
+.text-click-redirect:hover {
+  cursor:pointer;
 }
 
 .form-container {

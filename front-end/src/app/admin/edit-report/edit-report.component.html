@@ -49,14 +49,26 @@
                     <mat-select formControlName="datasources" multiple>
                       <mat-option *ngFor="let datasource of datasources" value="{{datasource}}">{{datasource}}</mat-option>
                     </mat-select>
-                    <mat-error>
+                    <mat-error *ngIf="reportInfoForm.get('datasources')?.getError('required')">
                       Data Source is <strong>required</strong>
                     </mat-error>
+                    <mat-error *ngIf="reportInfoForm.get('datasources')?.getError('missingRules')">
+
+                    </mat-error>
                   </mat-form-field>
+
                   <i class="material-icons info-icon" matTooltip="{{tooltip.datasource}}">
                       info
                     </i>
                 </div>
+                <div class="row" *ngIf="reportInfoForm.get('datasources')?.getError('missingRules')">
+                    <div  *ngFor="let item of missingRules" style="width: 80%; padding-left: 35px;  ">
+                        <p class="error-paragraph"> {{item.name}} is missing a rule for the following datasource: </p>
+                      <p *ngFor="let rule of item.missingRules" class="error-paragraph">&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;{{rule}}&nbsp; &nbsp;</p>
+                      <p class="text-click-redirect" style="padding-left:0; margin:0" (click)="newRule(item._id)">Click here to go to {{item.name}}</p>
+                    </div>
+                  </div>
+
                 <h4 class="input-header"> Data Studio data source ID <i class="material-icons info-icon" matTooltip="{{tooltip.datastudioSource}}">
                     info
                   </i></h4>

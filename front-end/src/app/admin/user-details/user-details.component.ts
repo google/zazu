@@ -23,7 +23,8 @@ export class UserDetailsComponent implements OnInit {
     private reportService: ReportService,
     public dialog: MatDialog,
     private ghostsService: GhostService,
-    private viewerService: ViewerService
+    private viewerService: ViewerService,
+
   ) {}
 
   sub: any;
@@ -56,6 +57,7 @@ export class UserDetailsComponent implements OnInit {
       this.reports = await this.reportService.getReportByUser(this.userID);
       this.new = (await this.route.snapshot.queryParamMap.get('new')) === 'new';
       this.edited = (await this.route.snapshot.queryParamMap.get('edited')) === 'true';
+      this.ghostsService.disableGhost();
       this.viewInitialized = true;
     } catch (error) {
       console.log(error);

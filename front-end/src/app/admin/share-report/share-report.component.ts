@@ -1,10 +1,11 @@
+import { DataRule } from './../../shared/view-models/data.viewmodel';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as ReportViewModel from '../../shared/view-models/report.viewmodel';
 import { ReportService } from 'src/app/shared/services/report.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { OrganizationService } from 'src/app/shared/services/organization.service';
 import * as OrganizationViewModel from './../../shared/view-models/organization.viewmodel';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import * as DataViewModel from '../../shared/view-models/data.viewmodel';
 import { DatarulesService } from 'src/app/shared/services/datarules.service';
 import { MatStepper } from '@angular/material';
@@ -36,6 +37,8 @@ export class ShareReportComponent implements OnInit {
   organizationID;
   allReports;
   sub: any;
+  missingRules = [];
+  rules: DataViewModel.DataRule[];
 
   tooltip = {
     organization: 'Please select the organizations that should access this report.  Not: A report can be accessed by many organizations, the data rules applied to each organization filter the data seen in the report',
@@ -57,6 +60,9 @@ export class ShareReportComponent implements OnInit {
         this.selectedOrg = this.organizations.find(org => {
           return org._id === this.organizationID;
         });
+        this.rules = await this.datarulesService.getDataRules(
+          this.organizationID
+        );
       }
     } catch (error) {
       console.log(error);
@@ -67,11 +73,48 @@ export class ShareReportComponent implements OnInit {
     this.selectedReport = await this.reports.find(report => {
       return report._id === param.reportID;
     });
+     for ( const datasource of await this.selectedReport.datasources) {
+       const temp = this.rules.filter(rule => {
+          return rule.datasource === datasource;
+       });
+       if (temp.length === 0) {
+          this.missingRules.push(datasource);
+       }
+    }
     if (this.organizationID) {
       await this.selectStep(1);
     } else {
       await this.selectStep(2);
     }
+  }
+
+  newRule() {
+    this.router.navigate(['admin/o', this.selectedOrg._id]);
+  }
+
+
+  private checkDataRules() {
+
+  }
+
+  public noDataRuleValidator(control: FormControl): Validators {
+    this.missingRules = [];
+    if (control.value) {
+      for (const datasource of control.value) {
+        const temp = this.rules.filter(rule => {
+          return rule.datasource === datasource;
+        });
+        if (temp.length === 0) {
+          this.missingRules.push(datasource);
+        }
+      }
+      if (this.missingRules.length > 0) {
+        return { missingRules: true };
+      } else {
+        return null;
+      }
+    }
+    return null;
   }
 
   resetReports() {
@@ -95,6 +138,9 @@ export class ShareReportComponent implements OnInit {
         }) === undefined
       );
     });
+    this.rules = await this.datarulesService.getDataRules(
+      this.selectedOrg._id
+    );
     await this.selectStep(1);
   }
 
