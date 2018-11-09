@@ -14,6 +14,7 @@ limitations under the License. */
 
 var {google} = require('googleapis');
 const {OAuth2Client} = require('google-auth-library');
+const async = require('async');
 
 var config = require('./config');
 const Permission = require('../models/permission');
@@ -55,7 +56,7 @@ module.exports = {
     return updateRow;
   },
 
-  shareReport: function(file_id, user_email, revoke, callback) {
+  shareReport: function(file_id, permissions, revoke, callback) {
 
     const oAuth2Client = new OAuth2Client();
 
@@ -65,63 +66,15 @@ module.exports = {
 
     const drive = google.drive({version: 'v3', auth: oAuth2Client });
 
-    var permission =
-      {
-        'type': 'user',
-        'role': 'reader',
-        'emailAddress': user_email
-      };
     if (revoke == 0) {
 
       console.log("Sharing report...");
 
-      drive.permissions.create({
-          resource: permission,
-          fileId: file_id,
-          fields: 'id',
-        }, function (err, res) {
-          if (err) {
-            // Handle error...
-            console.log(err);
-            callback(1);
-          } else {
-            console.log(res.status);
-            console.log("Saving permissions...");
-
-            var permObj = { "fileId": file_id, "googleID": user_email, "drivePermId": res.data.id };
-            Permission.create(permObj, function(err3, res3) {
-              if (err3) {
-                console.log(err3);
-                callback(1);
-              }
-            });
-
-            if (res.status == 200) {
-              console.log("Sharing report finished...");
-              callback(0);
-            }
-            else {
-              callback(1);
-            }
-          }
-        });
-    }
-    else {
-
-      console.log("Revoking shared report...");
-
-      var permission_id;
-
-      Permission.find({ fileId: file_id, googleID: user_email }, function(err, docs) {
-        if (err) {
-          callback(1);
-        }
-        permission_id = docs[0].drivePermId;
-
-        drive.permissions.delete({
+      async.eachSeries(permissions, function (permission, callback) {
+        drive.permissions.create({
             resource: permission,
             fileId: file_id,
-            permissionId: permission_id
+            fields: 'id',
           }, function (err, res) {
             if (err) {
               // Handle error...
@@ -131,18 +84,61 @@ module.exports = {
               console.log(res.status);
               console.log("Saving permissions...");
 
-              if (res.status == 200) {
+              var permObj = { "fileId": file_id, "googleID": permission.emailAddress, "drivePermId": res.data.id };
+              Permission.create(permObj, function(err3, res3) {
+                if (err3) {
+                  console.log(err3);
+                  callback(1);
+                }
+              });
 
-                  Permission.deleteOne({ drivePermId: permission_id }, function(err4, docs1) {
-                    if (err4) {
-                      callback(1);
-                    }
-                    callback(0);
-                  });
+              if (res.status == 200) {
+                console.log("Sharing report finished...");
+                callback(0);
+              }
+              else {
+                callback(1);
               }
             }
           });
-       });
-      }
+        }, function (err) {
+              if (err) {
+                // Handle error
+                console.error(err);
+              } else {
+                // All permissions inserted
+              }
+        });
     }
+    else {
+
+      console.log("Revoking shared report...");
+      async.eachSeries(permissions, function (permission, callback) {
+
+          drive.permissions.delete({
+              fileId: file_id,
+              permissionId: permission
+            }, function (err, res) {
+              if (err) {
+                // Handle error...
+                console.log(err);
+                //callback(1);
+              } else {
+                console.log(res.status);
+                console.log("Saving permissions...");
+
+                if (res.status == 204) {
+
+                    Permission.deleteOne({ drivePermId: permission }, function(err4, docs1) {
+                      if (err4) {
+                        callback(1);
+                      }
+                      callback(0);
+                    });
+                }
+              }
+            });
+         });
+    }
+  }
 };
