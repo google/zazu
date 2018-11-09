@@ -529,6 +529,20 @@ router.post('/deleteOrganization', function(req, res) {
   });
 });
 
+router.post('/editOrganization', function(req, res) {
+
+  var editOrg = req.body;
+
+  Organization.updateOne({ _id : editOrg._id }, editOrg, function(err, result) {
+    if (err) {
+      res.send({ status: '500', message: 'Organization failed to update.' });
+    } else {
+      res.send({ status: '200', result: result });
+    }
+  });
+
+});
+
 router.get('/getAllReports', function(req, res) {
   Report.find(function(err, docs) {
     if (err) {
@@ -669,7 +683,7 @@ router.post('/createReport', function(req, res) {
 });
 
 router.post('/getPermissionsToRevoke', function(req, res) {
-  console.log('PERMISSION CALLED');
+
   var deleteReport = req.body;
 
   var permsList = [];
@@ -713,7 +727,7 @@ router.post('/getPermissionsToRevoke', function(req, res) {
       for (var l = 0; l < docs.length; l++) {
         permsList.push(docs[l]);
       }
-      console.log(permsList);
+      
       res.send({ status: '200', permissions: permsList });
     });
   });
