@@ -537,7 +537,7 @@ router.post('/editOrganization', function(req, res) {
     if (err) {
       res.send({ status: '500', message: 'Organization failed to update.' });
     } else {
-      res.send({ status: '200', result });
+      res.send({ status: '200', result: result });
     }
   });
 
@@ -727,7 +727,7 @@ router.post('/getPermissionsToRevoke', function(req, res) {
       for (var l = 0; l < docs.length; l++) {
         permsList.push(docs[l]);
       }
-      console.log(permsList);
+      
       res.send({ status: '200', permissions: permsList });
     });
   });
