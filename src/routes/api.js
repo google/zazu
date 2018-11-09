@@ -712,7 +712,7 @@ router.get('/getPermissionsToRevoke', function(req, res) {
       for (var l = 0; l < docs.length; l++) {
         permsList.push(docs[l]);
       }
-
+      console.log(permsList);
       res.send({ status: '200', permissions: permsList });
     });
   });
@@ -769,9 +769,8 @@ router.post('/deleteReport', function(req, res) {
           );
         }
         res.send({ status: '200', results: results._id });
-      });
-    }
-  });
+      }
+    });
 });
 
 router.get('/getDataRules/:orgid', function(req, res) {
