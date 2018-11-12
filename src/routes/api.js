@@ -622,7 +622,7 @@ router.get('/getReportByUser/:id', function(req, res) {
         } else {
           for (var i = 0; i < reports.length; i++) {
             for (var k = 0; k < reports[i].organizations.length; k++) {
-              for (var j = 0; j < userOrgList[j]; j++) {
+              for (var j = 0; j < userOrgList.length; j++) {
                 if (userOrgList[j]._id == reports[i].organizations[k]._id) {
                   reportsByUser.push(reports[i]);
                 }
@@ -636,7 +636,62 @@ router.get('/getReportByUser/:id', function(req, res) {
   });
 });
 
+router.get('/getUserView/:user', function(req, res) {
+
+  var userObj = req.params.user;
+  var viewExists = "-1";
+
+  User.find({ _id: userObj._id }, function(err1, res1){
+      if (err1) {
+        res.send({ status: '500', message: 'Retrieving ghost view error.' });
+      }
+
+      var orgId = res1[0].organization._id;
+
+      var findViewRow = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor` WHERE user_id = ' + userObj._id;
+
+      bigquery.createQueryStream(findViewRow)
+          .on('error', function(err) {
+             res.send({"status": "500", "message": err.message });
+          })
+          .on('data', function(row) {
+
+              viewExists = row.organization_id;
+
+          })
+          .on('end', function() {
+
+            if (viewExists == "-1") {
+                var insertOrUpdateView = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor` (user_id, organization_id) VALUES (' + userObj._id + ', ' + userObj.organization._id + ')';
+            }
+            else {
+                var insertOrUpdateView = 'UPDATE `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor` SET organization_id = ' + userObj.organization._id + ' WHERE user_id = ' + userObj._id;
+            }
+
+            bigquery.createQueryStream(insertOrUpdateView)
+                .on('error', function(err) {
+                   res.send({"status": "500", "message": err.message });
+                })
+                .on('data', function(data) {
+
+                })
+                .on('end', function() {
+
+                  Report.find({ organizations: { $elemMatch: { _id : userObj.organization._id } } }, function(err, docs) {
+                    if (err) {
+                      res.send({"status": "500", "message": "Report list retrieved error."});
+                    }
+
+                    res.send(docs);
+                  });
+                });
+          });
+  });
+});
+
 router.post('/createReport', function(req, res) {
+  // TODO: Add sharing of BigQuery and IAM roles
+
   var newReport = req.body;
   newReport.createdBy = req.session.passport.user.id;
   newReport.updatedBy = '';
@@ -813,6 +868,22 @@ router.post('/deleteReport', function(req, res) {
       }
     });
 });
+
+router.post('/editReport', (req, res) => {
+
+  var oldReport = req.body.oldReport;
+  var newReport = req.body.newReport;
+
+  Report.updateOne({ _id: oldReport._id }, newReport, function(err, results) {
+    if (err) {
+
+      res.send({"status": "500", "message": err.message });
+    }
+    res.send({"status": "200", "message": "Report edit succeeded." });
+  });
+
+});
+
 
 router.get('/getDataRules/:orgid', function(req, res) {
   var rulesByOrg = [];
@@ -1031,258 +1102,6 @@ router.get('/getRole', (req, res) => {
 });
 
 //
-// router.post('/editUser', (req, res) => {
-//
-//   var selectedUser = req.body.selectedUser;
-//   var editedUser = req.body.editedUser;
-//
-//   if (selectedUser.role === editedUser.role) {
-//
-//     if (selectedUser.organization !== editedUser.organization) {
-//
-//       var updateOrgName = 'UPDATE `' + config.bq_instance + '.' + config.bq_dataset + '.vendors` SET organization = "' + editedUser.organization + '" WHERE organization = "' + selectedUser.organization + '"';
-//
-//       bigquery.createQueryStream(updateOrgName)
-//          .on('error', function(err) {
-//             res.send({"status": "500", "message": err.message });
-//          })
-//          .on('data', function(row) {
-//
-//           })
-//          .on('end', function() {
-//            var updateRow = 'UPDATE `' + config.bq_instance + '.' + config.bq_dataset + '.users` SET google_email = "' + editedUser.google_email + '", email = "' + editedUser.email + '", organization = "' + editedUser.organization + '", role = "' + editedUser.role + '" WHERE email = "' + selectedUser.email + '"';
-//
-//            bigquery.createQueryStream(updateRow)
-//              .on('error', function(err) {
-//                  res.send({"status": "500", "message": err.message });
-//              })
-//              .on('data', function(row) {
-//
-//              })
-//              .on('end', function() {
-//                User.findOneAndUpdate({ name: selectedUser.name }, { name: editedUser.name, email: editedUser.email, google_email: editedUser.google_email, organization: editedUser.organization, role: editedUser.role }, function(err, results) {
-//                  if (err) {
-//                    console.log(err);
-//                    res.send({"status": "500", "message": err.message });
-//                  }
-//
-//                  User.find(function(err, docs) {
-//                    if (err) {
-//                      res.send({"status": "500", "message": err.message });
-//                    }
-//                    res.send({"status": "200", "message": "User deletion succeeded.", "users": docs });
-//                  });
-//                });
-//              });
-//          });
-//     }
-//   }
-//   else {
-//          var findUserId = 'SELECT user_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.users` WHERE email = "' + selectedUser.email + '"';
-//
-//           bigquery.createQueryStream(findUserId)
-//              .on('error', function(err) {
-//                 res.send({"status": "500", "message": err.message });
-//              })
-//              .on('data', function(data) {
-//                var userId = data.user_id;
-//
-//                if ((selectedUser.role == "vendor")&&(editedUser.role == "retailer")) {
-//
-//                  var findOrgIdToRm = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.vendors` WHERE organization = "' + selectedUser.organization + '"';
-//
-//                  bigquery.createQueryStream(findOrgIdToRm)
-//                     .on('error', function(err) {
-//                        res.send({"status": "500", "message": err.message });
-//                     })
-//                     .on('data', function(orgIdRow) {
-//
-//                        var delRolesForOrg = 'DELETE FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_vendor_roles` WHERE organization_id = ' + orgIdRow.organization_id;
-//
-//                        bigquery.createQueryStream(delRolesForOrg)
-//                           .on('error', function(err) {
-//                              res.send({"status": "500", "message": err.message });
-//                           })
-//                           .on('data', function(data) {
-//                           })
-//                           .on('end', function() {
-//                             var delOrg = 'DELETE FROM `' + config.bq_instance + '.' + config.bq_dataset + '.vendors` WHERE organization = "' + selectedUser.organization + '"';
-//
-//                             bigquery.createQueryStream(delOrg)
-//                                .on('error', function(err) {
-//                                   res.send({"status": "500", "message": err.message });
-//                                })
-//                                .on('data', function(row) {
-//
-//                                 })
-//                                .on('end', function() {
-//                                  var findOrgIds = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.vendors`';
-//
-//                                  bigquery.createQueryStream(findOrgIds)
-//                                     .on('error', function(err) {
-//                                        res.send({"status": "500", "message": err.message });
-//                                     })
-//                                     .on('data', function(row) {
-//                                          var addPermissions = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.user_vendor_roles` (user_id, organization_id) VALUES (' + userId + ', ' + row.organization_id + ')';
-//
-//                                          bigquery.createQueryStream(addPermissions)
-//                                             .on('error', function(err) {
-//                                                res.send({"status": "500", "message": err.message });
-//                                             })
-//                                             .on('data', function(row) {
-//
-//                                              })
-//                                             .on('end', function() {
-//
-//                                             });
-//                                      })
-//                                     .on('end', function() {
-//
-//                                     });
-//                                });
-//                           });
-//
-//                      })
-//                     .on('end', function() {
-//                     });
-//
-//                 }
-//                 else if ((selectedUser.role == "retailer")&&(editedUser.role == "vendor")) {
-//                   var orgNum = -1;
-//
-//                   var findOrg = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.vendors` WHERE organization = "' + selectedUser.organization + '"';
-//
-//                   bigquery.createQueryStream(findOrg)
-//                      .on('error', function(err) {
-//                         res.send({"status": "500", "message": err.message });
-//                      })
-//                      .on('data', function(row) {
-//                        orgNum = row.organization_id;
-//
-//                       })
-//                      .on('end', function() {
-//
-//                           if (orgNum == -1) {
-//
-//                             User.find({role: "retailer"}, function(err, docs) {
-//                                if (err) {
-//                                  console.log(err);
-//                                  res.send({"status": "500", "message": err.message });
-//                                }
-//
-//                                for (var i = 0; i < docs.length; i++) {
-//                                  if (docs[i].accesses.indexOf(selectedUser.organization) == -1 ) {
-//                                    User.update({email: docs[i].email }, { $push: { accesses: selectedUser.organization } }, function(err, results) {
-//                                      if (err) {
-//                                        console.log(err);
-//                                        res.send({"status": "500", "message": err.message });
-//                                      }
-//                                    });
-//                                  }
-//                                }
-//                             });
-//
-//                             var newOrgId = 'SELECT count(*) AS total_orgs FROM `' + config.bq_instance + '.' + config.bq_dataset + '.vendors`';
-//
-//                             bigquery.createQueryStream(newOrgId)
-//                               .on('error', function(err) {
-//                                   res.send({"status": "500", "message": err.message });
-//                               })
-//                               .on('data', function(data) {
-//
-//                                  orgNum = data.total_orgs + 1;
-//                                  var insertOrgRow = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.vendors` (organization_id,organization) VALUES (' + orgNum + ',"' + selectedUser.organization + '")';
-//
-//                                  bigquery.createQueryStream(insertOrgRow)
-//                                     .on('error', function(err) {
-//                                         res.send({"status": "500", "message": err.message });
-//                                     })
-//                                     .on('data', function(data) {
-//
-//                                     })
-//                                     .on('end', function() {
-//
-//                                         var addVendorAccesses = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.user_vendor_roles` (user_id, organization_id) VALUES (' + userId + ', ' + orgNum + ')';
-//
-//                                         bigquery.createQueryStream(addVendorAccesses)
-//                                           .on('error', function(err) {
-//                                             res.send({"status": "500", "message": err.message });
-//                                           })
-//                                           .on('data', function(data) {
-//
-//                                           })
-//                                           .on('end', function() {
-//
-//                                             var retailerIdList = [];
-//                                             var getRetailerIds = 'SELECT user_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.users` WHERE role = "retailer"';
-//
-//                                             bigquery.createQueryStream(getRetailerIds)
-//                                               .on('error', function(err) {
-//                                                  res.send({"status": "500", "message": err.message });
-//                                               })
-//                                               .on('data', function(data) {
-//
-//                                                  var addRetailerAccesses = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.user_vendor_roles` (user_id, organization_id) VALUES (' + data.user_id + ', ' + orgNum + ')';
-//
-//                                                  bigquery.createQueryStream(addRetailerAccesses)
-//                                                    .on('error', function(err) {
-//                                                       res.send({"status": "500", "message": err.message });
-//                                                    })
-//                                                    .on('data', function(data) {
-//
-//                                                    })
-//                                                    .on('end', function() {
-//                                                    })
-//                                               })
-//                                               .on('end', function() {
-//
-//                                               })
-//
-//                                           });
-//                                     })
-//                               })
-//                               .on('end', function(){
-//
-//                               });
-//
-//                           }
-//               })
-//              .on('end', function() {
-//
-//              });
-//          }
-//        })
-//        .on('end', function() {
-//          var updateRow = 'UPDATE `' + config.bq_instance + '.' + config.bq_dataset + '.users` SET google_email = "' + editedUser.google_email + '", email = "' + editedUser.email + '", organization = "' + editedUser.organization + '", role = "' + editedUser.role + '" WHERE email = "' + selectedUser.email + '"';
-//
-//          bigquery.createQueryStream(updateRow)
-//            .on('error', function(err) {
-//                res.send({"status": "500", "message": err.message });
-//            })
-//            .on('data', function(row) {
-//
-//            })
-//            .on('end', function() {
-//              User.findOneAndUpdate({ name: selectedUser.name }, { name: editedUser.name, email: editedUser.email, google_email: editedUser.google_email, organization: editedUser.organization, role: editedUser.role }, function(err, results) {
-//                if (err) {
-//                  console.log(err);
-//                  res.send({"status": "500", "message": err.message });
-//                }
-//
-//                User.find(function(err, docs) {
-//                  if (err) {
-//                    res.send({"status": "500", "message": err.message });
-//                  }
-//                  res.send({"status": "200", "message": "User deletion succeeded.", "users": docs });
-//                });
-//              });
-//            });
-//        });
-//   }
-//
-//
-// });
-//
 //
 // // router.get('/refreshPermissionsTable', function(req, res) {
 // //     var dataset = bigquery.dataset(config.bq_client_dataset);
@@ -1373,253 +1192,8 @@ router.get('/getRole', (req, res) => {
 // // });
 //
 //
+//
+//
 
-//
-// router.post('/editRule', (req, res) => {
-//
-//   var selectedRule = req.body.selectedRule;
-//   var editedRule = req.body.editedRule;
-//
-//   var updateRow = utils.buildPermissionsQuery(config.bq_instance, config.bq_client_dataset, config.bq_client_data_perms, [""], selectedRule.identifier, selectedRule.identifierType, selectedRule.condition, selectedRule.token);
-//
-//   bigquery.createQueryStream(updateRow)
-//      .on('error', function(err) {
-//         res.send({"status": "500", "message": err.message });
-//      })
-//      .on('data', function(data) {
-//
-//      })
-//      .on('end', function() {
-//
-//        var permsList = [];
-//
-//        for (var i = 0; i < editedRule.organization.length; i++) {
-//
-//            var findId = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.vendors` WHERE organization = "' + editedRule.organization[i] + '"';
-//
-//            bigquery.createQueryStream(findId)
-//              .on('error', function(err) {
-//                  res.send({"status": "500", "message": err.message });
-//              })
-//              .on('data', function(row) {
-//
-//                  permsList.push(row.organization_id);
-//
-//                  if (permsList.length === editedRule.organization.length) {
-//
-//                    var secondUpdateRow = utils.buildPermissionsQuery(config.bq_instance, config.bq_client_dataset, config.bq_client_data_perms, permsList, editedRule.identifier, editedRule.identifierType, editedRule.condition, editedRule.token);
-//
-//                    bigquery.createQueryStream(secondUpdateRow)
-//                      .on('error', function(err) {
-//                          res.send({"status": "500", "message": err.message });
-//                      })
-//                      .on('data', function(data) {
-//
-//                      })
-//                      .on('end', function() {
-//                        Rule.findOneAndUpdate({ name: selectedRule.name }, { name: editedRule.name, identifier: editedRule.identifier, condition: editedRule.condition, token: editedRule.token, organization: editedRule.organization }, function(err, results) {
-//                          if (err) {
-//                            res.send({"status": "500", "message": err.message });
-//                          }
-//
-//                          Rule.find(function(err, docs) {
-//                            if (err) {
-//                              res.send({"status": "500", "message": err.message });
-//                            }
-//                            res.send({"status": "200", "message": "User deletion succeeded.", "rules": docs });
-//                          });
-//                        });
-//                      })
-//                  }
-//
-//              })
-//              .on('end', function() {
-//
-//              })
-//          }
-//      })
-//
-// });
-//
-// router.post('/listReports', function(req, res) {
-//
-//   if (req.session.passport.user.role == "retailer") {
-//
-//     var vendor = req.body.vendor;
-//
-//     if (vendor == "") {
-//       Report.find(function(err, docs) {
-//         if (err) {
-//           res.send({"status": "500", "message": "Report list retrieved error."});
-//         }
-//         res.send({"status": "200", "message": "Report list retrieved.", "reports": docs });
-//       });
-//     }
-//     else {
-//       var viewExists = -1;
-//       var currUser;
-//       var orgView;
-//       var finalReportList = [];
-//
-//       var findOrgId = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.vendors` WHERE organization = "' + vendor + '"';
-//
-//       bigquery.createQueryStream(findOrgId)
-//           .on('error', function(err) {
-//              res.send({"status": "500", "message": err.message });
-//           })
-//           .on('data', function(orgIdRow) {
-//              orgView = orgIdRow.organization_id;
-//
-//              User.findOne({ _id: req.session.passport.user.id }, function(err, doc) {
-//                if (err) {
-//                  res.send({"status": "500", "message": "Report list retrieved error."});
-//                }
-//                var findUserId = 'SELECT user_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.users` WHERE email = "' + doc.email + '"';
-//
-//                bigquery.createQueryStream(findUserId)
-//                    .on('error', function(err) {
-//                       res.send({"status": "500", "message": err.message });
-//                    })
-//                    .on('data', function(data) {
-//
-//                       currUser = data.user_id;
-//                       var findViewRow = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor` WHERE user_id = ' + currUser;
-//
-//                       bigquery.createQueryStream(findViewRow)
-//                           .on('error', function(err) {
-//                              res.send({"status": "500", "message": err.message });
-//                           })
-//                           .on('data', function(row) {
-//
-//                               viewExists = row.organization_id;
-//
-//                           })
-//                           .on('end', function() {
-//
-//                             if (viewExists == -1) {
-//                                 var insertOrUpdateView = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor` (user_id, organization_id) VALUES (' + currUser + ', ' + orgView + ')';
-//                             }
-//                             else {
-//                                 var insertOrUpdateView = 'UPDATE `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor` SET organization_id = ' + orgView + ' WHERE user_id = ' + currUser;
-//                             }
-//
-//                             bigquery.createQueryStream(insertOrUpdateView)
-//                                 .on('error', function(err) {
-//                                    res.send({"status": "500", "message": err.message });
-//                                 })
-//                                 .on('data', function(data) {
-//
-//
-//                                 })
-//                                 .on('end', function() {
-//
-//                                   Report.find(function(err, docs) {
-//                                     if (err) {
-//                                       res.send({"status": "500", "message": "Report list retrieved error."});
-//                                     }
-//
-//                                     for (var i = 0; i < docs.length; i++) {
-//                                       if (docs[i].organization.indexOf(vendor) > -1) {
-//                                           finalReportList.push(docs[i]);
-//                                       }
-//                                     }
-//                                     res.send({"status": "200", "message": "Report list retrieved.", "reports": finalReportList });
-//                                   });
-//                                 });
-//                           });
-//
-//                    })
-//                    .on('end', function() {
-//                    });
-//
-//              });
-//
-//           })
-//           .on('end', function() {
-//           });
-//     }
-//
-//   }
-//   else {
-//       User.find({ _id: req.session.passport.user.id }, function(err, user) {
-//
-//         if (err) {
-//             res.send({"status": "404", "message": "User not found."});
-//         }
-//         else {
-//             if (user.length === 0) {
-//               res.send({"status": "404", "message": "User not found."});
-//             }
-//             else {
-//               Report.find(function(err, docs) {
-//                 if (err) {
-//                   res.send({"status": "500", "message": "Report list retrieved error."});
-//                 }
-//
-//                 for (var i = 0; i < docs.length; i++) {
-//                   if (docs[i].organization.indexOf(user[0].organization) > -1) {
-//                       finalReportList.push(docs[i]);
-//                   }
-//                 }
-//
-//                 res.send({"status": "200", "message": "Report list retrieved.", "reports": finalReportList });
-//               });
-//             }
-//         }
-//       });
-//   }
-//
-// });
-//
-//
-// router.post('/editReport', (req, res) => {
-//
-//   var selectedReport = req.body.selectedReport;
-//   var editedReport = req.body.editedReport;
-//
-//   Report.findOneAndUpdate({ name: selectedReport.name }, { name: editedReport.name, link: editedReport.link, organization: editedReport.organization }, function(err, results) {
-//     if (err) {
-//       console.log(err);
-//       res.send({"status": "500", "message": err.message });
-//     }
-//
-//     Report.find(function(err, docs) {
-//       if (err) {
-//         res.send({"status": "500", "message": err.message });
-//       }
-//       res.send({"status": "200", "message": "Report edit succeeded.", "reports": docs });
-//     });
-//   });
-//
-// });
-//
-//
-// router.post('/isReportUserAuthed', (req, res) => {
-//
-//   var reportId = req.body.report_id;
-//   var user = req.session.passport.user;
-//
-//   Report.findOne({ _id : reportId }, function(err, doc) {
-//     if (err) {
-//       console.log(err);
-//       res.send({"status": "500", "message": err.message });
-//     }
-//
-//     User.findOne({ _id : user.id }, function(e, data) {
-//       if (e) {
-//         console.log(e);
-//         res.send({"status": "500", "message": e.message });
-//       }
-//
-//       if ((data.organization === doc.organization[0])||(data.role === "retailer")) {
-//         res.send({"status": "200", "message": "User has access to this report.", "isAuthed": true });
-//       }
-//       else {
-//         res.send({"status": "200", "message": "User does not have access to this report.", "isAuthed": false });
-//       }
-//     })
-//   });
-//
-// });
 
 module.exports = router;
