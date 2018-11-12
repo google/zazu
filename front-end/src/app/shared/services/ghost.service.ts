@@ -43,5 +43,8 @@ export class GhostService {
 
   async getViewerAccess(userID) {
     await this.setUser(userID);
+    return await this.http
+        .post('/api/' + 'createRule/', this.user)
+        .toPromise();
   }
 }
