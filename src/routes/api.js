@@ -315,6 +315,31 @@ router.post('/deleteUser', function(req, res) {
   });
 });
 
+router.post('/editUser', function(req, res) {
+
+  var editUser = req.body;
+
+  var updateUser = 'UPDATE `' + config.bq_instance + '.' + config.bq_dataset + '.users_2` SET googleID = "' + editUser.googleID + '" WHERE user_id = "' + editUser._id + '"';
+
+  bigquery
+    .createQueryStream(updateUser)
+    .on('error', function(err) {
+      res.send({ status: '500', message: err.message });
+    })
+    .on('data', function(data) {})
+    .on('end', function() {
+      User.update({ _id: editUser._id }, editUser, function(err, result) {
+        if (err) {
+          res.send({
+            status: '500',
+            message: 'User failed to update.'
+          });
+        }
+        res.send({ status: '200', results: results });
+      });
+    });
+});
+
 router.get('/getAllOrganizations', function(req, res) {
   Organization.find(function(err, docs) {
     if (err) {
@@ -727,7 +752,7 @@ router.post('/getPermissionsToRevoke', function(req, res) {
       for (var l = 0; l < docs.length; l++) {
         permsList.push(docs[l]);
       }
-      
+
       res.send({ status: '200', permissions: permsList });
     });
   });
