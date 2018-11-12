@@ -69,7 +69,6 @@ export class EditUserComponent implements OnInit {
         this.selectedOrganizationIds.push(org._id);
       }
       this.firstFormGroup = await this.formBuilder.group({
-        role: [this.user.role, Validators.required],
         firstName: [
           this.user.firstName,
           [Validators.required, this.noWhitespaceValidator]
@@ -94,11 +93,12 @@ export class EditUserComponent implements OnInit {
           new FormControl('', Validators.required)
         );
       }
+      console.log(this.firstFormGroup);
     } catch (error) {
       console.log(error);
     }
   }
-
+  /*
   checkRole() {
     if (this.roleSelected === 'admin') {
       this.firstFormGroup.removeControl('organizations');
@@ -110,6 +110,7 @@ export class EditUserComponent implements OnInit {
       );
     }
   }
+
   adminRolePressed() {
     if (this.userRole === 'viewer') {
       this.firstFormGroup.removeControl('organizations');
@@ -126,18 +127,20 @@ export class EditUserComponent implements OnInit {
     }
     this.userRole = 'viewer';
   }
+  */
 
   /**
    * ON SUBMIT FOR CREATING NEW USER
    */
   async onSubmit() {
     try {
+      console.log('Submit Called');
       this.sending = true;
       const firstForm = this.firstFormGroup.value;
       const orgs = [];
       console.log('On Submit called');
       let newUser: UserViewModel.EditUser;
-      if (firstForm.role === 'viewer') {
+      if (this.user.role === 'viewer') {
         for (const orgID of firstForm.organizations) {
           orgs.push(
             this.organizations.find(org => {
@@ -152,18 +155,18 @@ export class EditUserComponent implements OnInit {
           googleID: firstForm.email,
           secondaryEmail: firstForm.secondaryEmail,
           organizations: orgs,
-          role: firstForm.role
+          role: this.user.role
         };
       }
-      if (firstForm.role === 'admin') {
+      if (this.user.role === 'admin') {
         newUser = {
           _id: this.userID,
           firstName: firstForm.firstName,
           lastName: firstForm.lastName,
           googleID: firstForm.email,
           secondaryEmail: firstForm.secondaryEmail,
-          organizations: this.organizations,
-          role: firstForm.role
+          organizations: this.user.organizations,
+          role: this.user.role
         };
       }
       console.log(newUser);
@@ -180,7 +183,7 @@ export class EditUserComponent implements OnInit {
 
     }
   }
-
+  /*
   openDialog() {
     const dialogRef = this.dialog.open(NewUserOrganizationConfirmation, {
       data: { orgs: '', role: 'admin' }
@@ -195,6 +198,7 @@ export class EditUserComponent implements OnInit {
       }
     });
   }
+  */
 
   public noWhitespaceValidator(control: FormControl) {
     const isWhitespace = (control.value || '').trim().length === 0;

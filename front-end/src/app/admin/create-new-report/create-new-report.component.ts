@@ -68,13 +68,10 @@ export class CreateNewReportComponent implements OnInit {
       this.reportInfoForm = this.formBuilder.group({
         name: ['', [Validators.required, this.noWhitespaceValidator]],
         link: ['', [Validators.required, this.noWhitespaceValidator]],
-        datasources: [
-          '',
-          [Validators.required, this.noDataRuleValidator.bind(this)]
-        ],
-        dataStudioSourceIDs: this.formBuilder.array(
+
+        datasources: this.formBuilder.array(
           [this.initItemRows()],
-          this.noDuplicate
+          [this.noDuplicate]
         )
       });
       this.sub = this.route.params.subscribe(params => {
@@ -91,6 +88,7 @@ export class CreateNewReportComponent implements OnInit {
         console.log(this.selectedOrg);
       }
       this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();
+      console.log(this.reportInfoForm.controls.datasources);
       console.log(this.reportInfoForm.controls.datasourceRows);
     } catch (error) {
       console.log(error);
@@ -103,14 +101,13 @@ export class CreateNewReportComponent implements OnInit {
 
   initItemRows() {
     return this.formBuilder.group({
-      id: ['', [Validators.required, this.noWhitespaceValidator]]
+      datastudio: ['', [Validators.required, this.noWhitespaceValidator]],
+      bigquery: ['', [Validators.required, this.missing.bind(this)]]
     });
   }
 
   addNewRow() {
-    const control = <FormArray>(
-      this.reportInfoForm.controls['dataStudioSourceIDs']
-    );
+    const control = <FormArray>this.reportInfoForm.controls['datasources'];
     control.push(this.initItemRows());
   }
   resetForm(formDirective: FormGroupDirective) {
@@ -120,9 +117,7 @@ export class CreateNewReportComponent implements OnInit {
   }
 
   deleteRow(index: number) {
-    const control = <FormArray>(
-      this.reportInfoForm.controls['dataStudioSourceIDs']
-    );
+    const control = <FormArray>this.reportInfoForm.controls['datasources'];
     control.removeAt(index);
   }
 
@@ -170,27 +165,45 @@ export class CreateNewReportComponent implements OnInit {
     }
   }
 
-  public noDataRuleValidator(control: FormControl): Validators {
-    this.missingRules = [];
+  public missing(control: FormControl): Validators {
     if (control.value) {
-      for (const datasource of control.value) {
         const temp = this.rules.filter(rule => {
-          return rule.datasource === datasource;
+          return rule.datasource === control.value;
         });
         if (temp.length === 0) {
-          this.missingRules.push(datasource);
+          return  { missing: true };
         }
-      }
-      if (this.missingRules.length > 0) {
-        return { missingRules: true };
-      } else {
-        return null;
-      }
     }
     return null;
   }
 
+  public noDataRuleValidator(control: FormControl): Validators {
+    console.log(control);
+    if (control.value) {
+      this.missingRules = [];
+      for (const datasource of control.value) {
+        const temp = this.rules.filter(rule => {
+          return rule.datasource === datasource.bigquery;
+        });
+        if (temp.length === 0) {
+          this.missingRules.push(datasource.bigquery);
+        }
+      }
+      console.log(this.missingRules);
+
+      if (this.missingRules.length > 0) {
+        return { missingRules: true };
+      }
+    } else {
+      return null;
+    }
+    console.log(this.missingRules);
+    return null;
+  }
+
   async onSubmit() {
+    console.log(this.reportInfoForm);
+
     this.sending = true;
     let organization;
     if (this.organizationID) {
@@ -203,19 +216,17 @@ export class CreateNewReportComponent implements OnInit {
       });
     }
     const rForm = this.reportInfoForm.value;
-    const ids = [];
-    for (const id of rForm.dataStudioSourceIDs) {
-      ids.push(id.id);
-    }
     const org = [];
     org.push(organization);
     const report: ReportViewModel.CreateNewReport = {
       name: rForm.name,
       link: rForm.link,
       datasources: rForm.datasources,
-      organizations: org,
-      dataStudioSourceIDs: ids
+      organizations: org
     };
+
+    console.log(report);
+    /*
     try {
       const status = await (<any>this.reportService.createNewReport(report));
       if (status.status === '200') {
@@ -233,5 +244,6 @@ export class CreateNewReportComponent implements OnInit {
       this.sending = false;
     }
     console.log(report);
+    */
   }
 }
