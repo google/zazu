@@ -67,9 +67,14 @@ export class DatarulesService {
    * Edit data rule
    * @param datarule - datarule object
    */
-  public async editDataRule(datarule: DataViewModel.EditDataRule) {
+  public async editDataRule(newRule: DataViewModel.EditDataRule, oldRule: DataViewModel.DataRule) {
+    const parameter =  {
+      newRule: newRule,
+      oldRule: oldRule,
+    };
+    console.log(parameter);
     if (await this.authService.canSend()) {
-      return await this.http.post(this.URL + 'editRule/', datarule).toPromise();
+      return await this.http.post(this.URL + 'editRule/', parameter).toPromise();
     } else {
       return await {
         status: '403',

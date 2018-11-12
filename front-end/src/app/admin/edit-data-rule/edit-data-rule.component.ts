@@ -37,6 +37,7 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
   dataRuleId;
   organization;
   sending = false;
+  oldRule;
 
   tooltip = {
     name: 'Give this data rule a name.  This is helpful later if you choose to edit or delete data rules.',
@@ -58,6 +59,7 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
       this.dataRule = this.dataRules.find(element => {
         return element._id === this.dataRuleId;
       });
+      this.oldRule = this.dataRule;
       this.datasources = await this.datarulesService.getDataSources();
       this.identifiers = await this.dataruleService.getIdentifiers(
         this.dataRule.datasource
@@ -100,7 +102,7 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
     try {
       this.sending = true;
       const form = this.dataruleFormGroup.value;
-      const datarule = {
+      const newRule = {
         _id: this.dataRuleId,
         name: form.name,
         datasource: String(this.dataRule.datasource),
@@ -109,8 +111,7 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
         token: form.token,
         organization: this.dataRule.organization
       };
-      const status = await (<any>this.dataruleService.editDataRule(datarule));
-      console.log(datarule);
+      const status = await (<any>this.dataruleService.editDataRule(newRule, this.oldRule));
       if (status.status === '200') {
         await this.router.navigate(['../../'], {
           relativeTo: this.route,
