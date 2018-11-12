@@ -10,6 +10,8 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 
+
+
 module.exports = {
     bq_instance:  process.env.bq_instance,
     bq_dataset: process.env.bq_dataset,
