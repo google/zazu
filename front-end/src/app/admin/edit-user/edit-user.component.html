@@ -4,28 +4,9 @@
       <h2 class="title">Edit User: <span class="input-header"> {{user.firstName}}   {{user.lastName}}    </span></h2>
       <hr>
             <form [formGroup]="firstFormGroup" (ngSubmit)="onSubmit()">
-              <ng-template matStepLabel>Fill out your name</ng-template>
-              <div class="row">
-                <h4 class="input-header"> Viewer for <span *ngFor="let org of user.organizations; let i = index">{{org.name}}<span *ngIf="i < user.organizations.length -1">,</span> &nbsp;</span></h4>
-                <i class="material-icons form-icon">
-                  business
-                </i>
-                <mat-form-field appearance="fill" style="width:80%">
-                  <mat-label>Role</mat-label>
-                  <mat-select formControlName="role" [(value)]="roleSelected" >
-                    <mat-option value="admin" (click)="openDialog()">Admin</mat-option>
-                    <mat-option value="viewer" (click)="viewerCalled()">Viewer</mat-option>
-                  </mat-select>
-                  <mat-error>
-                      Role is <strong>required</strong>
-                    </mat-error>
-                </mat-form-field>
-                <i class="material-icons info-icon" matTooltip="{{tooltip.role}}">
-                  info
-                </i>
-              </div>
-
-              <div class="row" *ngIf="firstFormGroup.value.role === 'viewer'">
+              <h4 class="input-header" *ngIf="user.role === 'viewer'"> Viewer for <span *ngFor="let org of user.organizations; let i = index">{{org.name}}<span *ngIf="i < user.organizations.length -1">,</span> &nbsp;</span></h4>
+              <h4 class="input-header" *ngIf="user.role === 'admin'"> Admin</h4>
+              <div class="row" *ngIf="user.role === 'viewer'">
                 <i class="material-icons form-icon">
                   business
                 </i>
