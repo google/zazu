@@ -74,7 +74,7 @@ export class DatarulesService {
     };
     console.log(parameter);
     if (await this.authService.canSend()) {
-      return await this.http.post(this.URL + 'editRule/', parameter).toPromise();
+      return await this.http.post('/api/' + 'editRule/', parameter).toPromise();
     } else {
       return await {
         status: '403',

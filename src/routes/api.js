@@ -316,6 +316,7 @@ router.post('/deleteUser', function(req, res) {
 });
 
 router.post('/editUser', function(req, res) {
+  // TODO: when googleID is edited, report sharing needs to be updated.
 
   var editUser = req.body;
 
@@ -328,14 +329,14 @@ router.post('/editUser', function(req, res) {
     })
     .on('data', function(data) {})
     .on('end', function() {
-      User.update({ _id: editUser._id }, editUser, function(err, result) {
+      User.updateOne({ _id: editUser._id }, editUser, function(err, result) {
         if (err) {
           res.send({
             status: '500',
             message: 'User failed to update.'
           });
         }
-        res.send({ status: '200', results: results });
+        res.send({ status: '200', results: result });
       });
     });
 });
@@ -915,6 +916,43 @@ router.post('/deleteRule', (req, res) => {
         );
       });
     });
+});
+
+router.post('/editRule', (req, res) => {
+
+  var oldRule = req.body.oldRule;
+  var newRule = req.body.newRule;
+
+  var updateRow = utils.buildPermissionsQuery(config.bq_instance, config.bq_client_dataset, config.bq_client_data_perms, [""], oldRule.identifier, oldRule.identifierType, oldRule.condition, oldRule.token);
+
+  bigquery.createQueryStream(updateRow)
+     .on('error', function(err) {
+        res.send({"status": "500", "message": err.message });
+     })
+     .on('data', function(data) {
+
+     })
+     .on('end', function() {
+
+        var secondUpdateRow = utils.buildPermissionsQuery(config.bq_instance, config.bq_client_dataset, config.bq_client_data_perms, [newRule.organization._id], newRule.identifier, newRule.identifierType, newRule.condition, newRule.token);
+
+        bigquery.createQueryStream(secondUpdateRow)
+          .on('error', function(err) {
+            res.send({"status": "500", "message": err.message });
+        })
+        .on('data', function(data) {
+
+        })
+        .on('end', function() {
+          Rule.updateOne({ _id: oldRule._id }, { name: newRule.name, identifier: newRule.identifier, condition: newRule.condition, token: newRule.token, organization: newRule.organization }, function(err, results) {
+            if (err) {
+              res.send({"status": "500", "message": err.message });
+            }
+
+            res.send({"status": "200", "message": "Rule edited successfully." });
+          })
+        });
+     });
 });
 
 // route middleware to make sure a user is logged in
