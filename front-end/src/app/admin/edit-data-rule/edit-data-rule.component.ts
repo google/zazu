@@ -38,6 +38,7 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
   organization;
   sending = false;
   oldRule;
+  initiated = false;
 
   tooltip = {
     name: 'Give this data rule a name.  This is helpful later if you choose to edit or delete data rules.',
@@ -59,6 +60,7 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
       this.dataRule = this.dataRules.find(element => {
         return element._id === this.dataRuleId;
       });
+      console.log(this.dataRule);
       this.oldRule = this.dataRule;
       this.datasources = await this.datarulesService.getDataSources();
       this.identifiers = await this.dataruleService.getIdentifiers(
@@ -76,9 +78,8 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
           [Validators.required, this.noWhitespaceValidator]
         ]
       });
-      this.organization = await this.organizationService.getLocalOrganization(
-        this.organizationId
-      );
+
+      this.initiated = true;
     } catch (error) {
       console.log(error);
     }

@@ -251,7 +251,7 @@ export class EditReportComponent implements OnInit {
   }
 
   async onSubmit() {
-    // this.sending = true;
+    this.sending = true;
     try {
       const rForm = this.reportInfoForm.value;
       const newReport: ReportViewModel.EditReport = {

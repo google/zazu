@@ -1,11 +1,11 @@
-<div class="form-container" *ngIf="!sending">
+<div class="form-container" [ngClass]="{'disable-display': sending}" *ngIf="initiated">
   <div class="card">
     <div class="form">
       <form [formGroup]="dataruleFormGroup" *ngIf="dataruleFormGroup && dataRule" (ngSubmit)="onSubmit()">
         <h2 class="title">Edit Data Rule: <span class="input-header">{{dataRule.name}} </span> </h2>
         <hr>
         <div class="row">
-          <h4 class="input-header"> Editing rule for {{organization.name}}</h4>
+          <h4 class="input-header"> Editing rule for {{dataRule.organization.name}}</h4>
           <h4 class="input-header"> Data Source:  {{dataRule.datasource}}</h4>
           <i class="material-icons form-icon">
             dns
@@ -84,7 +84,7 @@
   </div>
 </div>
 
-<div *ngIf="sending" class="spinner-container">
+<div [ngClass]="{'disable-display': !sending}" class="spinner-container">
   <mat-spinner class="spinner"></mat-spinner>
   <h3 class="title">Editing Information</h3>
   <p >Please wait</p>
