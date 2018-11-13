@@ -79,6 +79,8 @@ router.get('/getUsersByOrganization/:id', function(req, res) {
 });
 
 router.post('/createNewUser', function(req, res) {
+  // TODO: Share all reports.
+
   var newUser = req.body;
 
   User.create(newUser, function(err, results) {
@@ -238,6 +240,8 @@ router.post('/createNewUser', function(req, res) {
 });
 
 router.post('/deleteUser', function(req, res) {
+  // TODO: Unshare all reports.
+
   var deleteUser = req.body;
 
   User.deleteOne({ _id: deleteUser._id }, function(err, results) {
@@ -316,7 +320,7 @@ router.post('/deleteUser', function(req, res) {
 });
 
 router.post('/editUser', function(req, res) {
-  // TODO: when googleID is edited, report sharing needs to be updated.
+  // TODO: Tell Eldon to disable primary email edit and also handle org edits.
 
   var editUser = req.body;
 
@@ -636,9 +640,9 @@ router.get('/getReportByUser/:id', function(req, res) {
   });
 });
 
-router.get('/getUserView/:user', function(req, res) {
+router.post('/getUserView', function(req, res) {
 
-  var userObj = req.params.user;
+  var userObj = req.body;
   var viewExists = "-1";
 
   User.find({ _id: userObj._id }, function(err1, res1){
@@ -646,46 +650,44 @@ router.get('/getUserView/:user', function(req, res) {
         res.send({ status: '500', message: 'Retrieving ghost view error.' });
       }
 
-      var orgId = res1[0].organization._id;
-
-      var findViewRow = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor` WHERE user_id = ' + userObj._id;
-
-      bigquery.createQueryStream(findViewRow)
-          .on('error', function(err) {
-             res.send({"status": "500", "message": err.message });
-          })
-          .on('data', function(row) {
-
-              viewExists = row.organization_id;
-
-          })
-          .on('end', function() {
-
-            if (viewExists == "-1") {
-                var insertOrUpdateView = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor` (user_id, organization_id) VALUES (' + userObj._id + ', ' + userObj.organization._id + ')';
-            }
-            else {
-                var insertOrUpdateView = 'UPDATE `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor` SET organization_id = ' + userObj.organization._id + ' WHERE user_id = ' + userObj._id;
-            }
-
-            bigquery.createQueryStream(insertOrUpdateView)
-                .on('error', function(err) {
-                   res.send({"status": "500", "message": err.message });
-                })
-                .on('data', function(data) {
-
-                })
-                .on('end', function() {
-
-                  Report.find({ organizations: { $elemMatch: { _id : userObj.organization._id } } }, function(err, docs) {
-                    if (err) {
-                      res.send({"status": "500", "message": "Report list retrieved error."});
-                    }
-
-                    res.send(docs);
-                  });
-                });
-          });
+      // var findViewRow = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor` WHERE user_id = ' + userObj._id;
+      //
+      // bigquery.createQueryStream(findViewRow)
+      //     .on('error', function(err) {
+      //        res.send({"status": "500", "message": err.message });
+      //     })
+      //     .on('data', function(row) {
+      //
+      //         viewExists = row.organization_id;
+      //
+      //     })
+      //     .on('end', function() {
+      //
+      //       if (viewExists == "-1") {
+      //           var insertOrUpdateView = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor` (user_id, organization_id) VALUES (' + userObj._id + ', ' + userObj.organization._id + ')';
+      //       }
+      //       else {
+      //           var insertOrUpdateView = 'UPDATE `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor` SET organization_id = ' + userObj.organization._id + ' WHERE user_id = ' + userObj._id;
+      //       }
+      //
+      //       bigquery.createQueryStream(insertOrUpdateView)
+      //           .on('error', function(err) {
+      //              res.send({"status": "500", "message": err.message });
+      //           })
+      //           .on('data', function(data) {
+      //
+      //           })
+      //           .on('end', function() {
+      //
+      //             Report.find({ organizations: { $elemMatch: { _id : userObj.organization._id } } }, function(err, docs) {
+      //               if (err) {
+      //                 res.send({"status": "500", "message": "Report list retrieved error."});
+      //               }
+      //
+      //               res.send(docs);
+      //             });
+      //           });
+      //     });
   });
 });
 
@@ -707,8 +709,8 @@ router.post('/createReport', function(req, res) {
       var file_id = extract_id.toString().split('/')[1];
 
       var filesIdList = [file_id];
-      for (var i = 0; i < newReport.dataStudioSourceIDs.length; i++) {
-        var datasourcelink = newReport.dataStudioSourceIDs[i];
+      for (var i = 0; i < deleteReport.datasources.length; i++) {
+        var datasourcelink = deleteReport.datasources[i].datastudio;
         var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
         var datasource_id = extract_ds_link.toString().split('/')[1];
 
@@ -775,8 +777,8 @@ router.post('/getPermissionsToRevoke', function(req, res) {
   var file_id = extract_id.toString().split('/')[1];
 
   var filesIdList = [file_id];
-  for (var i = 0; i < deleteReport.dataStudioSourceIDs.length; i++) {
-    var datasourcelink = deleteReport.dataStudioSourceIDs[i];
+  for (var i = 0; i < deleteReport.datasources.length; i++) {
+    var datasourcelink = deleteReport.datasources[i].datastudio;
     var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
     var datasource_id = extract_ds_link.toString().split('/')[1];
 
@@ -831,8 +833,8 @@ router.post('/deleteReport', function(req, res) {
       var file_id = extract_id.toString().split('/')[1];
 
       var filesIdList = [file_id];
-      for (var i = 0; i < deleteReport.dataStudioSourceIDs.length; i++) {
-        var datasourcelink = deleteReport.dataStudioSourceIDs[i];
+      for (var i = 0; i < deleteReport.datasources.length; i++) {
+        var datasourcelink = deleteReport.datasources[i].datastudio;
         var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
         var datasource_id = extract_ds_link.toString().split('/')[1];
 
@@ -869,7 +871,7 @@ router.post('/deleteReport', function(req, res) {
     });
 });
 
-router.post('/editReport', (req, res) => {
+router.post('/editReport', function(req, res) {
 
   var oldReport = req.body.oldReport;
   var newReport = req.body.newReport;
@@ -884,6 +886,39 @@ router.post('/editReport', (req, res) => {
 
 });
 
+router.post('/shareReport', function(req, res) {
+
+  var reportToShare = req.body;
+
+  var orgList = reportToShare.organizations;
+  var file_url = reportToShare.link;
+  var extract_id = file_url.match(/reporting\/.*\/page/i);
+  var file_id = extract_id.toString().split('/')[1];
+
+  var filesIdList = [file_id];
+  for (var i = 0; i < reportToShare.datasources.length; i++) {
+    var datasourcelink = reportToShare.datasources[i].datastudio;
+    var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
+    var datasource_id = extract_ds_link.toString().split('/')[1];
+
+    filesIdList.push(datasource_id);
+  }
+
+    utils.shareReport(filesIdList, permissions, 1, function(ret) {
+      if (ret === 1) {
+        console.log("Report sharing failed.");
+        var result = 1;
+      }
+      else {
+        console.log("Report shared successfully.");
+      }
+    });
+
+    if (result === 1) {
+      res.send({"status": "500", "message": "Sharing report error."});
+    }
+
+});
 
 router.get('/getDataRules/:orgid', function(req, res) {
   var rulesByOrg = [];
