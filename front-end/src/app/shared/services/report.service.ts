@@ -209,6 +209,8 @@ export class ReportService {
       report: report,
       organization: org,
     };
+    console.log(param);
+    /*
     if (await this.authService.canSend()) {
       return await this.http
         .post('/api' + '/shareReport/', param)
@@ -219,6 +221,7 @@ export class ReportService {
         message: 'You do not have permission to perform this action'
       };
     }
+    */
   }
 
   /**
@@ -242,18 +245,19 @@ export class ReportService {
 
   /**
    * Delete Organization Acccess for this report
-   * @param reportID - Report ID
-   * @param orgID - Organization ID of the organization in which should have their access revoked for this report
+   * @param report - the report object you want to revoke access too
+   * @param org - organization object you want to unshare the report to
    */
-  public async deleteOrgAccess(reportID, orgID) {
+  public async deleteOrgAccess(report, org, permissions) {
     const params = {
-      reportID: reportID,
-      orgID: orgID
+      report: report,
+      organization: org,
+      permissions: permissions
     };
-    console.log('Delete Access for ' + JSON.stringify(params));
+    console.log('Delete Access');
     if (await this.authService.canSend()) {
       return await this.http
-        .post('/api' + '/deleteOrgAccess/', params)
+        .post('/api' + '/unshareReport/', params)
         .toPromise();
     } else {
       return await {
@@ -290,11 +294,27 @@ export class ReportService {
    * To retrieve the list of file permissions to be revoked
    */
   public async getPermissionsToRevoke(
-    report: ReportViewModel.ReportWithMetaData
+    report,
+    organization
   ) {
     if (await this.authService.canSend()) {
       console.log('Getting permissions called...');
-      return await this.http.post('/api/' + 'getPermissionsToRevoke/', report).toPromise();
+      // for unsharing report  organizaiton
+      if (organization !=  null) {
+        const params = {
+          report: report,
+          organization: organization
+        };
+        return await this.http.post('/api/' + 'getPermissionsToRevoke/', params).toPromise();
+      } else {
+        // for delete report
+        const params = {
+          report: report,
+          organization: null
+        };
+        return await this.http.post('/api/' + 'getPermissionsToRevoke/', params).toPromise();
+      }
+
     } else {
       return await {
         status: '403',

@@ -1,15 +1,10 @@
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
 import { ReportService } from 'src/app/shared/services/report.service';
 import { OrganizationService } from './../../shared/services/organization.service';
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, Inject } from '@angular/core';
 import * as ReportViewModel from '../../shared/view-models/report.viewmodel';
 import * as OrganizationViewModel from './../../shared/view-models/organization.viewmodel';
-import {
-  FormControl,
-  FormBuilder,
-  Validators,
-  FormArray
-} from '@angular/forms';
+import { FormControl, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { FormGroup } from '@angular/forms';
@@ -26,7 +21,8 @@ export class EditReportAccessComponent implements OnInit {
     private reportService: ReportService,
     private route: ActivatedRoute,
     private router: Router,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
+    public dialog: MatDialog
   ) {}
 
   filteredOptions: Observable<string[]>;
@@ -38,6 +34,7 @@ export class EditReportAccessComponent implements OnInit {
   reportID;
   sending = false;
   organizationID;
+  permissions;
   async ngOnInit() {
     try {
       this.sub = await this.route.params.subscribe(params => {
@@ -49,7 +46,6 @@ export class EditReportAccessComponent implements OnInit {
       this.accessForm = await this._fb.group({
         selectedOrganization: ['', Validators.required]
       });
-
     } catch (error) {
       console.log(error);
     }
@@ -59,14 +55,36 @@ export class EditReportAccessComponent implements OnInit {
     return this.accessForm.controls;
   }
 
+  async openDialog() {
+    const temp = this.accessForm.value;
+    const org = this.organizations.find(x => {
+      return x._id === temp.selectedOrganization;
+    });
+    try {
+      this.permissions = await this.reportService.getPermissionsToRevoke(this.report, org);
+    } catch (error) {}
+    const dialogRef = this.dialog.open(RevokeAccessConfirmation, {
+      data: { organization: org.name, report: this.report.name }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.onSubmit();
+      }
+    });
+  }
 
   async onSubmit() {
+    this.sending = true;
     try {
       const temp = this.accessForm.value;
-      const org = this.organizations.find( x => {
+      const org = this.organizations.find(x => {
         return x._id === temp.selectedOrganization;
       });
-      const status = <any>await this.reportService.deleteOrgAccess(this.report, org);
+      console.log(org);
+      console.log(this.report);
+
+      const status = <any>await this.reportService.deleteOrgAccess(this.report, org, this.permissions);
       if (status.status === '200') {
         if (this.organizationID) {
           await this.router.navigate(['../r', status.reportID], {
@@ -86,6 +104,7 @@ export class EditReportAccessComponent implements OnInit {
           duration: 5000
         });
       }
+
     } catch (error) {
       this.sending = false;
       this.snackBar.open('Error occured', 'Dismiss', {
@@ -97,5 +116,17 @@ export class EditReportAccessComponent implements OnInit {
 
   public getForm() {
     return this.accessForm;
+  }
+}
+
+@Component({
+  selector: 'revoke-access-confirmation',
+  templateUrl: 'revoke-access-confirmation.html'
+})
+export class RevokeAccessConfirmation {
+  constructor(public dialogRef: MatDialogRef<RevokeAccessConfirmation>, @Inject(MAT_DIALOG_DATA) public data) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

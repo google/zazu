@@ -100,6 +100,9 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
         const status = await <any>this.reportService.deleteReport(this.report, this.permissions.permissions);
         console.log(status);
         if (status.status === '200') {
+          this.snackBar.open('Report Deleted: ' + this.report.name, 'Dismiss', {
+            duration: 5000,
+          });
           this.router.navigate(['../../'], { relativeTo: this.route, queryParams: { selectedOrg: this.selectedOrgID} });
         } else {
           this.snackBar.open('Error: ' + status.message, 'Dismiss', {
@@ -111,7 +114,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
   }
 
   async getPermissions() {
-    return await this.reportService.getPermissionsToRevoke(this.report);
+    return await this.reportService.getPermissionsToRevoke(this.report, null);
   }
 
   ngOnDestroy() {

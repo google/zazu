@@ -7,7 +7,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as UserViewModel from '../../shared/view-models/user.viewmodel';
 import * as ReportViewModel from '../../shared/view-models/report.viewmodel';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-user-details',
@@ -24,7 +24,7 @@ export class UserDetailsComponent implements OnInit {
     public dialog: MatDialog,
     private ghostsService: GhostService,
     private viewerService: ViewerService,
-
+    public snackBar: MatSnackBar,
   ) {}
 
   sub: any;
@@ -37,6 +37,7 @@ export class UserDetailsComponent implements OnInit {
   viewInitialized = false;
   new = false;
   edited = false;
+  permissions;
   async ngOnInit() {
     try {
       this.sub = this.route.params.subscribe(params => {
@@ -92,17 +93,32 @@ export class UserDetailsComponent implements OnInit {
     this.router.navigate(['./r', report.reportID], { relativeTo: this.route, queryParams: { selectedOrg: report.orgID} } );
   }
 
-  openDialog() {
-    const user = this.user.firstName + ' ' + this.user.lastName;
-    const dialogRef = this.dialog.open(DeleteUserConfirmation, {
-      data: { user: user }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.userService.deleteUser(this.user);
-        this.router.navigate(['../../'], { relativeTo: this.route , queryParams: {deletedUser: this.user.firstName}});
-      }
-    });
+  async openDialog() {
+    try {
+      this.permissions = await this.userService.getPermissionsToRevokeUser(this.user);
+      const user = this.user.firstName + ' ' + this.user.lastName;
+      const dialogRef = this.dialog.open(DeleteUserConfirmation, {
+        data: { user: user }
+      });
+      dialogRef.afterClosed().subscribe(async result => {
+        if (result) {
+          const status = await <any>this.userService.deleteUser(this.user, this.permissions);
+          if (status.status === '200') {
+            this.router.navigate(['../../'], { relativeTo: this.route , queryParams: {deletedUser: this.user.firstName}});
+            this.snackBar.open('User Deleted: ' + this.user.firstName + ' ' + this.user.lastName, 'Dismiss', {
+              duration: 5000,
+            });
+          } else {
+            this.snackBar.open('Derror ' + status.message, 'Dismiss', {
+              duration: 5000,
+            });
+          }
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
   }
 }
 

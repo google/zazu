@@ -47,7 +47,7 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 import { EditReportComponent } from './edit-report/edit-report.component';
 import { SharedModule } from '../shared/shared.module';
 import { GhostComponent } from './ghost/ghost.component';
-import { EditReportAccessComponent } from './edit-report-access/edit-report-access.component';
+import { EditReportAccessComponent, RevokeAccessConfirmation } from './edit-report-access/edit-report-access.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +87,7 @@ import { EditReportAccessComponent } from './edit-report-access/edit-report-acce
     EditReportAccessComponent,
     NewReportChoice,
     DeleteOrganizationWarning,
+    RevokeAccessConfirmation
   ],
   imports: [
     CommonModule,
@@ -103,6 +104,7 @@ import { EditReportAccessComponent } from './edit-report-access/edit-report-acce
     DeleteDataruleConfirmation,
     NewReportChoice,
     DeleteOrganizationWarning,
+    RevokeAccessConfirmation
 
   ]
 })

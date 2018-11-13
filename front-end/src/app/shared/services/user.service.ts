@@ -19,9 +19,7 @@ export class UserService {
    *  Method for getting all users for all organizations
    */
   public async getAllUsers(): Promise<UserViewModel.SimpleUserView[]> {
-    return await this.http
-      .get<UserViewModel.SimpleUserView[]>('/api' + '/getAllUsers')
-      .toPromise();
+    return await this.http.get<UserViewModel.SimpleUserView[]>('/api' + '/getAllUsers').toPromise();
   }
 
   /**
@@ -30,9 +28,7 @@ export class UserService {
    */
   public async getUser(id): Promise<UserViewModel.User> {
     console.log(id);
-    return await this.http
-      .get<UserViewModel.User>('/api' + '/getAllUsers/' + id)
-      .toPromise();
+    return await this.http.get<UserViewModel.User>('/api' + '/getAllUsers/' + id).toPromise();
   }
 
   /**
@@ -40,9 +36,7 @@ export class UserService {
    * @param orgId -  ID of the organization you want to get all users
    */
   public async getUsersByOrganization(orgId) {
-    return await this.http
-      .get<UserViewModel.SimpleUserView[]>(this.URL + 'user-list.mockdata.json')
-      .toPromise();
+    return await this.http.get<UserViewModel.SimpleUserView[]>(this.URL + 'user-list.mockdata.json').toPromise();
   }
   //  await ((this.http.get<UserViewModel.SimpleUserView[]>(this.URL + 'user-list.mockdata.json')).toPromise());
 
@@ -89,9 +83,26 @@ export class UserService {
    * Delete user
    * @param user - user object you want to dlete
    */
-  public async deleteUser(user) {
+  public async deleteUser(user, permissions) {
+    const params = {
+      user: user,
+      permissions: permissions
+    };
     if (await this.authService.canSend()) {
-      return await this.http.post('/api/' + 'deleteUser/', user).toPromise();
+      return await this.http.post('/api/' + 'deleteUser/', params).toPromise();
+    } else {
+      return await {
+        status: '403',
+        message: 'You do not have permission to perform this action'
+      };
+    }
+  }
+
+  public async getPermissionsToRevokeUser(user) {
+    if (await this.authService.canSend()) {
+      console.log('Getting permissions called...');
+      // for unsharing report  organizaiton
+      return await this.http.post('/api/' + 'getPermissionsToRevokeUser/', user).toPromise();
     } else {
       return await {
         status: '403',

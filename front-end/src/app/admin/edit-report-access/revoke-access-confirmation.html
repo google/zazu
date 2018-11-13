@@ -1,0 +1,23 @@
+<div class="dialog">
+  <h2 class="title">Remove Report Access</h2>
+  <div mat-dialog-content>
+    <h4 class="subtitle" style="font-weight: 400">
+      Remove access to <strong>{{ data.report }}</strong> for <strong>{{ data.organization }}</strong>?
+    </h4>
+    <p>
+      Removing organization access for this report means this organization won't be able to view this report anymore.
+    </p>
+  </div>
+  <div mat-dialog-actions style="float:right">
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button
+      mat-button
+      mat-flat-button
+      [mat-dialog-close]="true"
+      class="primary"
+      cdkFocusInitial
+    >
+      Continue
+    </button>
+  </div>
+</div>
