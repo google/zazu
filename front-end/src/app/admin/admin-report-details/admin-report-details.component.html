@@ -61,7 +61,7 @@
 
           <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="editReport()">Edit Info</button>
-            <button mat-menu-item routerLink="./edit-access" *ngIf="report.organizations.length > 1">Edit Access </button>
+            <button mat-menu-item routerLink="./edit-access" *ngIf="report.organizations.length > 1" >Edit Access </button>
             <button mat-menu-item (click)="openDialog()">Delete</button>
           </mat-menu>
         </div>

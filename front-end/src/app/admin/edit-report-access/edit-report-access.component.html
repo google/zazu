@@ -2,7 +2,7 @@
   <div class="card">
     <div class="form" *ngIf="accessForm">
       <!-- *********************************  -->
-      <form [formGroup]="accessForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="accessForm" (ngSubmit)="openDialog()">
         <h2 class="title"> Edit Report: <span class="input-header">Removing Organization Access</span></h2>
         <hr>
         <h4 style="margin-bottom: 5px" class="input-header"> Please select which organization should have their access revoked for this report <i class="material-icons info-icon">
