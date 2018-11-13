@@ -125,7 +125,7 @@ export class ReportService {
    */
   public async getReport(reportID, orgID) {
     const raw = await this.http
-      .get<ReportViewModel.SimpleRawReport[]>('/api' + '/getAllReports')
+      .get<ReportViewModel.ReportWithMetaData[]>('/api' + '/getAllReports')
       .toPromise();
 
     const report = raw.find(element => {
@@ -200,13 +200,18 @@ export class ReportService {
 
   /**
    * Share report by giving an organization access to it
-   * @param report - the updated report object with new organization
+   * @param report - the report object you want to share
+   * @param org - organization object you want to share the report with
    */
-  public async shareReport(report) {
-    console.log('Share Access for ' + JSON.stringify(report));
+  public async shareReport(report, org) {
+    console.log('Share Access');
+    const param = {
+      report: report,
+      organization: org,
+    };
     if (await this.authService.canSend()) {
       return await this.http
-        .post(this.URL + 'shareReport/', report)
+        .post('/api' + '/shareReport/', param)
         .toPromise();
     } else {
       return await {
@@ -220,9 +225,13 @@ export class ReportService {
    * Editing Report
    * @param report - report object
    */
-  public async editReport(report: ReportViewModel.EditReport) {
+  public async editReport(oldReport, newReport) {
+    const params = {
+      oldReport: oldReport,
+      newReport: newReport
+    };
     if (await this.authService.canSend()) {
-      return await this.http.post('/api/' + 'editReport/', report).toPromise();
+      return await this.http.post('/api/' + 'editReport/', params).toPromise();
     } else {
       return await {
         status: '403',
@@ -244,7 +253,7 @@ export class ReportService {
     console.log('Delete Access for ' + JSON.stringify(params));
     if (await this.authService.canSend()) {
       return await this.http
-        .post(this.URL + 'deleteOrgAccess/', params)
+        .post('/api' + '/deleteOrgAccess/', params)
         .toPromise();
     } else {
       return await {
@@ -292,5 +301,9 @@ export class ReportService {
         message: 'You do not have permission to perform this action'
       };
     }
+  }
+
+  public async getReportMock() {
+    return await this.http.get('../../../assets/example-data/report-mock.mockdata.json').toPromise();
   }
 }

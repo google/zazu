@@ -1,4 +1,4 @@
-<div class="form-container">
+<div class="form-container" [ngClass]="{'disable-display': sending}">
   <div class="card">
     <div class="form">
       <h2 class="title"> Share Report</h2>
@@ -100,4 +100,10 @@
       </mat-horizontal-stepper>
     </div>
   </div>
+</div>
+
+<div [ngClass]="{'disable-display': !sending}"class="spinner-container">
+  <mat-spinner class="spinner"></mat-spinner>
+  <h3 class="title">Creating New Data Rule</h3>
+  <p >Please wait</p>
 </div>

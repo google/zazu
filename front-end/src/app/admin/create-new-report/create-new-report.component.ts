@@ -45,7 +45,7 @@ export class CreateNewReportComponent implements OnInit {
   sub: any;
   sending = false;
   missingRules = [];
-
+  duplicated = [];
   tooltip = {
     organization:
       'A report must be linked to one an organizations.  Note you can always update permissions later for which organizations can access the report.',
@@ -71,7 +71,7 @@ export class CreateNewReportComponent implements OnInit {
 
         datasources: this.formBuilder.array(
           [this.initItemRows()],
-          [this.noDuplicate]
+          [this.noDuplicate.bind(this)]
         )
       });
       this.sub = this.route.params.subscribe(params => {
@@ -85,13 +85,9 @@ export class CreateNewReportComponent implements OnInit {
         this.rules = await this.datarulesService.getDataRules(
           this.organizationID
         );
-        console.log(this.selectedOrg);
       }
       this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();
-      console.log(this.reportInfoForm.controls.datasources);
-      console.log(this.reportInfoForm.controls.datasourceRows);
     } catch (error) {
-      console.log(error);
     }
   }
 
@@ -126,7 +122,6 @@ export class CreateNewReportComponent implements OnInit {
   }
 
   async selectOrg() {
-    console.log('selected org called');
     try {
       this.selectedOrg = this.organizations.find(org => {
         return org._id === this.orgForm.value.organization;
@@ -134,7 +129,6 @@ export class CreateNewReportComponent implements OnInit {
       this.rules = await this.datarulesService.getDataRules(
         this.selectedOrg._id
       );
-      console.log(this.rules);
     } catch (error) {
       console.log(error);
     }
@@ -147,19 +141,24 @@ export class CreateNewReportComponent implements OnInit {
   }
 
   public noDuplicate(array): Validators {
-    if (array.errors) {
-      console.log(array.errors.duplicate);
-    }
     if (array.value) {
+      this.duplicated = [];
       const temp = [];
-      for (const id of array.value) {
-        if (!temp.includes(id.id)) {
-          if (id.id !== '') {
-            temp.push(id.id);
+      for (const datasource of array.value) {
+        if (! temp.includes(datasource.bigquery)) {
+          if (datasource.bigquery !== '') {
+            temp.push(datasource.bigquery);
           }
         } else {
-          return { duplicate: true };
+          if (!this.duplicated.includes(datasource.bigquery)) {
+            if (datasource.bigquery !== '') {
+              this.duplicated.push(datasource.bigquery);
+            }
+          }
         }
+      }
+      if (this.duplicated.length > 0) {
+        return { duplicate: true };
       }
       return null;
     }
@@ -172,13 +171,14 @@ export class CreateNewReportComponent implements OnInit {
         });
         if (temp.length === 0) {
           return  { missing: true };
+        } else {
+          return null;
         }
     }
     return null;
   }
 
   public noDataRuleValidator(control: FormControl): Validators {
-    console.log(control);
     if (control.value) {
       this.missingRules = [];
       for (const datasource of control.value) {
@@ -189,21 +189,16 @@ export class CreateNewReportComponent implements OnInit {
           this.missingRules.push(datasource.bigquery);
         }
       }
-      console.log(this.missingRules);
-
       if (this.missingRules.length > 0) {
         return { missingRules: true };
       }
     } else {
       return null;
     }
-    console.log(this.missingRules);
     return null;
   }
 
   async onSubmit() {
-    console.log(this.reportInfoForm);
-
     this.sending = true;
     let organization;
     if (this.organizationID) {
@@ -224,26 +219,31 @@ export class CreateNewReportComponent implements OnInit {
       datasources: rForm.datasources,
       organizations: org
     };
-
     console.log(report);
-    /*
     try {
       const status = await (<any>this.reportService.createNewReport(report));
       if (status.status === '200') {
-        await this.router.navigate(['../', status.reportID], {
-          relativeTo: this.route,
-          queryParams: { new: 'new' }
-        });
+        if (this.organizationID) {
+          await this.router.navigate(['../r', status.reportID], {
+            relativeTo: this.route,
+            queryParams: { new: 'new' }
+          });
+        } else {
+          await this.router.navigate(['../../r', status.reportID], {
+            relativeTo: this.route,
+            queryParams: { new: 'new' }
+          });
+        }
       } else {
+        console.log(status);
         this.sending = false;
         this.snackBar.open('Error: ' + status.message, 'Dismiss', {
           duration: 5000
         });
       }
     } catch (error) {
+      console.log(error);
       this.sending = false;
     }
-    console.log(report);
-    */
   }
 }

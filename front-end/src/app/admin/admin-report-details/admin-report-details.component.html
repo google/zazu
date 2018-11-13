@@ -70,10 +70,7 @@
         <p>Organization: <span class="info">{{selectedOrg.name}} </span></p>
         <p>Date: <span class="info"> {{report.created_at | date }}</span> </p>
         <p>Datastudio Link: <span class="info"> {{report.link}}</span></p>
-        <p>Datasources: </p>
-        <div *ngFor="let datasource of report.datasources; let i = index">
-          <p>&nbsp;&nbsp;&nbsp;&bull;<span class="info"> {{datasource}} </span> </p>
-        </div>
+
       </div>
 
       <div class="metadata">
@@ -84,11 +81,10 @@
                 <h4 class="info-title" style="padding-top: 10px;"> Metadata</h4>
               </mat-panel-title>
             </mat-expansion-panel-header>
-            <div *ngFor="let datasource of report.datasources; let i = index">
-                <p>Datasource: <span class="info">{{datasource}} </span> </p>
-            </div>
-            <div *ngFor="let id of report.dataStudioSourceIDs; let i = index">
-              <p>Data Studio Source ID: <span class="info">{{id}} </span> </p>
+            <p>Datasources: </p>
+          <div *ngFor="let datasource of report.datasources; let i = index">
+          <p>&nbsp;&nbsp;&nbsp;<span class="info">Big Query: {{datasource.bigquery}} </span> </p>
+          <p>&nbsp;&nbsp;&nbsp;<span class="info">Data Studio: {{datasource.datastudio}} </span> </p>
           </div>
             <p>Created By: <span class="info">{{ report.createdBy}}</span> </p>
             <p>Updated By: <span class="info">{{ report.updatedBy}}</span></p>

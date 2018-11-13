@@ -1,0 +1,24 @@
+{
+  "_id": "5bb64d2028929bcb295337ab",
+  "name": "Report Number 19",
+  "link": "https://datastudio.com/randomUrl1234",
+  "created_at": "Fri May 04 2001 13:16:34 GMT-0400 (Eastern Daylight Time)",
+  "datasources": [
+    {
+      "bigquery": "adwords_user_view",
+      "datastudio": "Data Studio Link 1"
+    },
+    {
+      "bigquery": "omni_sales_geo_product_teste",
+      "datastudio": "Data Studio Link 2"
+    }
+  ],
+  "createdBy": "First Last",
+  "updatedBy": "First Last",
+  "organizations": [
+    {
+      "_id": "5bdb6e48dcd62b26f6c194d8",
+      "name": "Elephant"
+    }
+  ]
+}

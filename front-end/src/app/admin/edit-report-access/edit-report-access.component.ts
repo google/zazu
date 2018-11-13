@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material';
 import { ReportService } from 'src/app/shared/services/report.service';
 import { OrganizationService } from './../../shared/services/organization.service';
 import { Component, OnInit, OnChanges } from '@angular/core';
@@ -24,7 +25,8 @@ export class EditReportAccessComponent implements OnInit {
     private _fb: FormBuilder,
     private reportService: ReportService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public snackBar: MatSnackBar
   ) {}
 
   filteredOptions: Observable<string[]>;
@@ -34,10 +36,13 @@ export class EditReportAccessComponent implements OnInit {
   organizations: OrganizationViewModel.SimpleOrganization[];
   sub: any;
   reportID;
+  sending = false;
+  organizationID;
   async ngOnInit() {
     try {
       this.sub = await this.route.params.subscribe(params => {
         this.reportID = params['reportID'];
+        this.organizationID = params['id'];
       });
       this.report = await this.reportService.getReportDetails(this.reportID);
       this.organizations = this.report.organizations;
@@ -55,12 +60,39 @@ export class EditReportAccessComponent implements OnInit {
   }
 
 
-  onSubmit() {
-    const temp = this.accessForm.value;
-    const org = this.organizations.find( x => {
-      return x._id === temp.selectedOrganization;
-    });
-    this.reportService.deleteOrgAccess(this.reportID, org);
+  async onSubmit() {
+    try {
+      const temp = this.accessForm.value;
+      const org = this.organizations.find( x => {
+        return x._id === temp.selectedOrganization;
+      });
+      const status = <any>await this.reportService.deleteOrgAccess(this.report, org);
+      if (status.status === '200') {
+        if (this.organizationID) {
+          await this.router.navigate(['../r', status.reportID], {
+            relativeTo: this.route,
+            queryParams: { new: 'new' }
+          });
+        } else {
+          await this.router.navigate(['../../r', status.reportID], {
+            relativeTo: this.route,
+            queryParams: { new: 'new' }
+          });
+        }
+      } else {
+        console.log(status);
+        this.sending = false;
+        this.snackBar.open('Error: ' + status.message, 'Dismiss', {
+          duration: 5000
+        });
+      }
+    } catch (error) {
+      this.sending = false;
+      this.snackBar.open('Error occured', 'Dismiss', {
+        duration: 5000
+      });
+      console.log(error);
+    }
   }
 
   public getForm() {
