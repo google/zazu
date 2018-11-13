@@ -14,9 +14,7 @@ export class ReportService {
    */
   public async getAllReports(): Promise<ReportViewModel.SimpleReport[]> {
     try {
-      const raw = await this.http
-        .get<ReportViewModel.SimpleRawReport[]>('/api' + '/getAllReports')
-        .toPromise();
+      const raw = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getAllReports').toPromise();
       console.log(raw);
       const reports = await this.cleanSimpleRawReport(raw);
       return await reports;
@@ -30,18 +28,14 @@ export class ReportService {
    * but this one keeps the org[]
    */
   public async getAllRawReports(): Promise<ReportViewModel.SimpleRawReport[]> {
-    return await this.http
-      .get<ReportViewModel.SimpleRawReport[]>('/api' + '/getAllReports')
-      .toPromise();
+    return await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getAllReports').toPromise();
   }
 
   /**
    * Seperates a report if it has more than one organization tied to it
    * @param rawReports reports from server that has organization array
    */
-  private async cleanSimpleRawReport(
-    rawReports: ReportViewModel.SimpleRawReport[]
-  ): Promise<ReportViewModel.SimpleReport[]> {
+  private async cleanSimpleRawReport(rawReports: ReportViewModel.SimpleRawReport[]): Promise<ReportViewModel.SimpleReport[]> {
     const reports: ReportViewModel.SimpleReport[] = [];
     for (const report of rawReports) {
       if (report.organizations.length > 1) {
@@ -72,23 +66,11 @@ export class ReportService {
    * @param orgID ID of a specific organization
    * Used for Organization Details view
    */
-  public async getReportsByOrganization(
-    orgID: string
-  ): Promise<ReportViewModel.SimpleReport[]> {
+  public async getReportsByOrganization(orgID: string): Promise<ReportViewModel.SimpleReport[]> {
     try {
-      const raw = await this.http
-        .get<ReportViewModel.SimpleRawReport[]>(
-          '/api' + '/getReportByOrganization/' + orgID
-        )
-        .toPromise();
+      const raw = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByOrganization/' + orgID).toPromise();
       console.log(raw);
-      console.log(
-        this.http
-          .get<ReportViewModel.SimpleRawReport[]>(
-            '/api' + '/getReportByOrganization/' + orgID
-          )
-          .toPromise()
-      );
+      console.log(this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByOrganization/' + orgID).toPromise());
       const reports = (await this.cleanSimpleRawReport(raw)).filter(report => {
         return report.organization._id === orgID;
       });
@@ -101,15 +83,9 @@ export class ReportService {
   /**
    * Get all reports for this user
    */
-  public async getReportByUser(
-    userID: string
-  ): Promise<ReportViewModel.SimpleReport[]> {
+  public async getReportByUser(userID: string): Promise<ReportViewModel.SimpleReport[]> {
     try {
-      const raw = await this.http
-        .get<ReportViewModel.SimpleRawReport[]>(
-          '/api' + '/getReportByUser/' + userID
-        )
-        .toPromise();
+      const raw = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByUser/' + userID).toPromise();
       console.log(raw);
       const reports = await this.cleanSimpleRawReport(raw);
       return reports;
@@ -124,9 +100,7 @@ export class ReportService {
    * @param orgID - ID of the organization whose report POV you want to show
    */
   public async getReport(reportID, orgID) {
-    const raw = await this.http
-      .get<ReportViewModel.ReportWithMetaData[]>('/api' + '/getAllReports')
-      .toPromise();
+    const raw = await this.http.get<ReportViewModel.ReportWithMetaData[]>('/api' + '/getAllReports').toPromise();
 
     const report = raw.find(element => {
       return element._id === reportID;
@@ -152,12 +126,8 @@ export class ReportService {
    * Gets all report details for editing report
    * @param reportId - ID of the specific report
    */
-  public async getReportDetails(
-    reportID
-  ): Promise<ReportViewModel.ReportDetails> {
-    return await this.http
-      .get<ReportViewModel.ReportDetails>('/api' + '/getAllReports/' + reportID)
-      .toPromise();
+  public async getReportDetails(reportID): Promise<ReportViewModel.ReportDetails> {
+    return await this.http.get<ReportViewModel.ReportDetails>('/api' + '/getAllReports/' + reportID).toPromise();
   }
 
   /**
@@ -165,10 +135,7 @@ export class ReportService {
    * @param reportId - ID of the specific report
    * @param orgID - ID of the organization whose report POV you want to show
    */
-  public async getReportNoMetaData(
-    reportID,
-    orgID
-  ): Promise<ReportViewModel.Report> {
+  public async getReportNoMetaData(reportID, orgID): Promise<ReportViewModel.Report> {
     return await this.http
       .get<ReportViewModel.Report>('/api' + '/getAllReports', {
         params: {
@@ -187,9 +154,7 @@ export class ReportService {
   public async createNewReport(report: ReportViewModel.CreateNewReport) {
     console.log('Report Created: ' + report);
     if (await this.authService.canSend()) {
-      return await this.http
-        .post('/api' + '/createReport/', report)
-        .toPromise();
+      return await this.http.post('/api' + '/createReport/', report).toPromise();
     } else {
       return await {
         status: '403',
@@ -207,7 +172,7 @@ export class ReportService {
     console.log('Share Access');
     const param = {
       report: report,
-      organization: org,
+      organization: org
     };
     console.log(param);
     /*
@@ -248,17 +213,14 @@ export class ReportService {
    * @param report - the report object you want to revoke access too
    * @param org - organization object you want to unshare the report to
    */
-  public async deleteOrgAccess(report, org, permissions) {
+  public async deleteOrgAccess(report, permissions) {
     const params = {
       report: report,
-      organization: org,
       permissions: permissions
     };
     console.log('Delete Access');
     if (await this.authService.canSend()) {
-      return await this.http
-        .post('/api' + '/unshareReport/', params)
-        .toPromise();
+      return await this.http.post('/api' + '/unshareReport/', params).toPromise();
     } else {
       return await {
         status: '403',
@@ -275,12 +237,12 @@ export class ReportService {
   public async deleteReport(report: ReportViewModel.ReportWithMetaData, permissions) {
     console.log('report deleted: ' + JSON.stringify(report));
     if (await this.authService.canSend()) {
-        const  parameter = {
-          report: report,
-          permissions: permissions
-        };
-        console.log(parameter);
-       return await this.http.post('/api/' + 'deleteReport/', parameter).toPromise();
+      const parameter = {
+        report: report,
+        permissions: permissions
+      };
+      console.log(parameter);
+      return await this.http.post('/api/' + 'deleteReport/', parameter).toPromise();
     } else {
       return await {
         status: '403',
@@ -293,14 +255,11 @@ export class ReportService {
    * Helper used in delete report.
    * To retrieve the list of file permissions to be revoked
    */
-  public async getPermissionsToRevoke(
-    report,
-    organization
-  ) {
+  public async getPermissionsToRevoke(report, organization) {
     if (await this.authService.canSend()) {
       console.log('Getting permissions called...');
       // for unsharing report  organizaiton
-      if (organization !=  null) {
+      if (organization != null) {
         const params = {
           report: report,
           organization: organization
@@ -314,7 +273,6 @@ export class ReportService {
         };
         return await this.http.post('/api/' + 'getPermissionsToRevoke/', params).toPromise();
       }
-
     } else {
       return await {
         status: '403',
