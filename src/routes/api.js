@@ -79,7 +79,6 @@ router.get('/getUsersByOrganization/:id', function(req, res) {
 });
 
 router.post('/createNewUser', function(req, res) {
-  // TODO: Share all reports.
 
   var newUser = req.body;
 
@@ -123,50 +122,95 @@ router.post('/createNewUser', function(req, res) {
                 res.send({ status: '500', message: err.message });
               })
               .on('data', function(data) {
-                var addNewAdminVendor =
-                  'INSERT INTO `' +
-                  config.bq_instance +
-                  '.' +
-                  config.bq_dataset +
-                  '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' +
-                  newUserId +
-                  '", "' +
-                  data.organization_id +
-                  '")';
 
-                bigquery
-                  .createQueryStream(addNewAdminVendor)
-                  .on('error', function(err) {
-                    res.send({ status: '500', message: err.message });
-                  })
-                  .on('data', function(data) {})
-                  .on('end', function() {});
-              })
-              .on('end', function() {
-                var orgList = [];
-
-                Organization.find(function(err1, docs) {
-                  if (err1) {
-                    res.send({ status: '500', message: err1.message });
-                  } else {
-                    for (var i = 0; i < docs.length; i++) {
-                      orgList.push({ _id: docs[i]._id, name: docs[i].name });
+                Report.find({ organizations : { $elemMatch: { _id: data.organization_id } } }, function(err1, docs1) {
+                    if (err1) {
+                      res.send({ status: '500', message: err1.message });
                     }
 
-                    User.updateOne(
-                      { _id: newUserId },
-                      { organizations: orgList },
-                      function(err2, res2) {
-                        if (err2) {
-                          res.send({ status: '500', message: err2.message });
-                        } else {
-                          res.send({ status: '200', userID: newUserId });
+                    for (j = 0; j < docs1.length; j++) {
+                      var orgList = docs1[j].organizations;
+                      var file_url = docs1[j].link;
+                      var extract_id = file_url.match(/reporting\/.*\/page/i);
+                      var file_id = extract_id.toString().split('/')[1];
+
+                      var filesIdList = [file_id];
+                      for (var i = 0; i < docs1[j].datasources.length; i++) {
+                        var datasourcelink = docs1[j].datasources[i].datastudio;
+                        var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
+                        var datasource_id = extract_ds_link.toString().split('/')[1];
+
+                        filesIdList.push(datasource_id);
+                      }
+                    }
+
+                    var permsList = [{
+                        'type': 'user',
+                        'role': 'reader',
+                        'emailAddress': newUser.googleID
+                      }];
+
+                    for (var j = 0; j < filesIdList.length; j++) {
+                        utils.shareReport(filesIdList[j], permsList, 0, function(ret) {
+                                if (ret === 1) {
+                                  console.log("Report sharing failed.");
+                                  var result = 1;
+                                }
+                                else {
+                                  console.log("Report shared successfully.");
+                                }
+                        });
+                        if (result === 1) {
+                            res.send({"status": "500", "message": "Sharing report error."});
                         }
                       }
-                    );
-                  }
+
+                      var addNewAdminVendor =
+                        'INSERT INTO `' +
+                        config.bq_instance +
+                        '.' +
+                        config.bq_dataset +
+                        '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' +
+                        newUserId +
+                        '", "' +
+                        data.organization_id +
+                        '")';
+
+                      bigquery
+                        .createQueryStream(addNewAdminVendor)
+                        .on('error', function(err) {
+                          res.send({ status: '500', message: err.message });
+                        })
+                        .on('data', function(data) {})
+                        .on('end', function() {});
+                    })
+                    .on('end', function() {
+                      var orgList = [];
+
+                      Organization.find(function(err1, docs) {
+                        if (err1) {
+                          res.send({ status: '500', message: err1.message });
+                        } else {
+                          for (var i = 0; i < docs.length; i++) {
+                            orgList.push({ _id: docs[i]._id, name: docs[i].name });
+                          }
+
+                          User.updateOne(
+                            { _id: newUserId },
+                            { organizations: orgList },
+                            function(err2, res2) {
+                              if (err2) {
+                                res.send({ status: '500', message: err2.message });
+                              } else {
+                                res.send({ status: '200', userID: newUserId });
+                              }
+                            }
+                          );
+                        }
+                      });
+                    });
                 });
-              });
+
           } else {
             var findOrgIds =
               'SELECT organization_id FROM `' +
@@ -211,28 +255,71 @@ router.post('/createNewUser', function(req, res) {
                 res.send({ status: '500', message: err.message });
               })
               .on('data', function(data) {
-                var addNewAdminVendor =
-                  'INSERT INTO `' +
-                  config.bq_instance +
-                  '.' +
-                  config.bq_dataset +
-                  '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' +
-                  newUserId +
-                  '", "' +
-                  data.organization_id +
-                  '")';
+                Report.find({ organizations : { $elemMatch: { _id: data.organization_id } } }, function(err1, docs1) {
+                    if (err1) {
+                      res.send({ status: '500', message: err1.message });
+                    }
 
-                bigquery
-                  .createQueryStream(addNewAdminVendor)
-                  .on('error', function(err) {
-                    res.send({ status: '500', message: err.message });
-                  })
-                  .on('data', function(data) {})
-                  .on('end', function() {});
-              })
-              .on('end', function() {
-                res.send({ status: '200', userID: newUserId });
-              });
+                    for (j = 0; j < docs1.length; j++) {
+                      var orgList = docs1[j].organizations;
+                      var file_url = docs1[j].link;
+                      var extract_id = file_url.match(/reporting\/.*\/page/i);
+                      var file_id = extract_id.toString().split('/')[1];
+
+                      var filesIdList = [file_id];
+                      for (var i = 0; i < docs1[j].datasources.length; i++) {
+                        var datasourcelink = docs1[j].datasources[i].datastudio;
+                        var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
+                        var datasource_id = extract_ds_link.toString().split('/')[1];
+
+                        filesIdList.push(datasource_id);
+                      }
+                    }
+
+                    var permsList = [{
+                        'type': 'user',
+                        'role': 'reader',
+                        'emailAddress': newUser.googleID
+                      }];
+
+                    for (var j = 0; j < filesIdList.length; j++) {
+                        utils.shareReport(filesIdList[j], permsList, 0, function(ret) {
+                                if (ret === 1) {
+                                  console.log("Report sharing failed.");
+                                  var result = 1;
+                                }
+                                else {
+                                  console.log("Report shared successfully.");
+                                }
+                        });
+                        if (result === 1) {
+                            res.send({"status": "500", "message": "Sharing report error."});
+                        }
+                      }
+
+                      var addNewAdminVendor =
+                        'INSERT INTO `' +
+                        config.bq_instance +
+                        '.' +
+                        config.bq_dataset +
+                        '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' +
+                        newUserId +
+                        '", "' +
+                        data.organization_id +
+                        '")';
+
+                      bigquery
+                        .createQueryStream(addNewAdminVendor)
+                        .on('error', function(err) {
+                          res.send({ status: '500', message: err.message });
+                        })
+                        .on('data', function(data) {})
+                        .on('end', function() {});
+                    })
+                    .on('end', function() {
+                      res.send({ status: '200', userID: newUserId });
+                    });
+                });
           }
         });
     }
@@ -320,7 +407,7 @@ router.post('/deleteUser', function(req, res) {
 });
 
 router.post('/editUser', function(req, res) {
-  // TODO: Tell Eldon to disable primary email edit and also handle org edits.
+  // TODO: also handle org edits.
 
   var editUser = req.body;
 
@@ -640,14 +727,14 @@ router.get('/getReportByUser/:id', function(req, res) {
   });
 });
 
-router.post('/getUserView', function(req, res) {
+router.post('/getOrganizationView', function(req, res) {
 
   var userObj = req.body;
   var viewExists = "-1";
 
   User.find({ _id: userObj._id }, function(err1, res1){
       if (err1) {
-        res.send({ status: '500', message: 'Retrieving ghost view error.' });
+        res.send({ status: '500', message: 'Retrieving organization view error.' });
       }
 
       // var findViewRow = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor` WHERE user_id = ' + userObj._id;
@@ -709,8 +796,8 @@ router.post('/createReport', function(req, res) {
       var file_id = extract_id.toString().split('/')[1];
 
       var filesIdList = [file_id];
-      for (var i = 0; i < deleteReport.datasources.length; i++) {
-        var datasourcelink = deleteReport.datasources[i].datastudio;
+      for (var i = 0; i < newReport.datasources.length; i++) {
+        var datasourcelink = newReport.datasources[i].datastudio;
         var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
         var datasource_id = extract_ds_link.toString().split('/')[1];
 
@@ -765,24 +852,45 @@ router.post('/createReport', function(req, res) {
   });
 });
 
+router.post('/getPermissionsToRevokeUser', function(req, res) {
+
+    var user = req.body.user;
+
+    Permission.find({ googleID: user.googleID }, function(err, docs) {
+      if (err) {
+        res.send({ status: '500', message: err.message });
+      }
+      res.send({ status: '200', permissions: docs });
+    });
+});
+
 router.post('/getPermissionsToRevoke', function(req, res) {
 
-  var deleteReport = req.body;
+  var report = req.body.report;
 
   var permsList = [];
   var filePermsList = [];
-  var orgList = deleteReport.organizations;
-  var file_url = deleteReport.link;
+  var file_url = report.link;
   var extract_id = file_url.match(/reporting\/.*\/page/i);
   var file_id = extract_id.toString().split('/')[1];
 
   var filesIdList = [file_id];
-  for (var i = 0; i < deleteReport.datasources.length; i++) {
-    var datasourcelink = deleteReport.datasources[i].datastudio;
+  for (var i = 0; i < report.datasources.length; i++) {
+    var datasourcelink = report.datasources[i].datastudio;
     var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
     var datasource_id = extract_ds_link.toString().split('/')[1];
 
     filesIdList.push(datasource_id);
+  }
+
+  if (req.body.organization) {
+
+    var organization = req.body.organization;
+    var orgList = [organization._id];
+  }
+  else {
+
+    var orgList = report.organizations;
   }
 
   User.find(function(err1, docs) {
@@ -871,33 +979,20 @@ router.post('/deleteReport', function(req, res) {
     });
 });
 
-router.post('/editReport', function(req, res) {
+router.post('/unshareReport', function(req, res) {
+  var unshareReport = req.body.report;
+  var permissions = req.body.permissions;
+  var result = 0;
+  var filePermsList = [];
 
-  var oldReport = req.body.oldReport;
-  var newReport = req.body.newReport;
-
-  Report.updateOne({ _id: oldReport._id }, newReport, function(err, results) {
-    if (err) {
-
-      res.send({"status": "500", "message": err.message });
-    }
-    res.send({"status": "200", "message": "Report edit succeeded." });
-  });
-
-});
-
-router.post('/shareReport', function(req, res) {
-
-  var reportToShare = req.body;
-
-  var orgList = reportToShare.organizations;
-  var file_url = reportToShare.link;
+  var orgList = unshareReport.organizations;
+  var file_url = unshareReport.link;
   var extract_id = file_url.match(/reporting\/.*\/page/i);
   var file_id = extract_id.toString().split('/')[1];
 
   var filesIdList = [file_id];
-  for (var i = 0; i < reportToShare.datasources.length; i++) {
-    var datasourcelink = reportToShare.datasources[i].datastudio;
+  for (var i = 0; i < unshareReport.datasources.length; i++) {
+    var datasourcelink = unshareReport.datasources[i].datastudio;
     var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
     var datasource_id = extract_ds_link.toString().split('/')[1];
 
@@ -918,7 +1013,102 @@ router.post('/shareReport', function(req, res) {
       res.send({"status": "500", "message": "Sharing report error."});
     }
 
+    for (var i = 0; i < unshareReport.organizations.length; i++) {
+      Organization.updateOne(
+        { _id: deleteReport.organizations[i]._id },
+        { $inc: { reportsCount: -1 } },
+        function(err1, res1) {
+          if (err1) {
+            res.send({ status: '500', message: err1.message });
+          }
+        }
+      );
+    }
+    res.send({ status: '200', results: results._id });
 });
+
+router.post('/editReport', function(req, res) {
+
+  var oldReport = req.body.oldReport;
+  var newReport = req.body.newReport;
+
+  Report.updateOne({ _id: oldReport._id }, newReport, function(err, results) {
+    if (err) {
+
+      res.send({"status": "500", "message": err.message });
+    }
+    res.send({"status": "200", "message": "Report edit succeeded." });
+  });
+
+});
+
+router.post('/shareReport', function(req, res) {
+
+  var reportToShare = req.body.report;
+  var orgToShare = req.body.organization;
+
+  var orgList = reportToShare.organizations;
+  var file_url = reportToShare.link;
+  var extract_id = file_url.match(/reporting\/.*\/page/i);
+  var file_id = extract_id.toString().split('/')[1];
+
+  var filesIdList = [file_id];
+  for (var i = 0; i < reportToShare.datasources.length; i++) {
+    var datasourcelink = reportToShare.datasources[i].datastudio;
+    var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
+    var datasource_id = extract_ds_link.toString().split('/')[1];
+
+    filesIdList.push(datasource_id);
+  }
+
+  User.find(function(err1, docs) {
+    if (err1) {
+      res.send({ status: '500', message: 'Retrieving users error.' });
+    }
+    var permsList = [];
+
+    for (var i = 0; i < docs.length; i++) {
+      for (var k = 0; k < docs[i].organizations.length; k++) {
+              if ((orgToShare._id === docs[i].organizations[k]._id)&&(docs[i]._id.toString() !== req.session.passport.user.id)) {
+                permsList.push({
+                    'type': 'user',
+                    'role': 'reader',
+                    'emailAddress': docs[i].googleID
+                  });
+              }
+      }
+    }
+
+    for (var j = 0; j < filesIdList.length; j++) {
+        utils.shareReport(filesIdList[j], permsList, 0, function(ret) {
+                if (ret === 1) {
+                  console.log("Report sharing failed.");
+                  var result = 1;
+                }
+                else {
+                  console.log("Report shared successfully.");
+                }
+        });
+        if (result === 1) {
+            res.send({"status": "500", "message": "Sharing report error."});
+        }
+    }
+
+    for (var i = 0; i < reportToShare.organizations.length; i++) {
+        Organization.updateOne({ _id: reportToShare.organizations[i]._id }, { $inc: { reportsCount: 1 } }, function(err1, res1) {
+          if (err1) {
+            res.send({ status: '500', message: err1.message });
+          }
+        });
+    }
+    res.send({ status: '200', results: results._id });
+  });
+
+});
+
+router.post(
+
+);
 
 router.get('/getDataRules/:orgid', function(req, res) {
   var rulesByOrg = [];
