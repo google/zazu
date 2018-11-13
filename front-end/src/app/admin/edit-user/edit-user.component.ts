@@ -77,10 +77,6 @@ export class EditUserComponent implements OnInit {
           this.user.lastName,
           [Validators.required, this.noWhitespaceValidator]
         ],
-        email: [
-          this.user.googleID,
-          [Validators.required, Validators.email, this.noWhitespaceValidator]
-        ],
         secondaryEmail: [this.user.secondaryEmail, Validators.email]
       });
       this.userRole = this.user.role;
@@ -152,7 +148,7 @@ export class EditUserComponent implements OnInit {
           _id: this.userID,
           firstName: firstForm.firstName,
           lastName: firstForm.lastName,
-          googleID: firstForm.email,
+          googleID: this.user.googleID,
           secondaryEmail: firstForm.secondaryEmail,
           organizations: orgs,
           role: this.user.role
