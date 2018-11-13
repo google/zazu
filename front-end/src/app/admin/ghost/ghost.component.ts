@@ -12,10 +12,16 @@ export class GhostComponent implements OnInit, OnDestroy {
   constructor(private ghostService: GhostService, private router: Router, private route: ActivatedRoute) { }
   sub: any;
   name: string;
-  ngOnInit() {
+  userID: string;
+  viewer;
+  async ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.name = params['userName'];
+      this.userID = params['userID'];
+
     });
+    this.viewer = await this.ghostService.getViewerAccess(this.userID);
+    console.log(this.viewer);
 
   }
 
