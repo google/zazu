@@ -8,7 +8,7 @@ import * as OrganizationViewModel from './../../shared/view-models/organization.
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import * as DataViewModel from '../../shared/view-models/data.viewmodel';
 import { DatarulesService } from 'src/app/shared/services/datarules.service';
-import { MatStepper } from '@angular/material';
+import { MatStepper, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-share-report',
@@ -24,7 +24,8 @@ export class ShareReportComponent implements OnInit {
     private reportService: ReportService,
     private organizationService: OrganizationService,
     private formBuilder: FormBuilder,
-    private datarulesService: DatarulesService
+    private datarulesService: DatarulesService,
+    public snackBar: MatSnackBar
   ) {}
   reports: ReportViewModel.SimpleRawReport[];
   organizations: OrganizationViewModel.SimpleOrganization[];
@@ -39,7 +40,7 @@ export class ShareReportComponent implements OnInit {
   sub: any;
   missingRules = [];
   rules: DataViewModel.DataRule[];
-
+  sending = false;
   tooltip = {
     organization: 'Please select the organizations that should access this report.  Not: A report can be accessed by many organizations, the data rules applied to each organization filter the data seen in the report',
   };
@@ -144,12 +145,41 @@ export class ShareReportComponent implements OnInit {
     await this.selectStep(1);
   }
 
-  onSubmit() {
-    const org = this.organizations.find(x => {
-      return x._id === this.selectedOrg._id;
-    });
-    const report = this.selectedReport;
-    report.organizations.push(org);
-    this.reportService.shareReport(report);
+  async  onSubmit() {
+    console.log('submit');
+    this.sending = true;
+    try {
+      const org = this.organizations.find(x => {
+        return x._id === this.selectedOrg._id;
+      });
+      const report = this.selectedReport;
+      console.log(report);
+      const status = <any>this.reportService.shareReport(report, org);
+      if (status.status === '200') {
+        if (this.organizationID) {
+          await this.router.navigate(['../r', status.reportID], {
+            relativeTo: this.route,
+            queryParams: { new: 'new' }
+          });
+        } else {
+          await this.router.navigate(['../../r', status.reportID], {
+            relativeTo: this.route,
+            queryParams: { new: 'new' }
+          });
+        }
+      } else {
+        console.log(status);
+        this.sending = false;
+        this.snackBar.open('Error: ' + status.message, 'Dismiss', {
+          duration: 5000
+        });
+      }
+    } catch (error) {
+      this.sending = false;
+      this.snackBar.open('Error occured', 'Dismiss', {
+        duration: 5000
+      });
+      console.log(error);
+    }
   }
 }

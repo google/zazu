@@ -8,7 +8,7 @@ export interface Report {
   name: string;
   link: string;
   organization: OrganizationViewModel.SimpleOrganization;
-  datasources: string[];
+  datasources:  ReportDataSource[];
   created_at: Date;
 }
 
@@ -36,8 +36,7 @@ export interface ReportWithMetaData {
   name: string;
   link: string;
   organizations: OrganizationViewModel.SimpleOrganization[];
-  datasources: string[];
-  dataStudioSourceIDs: string[];
+  datasources:  ReportDataSource[];
   created_at: Date;
   createdBy: string;
   updatedBy: string;
@@ -48,7 +47,7 @@ export interface ReportDetails {
   name: string;
   link: string;
   organizations: OrganizationViewModel.SimpleOrganization[];
-  datasources: string[];
+  datasources:  ReportDataSource[];
   dataStudioSourceIDs: string[];
 }
 
@@ -71,8 +70,10 @@ export interface EditReport {
   name: string;
   link: string;
   organizations: OrganizationViewModel.SimpleOrganization[];
-  datasources: string[];
-  dataStudioSourceIDs: string[];
+  datasources: ReportDataSource[];
+  created_at: Date;
+  createdBy: string;
+  updatedBy: string;
 }
 
 // View Model for deleteing report

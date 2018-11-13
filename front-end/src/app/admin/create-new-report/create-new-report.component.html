@@ -63,10 +63,10 @@
                 link
               </i>
               <mat-form-field appearance="fill" style="width:80%">
-                <mat-label>Data Studio Link</mat-label>
+                <mat-label>Data Studio Report Link</mat-label>
                 <input formControlName="link" matInput placeholder="Data Studio Link">
                 <mat-error>
-                  Data Studio Link is <strong>required</strong>
+                  Data Studio Report Link is <strong>required</strong>
                 </mat-error>
 
               </mat-form-field>
@@ -83,13 +83,13 @@
                       </i></h4>
               <div class="row">
                 <i class="material-icons form-icon">
-                  class
+                  link
                 </i>
                 <mat-form-field appearance="fill" style="width:80%">
-                  <mat-label>Data Studio Source</mat-label>
+                  <mat-label>Data Studio Source Link</mat-label>
                   <input formControlName="datastudio" matInput placeholder="Data Studio ID">
                   <mat-error >
-                    Data Studio Source ID <strong>required</strong>
+                    Data Studio Source Link is <strong>required</strong>
                   </mat-error>
                 </mat-form-field>
                 <i class="material-icons close-icon" *ngIf="reportInfoForm?.controls.datasources?.controls.length > 1" (click)="deleteRow(i)">
@@ -105,27 +105,26 @@
                   <mat-select formControlName="bigquery">
                     <mat-option *ngFor="let datasource of datasources" value="{{datasource}}">{{datasource}}</mat-option>
                   </mat-select>
-                  <mat-error>
-                    Data Source is <strong>required</strong>
+                  <mat-error  *ngIf="reportInfoForm?.controls.datasources.controls[i].get('bigquery').getError('required')">
+                    Big Query Source is <strong>required</strong>
                   </mat-error>
-                  <div style="width: 80%; padding-left: 35px;" *ngIf="reportInfoForm?.controls.datasources.controls[i].getError('missing')">
-                      <p class="error-paragraph"> The organization {{this.selectedOrg.name}} is missing a rule for the following data sources:</p>
-                      <p *ngFor="let rule of missingRules" class="error-paragraph">&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp; {{reportInfoForm.value.datasources[i]}}&nbsp; &nbsp;</p>
-                      <p class="text-click-redirect" style="padding-left:0" (click)="newRule()">Click here to go to {{this.selectedOrg.name}}</p>
-                    </div>
+                  <mat-error  *ngIf="reportInfoForm?.controls.datasources.controls[i].get('bigquery').getError('missing')">
+                    Missing Data rule
+                  </mat-error>
                 </mat-form-field>
-
+                <div style="width: 80%; padding-left: 35px;" *ngIf="reportInfoForm?.controls.datasources.controls[i].get('bigquery').getError('missing')">
+                  <p class="error-paragraph"> The organization {{this.selectedOrg.name}} is missing a rule for the datasource {{reportInfoForm.value.datasources[i].bigquery}}</p>
+                  <p class="text-click-redirect" style="padding-left:0; margin-top:0" (click)="newRule()">Click here to go to {{this.selectedOrg.name}}</p>
+                </div>
 
 
               </div>
             </div>
-            <p class="add-row" (click)="addNewRow()">+ Add another Data source</p>
-            <div style="width: 80%; padding-left: 35px;" *ngIf="reportInfoForm?.controls.datasources?.getError('missingRules')">
-                <p class="error-paragraph"> The organization {{this.selectedOrg.name}} is missing a rule for the following data sources:</p>
-                <p *ngFor="let rule of missingRules" class="error-paragraph">&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;{{rule}}&nbsp; &nbsp;</p>
-                <p class="text-click-redirect" style="padding-left:0" (click)="newRule()">Click here to go to {{this.selectedOrg.name}}</p>
-              </div>
+            <div style="width: 80%; padding-left: 35px;" *ngIf="reportInfoForm?.controls.datasources.getError('duplicate')">
+              <p class="error-paragraph"> Duplicate Data source: <span *ngFor="let dup of duplicated; let i = index">{{dup}}<span *ngIf=" i < duplicated.length - 1">,</span>&nbsp;</span></p>
+            </div>
 
+            <p class="add-row" (click)="addNewRow()">+ Add another Data source</p>
             </div>
 
 
@@ -135,7 +134,7 @@
             -->
             <div class="buttons">
               <button mat-button type='button' *ngIf="!organizationID" (click)="selectStep(0)">Back</button>
-              <button mat-button type='button' *ngIf="organizationID" routerLink="../">Back</button>
+              <button mat-button type='button' *ngIf="organizationID"routerLink="../">Back</button>
               <button mat-button type='submit' mat-flat-button class="done primary" [disabled]="!reportInfoForm.valid" [ngClass]="{'button-disabled': !reportInfoForm.valid}">Done</button>
             </div>
 

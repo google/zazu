@@ -27,10 +27,10 @@
                   link
                 </i>
                 <mat-form-field appearance="fill" style="width:80%">
-                  <mat-label>Data Studio Link</mat-label>
+                  <mat-label>Data Studio Report Link</mat-label>
                   <input formControlName="link" matInput placeholder="Data Studio Link">
                   <mat-error>
-                    Data Studio Link is <strong>required</strong>
+                    Data Studio Report Link is <strong>required</strong>
                   </mat-error>
                 </mat-form-field>
                 <i class="material-icons info-icon" matTooltip="{{tooltip.datastudioLink}}">
@@ -39,63 +39,63 @@
               </div>
 
 
-
+              <div formArrayName="datasources">
+                <div *ngFor="let id of reportInfoForm.controls.datasources.controls; let i=index" [formGroupName]="i">
+                    <h4 class="input-header"> Data Source {{i + 1}} <i class="material-icons info-icon" matTooltip={{tooltip.datastudioSource}}>
+                        info
+                      </i></h4>
               <div class="row">
-                  <i class="material-icons form-icon">
-                    storage
-                  </i>
-                  <mat-form-field appearance="fill" style="width:80%">
-                    <mat-label>Data Source</mat-label>
-                    <mat-select formControlName="datasources" multiple>
-                      <mat-option *ngFor="let datasource of datasources" value="{{datasource}}">{{datasource}}</mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="reportInfoForm.get('datasources')?.getError('required')">
-                      Data Source is <strong>required</strong>
-                    </mat-error>
-                    <mat-error *ngIf="reportInfoForm.get('datasources')?.getError('missingRules')">
-
-                    </mat-error>
-                  </mat-form-field>
-
-                  <i class="material-icons info-icon" matTooltip="{{tooltip.datasource}}">
-                      info
-                    </i>
+                <i class="material-icons form-icon">
+                  link
+                </i>
+                <mat-form-field appearance="fill" style="width:80%">
+                  <mat-label>Data Studio Source Link</mat-label>
+                  <input formControlName="datastudio" matInput placeholder="Data Studio ID">
+                  <mat-error >
+                    Data Studio Source Link is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+                <i class="material-icons close-icon" *ngIf="reportInfoForm?.controls.datasources?.controls.length > 1" (click)="deleteRow(i)">
+                  close
+                </i>
+              </div>
+              <div class="row">
+                <i class="material-icons form-icon">
+                  storage
+                </i>
+                <mat-form-field appearance="fill" style="width:80%">
+                  <mat-label>Big Query Source</mat-label>
+                  <mat-select formControlName="bigquery">
+                    <mat-option *ngFor="let datasource of datasources" value="{{datasource}}">{{datasource}}</mat-option>
+                  </mat-select>
+                  <mat-error  *ngIf="reportInfoForm?.controls.datasources.controls[i].get('bigquery').getError('required')">
+                    Big Query Source is <strong>required</strong>
+                  </mat-error>
+                  <mat-error  *ngIf="reportInfoForm?.controls.datasources.controls[i].get('bigquery').getError('missing')">
+                    Missing Data rule
+                  </mat-error>
+                </mat-form-field>
+                <div style="width: 80%; padding-left: 35px;" *ngIf="duplicated.includes(reportInfoForm.value.datasources[i].bigquery)">
+                  <p class="error-paragraph"> Duplicate Data Source</p>
                 </div>
-                <div class="row" *ngIf="reportInfoForm.get('datasources')?.getError('missingRules')">
-                    <div  *ngFor="let item of missingRules" style="width: 80%; padding-left: 35px;  ">
-                        <p class="error-paragraph"> {{item.name}} is missing a rule for the following datasource: </p>
-                      <p *ngFor="let rule of item.missingRules" class="error-paragraph">&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;{{rule}}&nbsp; &nbsp;</p>
-                      <p class="text-click-redirect" style="padding-left:0; margin:0" (click)="newRule(item._id)">Click here to go to {{item.name}}</p>
-                    </div>
-                  </div>
-
-                <h4 class="input-header"> Data Studio data source ID <i class="material-icons info-icon" matTooltip="{{tooltip.datastudioSource}}">
-                    info
-                  </i></h4>
-                <div formArrayName="dataStudioSourceIDs">
-                    <div *ngFor="let id of reportInfoForm.controls.dataStudioSourceIDs.controls; let i=index" [formGroupName]="i">
-                  <div class="row">
-                    <i class="material-icons form-icon">
-                      class
-                    </i>
-                    <mat-form-field appearance="fill" style="width:80%">
-                      <mat-label>Data Studio source ID</mat-label>
-                      <input formControlName="id" matInput placeholder="Data Studio ID">
-                      <mat-error>
-                        Data Studio Data Source ID <strong>required</strong>
-                      </mat-error>
-                    </mat-form-field>
-                    <i class="material-icons close-icon" *ngIf="reportInfoForm?.controls.dataStudioSourceIDs?.controls.length > 1" (click)="deleteRow(i)">
-                      close
-                    </i>
+                <div *ngIf="reportInfoForm?.controls.datasources.controls[i].get('bigquery').getError('missing')">
+                  <div style="width: 80%; padding-left: 35px;" *ngFor="let org of checkMissingRules(reportInfoForm.value.datasources[i].bigquery)" >
+                    <p class="error-paragraph"> The organization {{org.name}} is missing a rule for the datasource {{reportInfoForm.value.datasources[i].bigquery}}</p>
+                    <p class="text-click-redirect" style="padding-left:0; margin-top:0" (click)="newRule(org._id)">Click here to go to {{org.name}}</p>
                   </div>
                 </div>
-                </div>
 
 
-                <p class="custom-error" *ngIf="reportInfoForm.get('dataStudioSourceIDs').getError('duplicate')">
-                  Cannot have duplicate Data Sources </p>
-                <p class="add-row" (click)="addNewRow()">+ Add another Data source</p>
+              </div>
+            </div>
+            <div style="width: 80%; padding-left: 35px;" *ngIf="reportInfoForm?.controls.datasources.getError('duplicate')">
+              <p class="error-paragraph"> Duplicate Data source: <span *ngFor="let dup of duplicated; let i = index">{{dup}}<span *ngIf=" i < duplicated.length - 1">,</span>&nbsp;</span></p>
+            </div>
+
+            <p class="add-row" (click)="addNewRow()">+ Add another Data source</p>
+            </div>
+
+
               <div class="buttons">
                 <button mat-button type='button' (click)="goBack()">Back</button>
                 <button mat-button type='submit' mat-flat-button class="done primary" [disabled]="!reportInfoForm.valid" [ngClass]="{'button-disabled': !reportInfoForm.valid}">Done</button>
