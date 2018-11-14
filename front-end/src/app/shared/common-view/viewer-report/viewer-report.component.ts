@@ -4,6 +4,7 @@ import { ReportService } from 'src/app/shared/services/report.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as ReportViewModel from '../../view-models/report.viewmodel';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-viewer-report',
@@ -27,23 +28,36 @@ export class ViewerReportComponent implements OnInit, OnDestroy {
   selectedOrgID;
   embedLink;
   selectedOrg;
-
+  viewerInitSubscription: Subscription;
 
   async ngOnInit() {
-    this.sub = this.route.params.subscribe(params => {
-      this.reportID = params['reportID'];
+    this.viewerInitSubscription = this.viewerService.getInitialized().subscribe(async init => {
+      console.log(init);
+      if (init) {
+        this.sub = this.route.params.subscribe(params => {
+          this.reportID = params['reportID'];
+        });
+        this.selectedOrgID = this.route.snapshot.queryParamMap.get('selectedOrg');
+        this.report = await this.reportService.getReport(this.reportID, this.selectedOrgID);
+        this.selectedOrg = this.report.organizations.find(org => {
+          return org._id === this.selectedOrgID;
+        });
+        this.reportsCount = await this.viewerService.reportsCount();
+        const patt = new RegExp('/c/(.)+/reporting');
+        const replaceLink = this.report.link.replace(patt, '/embed/reporting');
+        this.embedLink = this.sanitizer.bypassSecurityTrustResourceUrl(replaceLink);
+        if (!this.viewerService.currentOrganization) {
+          const org = this.viewerService.getOrganization(this.selectedOrgID);
+          const status = await <any>this.viewerService.initializeGhost(org, this.viewerService.user);
+          if (status.status === '200') {
+            console.log(status);
+            this.initialized = true;
+          }
+        } else {
+          this.initialized =  true;
+        }
+      }
     });
-    this.selectedOrgID = this.route.snapshot.queryParamMap.get('selectedOrg');
-    this.report = await this.reportService.getReport(this.reportID, this.selectedOrgID);
-    this.selectedOrg = this.report.organizations.find(org => {
-      return org._id === this.selectedOrgID;
-    });
-    this.reportsCount = await this.viewerService.reportsCount();
-    const patt = new RegExp('\/c\/(.)+\/reporting');
-    const replaceLink = this.report.link.replace(patt, '/embed/reporting');
-    console.log(replaceLink);
-    this.embedLink = this.sanitizer.bypassSecurityTrustResourceUrl(replaceLink);
-    this.initialized = await true;
   }
 
   goBack() {
@@ -56,12 +70,11 @@ export class ViewerReportComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-
   goToList() {
-    this.router.navigate(['../../../']);
+    this.router.navigate(['../../../'], { relativeTo: this.route });
   }
 
   goToReportList() {
-    this.router.navigate(['../../']);
+    this.router.navigate(['../../'], { relativeTo: this.route });
   }
 }

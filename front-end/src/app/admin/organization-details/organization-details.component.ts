@@ -64,23 +64,22 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
   edited = false;
   ruleEdited = false;
   deletedRule;
+  sending = false;
+  deletingOrg = false;
+  deletingRule = false;
   async ngOnInit() {
     try {
       this.sub = this.route.params.subscribe(params => {
         this.organizationID = params['id'];
       });
       // gets organization info
-      this.organization = await this.organizationService.getOrganizationById(
-        this.organizationID
-      );
+      this.organization = await this.organizationService.getOrganizationById(this.organizationID);
       // gets reports for this organization
       this.reports = await this.reportService.getReportsByOrganization(this.organizationID);
 
-      this.pageSubscription = this.paginationService.paginationChanged.subscribe(
-        pagination => {
-          this.pagination = pagination;
-        }
-      );
+      this.pageSubscription = this.paginationService.paginationChanged.subscribe(pagination => {
+        this.pagination = pagination;
+      });
       this.new = (await this.route.snapshot.queryParamMap.get('new')) === 'new';
       this.newRule = (await this.route.snapshot.queryParamMap.get('newRule')) === 'new';
       this.edited = (await this.route.snapshot.queryParamMap.get('edited')) === 'true';
@@ -128,19 +127,30 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     this.ruleEdited = false;
   }
 
+  async getReports() {
+    try {
+      // gets reports for this organization
+      this.reports = await this.reportService.getReportsByOrganization(this.organizationID);
+    } catch (error) {}
+  }
+
   // gets users for this organization
   async getUsers() {
-   // this.users = await this.userService.getUsersByOrganization(this.organizationID);
-    this.users = await this.userService.getAllUsers();
-    await this.userService.setLocalUsers(this.users);
-    this.users = this.users.filter (user => {
-      for (const org of user.organizations) {
-        return org._id === this.organizationID;
-      }
-    });
-    this.users = this.users.filter (user => {
-      return user.role === 'viewer';
-    });
+    try {
+      // this.users = await this.userService.getUsersByOrganization(this.organizationID);
+      this.users = await this.userService.getAllUsers();
+      await this.userService.setLocalUsers(this.users);
+      this.users = this.users.filter(user => {
+        for (const org of user.organizations) {
+          return org._id === this.organizationID;
+        }
+      });
+      this.users = this.users.filter(user => {
+        return user.role === 'viewer';
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   // gets data rules for this organization
@@ -148,9 +158,11 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     this.rules = await this.dataruleService.getDataRules(this.organizationID);
     this.dataSources = [];
     for (const rule of this.rules) {
-      if (((this.dataSources.filter(datasource => {
-        return datasource === rule.datasource;
-      })).length === 0)) {
+      if (
+        this.dataSources.filter(datasource => {
+          return datasource === rule.datasource;
+        }).length === 0
+      ) {
         this.dataSources.push(rule.datasource);
       }
     }
@@ -161,7 +173,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
   }
 
   goToReport(report) {
-    this.router.navigate(['./r', report.reportID], { relativeTo: this.route, queryParams: { selectedOrg: report.orgID} } );
+    this.router.navigate(['./r', report.reportID], { relativeTo: this.route, queryParams: { selectedOrg: report.orgID } });
   }
 
   editRule(ruleID) {
@@ -203,23 +215,38 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     if (!this.users) {
       await this.getUsers();
     }
-    if ( await this.users.length  > 0 ) {
+    if (!this.reports) {
+      await this.getReports();
+    }
+    if ((await this.users.length) > 0 && (await this.reports.length) > 0) {
       await this.orgDeleteWarning();
     } else {
       await this.openDialog();
     }
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(DeleteOrganizationConfirmation, {
-      data: { organization: this.organization.name }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.organizationService.deleteOrganization(this.organization);
-        this.router.navigate(['../list'], { relativeTo: this.route, queryParams: { deletedOrg: this.organization.name} });
-      }
-    });
+  async openDialog() {
+    if (this.users.length === 0 && this.reports.length === 0) {
+      const dialogRef = this.dialog.open(DeleteOrganizationConfirmation, {
+        data: { organization: this.organization.name }
+      });
+      dialogRef.afterClosed().subscribe(async result => {
+        if (result) {
+          this.sending = true;
+          this.deletingOrg = true;
+          const status = await (<any>this.organizationService.deleteOrganization(this.organization));
+          if (status.status === '200') {
+            this.sending = false;
+            this.deletingOrg = false;
+            this.router.navigate(['../list'], { relativeTo: this.route, queryParams: { deletedOrg: this.organization.name } });
+          } else {
+            console.log(status);
+          }
+        }
+      });
+    } else {
+      this.orgDeleteWarning();
+    }
   }
 
   async deleteRule(datarule: DataViewModel.DataRule) {
@@ -228,21 +255,22 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().subscribe(async result => {
       if (result) {
-        const status = await <any>this.dataruleService.deleteDataRule(datarule);
-        console.log(status);
+        this.sending = true;
+        this.deletingRule = true;
+        const status = await (<any>this.dataruleService.deleteDataRule(datarule));
         if (status.status === '200') {
           await this.getRules();
-          this.snackBar.open( 'Data Rule "' +  datarule.name + '" Successfully Deleted' , 'Dismiss', {
-            duration: 5000,
+          this.sending = false;
+          this.deletingRule = false;
+          this.snackBar.open('Data Rule "' + datarule.name + '" Successfully Deleted', 'Dismiss', {
+            duration: 5000
           });
         }
       }
     });
   }
 
-
   async orgDeleteWarning() {
-
     const dialogRef = this.dialog.open(DeleteOrganizationWarning, {
       data: { users: this.users.length, organization: this.organization.name }
     });
@@ -255,10 +283,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
   templateUrl: 'delete-organization-confirmation.html'
 })
 export class DeleteOrganizationConfirmation {
-  constructor(
-    public dialogRef: MatDialogRef<DeleteOrganizationConfirmation>,
-    @Inject(MAT_DIALOG_DATA) public data
-  ) {}
+  constructor(public dialogRef: MatDialogRef<DeleteOrganizationConfirmation>, @Inject(MAT_DIALOG_DATA) public data) {}
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -270,26 +295,19 @@ export class DeleteOrganizationConfirmation {
   templateUrl: 'delete-datarule-confirmation.html'
 })
 export class DeleteDataruleConfirmation {
-  constructor(
-    public dialogRef: MatDialogRef<DeleteDataruleConfirmation>,
-    @Inject(MAT_DIALOG_DATA) public data
-  ) {}
+  constructor(public dialogRef: MatDialogRef<DeleteDataruleConfirmation>, @Inject(MAT_DIALOG_DATA) public data) {}
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 }
 
-
 @Component({
   selector: 'delete-organization-warning',
   templateUrl: 'delete-organization-warning.html'
 })
 export class DeleteOrganizationWarning {
-  constructor(
-    public dialogRef: MatDialogRef<DeleteOrganizationWarning>,
-    @Inject(MAT_DIALOG_DATA) public data
-  ) {}
+  constructor(public dialogRef: MatDialogRef<DeleteOrganizationWarning>, @Inject(MAT_DIALOG_DATA) public data) {}
 
   onNoClick(): void {
     this.dialogRef.close();

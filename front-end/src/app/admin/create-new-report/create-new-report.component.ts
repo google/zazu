@@ -222,6 +222,7 @@ export class CreateNewReportComponent implements OnInit {
     console.log(report);
     try {
       const status = await (<any>this.reportService.createNewReport(report));
+      console.log(status);
       if (status.status === '200') {
         if (this.organizationID) {
           await this.router.navigate(['../r', status.reportID], {

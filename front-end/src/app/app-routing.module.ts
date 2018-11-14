@@ -50,7 +50,7 @@ const routes: Routes = [
         children: [
           { path: '', redirectTo: 'org', pathMatch: 'full' },
           { path: 'org', component: ViewerOrganizationListComponent},
-          { path: 'org/:id', component: ViewerReportListComponent},
+          { path: 'org/:orgID', component: ViewerReportListComponent},
           { path: 'org/:id/r/:reportID', component: ViewerReportComponent}
         ]
       }

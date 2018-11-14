@@ -4,18 +4,23 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as ReportViewModel from '../view-models/report.viewmodel';
 import { ReportService } from './report.service';
+import { Subject, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ViewerService {
-  constructor(private http: HttpClient, private reportService: ReportService, private authService: AuthService, private userService: UserService) {}
+  constructor(private http: HttpClient, private reportService: ReportService, private authService: AuthService, private userService: UserService) {
+  }
   userID: string;
   reports;
   currentOrganization;
   organizations;
   user;
   status;
+  initalized = false;
+  initialized = new BehaviorSubject<Boolean>(false);
+  init = true;
 
   setUserID(id) {
     this.userID = id;
@@ -47,8 +52,16 @@ export class ViewerService {
     return this.organizations;
   }
 
+  getInitialized() {
+    return this.initialized;
+  }
+
   getOrganization(id) {
     return this.organizations.find( x => x._id === id);
+  }
+
+  getUser() {
+    return this.user;
   }
 
   getReportsByOrganization(orgID) {
@@ -63,8 +76,12 @@ export class ViewerService {
     return this.getReportsByOrganization(orgID).length;
   }
 
-  public async initializeGhost(org) {
-    return await this.http.post('/api' + '/initGhost', org).toPromise();
+  public async initializeGhost(org, user) {
+    const params = {
+      organization: org,
+      user: user,
+    };
+    return await this.http.post('/api' + '/initGhost', params).toPromise();
   }
 
   async initialSet() {
@@ -76,7 +93,7 @@ export class ViewerService {
       this.reports = await this.reportService.getReportByUser(status.user);
       console.log(this.reports);
       const orgs = [];
-      for (const rep of this.reports) {
+      for (const rep of await this.reports) {
         console.log(rep);
         if (orgs.findIndex(x => x._id === rep.organization._id) === -1) {
           const temp = {
@@ -87,11 +104,12 @@ export class ViewerService {
           orgs.push(temp);
         }
       }
-      this.organizations = orgs;
+      this.organizations = await orgs;
       for (const org of this.organizations) {
-        org.reportsCount =  this.reportsCountByOrg(org._id);
+        org.reportsCount = await  this.reportsCountByOrg(org._id);
       }
       console.log(this.organizations);
+      this.initialized.next(true);
     } catch (error) {}
   }
 }

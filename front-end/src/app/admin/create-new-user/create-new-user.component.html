@@ -3,9 +3,9 @@
     <div class="form">
       <h2 class="title"> Create New User</h2>
       <hr>
-      <mat-horizontal-stepper linear #stepper *ngIf="firstFormGroup && secondFormGroup">
+      <mat-horizontal-stepper linear #stepper *ngIf="firstFormGroup && secondFormGroup || organizationID && secondFormGroup">
         <!-- First Step-->
-        <mat-step [stepControl]="firstFormGroup">
+        <mat-step [stepControl]="firstFormGroup" *ngIf="!organizationID">
             <form [formGroup]="firstFormGroup">
               <ng-template matStepLabel>Fill out your name</ng-template>
               <div class="row">
@@ -56,6 +56,7 @@
           <form [formGroup]="secondFormGroup" (ngSubmit)="onSubmit()">
             <p class="description" *ngIf="roleSelected === 'admin'"> New Admin user</p>
             <p class="description" *ngIf="roleSelected === 'viewer'"> New Viewer for <span *ngFor="let org of selectedOrganizationNames; let i = index">{{org.name}}<span *ngIf="i < selectedOrganizationNames.length - 1">,</span>&nbsp;</span></p>
+            <p class="description" *ngIf="organizationID"> New Viewer for {{selectedOrg.name}}</p>
             <h4 class="input-header"> Please enter user information </h4>
             <div class="row">
               <i class="material-icons form-icon">
@@ -125,7 +126,8 @@
             <p class="add-row"  *ngIf="!allowSecondaryEmail" (click)="addSecondaryEmail()">+ Add secondary email</p>
 
             <div class="buttons">
-              <button mat-button matStepperPrevious type="button">Back</button>
+              <button mat-button matStepperPrevious type="button" *ngIf="!organizationID">Back</button>
+              <button mat-button routerLink="../" type="button" *ngIf="organizationID">Cancel</button>
               <button class="done primary" mat-flat-button  [disabled]="!secondFormGroup.valid" [ngClass]="{'button-disabled': !secondFormGroup.valid}" type="submit">Done</button>
             </div>
           </form>

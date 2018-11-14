@@ -1,19 +1,15 @@
 <div class="dialog">
-  <h2 class="title warning">
-    <i class="material-icons"> warning </i>Cannot delete {{ data.organization }}
-  </h2>
+  <h2 class="title warning"><i class="material-icons"> warning </i>Cannot delete {{ data.organization }}</h2>
   <div mat-dialog-content>
-    <h4 class="subtitle">
-      You must delete all users that have access to this organization.
-    </h4>
+    <h4 class="subtitle">Cannot delete an organization that have users and reports.</h4>
     <p>
-      Before deleting an organization, you must delete all users that have
-      access to this organization. If a user has access to multiple
-      organizations (including this one), you must first remove the user’s
-      access to this organization.
+      You must delete all users that have access to this organization. If a user has access to multiple organizations (including this one), you must
+      first remove the user’s access to this organization.
+    </p>
+    <p>
+      You must delete all reports that is in this organization. If a report is shared between multiple organizations, you move revoke
+      {{ data.organization }}'s access to this report.
     </p>
   </div>
-  <div mat-dialog-actions style="float:right">
-    <button mat-button (click)="onNoClick()">Back</button>
-  </div>
+  <div mat-dialog-actions style="float:right"><button mat-button (click)="onNoClick()">Back</button></div>
 </div>

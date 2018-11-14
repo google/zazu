@@ -34,31 +34,44 @@ export class ViewerReportListComponent implements OnInit, OnDestroy {
   searchName;
   pagination;
   selectedOrgName;
+  viewerInitSubscription: Subscription;
   async ngOnInit() {
     try {
-      this.paginationService.resetPage();
-      this.pageSubscription = this.paginationService.paginationChanged.subscribe(pagination => {
-        this.pagination = pagination;
-      });
-      this.paginationService.getPagination();
-      this.sub = this.route.params.subscribe(params => {
-        this.organizationID = params['id'];
-      });
-      this.reports = await this.viewerService.getReportsByOrganization(this.organizationID);
-      console.log(this.reports);
-      if (this.reports.length === 1) {
-        // this.router.navigate(['../', this.reports[0]._id], { relativeTo: this.route });
-      }
-      const temp = [];
-      for (const report of this.reports) {
-        if (this.organizations.filter(e => e._id === report.organization._id).length === 0) {
-          this.organizations.push(report.organization);
+      this.viewerInitSubscription = this.viewerService.getInitialized().subscribe(async init => {
+        console.log(init);
+        if (init) {
+          this.sub = this.route.params.subscribe(params => {
+            this.organizationID = params['orgID'];
+          });
+          this.paginationService.resetPage();
+          this.pageSubscription = this.paginationService.paginationChanged.subscribe(pagination => {
+            this.pagination = pagination;
+          });
+          this.paginationService.getPagination();
+
+          this.reports = await this.viewerService.getReportsByOrganization(this.organizationID);
+          if (this.reports.length === 1) {
+            // this.router.navigate(['../', this.reports[0]._id], { relativeTo: this.route });
+          }
+          const temp = [];
+          for (const report of this.reports) {
+            if (this.organizations.filter(e => e._id === report.organization._id).length === 0) {
+              this.organizations.push(report.organization);
+            }
+          }
+          if (this.organizations.length !== 1) {
+            this.filterForm.addControl('selectedOrganization', new FormControl('All'));
+          }
+          if (!this.viewerService.currentOrganization) {
+            const org = this.organizations.find(x => x._id === this.organizationID);
+            console.log(org);
+            console.log(this.viewerService.user);
+            const status = this.viewerService.initializeGhost(org, this.viewerService.user);
+            console.log(status);
+          }
+          this.initialized = true;
         }
-      }
-      if (this.organizations.length !== 1) {
-        this.filterForm.addControl('selectedOrganization', new FormControl('All'));
-      }
-      this.initialized = true;
+      });
     } catch (error) {
       console.log(error);
     }
@@ -109,9 +122,12 @@ export class ViewerReportListComponent implements OnInit, OnDestroy {
     if (this.pageSubscription) {
       this.pageSubscription.unsubscribe();
     }
+    if (this.viewerInitSubscription) {
+      this.pageSubscription.unsubscribe();
+    }
   }
 
   goToList() {
-    this.router.navigate(['../']);
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 }

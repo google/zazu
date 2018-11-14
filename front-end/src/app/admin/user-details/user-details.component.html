@@ -1,4 +1,4 @@
-<div *ngIf="organization != null && user != null && viewInitialized">
+<div *ngIf="organization != null && user != null && viewInitialized" [ngClass]="{'disable-display': sending}">
 
   <div class="breadcrumb-container">
     <!-- Breadcrumbs for user details under user list-->
@@ -67,7 +67,14 @@
   </div>
 </div>
 
-<div *ngIf="!viewInitialized " class='spinner-container'>
+<div *ngIf="!viewInitialized " class='spinner-container' [ngClass]="{'disable-display': sending}">
   <mat-spinner class="spinner"></mat-spinner>
   <p >User Loading...</p>
+</div>
+
+
+<div [ngClass]="{'disable-display': !sending}" class="spinner-container">
+  <mat-spinner class="spinner"></mat-spinner>
+  <h3 class="title">Deleting User</h3>
+  <p >Please wait</p>
 </div>
