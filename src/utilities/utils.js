@@ -113,9 +113,7 @@ module.exports = {
     else {
 
       console.log("Revoking shared report...");
-      console.log(permissions);
       async.eachSeries(permissions, function (permission, callback) {
-
           drive.permissions.delete({
               fileId: permission.fileId,
               permissionId: permission.drivePermId

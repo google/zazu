@@ -21,8 +21,7 @@ var reportSchema = new Schema({
   name: { type: String, required: true, unique: true },
   organizations: { type: [{ _id: String, name: String }], required: true },
   link: { type: String, required: true }, // data studio link
-  dataStudioSourceIDs: [{ type: String, required: true }],  //data source id
-  datasources: { type: [String], required: true },
+  datasources: { type: [{ datastudio: String, bigquery: String }], required: true },
   createdBy: { type: String, required: true }, // the admin who created it
   updatedBy: { type: String },  // the admin who last updated it
   created_at: Date,

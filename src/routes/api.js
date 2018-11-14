@@ -81,6 +81,7 @@ router.get('/getUsersByOrganization/:id', function(req, res) {
 router.post('/createNewUser', function(req, res) {
 
   var newUser = req.body;
+  var result = 0;
 
   User.create(newUser, function(err, results) {
     var newUserId = results._id;
@@ -122,7 +123,6 @@ router.post('/createNewUser', function(req, res) {
                 res.send({ status: '500', message: err.message });
               })
               .on('data', function(data) {
-
                 Report.find({ organizations : { $elemMatch: { _id: data.organization_id } } }, function(err1, docs1) {
                     if (err1) {
                       res.send({ status: '500', message: err1.message });
@@ -161,9 +161,10 @@ router.post('/createNewUser', function(req, res) {
                                 }
                         });
                         if (result === 1) {
-                            res.send({"status": "500", "message": "Sharing report error."});
+                            res.send({status: "500", message: "Sharing report error."});
                         }
                       }
+                    });
 
                       var addNewAdminVendor =
                         'INSERT INTO `' +
@@ -209,7 +210,6 @@ router.post('/createNewUser', function(req, res) {
                         }
                       });
                     });
-                });
 
           } else {
             var findOrgIds =
@@ -293,10 +293,10 @@ router.post('/createNewUser', function(req, res) {
                                 }
                         });
                         if (result === 1) {
-                            res.send({"status": "500", "message": "Sharing report error."});
+                            res.send({status: "500", message: "Sharing report error."});
                         }
                       }
-
+                    });
                       var addNewAdminVendor =
                         'INSERT INTO `' +
                         config.bq_instance +
@@ -319,7 +319,6 @@ router.post('/createNewUser', function(req, res) {
                     .on('end', function() {
                       res.send({ status: '200', userID: newUserId });
                     });
-                });
           }
         });
     }
@@ -327,9 +326,10 @@ router.post('/createNewUser', function(req, res) {
 });
 
 router.post('/deleteUser', function(req, res) {
-  // TODO: Unshare all reports.
 
-  var deleteUser = req.body;
+  var deleteUser = req.body.user;
+  var permissions = req.body.permissions;
+  var result = 0;
 
   User.deleteOne({ _id: deleteUser._id }, function(err, results) {
     if (err) {
@@ -395,9 +395,28 @@ router.post('/deleteUser', function(req, res) {
                         }
                       );
                     }
-                    res.send({ status: '200', userID: deleteUser._id });
-                  } else {
-                    res.send({ status: '200', userID: deleteUser._id });
+                  }
+
+                  filesIdList = []
+                  for (var i = 0; i < permissions.length; i++) {
+                    filesIdList.push(permissions[i].fileId);
+                  }
+
+                  utils.shareReport(filesIdList, permissions, 1, function(ret) {
+                    if (ret === 1) {
+                      console.log("Report sharing failed.");
+                      var result = 1;
+                    }
+                    else {
+                      console.log("Report shared successfully.");
+                    }
+                  });
+
+                  if (result === 1) {
+                    res.send({status: "500", message: "Sharing report error."});
+                  }
+                  else {
+                    res.send({status: "200", deletedUser: deleteUser._id });
                   }
                 });
             });
@@ -741,7 +760,7 @@ router.post('/getOrganizationView', function(req, res) {
       //
       // bigquery.createQueryStream(findViewRow)
       //     .on('error', function(err) {
-      //        res.send({"status": "500", "message": err.message });
+      //        res.send({status: "500", message: err.message });
       //     })
       //     .on('data', function(row) {
       //
@@ -759,7 +778,7 @@ router.post('/getOrganizationView', function(req, res) {
       //
       //       bigquery.createQueryStream(insertOrUpdateView)
       //           .on('error', function(err) {
-      //              res.send({"status": "500", "message": err.message });
+      //              res.send({status: "500", message: err.message });
       //           })
       //           .on('data', function(data) {
       //
@@ -768,7 +787,7 @@ router.post('/getOrganizationView', function(req, res) {
       //
       //             Report.find({ organizations: { $elemMatch: { _id : userObj.organization._id } } }, function(err, docs) {
       //               if (err) {
-      //                 res.send({"status": "500", "message": "Report list retrieved error."});
+      //                 res.send({status: "500", message: "Report list retrieved error."});
       //               }
       //
       //               res.send(docs);
@@ -835,7 +854,7 @@ router.post('/createReport', function(req, res) {
                     }
             });
             if (result === 1) {
-                res.send({"status": "500", "message": "Sharing report error."});
+                res.send({status: "500", message: "Sharing report error."});
             }
           }
 
@@ -854,7 +873,7 @@ router.post('/createReport', function(req, res) {
 
 router.post('/getPermissionsToRevokeUser', function(req, res) {
 
-    var user = req.body.user;
+    var user = req.body;
 
     Permission.find({ googleID: user.googleID }, function(err, docs) {
       if (err) {
@@ -960,7 +979,7 @@ router.post('/deleteReport', function(req, res) {
         });
 
         if (result === 1) {
-          res.send({"status": "500", "message": "Sharing report error."});
+          res.send({status: "500", message: "Sharing report error."});
         }
 
         for (var i = 0; i < deleteReport.organizations.length; i++) {
@@ -1010,7 +1029,7 @@ router.post('/unshareReport', function(req, res) {
     });
 
     if (result === 1) {
-      res.send({"status": "500", "message": "Sharing report error."});
+      res.send({status: "500", message: "Sharing report error."});
     }
 
     for (var i = 0; i < unshareReport.organizations.length; i++) {
@@ -1035,9 +1054,9 @@ router.post('/editReport', function(req, res) {
   Report.updateOne({ _id: oldReport._id }, newReport, function(err, results) {
     if (err) {
 
-      res.send({"status": "500", "message": err.message });
+      res.send({status: "500", message: err.message });
     }
-    res.send({"status": "200", "message": "Report edit succeeded." });
+    res.send({status: "200", message: "Report edit succeeded." });
   });
 
 });
@@ -1090,7 +1109,7 @@ router.post('/shareReport', function(req, res) {
                 }
         });
         if (result === 1) {
-            res.send({"status": "500", "message": "Sharing report error."});
+            res.send({status: "500", message: "Sharing report error."});
         }
     }
 
@@ -1105,10 +1124,6 @@ router.post('/shareReport', function(req, res) {
   });
 
 });
-
-router.post(
-
-);
 
 router.get('/getDataRules/:orgid', function(req, res) {
   var rulesByOrg = [];
@@ -1223,7 +1238,7 @@ router.post('/editRule', (req, res) => {
 
   bigquery.createQueryStream(updateRow)
      .on('error', function(err) {
-        res.send({"status": "500", "message": err.message });
+        res.send({status: "500", message: err.message });
      })
      .on('data', function(data) {
 
@@ -1234,7 +1249,7 @@ router.post('/editRule', (req, res) => {
 
         bigquery.createQueryStream(secondUpdateRow)
           .on('error', function(err) {
-            res.send({"status": "500", "message": err.message });
+            res.send({status: "500", message: err.message });
         })
         .on('data', function(data) {
 
@@ -1242,10 +1257,10 @@ router.post('/editRule', (req, res) => {
         .on('end', function() {
           Rule.updateOne({ _id: oldRule._id }, { name: newRule.name, identifier: newRule.identifier, condition: newRule.condition, token: newRule.token, organization: newRule.organization }, function(err, results) {
             if (err) {
-              res.send({"status": "500", "message": err.message });
+              res.send({status: "500", message: err.message });
             }
 
-            res.send({"status": "200", "message": "Rule edited successfully." });
+            res.send({status: "200", message: "Rule edited successfully." });
           })
         });
      });
@@ -1336,13 +1351,13 @@ router.get('/getRole', (req, res) => {
 // //     dest_table.delete(function(err, apiResponse) {
 // //
 // //       if ((err)&&(err.code != 404)) {
-// //         res.send({"status": "500", "message": err.message });
+// //         res.send({status: "500", message: err.message });
 // //       }
 // //       else {
 // //           orig_table.copy(dest_table, function(err1, apiResponse1) {
 // //
 // //              if (err1) {
-// //                res.send({"status": "500", "message": err1.message });
+// //                res.send({status: "500", message: err1.message });
 // //              }
 // //              else {
 // //                dest_table.getMetadata().then(function(data) {
@@ -1355,13 +1370,13 @@ router.get('/getRole', (req, res) => {
 // //                    dest_table.setMetadata(metadata, function(err2, metadata, apiResponse2) {
 // //
 // //                      if (err2) {
-// //                        res.send({"status": "500", "message": err2.message });
+// //                        res.send({status: "500", message: err2.message });
 // //                      }
 // //                      else {
 // //
 // //                        Rule.find(function(err, docs) {
 // //                            if (err) {
-// //                              res.send({"status": "500", "message": "Rule list retrieved error."});
+// //                              res.send({status: "500", message: "Rule list retrieved error."});
 // //                            }
 // //
 // //                            for (var i = 0; i < docs.length; i++) {
@@ -1375,7 +1390,7 @@ router.get('/getRole', (req, res) => {
 // //
 // //                                 bigquery.createQueryStream(findId)
 // //                                    .on('error', function(err) {
-// //                                       res.send({"status": "500", "message": err.message });
+// //                                       res.send({status: "500", message: err.message });
 // //                                    })
 // //                                    .on('data', function(row) {
 // //                                       permsList.push(row.organization_id);
@@ -1386,14 +1401,14 @@ router.get('/getRole', (req, res) => {
 // //
 // //                                         bigquery.createQueryStream(updateRow)
 // //                                             .on('error', function(err) {
-// //                                                res.send({"status": "500", "message": err.message });
+// //                                                res.send({status: "500", message: err.message });
 // //                                             })
 // //                                             .on('data', function(data) {
 // //
 // //                                             })
 // //                                             .on('end', function() {
 // //                                                 if (i === docs.length) {
-// //                                                   res.send({"status": "200", "message": "Permissions table created.", "schema": metadata.schema.fields });
+// //                                                   res.send({status: "200", message: "Permissions table created.", "schema": metadata.schema.fields });
 // //                                                 }
 // //
 // //                                             })

@@ -102,7 +102,7 @@ export class UserDetailsComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe(async result => {
         if (result) {
-          const status = await <any>this.userService.deleteUser(this.user, this.permissions);
+          const status = await <any>this.userService.deleteUser(this.user, this.permissions.permissions);
           if (status.status === '200') {
             this.router.navigate(['../../'], { relativeTo: this.route , queryParams: {deletedUser: this.user.firstName}});
             this.snackBar.open('User Deleted: ' + this.user.firstName + ' ' + this.user.lastName, 'Dismiss', {
