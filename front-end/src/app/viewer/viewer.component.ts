@@ -1,3 +1,4 @@
+import { ViewerService } from './../shared/services/viewer.service';
 import { AuthService } from './../auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
@@ -10,9 +11,11 @@ import { LogoutConfirmation } from '../admin/admin.component';
 })
 export class ViewerComponent implements OnInit {
 
-  constructor(private authService: AuthService, public dialog: MatDialog) { }
+  constructor(private authService: AuthService, public dialog: MatDialog, private viewerService: ViewerService) { }
 
   ngOnInit() {
+    console.log('Viewer Initialized');
+    this.viewerService.initialSet();
   }
 
   logout() {

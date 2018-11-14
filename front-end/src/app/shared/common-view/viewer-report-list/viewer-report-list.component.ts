@@ -13,7 +13,12 @@ import { PaginationService } from '../../services/pagination.service';
   styleUrls: ['./viewer-report-list.component.scss']
 })
 export class ViewerReportListComponent implements OnInit, OnDestroy {
-  constructor(private viewerService: ViewerService, private router: Router,  private paginationService: PaginationService, private route: ActivatedRoute) {}
+  constructor(
+    private viewerService: ViewerService,
+    private router: Router,
+    private paginationService: PaginationService,
+    private route: ActivatedRoute
+  ) {}
   reports: ReportViewModel.SimpleReport[] = [];
   organizations = [];
   initialized = false;
@@ -32,16 +37,17 @@ export class ViewerReportListComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     try {
       this.paginationService.resetPage();
-      this.pageSubscription = this.paginationService.paginationChanged.subscribe(
-        pagination => {
-          this.pagination = pagination;
-        }
-      );
+      this.pageSubscription = this.paginationService.paginationChanged.subscribe(pagination => {
+        this.pagination = pagination;
+      });
       this.paginationService.getPagination();
-      this.reports = await this.viewerService.getReports();
+      this.sub = this.route.params.subscribe(params => {
+        this.organizationID = params['id'];
+      });
+      this.reports = await this.viewerService.getReportsByOrganization(this.organizationID);
       console.log(this.reports);
       if (this.reports.length === 1) {
-        this.router.navigate(['../', this.reports[0]._id], { relativeTo: this.route });
+        // this.router.navigate(['../', this.reports[0]._id], { relativeTo: this.route });
       }
       const temp = [];
       for (const report of this.reports) {
@@ -50,24 +56,19 @@ export class ViewerReportListComponent implements OnInit, OnDestroy {
         }
       }
       if (this.organizations.length !== 1) {
-        this.filterForm.addControl(
-          'selectedOrganization',
-          new FormControl('All')
-        );
+        this.filterForm.addControl('selectedOrganization', new FormControl('All'));
       }
       this.initialized = true;
-
     } catch (error) {
       console.log(error);
     }
   }
 
-  initializeOrg() {
-
-  }
+  initializeOrg() {}
 
   reportClicked(reportID, orgID) {
-      this.router.navigate(['../', reportID], { relativeTo: this.route, queryParams: { selectedOrg: orgID} } );
+    console.log('report clicked');
+    this.router.navigate(['./r/', reportID], { relativeTo: this.route, queryParams: { selectedOrg: orgID } });
   }
 
   changeSort(sort) {
@@ -107,7 +108,10 @@ export class ViewerReportListComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.pageSubscription) {
       this.pageSubscription.unsubscribe();
-
     }
+  }
+
+  goToList() {
+    this.router.navigate(['../']);
   }
 }
