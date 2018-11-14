@@ -39,23 +39,29 @@ export class ViewerOrganizationListComponent implements OnInit, OnDestroy {
     name: new FormControl('')
   });
   initialized = false;
+  viewerInitSubscription: Subscription;
   async ngOnInit() {
     // Gets all organizations OnInit
+    console.log('org list init');
     try {
-      await this.viewerService.initialSet();
-      this.organizations = await this.viewerService.getOrganizations();
-      // await this.getAllCategories(this.organizations);
-      /*
-      for (const category of this.categories) {
-        this.filterForm.addControl(category, new FormControl(''));
-      }
-      */
-      this.pageSubscription = this.paginationService.paginationChanged.subscribe((pagination) => {
-        this.pagination = pagination;
+      this.viewerInitSubscription = this.viewerService.getInitialized().subscribe(async init => {
+        if (init) {
+          // await this.viewerService.initialSet();
+          this.organizations = await this.viewerService.getOrganizations();
+          // await this.getAllCategories(this.organizations);
+          /*
+          for (const category of this.categories) {
+          this.filterForm.addControl(category, new FormControl(''));
+           }
+          */
+          this.pageSubscription = this.paginationService.paginationChanged.subscribe(pagination => {
+            this.pagination = pagination;
+          });
+          this.paginationService.getPagination();
+          this.paginationService.changePage(1);
+          this.initialized = true;
+        }
       });
-      this.paginationService.getPagination();
-      this.paginationService.changePage(1);
-      this.initialized = true;
     } catch (error) {
       console.log(error);
     }
@@ -66,15 +72,16 @@ export class ViewerOrganizationListComponent implements OnInit, OnDestroy {
     try {
       console.log(id);
       const org = this.organizations.find(x => x._id === id);
-      const status = await <any>this.viewerService.initializeGhost(org);
+      this.router.navigate(['./', id], { relativeTo: this.route });
+      const status = await (<any>this.viewerService.initializeGhost(org, this.viewerService.getUser()));
       if (status.status === '200') {
         this.viewerService.chooseOrganization(id);
         this.router.navigate(['./', id], { relativeTo: this.route });
       }
+
     } catch (error) {
       console.log(error);
     }
-
   }
 
   /*
@@ -135,8 +142,9 @@ export class ViewerOrganizationListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.pageSubscription) {
       this.pageSubscription.unsubscribe();
-
+    }
+    if (this.viewerInitSubscription) {
+      this.pageSubscription.unsubscribe();
     }
   }
-
 }

@@ -37,6 +37,7 @@ export class UserDetailsComponent implements OnInit {
   viewInitialized = false;
   new = false;
   edited = false;
+  sending = false;
   permissions;
   async ngOnInit() {
     try {
@@ -95,15 +96,19 @@ export class UserDetailsComponent implements OnInit {
 
   async openDialog() {
     try {
-      this.permissions = await this.userService.getPermissionsToRevokeUser(this.user);
+
       const user = this.user.firstName + ' ' + this.user.lastName;
       const dialogRef = this.dialog.open(DeleteUserConfirmation, {
         data: { user: user }
       });
+      this.permissions = await this.userService.getPermissionsToRevokeUser(this.user);
       dialogRef.afterClosed().subscribe(async result => {
         if (result) {
+          this.sending = true;
           const status = await <any>this.userService.deleteUser(this.user, this.permissions.permissions);
+          console.log(status);
           if (status.status === '200') {
+            this.sending = false;
             this.router.navigate(['../../'], { relativeTo: this.route , queryParams: {deletedUser: this.user.firstName}});
             this.snackBar.open('User Deleted: ' + this.user.firstName + ' ' + this.user.lastName, 'Dismiss', {
               duration: 5000,

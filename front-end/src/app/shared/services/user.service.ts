@@ -81,15 +81,17 @@ export class UserService {
 
   /**
    * Delete user
-   * @param user - user object you want to dlete
+   * @param user - user object you want to delete
+   * @param permissions - permissions needed to revoke the user
    */
   public async deleteUser(user, permissions) {
     const params = {
       user: user,
       permissions: permissions
     };
+    console.log(params);
     if (await this.authService.canSend()) {
-      return await this.http.post('/api/' + 'deleteUser/', params).toPromise();
+     return await this.http.post('/api/' + 'deleteUser/', params).toPromise();
     } else {
       return await {
         status: '403',
@@ -101,7 +103,7 @@ export class UserService {
   public async getPermissionsToRevokeUser(user) {
     if (await this.authService.canSend()) {
       console.log('Getting permissions called...');
-      // for unsharing report  organizaiton
+      // for revoking user
       return await this.http.post('/api/' + 'getPermissionsToRevokeUser/', user).toPromise();
     } else {
       return await {

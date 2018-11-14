@@ -1,4 +1,4 @@
-<div *ngIf="organization != null">
+<div *ngIf="organization != null" [ngClass]="{'disable-display': sending}">
   <div class="breadcrumb-container">
     <div> <span routerLink="../list"><i class="material-icons"> business </i> Organization List </span> &nbsp;&nbsp; <i class="material-icons arrow">
         keyboard_arrow_right </i> <i style="margin-left: -14px" class="material-icons arrow"> keyboard_arrow_right </i>&nbsp;&nbsp; <span
@@ -224,3 +224,11 @@
     <span class="text">Share New Report&nbsp;</span>
   </button>
 </mat-menu>
+
+
+<div [ngClass]="{'disable-display': !sending }" class="spinner-container">
+  <mat-spinner class="spinner"></mat-spinner>
+  <h3 class="title">Deleting <span *ngIf="deletingOrg">Organization</span> <span *ngIf="deletingRule"> Rule</span></h3>
+  <p >Please wait</p>
+</div>
+
