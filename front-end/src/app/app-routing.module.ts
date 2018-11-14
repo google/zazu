@@ -1,3 +1,4 @@
+import { ViewerOrganizationListComponent } from './shared/common-view/viewer-organization-list/viewer-organization-list.component';
 import { LogoutComponent } from './auth/logout/logout.component';
 import { UnauthorizedComponent } from './auth/unauthorized/unauthorized.component';
 import { AdminGuard } from './auth/admin-guard.service';
@@ -47,9 +48,10 @@ const routes: Routes = [
         component: ViewerComponent,
         canActivate: [AuthGuard],
         children: [
-          { path: '', redirectTo: 'list', pathMatch: 'full' },
-          { path: 'list', component: ViewerReportListComponent },
-          { path: ':reportID', component: ViewerReportComponent }
+          { path: '', redirectTo: 'org', pathMatch: 'full' },
+          { path: 'org', component: ViewerOrganizationListComponent},
+          { path: 'org/:id', component: ViewerReportListComponent},
+          { path: 'org/:id/r/:reportID', component: ViewerReportComponent}
         ]
       }
     ]

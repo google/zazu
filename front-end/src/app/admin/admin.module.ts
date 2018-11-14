@@ -65,7 +65,6 @@ import { EditReportAccessComponent, RevokeAccessConfirmation } from './edit-repo
     AllReportListComponent,
     SearchNamePipe,
     PaginationPipe,
-    OrgListPipe,
     UserListPipe,
     DataRulesListPipe,
     CreateNewOrganizationComponent,

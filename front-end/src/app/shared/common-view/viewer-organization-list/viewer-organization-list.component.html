@@ -6,21 +6,9 @@
   <div class="left-main-content-view" *ngIf="initialized  && organizations.length > 0">
     <div class="list" *ngIf="pagination">
       <div *ngFor="let organization of organizations  |   orgList:  search: selectedCategories : sortValue: pagination.currentPage " [ngClass]="{'card': !organization.empty}">
-        <div class="container" (click)="goToDetails(organization._id)"  *ngIf="!organization.empty">
+        <div class="container" (click)="goToList(organization._id)"  *ngIf="!organization.empty">
           <h2 class="title">{{organization.name}}</h2>
-          <h4 class="secondary"><span *ngFor="let category of organization.categories, let i = index">{{category}}<span *ngIf="i < organization.categories.length -1">,&nbsp;&nbsp;</span>
-            </span> </h4>
-          <p class="stats">
-            <span class="left"><i class="material-icons">
-                assessment
-              </i> {{organization.reportsCount}} Reports</span>
-            <span class="middle"> <i class="material-icons">
-                person_outline
-              </i>{{organization.usersCount}} Users</span>
-            <span class="right"> <i class="material-icons">
-                dns
-              </i> {{organization.datarulesCount}} Data Rules</span>
-          </p>
+          <h4 class="secondary">{{organization.reportsCount}} Report<span *ngIf="organization.reportsCount > 1"><select name="" id="" disabled="disabled"></select></span></h4>
         </div>
         <div class="no-result" *ngIf="organization.empty && organizations.length > 0">
             <p class="icon"><i class="material-icons">
@@ -52,10 +40,12 @@
           <mat-label class="label-color">Name</mat-label>
           <input matInput type="text" placeholder="Search Name" formControlName="name">
         </mat-form-field>
+        <!--
         <p class="title"> Company Type</p>
         <div class="checkbox" *ngFor="let category of categories">
           <mat-checkbox value="{{category}}" formControlName="{{category}}">{{category}}</mat-checkbox>
         </div>
+        -->
         <br>
         <button mat-raised-button class="search" type="submit">Search</button>
       </form>
@@ -69,15 +59,6 @@
         </mat-radio-button>
       </mat-radio-group>
     </div>
-
-    <div class="add-button">
-      <button routerLink="../new-organization" mat-fab class="button-fab" color="primary-button"> <i class="material-icons plus-icon">
-          add
-        </i>
-        <i class="material-icons back-icon">
-          business
-        </i></button>
-    </div>
   </div>
 
   <div *ngIf="!initialized" style="margin:auto; padding-top: 50px;">
@@ -85,7 +66,7 @@
     <p style="text-align: center;">Loading...</p>
   </div>
 
-  <div *ngIf="initialized && organizations.length === 0 " class="empty-list" style="">
+  <div *ngIf="initialized && organizations.length === 0 " class="empty-list" >
     <div class="icons">
       <i class="material-icons main"> business </i>
       <button routerLink="../new-organization" mat-fab class="button-fab add" color="primary-button"> <i class="material-icons">

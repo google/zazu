@@ -55,4 +55,13 @@ export class ViewerReportComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
+
+
+  goToList() {
+    this.router.navigate(['../../../']);
+  }
+
+  goToReportList() {
+    this.router.navigate(['../../']);
+  }
 }

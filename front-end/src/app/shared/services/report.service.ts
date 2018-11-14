@@ -1,3 +1,4 @@
+import { UserService } from 'src/app/shared/services/user.service';
 import { AuthService } from './../../auth/auth.service';
 import { Injectable } from '@angular/core';
 import * as ReportViewModel from '../view-models/report.viewmodel';
@@ -6,7 +7,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ReportService {
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService, private userService: UserService) {}
   URL = '../../../assets/example-data/';
 
   /**
@@ -85,9 +86,17 @@ export class ReportService {
    */
   public async getReportByUser(userID: string): Promise<ReportViewModel.SimpleReport[]> {
     try {
-      const raw = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByUser/' + userID).toPromise();
-      console.log(raw);
-      const reports = await this.cleanSimpleRawReport(raw);
+      const user = await this.userService.getUser(userID);
+      const allReports = [];
+      for (const org of user.organizations) {
+        const tempReports = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByOrganization/' + org._id).toPromise();
+        for ( const rep of tempReports) {
+          if (allReports.findIndex(x => x._id === rep._id) === -1) {
+            allReports.push(rep);
+          }
+        }
+      }
+      const reports = await this.cleanSimpleRawReport(allReports);
       return reports;
     } catch (error) {
       console.log(error);

@@ -29,7 +29,7 @@ export class RedirectComponent implements OnInit {
             this.router.navigate(['../admin/o/list'], {relativeTo: this.route});
           } else if (this.status.role === 'viewer') {
             this.viewerService.setUserID(this.status.user);
-            this.router.navigate(['../user/list'], {relativeTo: this.route});
+            this.router.navigate(['../user'], {relativeTo: this.route});
           } else {
             console.log('Invalid Role: ' + this.status.role);
           }

@@ -609,7 +609,7 @@ router.get('/getReportByOrganization/:id', function(req, res) {
 
 router.get('/getReportByUser/:id', function(req, res) {
   var reportsByUser = [];
-
+  console.log('get reports by user logged');
   User.find({ _id: req.params.id }, function(err, docs) {
     if (err) {
       res.send({ status: '500', message: 'User retrieved error.' });

@@ -7,6 +7,8 @@ import { ViewerReportComponent } from './common-view/viewer-report/viewer-report
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RawReportListPipe } from './pipes/raw-report-list.pipe';
 import { LogoutConfirmation } from '../admin/admin.component';
+import { ViewerOrganizationListComponent } from './common-view/viewer-organization-list/viewer-organization-list.component';
+import { OrgListPipe } from './pipes/org-list.pipe';
 
 @NgModule({
   imports: [
@@ -18,9 +20,11 @@ import { LogoutConfirmation } from '../admin/admin.component';
   declarations: [
     ReportListPipe,
     RawReportListPipe,
+    OrgListPipe,
     ViewerReportComponent,
     ViewerReportListComponent,
-    LogoutConfirmation
+    LogoutConfirmation,
+    ViewerOrganizationListComponent
   ],
   exports: [
     ReportListPipe,
@@ -28,7 +32,9 @@ import { LogoutConfirmation } from '../admin/admin.component';
     ViewerReportComponent,
     ViewerReportListComponent,
     AngularMaterialModule,
-    LogoutConfirmation
+    LogoutConfirmation,
+    ViewerOrganizationListComponent,
+    OrgListPipe,
   ],
   entryComponents: [
     LogoutConfirmation
