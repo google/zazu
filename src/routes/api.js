@@ -635,6 +635,7 @@ router.post('/deleteOrganization', function(req, res) {
                 })
                 .on('data', function(data) {})
                 .on('end', function() {
+
                   User.updateMany(
                     {
                       organizations: {
@@ -654,7 +655,42 @@ router.post('/deleteOrganization', function(req, res) {
                         console.log(err);
                         res.send({ status: '500', message: err.message });
                       } else {
-                        res.send({ status: '200', results: results });
+
+                          Rule.find({ organization: { $elemMatch: { _id: orgDelete._id } } }, function(err3, res3) {
+                            if (err3) {
+                              res.send({ status: '500', message: err3.message });
+                            }
+
+                            for (var i = 0; i < res3.length; i++) {
+                              var updateRow = utils.buildPermissionsQuery(
+                                config.bq_instance,
+                                config.bq_client_dataset,
+                                config.bq_client_data_perms,
+                                [''],
+                                res3[i].identifier,
+                                res3[i].identifierType,
+                                res3[i].condition,
+                                res3[i].token
+                              );
+
+                              bigquery
+                                .createQueryStream(updateRow)
+                                .on('error', function(err) {
+                                  res.send({ status: '500', message: err.message });
+                                })
+                                .on('data', function(data) {})
+                                .on('end', function() {
+                                  Rule.deleteOne({ _id: res3[i]._id }, function(err, results) {
+                                    if (err) {
+                                      res.send({ status: '500', message: err.message });
+                                    }
+                                    if (i === (res3.length - 1)) {
+                                      res.send({ status: '200', results: results });
+                                    }
+                                  });
+                                });
+                            }
+                          });
                       }
                     }
                   );
@@ -746,55 +782,44 @@ router.get('/getReportByUser/:id', function(req, res) {
   });
 });
 
-router.post('/getOrganizationView', function(req, res) {
+router.post('/initGhost', function(req, res) {
 
-  var userObj = req.body;
+  var userObj = req.body.user;
+  var orgObj = req.body.organization;
   var viewExists = "-1";
 
-  User.find({ _id: userObj._id }, function(err1, res1){
-      if (err1) {
-        res.send({ status: '500', message: 'Retrieving organization view error.' });
+  var findViewRow = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor_2` WHERE user_id = ' + userObj._id;
+
+  bigquery.createQueryStream(findViewRow)
+    .on('error', function(err) {
+        res.send({status: "500", message: err.message });
+    })
+    .on('data', function(row) {
+
+      viewExists = row.organization_id;
+
+    })
+    .on('end', function() {
+
+      if (viewExists == "-1") {
+        var insertOrUpdateView = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor_2` (user_id, organization_id) VALUES (' + userObj._id + ', ' + orgObj._id + ')';
+      }
+      else {
+        var insertOrUpdateView = 'UPDATE `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor_2` SET organization_id = ' + orgObj._id + ' WHERE user_id = ' + userObj._id;
       }
 
-      // var findViewRow = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor` WHERE user_id = ' + userObj._id;
-      //
-      // bigquery.createQueryStream(findViewRow)
-      //     .on('error', function(err) {
-      //        res.send({status: "500", message: err.message });
-      //     })
-      //     .on('data', function(row) {
-      //
-      //         viewExists = row.organization_id;
-      //
-      //     })
-      //     .on('end', function() {
-      //
-      //       if (viewExists == "-1") {
-      //           var insertOrUpdateView = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor` (user_id, organization_id) VALUES (' + userObj._id + ', ' + userObj.organization._id + ')';
-      //       }
-      //       else {
-      //           var insertOrUpdateView = 'UPDATE `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor` SET organization_id = ' + userObj.organization._id + ' WHERE user_id = ' + userObj._id;
-      //       }
-      //
-      //       bigquery.createQueryStream(insertOrUpdateView)
-      //           .on('error', function(err) {
-      //              res.send({status: "500", message: err.message });
-      //           })
-      //           .on('data', function(data) {
-      //
-      //           })
-      //           .on('end', function() {
-      //
-      //             Report.find({ organizations: { $elemMatch: { _id : userObj.organization._id } } }, function(err, docs) {
-      //               if (err) {
-      //                 res.send({status: "500", message: "Report list retrieved error."});
-      //               }
-      //
-      //               res.send(docs);
-      //             });
-      //           });
-      //     });
-  });
+      bigquery.createQueryStream(insertOrUpdateView)
+        .on('error', function(err) {
+          res.send({status: "500", message: err.message });
+        })
+        .on('data', function(data) {
+
+        })
+        .on('end', function() {
+
+            res.send({ status: "200", message: "Successfully changed view."});
+        });
+      });
 });
 
 router.post('/createReport', function(req, res) {
