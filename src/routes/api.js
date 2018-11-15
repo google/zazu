@@ -661,6 +661,10 @@ router.post('/deleteOrganization', function(req, res) {
                               res.send({ status: '500', message: err3.message });
                             }
 
+                            if (res3.length == 0) {
+                              res.send({ status: '200', orgID: orgDelete._id });
+                            }
+
                             for (var i = 0; i < res3.length; i++) {
                               var updateRow = utils.buildPermissionsQuery(
                                 config.bq_instance,
@@ -685,7 +689,7 @@ router.post('/deleteOrganization', function(req, res) {
                                       res.send({ status: '500', message: err.message });
                                     }
                                     if (i === (res3.length - 1)) {
-                                      res.send({ status: '200', results: results });
+                                      res.send({ status: '200', orgID: orgDelete._id });
                                     }
                                   });
                                 });
