@@ -1,3 +1,4 @@
+import { ViewerService } from 'src/app/shared/services/viewer.service';
 import { GhostService } from './../../shared/services/ghost.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Route, ActivatedRoute, Router } from '@angular/router';
@@ -9,31 +10,41 @@ import { Route, ActivatedRoute, Router } from '@angular/router';
 })
 export class GhostComponent implements OnInit, OnDestroy {
 
-  constructor(private ghostService: GhostService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private ghostService: GhostService, private router: Router, private route: ActivatedRoute, private viewerService: ViewerService) { }
   sub: any;
   name: string;
   userID: string;
   viewer;
+  orgID: string;
   async ngOnInit() {
-    this.sub = this.route.params.subscribe(params => {
-      this.name = params['userName'];
-      this.userID = params['userID'];
-
-    });
-    this.viewer = await this.ghostService.getViewerAccess(this.userID);
-    console.log(this.viewer);
-
+    try {
+      this.sub = this.route.params.subscribe(params => {
+        this.name = params['userName'];
+        this.userID = params['userID'];
+        this.orgID = params['id'];
+      });
+      await this.viewerService.initialSet(this.userID);
+      this.ghostService.activatedGhost();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   disableGhost() {
     this.ghostService.disableGhost();
-    this.router.navigate(['../../'], { relativeTo: this.route });
+    if (this.orgID) {
+      this.router.navigate(['admin/o/' + this.orgID + '/u/' + this.userID], { relativeTo: this.route });
+    } else {
+      this.router.navigate(['admin/users/u/' + this.userID], { relativeTo: this.route });
+    }
+
   }
 
   ngOnDestroy(): void {
    if (this.sub) {
      this.sub.unsubscribe();
    }
+   this.ghostService.disableGhost();
   }
 
 }

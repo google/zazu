@@ -103,17 +103,25 @@ export class OrganizationService {
    */
   public async getLocalOrganization(id) {
     console.log('local org called');
-    const organization = this.organizations.find(org => {
-      return org._id === id;
-    });
-    if (!organization) {
+    if (this.organizations.length === 0) {
+
       try {
         this.organizations = await this.getAllOrganizations();
-        this.getLocalOrganization(id);
+        const orga = await this.organizations.find(org => {
+          return org._id === id;
+        });
+        console.log(this.organizations);
+        console.log(orga);
+        return orga;
       } catch (error) {
         console.log(error);
       }
     }
+    const organization = await this.organizations.find(org => {
+      return org._id === id;
+    });
+    console.log(this.organizations);
+    console.log(organization);
     return organization;
   }
 

@@ -41,8 +41,8 @@
     <h4><i class="material-icons check">
         check
       </i>
-      <span *ngIf="new"> Success: Organization Created </span>
-      <span *ngIf="edited"> Success: Organization Created </span>
+      <span *ngIf="new"> Success: Report Created </span>
+      <span *ngIf="edited"> Success: Report Edited </span>
       <i (click)="closeNewBar()" class="material-icons close">
         close
       </i></h4>
@@ -86,7 +86,7 @@
           <p>&nbsp;&nbsp;&nbsp;<span class="info">Big Query: {{datasource.bigquery}} </span> </p>
           <p>&nbsp;&nbsp;&nbsp;<span class="info">Data Studio: {{datasource.datastudio}} </span> </p>
           </div>
-            <p>Created By: <span class="info">{{ report.createdBy}}</span> </p>
+            <p>Created By: <span class="info">{{ report.created_at | date}}</span> </p>
             <p>Updated By: <span class="info">{{ report.updatedBy}}</span></p>
             <p>Who can see it: </p>
             <p *ngFor="let org of report.organizations"> <span class="info"> &nbsp;&nbsp;&#9679; &nbsp;{{org.name}}

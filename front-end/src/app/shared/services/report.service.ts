@@ -39,6 +39,7 @@ export class ReportService {
   private async cleanSimpleRawReport(rawReports: ReportViewModel.SimpleRawReport[]): Promise<ReportViewModel.SimpleReport[]> {
     const reports: ReportViewModel.SimpleReport[] = [];
     for (const report of rawReports) {
+      console.log(report);
       if (report.organizations.length > 1) {
         for (const org of report.organizations) {
           const temp1 = {
@@ -110,10 +111,11 @@ export class ReportService {
    */
   public async getReport(reportID, orgID) {
     const raw = await this.http.get<ReportViewModel.ReportWithMetaData[]>('/api' + '/getAllReports').toPromise();
-
+    console.log(raw);
     const report = raw.find(element => {
       return element._id === reportID;
     });
+
 
     return <ReportViewModel.ReportWithMetaData>report;
     /*

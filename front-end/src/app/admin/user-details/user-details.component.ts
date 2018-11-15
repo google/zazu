@@ -55,12 +55,14 @@ export class UserDetailsComponent implements OnInit {
       for ( const org of this.user.organizations) {
         orgs.push(org._id);
       }
-      console.log(this.user);
       this.reports = await this.reportService.getReportByUser(this.userID);
       this.new = (await this.route.snapshot.queryParamMap.get('new')) === 'new';
       this.edited = (await this.route.snapshot.queryParamMap.get('edited')) === 'true';
       this.ghostsService.disableGhost();
       this.viewInitialized = true;
+      console.log(this.viewInitialized);
+      console.log(this.organization);
+      console.log(this.user);
     } catch (error) {
       console.log(error);
     }
@@ -68,8 +70,8 @@ export class UserDetailsComponent implements OnInit {
 
   ghostView() {
     const userName = this.user.firstName + ' ' + this.user.lastName;
-    this.ghostsService.activatedGhost();
-    this.viewerService.setUserID(this.user._id);
+    // this.ghostsService.activatedGhost();
+    // this.viewerService.setUserID(this.user._id);
     this.router.navigate(['./ghost', userName], { relativeTo: this.route });
   }
 

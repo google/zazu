@@ -15,7 +15,7 @@ export class ViewerComponent implements OnInit {
 
   async ngOnInit() {
     console.log('Viewer Initialized');
-    await this.viewerService.initialSet();
+    await this.viewerService.initialSet('');
   }
 
   logout() {

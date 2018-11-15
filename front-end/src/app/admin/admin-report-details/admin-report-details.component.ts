@@ -99,7 +99,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
       if (result) {
         const status = await <any>this.reportService.deleteReport(this.report, this.permissions.permissions);
         console.log(status);
-        if (status.status === '200') {
+        if (await status.status === '200') {
           this.snackBar.open('Report Deleted: ' + this.report.name, 'Dismiss', {
             duration: 5000,
           });

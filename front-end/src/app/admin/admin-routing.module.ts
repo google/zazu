@@ -26,17 +26,19 @@ import { CreateNewReportComponent } from './create-new-report/create-new-report.
 import { EditOrganizationComponent } from './edit-organization/edit-organization.component';
 import { EditDataRuleComponent } from './edit-data-rule/edit-data-rule.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
+import { ViewerComponent } from '../viewer/viewer.component';
+import { ViewerOrganizationListComponent } from '../shared/common-view/viewer-organization-list/viewer-organization-list.component';
 
 const adminRoutes: Routes = [
   {
     path: '',
     component: AdminComponent,
-    canActivate:  [AdminGuard, AuthGuard],
+    canActivate: [AdminGuard, AuthGuard],
     children: [
       {
         path: 'o',
         component: OrganizationComponent,
-        canActivate:  [AdminGuard, AuthGuard],
+        canActivate: [AdminGuard, AuthGuard],
         children: [
           { path: 'list', component: OrganizationListComponent },
           {
@@ -59,9 +61,10 @@ const adminRoutes: Routes = [
             path: ':id/u/:userID/ghost/:userName',
             component: GhostComponent,
             children: [
-              { path: '', redirectTo: 'list' },
-              { path: 'list', component: ViewerReportListComponent },
-              { path: ':reportID', component: ViewerReportComponent }
+              { path: '', redirectTo: 'org', pathMatch: 'full' },
+              { path: 'org', component: ViewerOrganizationListComponent },
+              { path: 'org/:orgID', component: ViewerReportListComponent },
+              { path: 'org/:id/r/:reportID', component: ViewerReportComponent }
             ]
           },
           { path: ':id/u/:userID/edit-user', component: EditUserComponent },
@@ -92,7 +95,7 @@ const adminRoutes: Routes = [
       {
         path: 'users',
         component: AllUsersComponent,
-        canActivate:  [AdminGuard, AuthGuard],
+        canActivate: [AdminGuard, AuthGuard],
         children: [
           { path: 'list', component: AllUserListComponent },
           { path: 'new-user', component: CreateNewUserComponent },
@@ -101,9 +104,10 @@ const adminRoutes: Routes = [
             path: 'u/:userID/ghost/:userName',
             component: GhostComponent,
             children: [
-              { path: '', redirectTo: 'list' },
-              { path: 'list', component: ViewerReportListComponent },
-              { path: ':reportID', component: ViewerReportComponent }
+              { path: '', redirectTo: 'org', pathMatch: 'full' },
+              { path: 'org', component: ViewerOrganizationListComponent },
+              { path: 'org/:orgID', component: ViewerReportListComponent },
+              { path: 'org/:id/r/:reportID', component: ViewerReportComponent }
             ]
           },
           { path: 'u/:userID/edit-user', component: EditUserComponent },
@@ -119,13 +123,13 @@ const adminRoutes: Routes = [
             path: 'u/:userID/r/:reportID/edit-access',
             component: EditReportAccessComponent
           },
-          { path: '**', redirectTo: 'list' , pathMatch: 'full'}
+          { path: '**', redirectTo: 'list', pathMatch: 'full' }
         ]
       },
       {
         path: 'reports',
         component: AllReportsComponent,
-        canActivate:  [AdminGuard, AuthGuard],
+        canActivate: [AdminGuard, AuthGuard],
         children: [
           { path: 'list', component: AllReportListComponent },
           { path: 'list/new-report', component: CreateNewReportComponent },
@@ -136,10 +140,10 @@ const adminRoutes: Routes = [
             path: 'r/:reportID/edit-access',
             component: EditReportAccessComponent
           },
-          { path: '**', redirectTo: 'list', pathMatch: 'full' },
+          { path: '**', redirectTo: 'list', pathMatch: 'full' }
         ]
       },
-      { path: '**', redirectTo: 'o', pathMatch: 'full' },
+      { path: '**', redirectTo: 'o', pathMatch: 'full' }
     ]
   }
 ];

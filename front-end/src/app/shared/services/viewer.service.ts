@@ -10,8 +10,7 @@ import { Subject, BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ViewerService {
-  constructor(private http: HttpClient, private reportService: ReportService, private authService: AuthService, private userService: UserService) {
-  }
+  constructor(private http: HttpClient, private reportService: ReportService, private authService: AuthService, private userService: UserService) {}
   userID: string;
   reports;
   currentOrganization;
@@ -57,7 +56,7 @@ export class ViewerService {
   }
 
   getOrganization(id) {
-    return this.organizations.find( x => x._id === id);
+    return this.organizations.find(x => x._id === id);
   }
 
   getUser() {
@@ -79,19 +78,25 @@ export class ViewerService {
   public async initializeGhost(org, user) {
     const params = {
       organization: org,
-      user: user,
+      user: user
     };
     return await this.http.post('/api' + '/initGhost', params).toPromise();
   }
 
-  async initialSet() {
+  async initialSet(userID) {
     try {
       const status = await this.authService.isLoggedIn();
       console.log(status);
-      this.user = await this.userService.getUser(status.user);
-      console.log(this.user);
-      this.reports = await this.reportService.getReportByUser(status.user);
-      console.log(this.reports);
+      if (status.role === 'viewer') {
+        this.user = await this.userService.getUser(status.user);
+        console.log(this.user);
+        this.reports = await this.reportService.getReportByUser(status.user);
+        console.log(this.reports);
+      } else if (status.role === 'admin') {
+        this.user = await this.userService.getUser(userID);
+        console.log(this.user);
+        this.reports = await this.reportService.getReportByUser(userID);
+      }
       const orgs = [];
       for (const rep of await this.reports) {
         console.log(rep);
@@ -106,7 +111,7 @@ export class ViewerService {
       }
       this.organizations = await orgs;
       for (const org of this.organizations) {
-        org.reportsCount = await  this.reportsCountByOrg(org._id);
+        org.reportsCount = await this.reportsCountByOrg(org._id);
       }
       console.log(this.organizations);
       this.initialized.next(true);
