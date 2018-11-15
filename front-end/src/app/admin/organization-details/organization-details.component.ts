@@ -140,10 +140,14 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
       // this.users = await this.userService.getUsersByOrganization(this.organizationID);
       this.users = await this.userService.getAllUsers();
       await this.userService.setLocalUsers(this.users);
+      console.log(this.users);
       this.users = this.users.filter(user => {
+        console.log(user);
+        let temp = false;
         for (const org of user.organizations) {
-          return org._id === this.organizationID;
+          temp = temp || org._id === this.organizationID;
         }
+        return temp;
       });
       this.users = this.users.filter(user => {
         return user.role === 'viewer';
