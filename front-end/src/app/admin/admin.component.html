@@ -1,7 +1,7 @@
-<div class="main" *ngIf="!ghostStatus">
+<div class="main">
 
   <!-- Side Navigation Menu-->
-  <div class="side-nav" [ngClass]="{'side-nav-minimized': minimized}">
+  <div class="side-nav" [ngClass]="{'side-nav-minimized': minimized}" *ngIf="!ghostStatus">
     <!-- Company Title and Logo goes Here-->
     <div class="company">
       <div class="icon-container">
@@ -47,9 +47,9 @@
     </div>
   </div>
 
-  <div class="right-content" [ngClass]="{'right-content-minimized': minimized}">
+  <div class="right-content" [ngClass]="{'right-content-minimized': minimized,'right-content-ghost-initiated' : ghostStatus}">
     <!-- Top Toolbar -->
-    <mat-toolbar class="toolbar" [ngClass]="{'toobar-max': minimized}">
+    <mat-toolbar class="toolbar" [ngClass]="{'toobar-max': minimized}" *ngIf="!ghostStatus">
       <button mat-button class="menu-icon" (click)="toggleMenu()">
         <i class="material-icons ">
           menu
@@ -57,13 +57,13 @@
       </button>
       <div style="flex: 1 1 auto">
       </div>
-      <button mat-button class="menu-icon right"   matTooltip="FAQs"
+      <button mat-button class="menu-icon help"   matTooltip="FAQs"
       matTooltipPosition="below">
         <i class="material-icons">
           help_outline
         </i>
       </button>
-      <button mat-button class="menu-icon right"  matTooltip="Logout"
+      <button mat-button class="menu-icon logout"  matTooltip="Logout"
       matTooltipPosition="below" (click)="logout()">
         <i class="material-icons">
           power_settings_new
@@ -74,12 +74,10 @@
     </mat-toolbar>
 
     <!-- Main Content -->
-    <div class="main-content">
+    <div class="main-content" [ngClass]="{'main-content-ghost-initiated' : ghostStatus}">
       <router-outlet></router-outlet>
     </div>
   </div>
 </div>
 
-<div *ngIf="ghostStatus">
-  <router-outlet></router-outlet>
-</div>
+

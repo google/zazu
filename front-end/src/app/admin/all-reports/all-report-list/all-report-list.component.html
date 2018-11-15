@@ -17,13 +17,16 @@
 <div *ngIf="viewInitialized && reports.length === 0 " class="empty-list" >
   <div class="icons">
     <i class="material-icons main"> assessment </i>
-    <button [matMenuTriggerFor]="createMenu" mat-fab class="button-fab add" color="primary-button"> <i class="material-icons">
+    <button [matMenuTriggerFor]="createMenu" #t="matMenuTrigger"  mat-fab class="button-fab add" color="primary-button"> <i class="material-icons">
         add
       </i>
     </button>
+    <div class="new-report-menu-overlay" *ngIf="t.menuOpen">
+    </div>
   </div>
   <h2 class="title"> There are no reports.</h2>
-  <h3 class="create-text" [matMenuTriggerFor]="createMenu"> Create new report</h3>
+  <h3 class="title" > Create new report</h3>
+
 </div>
 
 <mat-menu class="new-report-menu" #createMenu="matMenu" yPosition="above" [overlapTrigger]="false">

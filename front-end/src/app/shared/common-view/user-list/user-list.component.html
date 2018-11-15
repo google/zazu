@@ -6,10 +6,10 @@
         <div class="container" (click)="userClicked(user._id)" *ngIf="!user.empty">
           <h4 class="title" style="font-weight: bold">{{user.firstName}} {{user.lastName}}</h4>
           <p class="secondary" *ngIf="user.role !== 'admin'"> Viewer : <span *ngFor="let org of user.organizations; let i = index">
-              {{org.name}}<span *ngIf="i < user.organizations.length-1">, </span> </span> </p>
+              {{org.name}}<span *ngIf="i < user.organizations.length -1">, </span> </span> </p>
               <p class="secondary" *ngIf="user.role === 'admin'"> Admin</p>
         </div>
-        <div class="no-result" *ngIf="user.empty && users.length > 1">
+        <div class="no-result" *ngIf="user.empty && users.length > 0">
           <p class="icon"><i class="material-icons">
               search
               </i></p>

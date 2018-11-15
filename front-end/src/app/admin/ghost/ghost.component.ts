@@ -17,6 +17,8 @@ export class GhostComponent implements OnInit, OnDestroy {
   viewer;
   orgID: string;
   async ngOnInit() {
+    console.log('ghost init');
+    this.ghostService.activatedGhost();
     try {
       this.sub = this.route.params.subscribe(params => {
         this.name = params['userName'];
@@ -24,18 +26,18 @@ export class GhostComponent implements OnInit, OnDestroy {
         this.orgID = params['id'];
       });
       await this.viewerService.initialSet(this.userID);
-      this.ghostService.activatedGhost();
     } catch (error) {
       console.log(error);
     }
   }
 
   disableGhost() {
+    console.log('disabling ghost');
     this.ghostService.disableGhost();
     if (this.orgID) {
-      this.router.navigate(['admin/o/' + this.orgID + '/u/' + this.userID], { relativeTo: this.route });
+      this.router.navigate(['admin/o/' + this.orgID + '/u/' + this.userID], );
     } else {
-      this.router.navigate(['admin/users/u/' + this.userID], { relativeTo: this.route });
+      this.router.navigate(['admin/users/u/' + this.userID]);
     }
 
   }

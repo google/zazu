@@ -20,7 +20,6 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.ghostSubscription = this.ghostService.ghostStatusObservable.subscribe(status => {
       console.log(status);
       this.ghostStatus = status;
-      this.cdRef.detectChanges();
     });
     this.ghostService.getStatus();
   }

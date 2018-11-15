@@ -19,6 +19,16 @@
 
 }
 
+.main-content-ghost-initiated {
+  width: 100% !important;
+  padding-top: 0 !important;
+}
+
+.right-content-ghost-initiated {
+  margin-left: 0 !important;
+  transition: none !important;
+}
+
 // Company Logo  &  Name
 .company {
   height: 64px;
@@ -97,8 +107,8 @@
   color: white;
   z-index: 20;
   position: fixed;
-  max-width: calc(100vw -  #{$side-nav-max});
-  -webkit-transition: max-width 0.5s;
+  // max-width: calc(100vw -  #{$side-nav-max});
+  // -webkit-transition: max-width 0.5s;
 
 
   .menu-icon {
@@ -108,6 +118,15 @@
     i {
       font-size: 2.5em;
     }
+  }
+
+  .menu-icon.help {
+    position:fixed;
+    right: 4.5em;
+  }
+  .menu-icon.logout {
+    position:fixed;
+    right: 1em;
   }
 
   .menu-icon.right {

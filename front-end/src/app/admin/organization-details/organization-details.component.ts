@@ -234,7 +234,9 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
         if (result) {
           this.sending = true;
           this.deletingOrg = true;
-          const status = await (<any>this.organizationService.deleteOrganization(this.organization));
+          const status = await <any>this.organizationService.deleteOrganization(this.organization);
+          console.log(status);
+          this.router.navigate(['../list'], { relativeTo: this.route, queryParams: { deletedOrg: this.organization.name } });
           if (status.status === '200') {
             this.sending = false;
             this.deletingOrg = false;

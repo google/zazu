@@ -1,55 +1,43 @@
-<div *ngIf="organization != null" [ngClass]="{'disable-display': sending}">
+<div *ngIf="organization != null" [ngClass]="{ 'disable-display': sending }">
   <div class="breadcrumb-container">
-    <div> <span routerLink="../list"><i class="material-icons"> business </i> Organization List </span> &nbsp;&nbsp; <i class="material-icons arrow">
-        keyboard_arrow_right </i> <i style="margin-left: -14px" class="material-icons arrow"> keyboard_arrow_right </i>&nbsp;&nbsp; <span
-        class="active">{{organization.name}}
-      </span> </div>
-
+    <div>
+      <span routerLink="../list"><i class="material-icons"> business </i> Organization List </span> &nbsp;&nbsp;
+      <i class="material-icons arrow"> keyboard_arrow_right </i>
+      <i style="margin-left: -14px" class="material-icons arrow"> keyboard_arrow_right </i>&nbsp;&nbsp;
+      <span class="active">{{ organization.name }} </span>
+    </div>
   </div>
   <div *ngIf="new || newRule || edited || ruleEdited" class="new-bar">
-    <h4><i class="material-icons check">
-        check
-      </i>
-      <span *ngIf="new">Success: Organization Created</span>
-      <span *ngIf="newRule">Success: Data Rule Created</span>
-      <span *ngIf="edited">Success: Organization Edited </span>
-      <span *ngIf="ruleEdited"> Success: Data rule edited</span>
-      <i (click)="closeNewBar()" class="material-icons close">
-        close
-      </i></h4>
+    <h4>
+      <i class="material-icons check"> check </i> <span *ngIf="new">Success: Organization Created</span>
+      <span *ngIf="newRule">Success: Data Rule Created</span> <span *ngIf="edited">Success: Organization Edited </span>
+      <span *ngIf="ruleEdited"> Success: Data rule edited</span> <i (click)="closeNewBar()" class="material-icons close"> close </i>
+    </h4>
   </div>
-  <div class="main-content-view" [ngClass]="{'new': new || newRule || edited || ruleEdited }">
+  <div class="main-content-view" [ngClass]="{ new: new || newRule || edited || ruleEdited }">
     <div class="full-content-view" *ngIf="viewInitialized">
       <div class="details">
         <div class="card">
           <div class="more-button">
-            <button mat-icon-button [matMenuTriggerFor]="menu">
-              <mat-icon color="more-color">more_vert</mat-icon>
-            </button>
+            <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon color="more-color">more_vert</mat-icon></button>
 
             <mat-menu #menu="matMenu">
-              <button mat-menu-item routerLink="./edit-organization">Edit</button>
-              <button mat-menu-item (click)="deleteOrg()">Delete</button>
+              <button mat-menu-item routerLink="./edit-organization">Edit</button> <button mat-menu-item (click)="deleteOrg()">Delete</button>
             </mat-menu>
           </div>
           <div class="container">
-            <h2 class="title">{{organization.name}}</h2>
-            <h4 class="secondary"><span *ngFor="let category of organization.categories; let i = index">{{category}}<span *ngIf="i < organization.categories.length -1">,&nbsp;&nbsp;</span>
-              </span> </h4>
+            <h2 class="title">{{ organization.name }}</h2>
+            <h4 class="secondary">
+              <span *ngFor="let category of organization.categories; let i = index"
+                >{{ category }}<span *ngIf="i < organization.categories.length - 1">,&nbsp;&nbsp;</span>
+              </span>
+            </h4>
             <p class="stats">
-              <span class="left"><i class="material-icons">
-                  assessment
-                </i> {{organization.reportsCount}} Reports</span>
-              <span class="middle"> <i class="material-icons">
-                  person_outline
-                </i>{{organization.usersCount}} Users</span>
-              <span class="right"> <i class="material-icons">
-                  dns
-                </i> {{organization.datarulesCount}} Data Rules</span>
+              <span class="left"><i class="material-icons"> assessment </i> {{ organization.reportsCount }} Reports</span>
+              <span class="middle"> <i class="material-icons"> person_outline </i>{{ organization.usersCount }} Users</span>
+              <span class="right"> <i class="material-icons"> dns </i> {{ organization.datarulesCount }} Data Rules</span>
             </p>
-
           </div>
-
         </div>
 
         <div class="tabs">
@@ -59,42 +47,54 @@
                 <mat-spinner style="margin:auto"></mat-spinner>
                 <p style="text-align: center;">Reports Loading...</p>
               </div>
-
-              <div *ngIf="reportsInitialized && reports.length === 0 " class="empty-list">
+              <div *ngIf="reportsInitialized && reports.length === 0" class="empty-list">
                 <div class="icons">
                   <i class="material-icons main"> assessment </i>
-                  <button [matMenuTriggerFor]="createMenu" mat-fab class="button-fab add" color="primary-button"> <i class="material-icons">
-                      add
-                    </i>
+                  <button [matMenuTriggerFor]="createMenu" mat-fab #b="matMenuTrigger" class="button-fab add" color="primary-button">
+                    <i class="material-icons"> add </i>
                   </button>
+                  <div class="new-report-menu-overlay" *ngIf="b.menuOpen"></div>
                 </div>
-                <h2 class="title"> There are no reports.</h2>
-                <h3 class="create-text" [matMenuTriggerFor]="createMenu"> Create new report</h3>
+                <h2 class="title">There are no reports.</h2>
+                <h3 class="title">Create new report</h3>
+                <mat-menu class="new-report-menu" #createMenu="matMenu" yPosition="above" [overlapTrigger]="false">
+                  <button mat-menu-item routerLink="./new-report">
+                    <mat-icon>create</mat-icon>
+                    <span class="text">Create New Report</span>
+                  </button>
+                  <button mat-menu-item routerLink="./share-report">
+                    <mat-icon>share</mat-icon>
+                    <span class="text">Share New Report&nbsp;</span>
+                  </button>
+                </mat-menu>
               </div>
 
-
-              <app-report-list [allowAdd]=true *ngIf="selectedTab === 0 && reportsInitialized && reports.length > 0 " [reports]="reports"
-                (report)="goToReport($event)" style="display:flex; width: 100%; margin-bottom: 10px;"></app-report-list>
+              <app-report-list
+                [allowAdd]="true"
+                *ngIf="selectedTab === 0 && reportsInitialized && reports.length > 0"
+                [reports]="reports"
+                (report)="goToReport($event)"
+                style="display:flex; width: 100%; margin-bottom: 10px;"
+              ></app-report-list>
             </mat-tab>
             <mat-tab label="Users">
               <div *ngIf="!usersInitialized" style="margin:auto; padding-top: 50px; text-align: center">
                 <mat-spinner style="margin:auto"></mat-spinner>
                 <p style="text-align: center;">Users Loading...</p>
               </div>
-              <app-user-list *ngIf="selectedTab === 1 && usersInitialized && users.length > 0 " [users]="users" (userID)="goToUser($event)"
-                style="display:flex; width: 100%; margin-bottom: 10px;"></app-user-list>
-
-
-              <div *ngIf="usersInitialized && users.length === 0 && selectedTab === 1  " class="empty-list">
+              <app-user-list
+                *ngIf="selectedTab === 1 && usersInitialized && users.length > 0"
+                [users]="users"
+                (userID)="goToUser($event)"
+                style="display:flex; width: 100%; margin-bottom: 10px;"
+              ></app-user-list>
+              <div *ngIf="usersInitialized && users.length === 0 && selectedTab === 1" class="empty-list">
                 <div class="icons">
                   <i class="material-icons main"> person_outline </i>
-                  <button routerLink="./new-user" mat-fab class="button-fab add" color="primary-button"> <i class="material-icons">
-                      add
-                    </i>
-                  </button>
+                  <button routerLink="./new-user" mat-fab class="button-fab add" color="primary-button"><i class="material-icons"> add </i></button>
                 </div>
-                <h2 class="title"> There are no users.</h2>
-                <h3 class="create-text" routerLink="./new-user"> Create new user</h3>
+                <h2 class="title">There are no users.</h2>
+                <h3 class="title" >Create new user</h3>
               </div>
             </mat-tab>
             <mat-tab label="Data Rules">
@@ -104,49 +104,46 @@
               </div>
               <div class="data-rules-section" *ngIf="selectedTab === 2 && datarulesInitialized && rules.length > 0">
                 <div class="left-main-content-view">
-                  <div *ngFor="let rule of rules | datarulesList : searchName : selectedDataSource : sortValue : pagination.currentPage; let i = index">
+                  <div *ngFor="let rule of (rules | datarulesList: searchName:selectedDataSource:sortValue:pagination.currentPage); let i = index">
                     <mat-accordion *ngIf="!rule.empty">
                       <mat-expansion-panel class="data-rules-card">
                         <mat-expansion-panel-header>
                           <mat-panel-title>
-                            <h4 class="title">{{rule.name}}</h4><br>
+                            <h4 class="title">{{ rule.name }}</h4>
+                            <br />
                           </mat-panel-title>
                           <mat-panel-description>
-                            <h5>{{rule.datasource}}</h5>
+                            <h5>{{ rule.datasource }}</h5>
                           </mat-panel-description>
                         </mat-expansion-panel-header>
-                        <hr>
-                        <p>Created At: {{rule.created_at | date }}</p>
-                        <p>Identifier: {{rule.identifier}}</p>
-                        <p>Condition: {{rule.condition}}</p>
-                        <p>Token: {{rule.token}}</p>
+                        <hr />
+                        <p>Created At: {{ rule.created_at | date }}</p>
+                        <p>Identifier: {{ rule.identifier }}</p>
+                        <p>Condition: {{ rule.condition }}</p>
+                        <p>Token: {{ rule.token }}</p>
                         <div class="buttons">
                           <button mat-button color="danger" (click)="deleteRule(rule)">Delete</button>
                           <button mat-button color="primary" (click)="editRule(rule._id)">Edit</button>
                         </div>
                       </mat-expansion-panel>
-                      <br>
+                      <br />
                     </mat-accordion>
 
                     <div class="no-result" *ngIf="rule.empty && rules.length > 0">
-                      <p class="icon"><i class="material-icons">
-                          search
-                        </i></p>
-                      <h3 class="title">
-                        No result found.
-                      </h3>
-                      <p class="text"> We can't find any rules matching your search.</p>
+                      <p class="icon"><i class="material-icons"> search </i></p>
+                      <h3 class="title" style="color: #323232">No result found.</h3>
+                      <p class="text">We can't find any rules matching your search.</p>
                     </div>
                   </div>
 
-                  <p class="pagination" *ngIf="this.pagination && this.pagination.totalPages > 1" style="text-align: center"> <button
-                      mat-mini-fab (click)="previousPage()" color="white" [disabled]="pagination.currentPage===1"> <i class="material-icons">
-                        chevron_left
-                      </i> </button>
-                    {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)="nextPage() "
-                      [disabled]="pagination.currentPage === pagination.totalPages" color="white"> <i class="material-icons">
-                        chevron_right
-                      </i> </button>
+                  <p class="pagination" *ngIf="this.pagination && this.pagination.totalPages > 1" style="text-align: center">
+                    <button mat-mini-fab (click)="previousPage()" color="white" [disabled]="pagination.currentPage === 1">
+                      <i class="material-icons"> chevron_left </i>
+                    </button>
+                    {{ this.pagination.currentPage }}/{{ this.pagination.totalPages }}
+                    <button mat-mini-fab active (click)="nextPage()" [disabled]="pagination.currentPage === pagination.totalPages" color="white">
+                      <i class="material-icons"> chevron_right </i>
+                    </button>
                   </p>
                 </div>
                 <div class="right-main-content-view">
@@ -154,51 +151,45 @@
                   <div class="filter">
                     <form [formGroup]="filterForm" (ngSubmit)="onSearch()">
                       <button class="reset" mat-stroked-button (click)="searchFormReset()">RESET</button>
-                      <p class="title"> Filter by</p>
+                      <p class="title">Filter by</p>
                       <mat-form-field appearance="outline" class="search">
                         <mat-label class="label-color">Name</mat-label>
-                        <input matInput type="text" placeholder="Search Name" formControlName="name">
+                        <input matInput type="text" placeholder="Search Name" formControlName="name" />
                       </mat-form-field>
-                      <p class="title"> Data Source</p>
+                      <p class="title">Data Source</p>
                       <mat-form-field appearance="outline" class="select">
                         <mat-select formControlName="selectedDataSource">
                           <mat-option value="All">All</mat-option>
-                          <mat-option *ngFor="let datasource of dataSources" value="{{datasource}}">{{datasource}}</mat-option>
+                          <mat-option *ngFor="let datasource of dataSources" value="{{datasource}}">{{ datasource }}</mat-option>
                         </mat-select>
                       </mat-form-field>
-                      <br>
+                      <br />
                       <button mat-raised-button class="search" type="submit">Search</button>
                     </form>
                   </div>
                   <div class="sort">
-                    <p class="title"> Sort By</p>
+                    <p class="title">Sort By</p>
                     <mat-radio-group class="example-radio-group" [(ngModel)]="sortValue">
                       <mat-radio-button *ngFor="let sort of sorts" value="{{sort}}" (click)="changeSort(sort)" class="radio">
-                        {{sort}}
+                        {{ sort }}
                       </mat-radio-button>
                     </mat-radio-group>
                   </div>
                   <div class="add-button">
-                    <button routerLink="./new-rule" mat-fab class="button-fab" color="primary-button"> <i class="material-icons plus-icon">
-                        add
-                      </i>
-                      <i class="material-icons back-icon">
-                        dns
-                      </i></button>
+                    <button routerLink="./new-rule" mat-fab class="button-fab" color="primary-button">
+                      <i class="material-icons plus-icon"> add </i> <i class="material-icons back-icon"> dns </i>
+                    </button>
                   </div>
                 </div>
               </div>
 
-              <div *ngIf="datarulesInitialized && rules.length === 0 && selectedTab === 2 " class="empty-list">
+              <div *ngIf="datarulesInitialized && rules.length === 0 && selectedTab === 2" class="empty-list">
                 <div class="icons">
                   <i class="material-icons main"> dns </i>
-                  <button routerLink="./new-rule" mat-fab class="button-fab add" color="primary-button"> <i class="material-icons">
-                      add
-                    </i>
-                  </button>
+                  <button routerLink="./new-rule" mat-fab class="button-fab add" color="primary-button"><i class="material-icons"> add </i></button>
                 </div>
-                <h2 class="title"> There are no data rules.</h2>
-                <h3 class="create-text" routerLink="./new-rule"> Create new data rule</h3>
+                <h2 class="title">There are no data rules.</h2>
+                <h3 class="title">Create new data rule</h3>
               </div>
             </mat-tab>
           </mat-tab-group>
@@ -214,21 +205,8 @@
 
 
 
-<mat-menu class="new-report-menu" #createMenu="matMenu" yPosition="above" [overlapTrigger]="false">
-  <button mat-menu-item routerLink="./new-report">
-    <mat-icon>create</mat-icon>
-    <span class="text">Create New Report</span>
-  </button>
-  <button mat-menu-item routerLink="./share-report">
-    <mat-icon>share</mat-icon>
-    <span class="text">Share New Report&nbsp;</span>
-  </button>
-</mat-menu>
-
-
-<div [ngClass]="{'disable-display': !sending }" class="spinner-container">
+<div [ngClass]="{ 'disable-display': !sending }" class="spinner-container">
   <mat-spinner class="spinner"></mat-spinner>
   <h3 class="title">Deleting <span *ngIf="deletingOrg">Organization</span> <span *ngIf="deletingRule"> Rule</span></h3>
-  <p >Please wait</p>
+  <p>Please wait</p>
 </div>
-

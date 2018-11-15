@@ -24,7 +24,7 @@ export class GhostService {
 
   activatedGhost() {
     this.ghostStatus = true;
-    this.ghostStatusObservable.next(this.ghostStatus);
+    this.ghostStatusObservable.next(true);
   }
 
   disableGhost() {

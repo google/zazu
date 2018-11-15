@@ -72,15 +72,18 @@
 
 
   <div class="add-button" *ngIf="allowAdd">
-    <button [matMenuTriggerFor]="menu" mat-fab class="button-fab" color="primary-button"> <i class="material-icons plus-icon">
+    <button [matMenuTriggerFor]="menu" #t="matMenuTrigger" mat-fab class="button-fab" color="primary-button"> <i class="material-icons plus-icon">
         add
       </i>
       <i class="material-icons back-icon">
         assessment
       </i></button>
+      <div class="new-report-menu-overlay" *ngIf="t.menuOpen">
+      </div>
   </div>
-</div>
 
+
+</div>
 <mat-menu class="new-report-menu" #menu="matMenu" yPosition="above" [overlapTrigger]="false">
   <button mat-menu-item routerLink="./new-report">
     <mat-icon>create</mat-icon>
@@ -91,3 +94,9 @@
     <span  class="text">Share New Report&nbsp;</span>
   </button>
 </mat-menu>
+<!--
+<div class="new-report-menu-overlay" [hidden]="t.menuOpen">
+</div>
+ -->
+
+

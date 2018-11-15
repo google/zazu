@@ -9,13 +9,14 @@ import {
   EventEmitter,
   OnDestroy,
   OnChanges,
-  Inject
+  Inject,
+  ViewChild
 } from '@angular/core';
 import * as ReportViewModel from '../../view-models/report.viewmodel';
 import { PaginationService } from '../../services/pagination.service';
 import * as OrganizationViewModel from '../../view-models/organization.viewmodel';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatMenuTrigger } from '@angular/material';
 
 @Component({
   selector: 'app-report-list',
@@ -34,6 +35,7 @@ export class ReportListComponent implements OnInit, OnDestroy, OnChanges {
   @Input() rawReports: ReportViewModel.SimpleRawReport[];
   @Output()
   report = new EventEmitter<any>();
+  @ViewChild('t') trigger: MatMenuTrigger;
   sub: any;
   pageSubscription: Subscription;
   organizations: OrganizationViewModel.SimpleOrganization[] = [];
@@ -48,9 +50,12 @@ export class ReportListComponent implements OnInit, OnDestroy, OnChanges {
   });
   formInitialize = false;
   userID;
+  menuOpen: boolean;
+  overlay;
 
   async ngOnInit() {
     try {
+      console.log(this.menuOpen);
       this.paginationService.resetPage();
       this.sub = this.route.params.subscribe(params => {
         this.organizationID = params['id'];
@@ -62,7 +67,7 @@ export class ReportListComponent implements OnInit, OnDestroy, OnChanges {
         }
       );
       this.paginationService.getPagination();
-
+        console.log(this.trigger);
     } catch (error) {
       console.log(error);
     }
@@ -163,6 +168,14 @@ export class ReportListComponent implements OnInit, OnDestroy, OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
     });
+  }
+
+  openOverlay() {
+    this.overlay = true;
+  }
+
+  closeOverlay() {
+    this.overlay = false;
   }
 }
 
