@@ -67,7 +67,6 @@ export class ReportListComponent implements OnInit, OnDestroy, OnChanges {
         }
       );
       this.paginationService.getPagination();
-        console.log(this.trigger);
     } catch (error) {
       console.log(error);
     }

@@ -1,4 +1,4 @@
-<div *ngIf="(organization != null && user!= null && report != null) || (!organization  && !userView && report != null) || (!organization && !user && report != null)">
+<div *ngIf="(organization != null && user!= null && report != null && viewInitialized) || (!organization  && !userView && report != null && viewInitialized) || (!organization && !user && report != null && viewInitialized)">
 
   <div class="breadcrumb-container"  *ngIf="viewInitialized">
     <!-- Breadcrumbs for report when navigation from organization list -->
@@ -81,10 +81,10 @@
                 <h4 class="info-title" style="padding-top: 10px;"> Metadata</h4>
               </mat-panel-title>
             </mat-expansion-panel-header>
-            <p>Datasources: </p>
+            <p> <span class="info">Datasources:</span> </p>
           <div *ngFor="let datasource of report.datasources; let i = index">
-          <p>&nbsp;&nbsp;&nbsp;<span class="info">Big Query: {{datasource.bigquery}} </span> </p>
-          <p>&nbsp;&nbsp;&nbsp;<span class="info">Data Studio: {{datasource.datastudio}} </span> </p>
+          <p>Big Query: <span class="info">{{datasource.bigquery}} </span> </p>
+          <p>Data Studio:<span class="info"> {{datasource.datastudio}} </span> </p>
           </div>
             <p>Created By: <span class="info">{{ report.created_at | date}}</span> </p>
             <p>Updated By: <span class="info">{{ report.updatedBy}}</span></p>

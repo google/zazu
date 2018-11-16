@@ -54,7 +54,7 @@
             <h4 class="secondary">{{ user.role | titlecase }}</h4>
             <p class="content">Gmail: {{user.googleID}}</p>
             <p class="content">Secondary Email: {{user.secondaryEmail}}</p>
-            <p class="content"> Accesses: <span *ngFor="let org of user.organizations"> {{org.name}} </span></p>
+            <p class="content"> Accesses: <span *ngFor="let org of user.organizations; let i = index"> {{org.name}}<span *ngIf=" i < user.organizations.length -1">,&nbsp;</span> </span></p>
           </div>
         </div>
       </div>

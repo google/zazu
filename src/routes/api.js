@@ -759,7 +759,6 @@ router.get('/getReportByOrganization/:id', function(req, res) {
 
 router.get('/getReportByUser/:id', function(req, res) {
   var reportsByUser = [];
-  console.log('get reports by user logged');
   User.find({ _id: req.params.id }, function(err, docs) {
     if (err) {
       res.send({ status: '500', message: 'User retrieved error.' });
@@ -787,6 +786,7 @@ router.get('/getReportByUser/:id', function(req, res) {
 });
 
 router.post('/initGhost', function(req, res) {
+  console.log('initialize ghost');
 
   var userObj = req.body.user;
   var orgObj = req.body.organization;
@@ -974,6 +974,7 @@ router.post('/getPermissionsToRevoke', function(req, res) {
 });
 
 router.post('/deleteReport', function(req, res) {
+  console.log('delete report called');
   var deleteReport = req.body.report;
   var permissions = req.body.permissions;
   var result = 0;

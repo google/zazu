@@ -10,6 +10,8 @@ export class ReportService {
   constructor(private http: HttpClient, private authService: AuthService, private userService: UserService) {}
   URL = '../../../assets/example-data/';
 
+  private reports = [];
+
   /**
    * Gets all the reports for all organizations
    */
@@ -17,6 +19,7 @@ export class ReportService {
     try {
       const raw = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getAllReports').toPromise();
       console.log(raw);
+      this.reports = raw;
       const reports = await this.cleanSimpleRawReport(raw);
       return await reports;
     } catch (error) {
@@ -72,6 +75,7 @@ export class ReportService {
     try {
       const raw = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByOrganization/' + orgID).toPromise();
       console.log(raw);
+      this.reports = raw;
       console.log(this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByOrganization/' + orgID).toPromise());
       const reports = (await this.cleanSimpleRawReport(raw)).filter(report => {
         return report.organization._id === orgID;
@@ -87,6 +91,10 @@ export class ReportService {
    */
   public async getReportByUser(userID: string): Promise<ReportViewModel.SimpleReport[]> {
     try {
+      console.log('Get Report By User called');
+      const allReports = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByUser/' + userID).toPromise();
+      this.reports = allReports;
+      /*
       const user = await this.userService.getUser(userID);
       const allReports = [];
       for (const org of user.organizations) {
@@ -96,7 +104,7 @@ export class ReportService {
             allReports.push(rep);
           }
         }
-      }
+      */
       const reports = await this.cleanSimpleRawReport(allReports);
       return reports;
     } catch (error) {
@@ -110,14 +118,24 @@ export class ReportService {
    * @param orgID - ID of the organization whose report POV you want to show
    */
   public async getReport(reportID, orgID) {
-    const raw = await this.http.get<ReportViewModel.ReportWithMetaData[]>('/api' + '/getAllReports').toPromise();
-    console.log(raw);
-    const report = raw.find(element => {
-      return element._id === reportID;
-    });
+    /*
+    if ( this.reports.length === 0) {
+      console.log('Taken from API report');
+      const raw = await this.http.get<ReportViewModel.ReportWithMetaData[]>('/api' + '/getAllReports').toPromise();
+      console.log(raw);
+      const report = raw.find(element => {
+        return element._id === reportID;
+      });
+      return <ReportViewModel.ReportWithMetaData>report;
+    } else {
+      console.log('Taken from LOCAL REPORT');
+      const report = this.reports.find(element => {
+        return element._id === reportID;
+      });
+      return await <ReportViewModel.ReportWithMetaData>report;
+    }*/
+    return await this.http.get<ReportViewModel.ReportWithMetaData>('/api' + '/getAllReports/' + reportID).toPromise();
 
-
-    return <ReportViewModel.ReportWithMetaData>report;
     /*
     return await this.http
       .get<ReportViewModel.ReportWithMetaData>(
@@ -253,7 +271,7 @@ export class ReportService {
         permissions: permissions
       };
       console.log(parameter);
-      // return await this.http.post('/api/' + 'deleteReport/', parameter).toPromise();
+      return await this.http.post('/api/' + 'deleteReport/', parameter).toPromise();
     } else {
       return await {
         status: '403',

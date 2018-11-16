@@ -1,5 +1,5 @@
 <div class="breadcrumb-container" *ngIf="initialized">
-  <div>
+  <div *ngIf= "!oneReport">
     <span (click)="goToList()"><i class="material-icons"> business </i> Organization List </span>
      &nbsp;&nbsp;
     <i class="material-icons arrow"> keyboard_arrow_right </i>
@@ -11,6 +11,9 @@
     <i style="margin-left: -14px" class="material-icons arrow"> keyboard_arrow_right </i>
     &nbsp;&nbsp;
     <span class="active">{{report.name}}</span>
+  </div>
+  <div *ngIf= "oneReport">
+    <span class="active"><i class="material-icons"> assessment </i>{{report.name}} ({{selectedOrg.name}})</span>
   </div>
 </div>
 <div class="main-content-view">
@@ -32,12 +35,6 @@
       <p>
         Datastudio Link: <span class="info"> {{ report.link }}</span>
       </p>
-      <p>Datasources:</p>
-      <div *ngFor="let datasource of report.datasources; let i = index">
-        <p>
-          &nbsp;&nbsp;&nbsp;&bull;<span class="info"> {{ datasource }} </span>
-        </p>
-      </div>
     </div>
   </div>
   <div *ngIf="!initialized" style="margin:auto; padding-top: 50px;">

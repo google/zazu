@@ -19,7 +19,11 @@ export class UserService {
    *  Method for getting all users for all organizations
    */
   public async getAllUsers(): Promise<UserViewModel.SimpleUserView[]> {
-    return await this.http.get<UserViewModel.SimpleUserView[]>('/api' + '/getAllUsers').toPromise();
+    const users = await this.http
+      .get<UserViewModel.SimpleUserView[]>('/api' + '/getAllUsers')
+      .toPromise();
+    this.users = users;
+    return users;
   }
 
   /**
@@ -28,7 +32,9 @@ export class UserService {
    */
   public async getUser(id): Promise<UserViewModel.User> {
     console.log(id);
-    return await this.http.get<UserViewModel.User>('/api' + '/getAllUsers/' + id).toPromise();
+    return await this.http
+      .get<UserViewModel.User>('/api' + '/getAllUsers/' + id)
+      .toPromise();
   }
 
   /**
@@ -36,7 +42,11 @@ export class UserService {
    * @param orgId -  ID of the organization you want to get all users
    */
   public async getUsersByOrganization(orgId) {
-    return await this.http.get<UserViewModel.SimpleUserView[]>(this.URL + 'user-list.mockdata.json').toPromise();
+    const users = await this.http
+      .get<UserViewModel.SimpleUserView[]>(this.URL + 'user-list.mockdata.json')
+      .toPromise();
+    this.users = users;
+    return users;
   }
   //  await ((this.http.get<UserViewModel.SimpleUserView[]>(this.URL + 'user-list.mockdata.json')).toPromise());
 
@@ -91,7 +101,7 @@ export class UserService {
     };
     console.log(params);
     if (await this.authService.canSend()) {
-     return await this.http.post('/api/' + 'deleteUser/', params).toPromise();
+      return await this.http.post('/api/' + 'deleteUser/', params).toPromise();
     } else {
       return await {
         status: '403',
@@ -104,7 +114,9 @@ export class UserService {
     if (await this.authService.canSend()) {
       console.log('Getting permissions called...');
       // for revoking user
-      return await this.http.post('/api/' + 'getPermissionsToRevokeUser/', user).toPromise();
+      return await this.http
+        .post('/api/' + 'getPermissionsToRevokeUser/', user)
+        .toPromise();
     } else {
       return await {
         status: '403',
@@ -116,10 +128,7 @@ export class UserService {
   /********** LOCAL USER FOR OPTIMIZATION  **************/
 
   public async getLocalUser(userID: string) {
-    const user = this.users.find(usr => {
-      return usr._id === userID;
-    });
-    if (!user) {
+    if (this.users.length === 0) {
       try {
         this.users = await this.getAllUsers();
         this.getLocalUser(userID);
@@ -127,6 +136,9 @@ export class UserService {
         console.log(error);
       }
     }
+    const user = this.users.find(usr => {
+      return usr._id === userID;
+    });
     return user;
   }
 

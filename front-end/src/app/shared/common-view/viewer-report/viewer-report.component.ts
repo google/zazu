@@ -29,11 +29,15 @@ export class ViewerReportComponent implements OnInit, OnDestroy {
   embedLink;
   selectedOrg;
   viewerInitSubscription: Subscription;
+  oneReport;
 
   async ngOnInit() {
     this.viewerInitSubscription = this.viewerService.getInitialized().subscribe(async init => {
       console.log(init);
       if (init) {
+        console.log(this.viewerService.reports);
+        this.oneReport = this.viewerService.reports.length === 1;
+        console.log(this.oneReport);
         this.sub = this.route.params.subscribe(params => {
           this.reportID = params['reportID'];
         });
@@ -49,6 +53,8 @@ export class ViewerReportComponent implements OnInit, OnDestroy {
         if (!this.viewerService.currentOrganization) {
           const org = this.viewerService.getOrganization(this.selectedOrgID);
           const status = await <any>this.viewerService.initializeGhost(org, this.viewerService.user);
+          // delete this after
+          this.initialized =  true;
           if (status.status === '200') {
             console.log(status);
             this.initialized = true;

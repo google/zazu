@@ -83,8 +83,14 @@ export class ViewerService {
     return await this.http.post('/api' + '/initGhost', params).toPromise();
   }
 
+
+  public async getReportByUser(userID) {
+    return await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByUser/' + userID).toPromise();
+  }
+
   async initialSet(userID) {
     try {
+      console.log('initial set called');
       const status = await this.authService.isLoggedIn();
       console.log(status);
       if (status.role === 'viewer') {
@@ -96,6 +102,7 @@ export class ViewerService {
         this.user = await this.userService.getUser(userID);
         console.log(this.user);
         this.reports = await this.reportService.getReportByUser(userID);
+        console.log(this.reports);
       }
       const orgs = [];
       for (const rep of await this.reports) {

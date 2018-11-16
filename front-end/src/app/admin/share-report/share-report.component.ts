@@ -61,6 +61,13 @@ export class ShareReportComponent implements OnInit {
         this.selectedOrg = this.organizations.find(org => {
           return org._id === this.organizationID;
         });
+        this.reports = this.reports.filter(report => {
+          return (
+            report.organizations.find(org => {
+              return org._id === this.organizationID;
+            }) === undefined
+          );
+        });
         this.rules = await this.datarulesService.getDataRules(
           this.organizationID
         );
@@ -157,14 +164,16 @@ export class ShareReportComponent implements OnInit {
       const status = <any>this.reportService.shareReport(report, org);
       if (status.status === '200') {
         if (this.organizationID) {
-          await this.router.navigate(['../r', status.reportID], {
+          console.log('coming from org details');
+          await this.router.navigate(['../r', status.results], {
             relativeTo: this.route,
-            queryParams: { new: 'new' }
+            queryParams: { new: 'new', selectedOrg: this.organizationID }
           });
         } else {
-          await this.router.navigate(['../../r', status.reportID], {
+          console.log('coming from report list');
+          await this.router.navigate(['../../r', status.results], {
             relativeTo: this.route,
-            queryParams: { new: 'new' }
+            queryParams: { new: 'new', selectedOrg: status.results }
           });
         }
       } else {

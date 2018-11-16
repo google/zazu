@@ -40,6 +40,7 @@ export class ViewerOrganizationListComponent implements OnInit, OnDestroy {
   });
   initialized = false;
   viewerInitSubscription: Subscription;
+  reports;
   async ngOnInit() {
     // Gets all organizations OnInit
     console.log('org list init');
@@ -47,6 +48,8 @@ export class ViewerOrganizationListComponent implements OnInit, OnDestroy {
       this.viewerInitSubscription = this.viewerService.getInitialized().subscribe(async init => {
         if (init) {
           // await this.viewerService.initialSet();
+          this.reports = await this.viewerService.getReportByUser(this.viewerService.getUser()._id);
+          console.log(this.reports);
           this.organizations = await this.viewerService.getOrganizations();
           // await this.getAllCategories(this.organizations);
           /*
@@ -54,6 +57,14 @@ export class ViewerOrganizationListComponent implements OnInit, OnDestroy {
           this.filterForm.addControl(category, new FormControl(''));
            }
           */
+         if (this.reports.length === 1) {
+           console.log(this.reports);
+          if (this.reports[0].organizations.length === 1) {
+            console.log('one report - one org');
+            this.router.navigate(['./r/', this.reports[0]._id], { relativeTo: this.route, queryParams: { selectedOrg: this.reports[0].organizations[0]._id}} );
+          }
+         }
+         console.log(this.organizations);
           this.pageSubscription = this.paginationService.paginationChanged.subscribe(pagination => {
             this.pagination = pagination;
           });
@@ -73,7 +84,8 @@ export class ViewerOrganizationListComponent implements OnInit, OnDestroy {
       console.log(id);
       const org = this.organizations.find(x => x._id === id);
       this.router.navigate(['./', id], { relativeTo: this.route });
-      const status = await (<any>this.viewerService.initializeGhost(org, this.viewerService.getUser()));
+      const status = await <any>this.viewerService.initializeGhost(org, this.viewerService.getUser());
+      console.log(status);
       if (status.status === '200') {
         this.viewerService.chooseOrganization(id);
         this.router.navigate(['./', id], { relativeTo: this.route });

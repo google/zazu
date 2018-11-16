@@ -47,7 +47,7 @@
     </div>
   </div>
 
-  <div class="right-content" [ngClass]="{'right-content-minimized': minimized,'right-content-ghost-initiated' : ghostStatus}">
+  <div class="right-content" [ngClass]="{'right-content-minimized': minimized && !ghostStatus,'right-content-ghost-initiated' : ghostStatus}">
     <!-- Top Toolbar -->
     <mat-toolbar class="toolbar" [ngClass]="{'toobar-max': minimized}" *ngIf="!ghostStatus">
       <button mat-button class="menu-icon" (click)="toggleMenu()">

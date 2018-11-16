@@ -19,10 +19,7 @@
 
 }
 
-.main-content-ghost-initiated {
-  width: 100% !important;
-  padding-top: 0 !important;
-}
+
 
 .right-content-ghost-initiated {
   margin-left: 0 !important;
@@ -160,4 +157,10 @@
 
 .right-content-minimized {
   margin-left: $side-nav-minimized !important;
+}
+
+
+.main-content-ghost-initiated {
+  width: 100% !important;
+  padding-top: 0 !important;
 }

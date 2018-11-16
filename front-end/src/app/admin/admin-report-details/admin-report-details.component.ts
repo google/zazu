@@ -77,7 +77,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
       this.embedLink = this.sanitizer.bypassSecurityTrustResourceUrl(replaceLink);
       console.log(this.embedLink);
 
-      this.viewInitialized = true;
+      this.viewInitialized = await true;
 
     } catch (error) {
       console.log(error);
@@ -98,7 +98,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
      dialogRef.afterClosed().subscribe(async result => {
       if (result) {
         const status = await <any>this.reportService.deleteReport(this.report, this.permissions.permissions);
-        console.log(status);
+        console.log(await status);
         if (await status.status === '200') {
           this.snackBar.open('Report Deleted: ' + this.report.name, 'Dismiss', {
             duration: 5000,

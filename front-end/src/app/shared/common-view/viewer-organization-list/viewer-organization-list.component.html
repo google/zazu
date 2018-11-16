@@ -1,5 +1,5 @@
 <div class="breadcrumb-container">
-  <div class="breadcrumb"> <span class="active"> <i class="material-icons"> business </i> Organization List </span></div>
+  <div class="breadcrumb" *ngIf="initialized && organizations.length > 0"> <span class="active"> <i class="material-icons" > business </i> Organization List </span></div>
 </div>
 
 <div class="main-content-view">
@@ -8,7 +8,7 @@
       <div *ngFor="let organization of organizations  |   orgList:  search: selectedCategories : sortValue: pagination.currentPage " [ngClass]="{'card': !organization.empty}">
         <div class="container" (click)="goToList(organization._id)"  *ngIf="!organization.empty">
           <h2 class="title">{{organization.name}}</h2>
-          <h4 class="secondary">{{organization.reportsCount}} Report<span *ngIf="organization.reportsCount > 1"><select name="" id="" disabled="disabled"></select></span></h4>
+          <h4 class="secondary">{{organization.reportsCount}} Report<span *ngIf="organization.reportsCount > 1">s</span></h4>
         </div>
         <div class="no-result" *ngIf="organization.empty && organizations.length > 0">
             <p class="icon"><i class="material-icons">
@@ -67,14 +67,8 @@
   </div>
 
   <div *ngIf="initialized && organizations.length === 0 " class="empty-list" >
-    <div class="icons">
-      <i class="material-icons main"> business </i>
-      <button routerLink="../new-organization" mat-fab class="button-fab add" color="primary-button"> <i class="material-icons">
-          add
-        </i>
-        </button>
-    </div>
-    <h2 class="title"> There are no organizations.</h2>
-    <h3 class="create-text" routerLink="../new-organization"> Create new organization</h3>
+    <div class="icons"><i class="material-icons main"> assessment </i></div>
+    <h2 class="title" style="font-weight: 500">No Reports</h2>
+    <h4 class="title" style="font-weight: 300">It looks like there's no report available for you right now.</h4>
   </div>
 </div>
