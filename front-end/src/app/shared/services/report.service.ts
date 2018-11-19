@@ -204,7 +204,6 @@ export class ReportService {
       organization: org
     };
     console.log(param);
-    /*
     if (await this.authService.canSend()) {
       return await this.http
         .post('/api' + '/shareReport/', param)
@@ -215,7 +214,7 @@ export class ReportService {
         message: 'You do not have permission to perform this action'
       };
     }
-    */
+
   }
 
   /**
