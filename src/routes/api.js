@@ -1104,6 +1104,7 @@ router.post('/shareReport', function(req, res) {
 
   var reportToShare = req.body.report;
   var orgToShare = req.body.organization;
+  var result = 0;
 
   var orgList = reportToShare.organizations;
   var file_url = reportToShare.link;
@@ -1159,7 +1160,7 @@ router.post('/shareReport', function(req, res) {
           }
         });
     }
-    res.send({ status: '200', results: results._id });
+    res.send({ status: '200', results: "Report shared successfully." });
   });
 
 });
