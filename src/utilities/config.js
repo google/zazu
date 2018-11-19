@@ -11,6 +11,7 @@ limitations under the License. */
 
 
 
+
 module.exports = {
     bq_instance:  process.env.bq_instance,
     bq_dataset: process.env.bq_dataset,
@@ -28,4 +29,3 @@ module.exports = {
 
     mongo_connection_string: process.env.mongo_connection_string //'mongodb://zazuadmin:vendorcoop@localhost/zazu'
 }
-
