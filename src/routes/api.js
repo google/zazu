@@ -709,14 +709,23 @@ router.post('/editOrganization', function(req, res) {
 
   var editOrg = req.body;
 
-  Organization.updateOne({ _id : editOrg._id }, editOrg, function(err, result) {
-    if (err) {
-      res.send({ status: '500', message: 'Organization failed to update.' });
-    } else {
-      res.send({ status: '200', result: result });
-    }
-  });
+  var updateOrg = 'UPDATE `' + config.bq_instance + '.' + config.bq_dataset + '.vendors_2` SET organization = "' + editOrg.name + '" WHERE organization_id = "' + editOrg._id + '"';
 
+  bigquery
+    .createQueryStream(updateOrg)
+    .on('error', function(err) {
+      res.send({ status: '500', message: err.message });
+    })
+    .on('data', function(data) {})
+    .on('end', function() {
+      Organization.updateOne({ _id : editOrg._id }, editOrg, function(err, result) {
+        if (err) {
+          res.send({ status: '500', message: 'Organization failed to update.' });
+        } else {
+          res.send({ status: '200', result: result });
+        }
+      });
+    });
 });
 
 router.get('/getAllReports', function(req, res) {
