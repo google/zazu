@@ -33,7 +33,7 @@ export class ShareReportComponent implements OnInit {
   selectTypeForm: FormGroup;
 
   datasources: DataViewModel.DataSource[];
-  selectedReport: ReportViewModel.SimpleRawReport;
+  selectedReport;
   selectedOrg;
   organizationID;
   allReports;
@@ -78,17 +78,21 @@ export class ShareReportComponent implements OnInit {
   }
 
   async selectReport(param) {
+    this.missingRules = [];
     this.selectedReport = await this.reports.find(report => {
       return report._id === param.reportID;
     });
      for ( const datasource of await this.selectedReport.datasources) {
        const temp = this.rules.filter(rule => {
-          return rule.datasource === datasource;
+         console.log(rule.datasource);
+         console.log(datasource);
+          return rule.datasource === datasource.bigquery;
        });
        if (temp.length === 0) {
-          this.missingRules.push(datasource);
+          this.missingRules.push(datasource.bigquery);
        }
     }
+    console.log(this.missingRules);
     if (this.organizationID) {
       await this.selectStep(1);
     } else {
@@ -108,6 +112,8 @@ export class ShareReportComponent implements OnInit {
   public noDataRuleValidator(control: FormControl): Validators {
     this.missingRules = [];
     if (control.value) {
+      console.log(control.value);
+      console.log(this.rules);
       for (const datasource of control.value) {
         const temp = this.rules.filter(rule => {
           return rule.datasource === datasource;
@@ -149,6 +155,7 @@ export class ShareReportComponent implements OnInit {
     this.rules = await this.datarulesService.getDataRules(
       this.selectedOrg._id
     );
+    console.log(this.rules);
     await this.selectStep(1);
   }
 
