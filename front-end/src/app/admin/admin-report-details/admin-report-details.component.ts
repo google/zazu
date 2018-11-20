@@ -40,6 +40,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
   edited = false;
   embedLink;
   permissions;
+  shared;
   async ngOnInit() {
     try {
       this.viewInitialized = false;
@@ -69,6 +70,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
       }
       this.new = (await this.route.snapshot.queryParamMap.get('new')) === 'new';
       this.edited = (await this.route.snapshot.queryParamMap.get('edited')) === 'true';
+      this.shared = (await this.route.snapshot.queryParamMap.get('shared')) === 'true';
       console.log(this.report.link);
 
       const patt = new RegExp('\/c\/(.)+\/reporting');
@@ -87,6 +89,11 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
 
   editReport() {
     this.router.navigate(['./edit-report'], { relativeTo: this.route, queryParams: { selectedOrg: this.selectedOrgID}} );
+  }
+
+
+  editAccess() {
+    this.router.navigate(['./edit-access'], { relativeTo: this.route, queryParams: { selectedOrg: this.selectedOrgID}} );
   }
 
   async openDialog( ) {
@@ -126,6 +133,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
   closeNewBar() {
     this.new = false;
     this.edited = false;
+    this.shared = false;
   }
 }
 

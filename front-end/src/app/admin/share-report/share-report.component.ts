@@ -168,19 +168,20 @@ export class ShareReportComponent implements OnInit {
       });
       const report = this.selectedReport;
       console.log(report);
-      const status = <any>this.reportService.shareReport(report, org);
+      const status = await <any>this.reportService.shareReport(report, org);
+      console.log(status);
       if (status.status === '200') {
         if (this.organizationID) {
           console.log('coming from org details');
-          await this.router.navigate(['../r', status.results], {
+          await this.router.navigate(['../r', report._id], {
             relativeTo: this.route,
-            queryParams: { new: 'new', selectedOrg: this.organizationID }
+            queryParams: { shared: 'true', selectedOrg: this.organizationID }
           });
         } else {
           console.log('coming from report list');
-          await this.router.navigate(['../../r', status.results], {
+          await this.router.navigate(['../../r', report._id], {
             relativeTo: this.route,
-            queryParams: { new: 'new', selectedOrg: status.results }
+            queryParams: { shared: 'true', selectedOrg: this.selectedOrg._id }
           });
         }
       } else {

@@ -37,17 +37,18 @@
         keyboard_arrow_right </i>&nbsp;&nbsp; <span class="active"> {{report.name}} ({{selectedOrg.name}})</span> </div>
   </div>
 
-  <div *ngIf="new || edited" class="new-bar">
+  <div *ngIf="new || edited || shared" class="new-bar">
     <h4><i class="material-icons check">
         check
       </i>
       <span *ngIf="new"> Success: Report Created </span>
       <span *ngIf="edited"> Success: Report Edited </span>
+      <span *ngIf="shared"> Success: Report Successfully Shared </span>
       <i (click)="closeNewBar()" class="material-icons close">
         close
       </i></h4>
   </div>
-  <div class="main-content-view" *ngIf="viewInitialized" [ngClass]="{'new': new || edited }">
+  <div class="main-content-view" *ngIf="viewInitialized" [ngClass]="{'new': new || edited || shared }">
     <div class="left-main-content-view">
       <iframe class="report" [src]="embedLink" frameborder="0"
         style="border:0" allowfullscreen></iframe>
@@ -61,7 +62,7 @@
 
           <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="editReport()">Edit Info</button>
-            <button mat-menu-item routerLink="./edit-access" *ngIf="report.organizations.length > 1" >Edit Access </button>
+            <button mat-menu-item (click)="editAccess()" *ngIf="this.report.organizations.length > 1" >Edit Access </button>
             <button mat-menu-item (click)="openDialog()">Delete</button>
           </mat-menu>
         </div>

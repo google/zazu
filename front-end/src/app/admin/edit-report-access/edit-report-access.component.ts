@@ -35,6 +35,7 @@ export class EditReportAccessComponent implements OnInit {
   sending = false;
   organizationID;
   permissions;
+  selectedOrgID;
   async ngOnInit() {
     try {
       this.sub = await this.route.params.subscribe(params => {
@@ -46,6 +47,7 @@ export class EditReportAccessComponent implements OnInit {
       this.accessForm = await this._fb.group({
         selectedOrganization: ['', Validators.required]
       });
+      this.selectedOrgID = await this.route.snapshot.queryParamMap.get('selectedOrg');
     } catch (error) {
       console.log(error);
     }
@@ -87,23 +89,25 @@ export class EditReportAccessComponent implements OnInit {
       const status = <any>await this.reportService.deleteOrgAccess(this.report, this.permissions);
       if (status.status === '200') {
         if (this.organizationID) {
-          await this.router.navigate(['../r', status.reportID], {
-            relativeTo: this.route,
-            queryParams: { new: 'new' }
-          });
+          await this.router.navigate(['../../../'], {
+            relativeTo: this.route});
+            this.snackBar.open('Removed access to \"' + this.report.name + '\" for \"' + org.name + '\"', 'Dismiss', {
+              duration: 5000
+            });
         } else {
-          await this.router.navigate(['../../r', status.reportID], {
-            relativeTo: this.route,
-            queryParams: { new: 'new' }
-          });
+          await this.router.navigate(['../../../list'], {
+            relativeTo: this.route});
+            this.snackBar.open('Removed access to \"' + this.report.name + '\" for \"' + org.name + '\"', 'Dismiss', {
+              duration: 5000
+            });
         }
       } else {
-        console.log(status);
+         console.log(status);
         this.sending = false;
-        this.snackBar.open('Error: ' + status.message, 'Dismiss', {
-          duration: 5000
-        });
-      }
+         this.snackBar.open('Error: ' + status.message, 'Dismiss', {
+         duration: 5000
+       });
+       }
 
     } catch (error) {
       this.sending = false;
@@ -116,6 +120,10 @@ export class EditReportAccessComponent implements OnInit {
 
   public getForm() {
     return this.accessForm;
+  }
+
+  goBack() {
+    this.router.navigate(['../'], { relativeTo: this.route, queryParams: { selectedOrg: this.selectedOrgID}} );
   }
 }
 
