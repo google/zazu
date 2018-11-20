@@ -35,7 +35,7 @@
     width: 64px;
     position: relative;
 
-    img {
+    .icon {
       height: 45px;
       width: 45px;
       position: absolute;
@@ -44,13 +44,19 @@
       top: 0;
       bottom: 0;
       margin: auto auto;
+      .icon-image {
+        height: 45px;
+        width: 45px;
+        background-size: 45px;
+        background-repeat: no-repeat;
+      }
     }
   }
 
   .name {
     position: absolute;
     top: 22px;
-    font-size: 20px;
+    font-size: $text-size;
     font-weight: bold;
     color: white;
     left: 70px;
@@ -101,7 +107,7 @@
 
 .toolbar {
   background-color: $toolbar-color;
-  color: white;
+  color: $toolbar-text-color;
   z-index: 20;
   position: fixed;
   // max-width: calc(100vw -  #{$side-nav-max});

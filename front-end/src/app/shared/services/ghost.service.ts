@@ -35,7 +35,6 @@ export class GhostService {
   async setUser(userID) {
     try {
       this.user = await this.userService.getUser(userID);
-
     } catch {
 
     }

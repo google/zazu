@@ -204,7 +204,7 @@ body {
 
 /****** NEW BAR FOR CREATE NEW NOTIFICATION *****/
 .new-bar {
-  background-color: $sucess;
+  background-color: $success;
   width: 100%;
   text-align: center;
   height: 45px;
@@ -243,7 +243,36 @@ body {
   transition: height 0.5s;
 }
 
+
 /**** MAIN CONTENT CONTAINER ****/
+
+
+.company {
+  .icon-container {
+    .icon {
+      .icon-image {
+        background: $icon;
+      }
+    }
+  }
+}
+
+.signing-container {
+  .signing-card{
+    .icon {
+      height: 60px;
+      width: 60px;
+      margin:auto;
+      .icon-image {
+        height: 60px;
+        width: 60px;
+        background-size: 60px !important;
+        background-repeat: no-repeat;
+        background: $icon;
+      }
+    }
+  }
+}
 
 .main-content-view.new {
   padding-top: 100px;

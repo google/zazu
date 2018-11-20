@@ -1,21 +1,17 @@
 <mat-toolbar class="toolbar">
   <div class="company">
     <div class="icon-container">
-      <div class="icon">
-        <img src="../../assets/company-icon.png" alt="Smiley face">
-      </div>
+      <div class="icon"><div class="icon-image"></div></div>
     </div>
-    <span class="name"> Company </span>
+    <span class="name"> &nbsp;&nbsp; Company </span>
   </div>
 </mat-toolbar>
 <div class="signing-container">
   <div class="signing-card">
-    <div class="icon">
-      <img src="../../assets/company-icon.png" alt="Smiley face">
-    </div>
+    <div class="icon"><div class="icon-image"></div></div>
     <h4>You have successfully signed out.</h4>
-    <p class="return" [routerLink]="['../login']"> <strong><i class="material-icons">
-          keyboard_arrow_left
-        </i> </strong> Return to Log in page </p>
+    <p class="return" [routerLink]="['../login']">
+      <strong><i class="material-icons"> keyboard_arrow_left </i> </strong> Return to Log in page
+    </p>
   </div>
 </div>
