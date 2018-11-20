@@ -1038,6 +1038,8 @@ router.post('/deleteReport', function(req, res) {
 });
 
 router.post('/unshareReport', function(req, res) {
+  // TODO: Don't unshare if one user is a part of another org that has the report
+
   var unshareReport = req.body.report;
   var permissions = req.body.permissions;
   var result = 0;
@@ -1153,14 +1155,14 @@ router.post('/shareReport', function(req, res) {
         }
     }
 
-    for (var i = 0; i < reportToShare.organizations.length; i++) {
-        Organization.updateOne({ _id: reportToShare.organizations[i]._id }, { $inc: { reportsCount: 1 } }, function(err1, res1) {
-          if (err1) {
-            res.send({ status: '500', message: err1.message });
-          }
-        });
-    }
-    res.send({ status: '200', results: "Report shared successfully." });
+    Organization.updateOne({ _id: orgToShare._id }, { $inc: { reportsCount: 1 } }, function(err1, res1) {
+      if (err1) {
+        res.send({ status: '500', message: err1.message });
+      }
+      res.send({ status: '200', results: "Report shared successfully." });
+
+    });
+
   });
 
 });
