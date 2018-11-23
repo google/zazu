@@ -23,6 +23,7 @@
   }
 }
 
+// Company Logo  &  Name
 .company {
   height: 64px;
 
@@ -31,7 +32,7 @@
     width: 64px;
     position: relative;
 
-    img {
+    .icon {
       height: 45px;
       width: 45px;
       position: absolute;
@@ -40,6 +41,12 @@
       top: 0;
       bottom: 5px;
       margin: auto auto;
+      .icon-image {
+        height: 45px;
+        width: 45px;
+        background-size: 45px;
+        background-repeat: no-repeat;
+      }
     }
   }
 

@@ -1,31 +1,17 @@
 <mat-toolbar class="toolbar">
   <div class="company">
     <div class="icon-container">
-      <div class="icon">
-        <img src="../../assets/company-icon.png" alt="Smiley face">
-      </div>
+      <div class="icon"><div class="icon-image"></div></div>
     </div>
     <span class="name"> Company </span>
   </div>
-  <div style="flex: 1 1 auto">
-  </div>
-  <button mat-button class="menu-icon right"   matTooltip="FAQs"
-  matTooltipPosition="below">
-    <i class="material-icons">
-      help_outline
-    </i>
-  </button>
-  <button mat-button class="menu-icon right"  matTooltip="Logout"
-  matTooltipPosition="below" (click)='logout()'>
-    <i class="material-icons">
-      power_settings_new
-    </i>
+  <div style="flex: 1 1 auto"></div>
+  <button mat-button class="menu-icon right" matTooltip="FAQs" matTooltipPosition="below"><i class="material-icons"> help_outline </i></button>
+  <button mat-button class="menu-icon right" matTooltip="Logout" matTooltipPosition="below" (click)="logout()">
+    <i class="material-icons"> power_settings_new </i>
   </button>
 </mat-toolbar>
 
 <div class="viewer-container">
-
-  <div class="viewer-content">
-    <router-outlet></router-outlet>
-  </div>
+  <div class="viewer-content"><router-outlet></router-outlet></div>
 </div>

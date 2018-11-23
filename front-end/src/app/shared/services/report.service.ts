@@ -3,11 +3,12 @@ import { AuthService } from './../../auth/auth.service';
 import { Injectable } from '@angular/core';
 import * as ReportViewModel from '../view-models/report.viewmodel';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material';
 @Injectable({
   providedIn: 'root'
 })
 export class ReportService {
-  constructor(private http: HttpClient, private authService: AuthService, private userService: UserService) {}
+  constructor(private http: HttpClient, private authService: AuthService, private userService: UserService, public snackBar: MatSnackBar) {}
   URL = '../../../assets/example-data/';
 
   private reports = [];
@@ -18,12 +19,27 @@ export class ReportService {
   public async getAllReports(): Promise<ReportViewModel.SimpleReport[]> {
     try {
       const raw = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getAllReports').toPromise();
+      /*
+      const status =  await <any>this.http.get('/api' + '/getAllReports').toPromise();
+      let raw = [];
+      if (status.status === '200') {
+        raw =  status.reports;
+      } else if (status.status === '400' ) {
+        this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
+          duration: 5000,
+        });
+        throw new Error('Something went wrong, please try again');
+      }
+    */
       console.log(raw);
       this.reports = raw;
       const reports = await this.cleanSimpleRawReport(raw);
       return await reports;
     } catch (error) {
-      console.log(error);
+      this.snackBar.open(error, 'Dismiss', {
+        duration: 5000
+      });
+      throw error;
     }
   }
 
@@ -33,6 +49,24 @@ export class ReportService {
    */
   public async getAllRawReports(): Promise<ReportViewModel.SimpleRawReport[]> {
     return await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getAllReports').toPromise();
+    /*
+    try {
+      const status = await <any>this.http.get('/api' + '/getAllReports').toPromise();
+      if (status.status === '200') {
+        return await status.reports;
+      } else if (status.status === '400' ) {
+        this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
+          duration: 5000,
+        });
+        throw new Error('Something went wrong, please try again');
+      }
+    } catch (error) {
+      this.snackBar.open( error , 'Dismiss', {
+        duration: 5000,
+      });
+      throw error;
+    }
+    */
   }
 
   /**
@@ -74,15 +108,27 @@ export class ReportService {
   public async getReportsByOrganization(orgID: string): Promise<ReportViewModel.SimpleReport[]> {
     try {
       const raw = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByOrganization/' + orgID).toPromise();
-      console.log(raw);
+      /*
+      const status =  await <any>this.http.get('/api' + '/getReportByOrganization/' + orgID).toPromise();
+      let raw = [];
+      if (status.status === '200') {
+        raw =  status.reports;
+      } else if (status.status === '400' ) {
+        this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
+          duration: 5000,
+        });
+        throw new Error('Something went wrong, please try again');
+      }
+    */
       this.reports = raw;
-      console.log(this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByOrganization/' + orgID).toPromise());
       const reports = (await this.cleanSimpleRawReport(raw)).filter(report => {
         return report.organization._id === orgID;
       });
       return reports;
     } catch (error) {
-      console.log(error);
+      this.snackBar.open(error, 'Dismiss', {
+        duration: 5000
+      });
     }
   }
 
@@ -94,6 +140,19 @@ export class ReportService {
       console.log('Get Report By User called');
       const allReports = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByUser/' + userID).toPromise();
       this.reports = allReports;
+      /*
+      const status =  await <any>this.http.get('/api' + '/getReportByOrganization/' + orgID).toPromise();
+      let allReports = [];
+      if (status.status === '200') {
+        allReports =  status.reports;
+        this.reports = allReports;
+      } else if (status.status === '400' ) {
+        this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
+          duration: 5000,
+        });
+        throw new Error('Something went wrong, please try again');
+      }
+      */
       /*
       const user = await this.userService.getUser(userID);
       const allReports = [];
@@ -135,20 +194,24 @@ export class ReportService {
       return await <ReportViewModel.ReportWithMetaData>report;
     }*/
     return await this.http.get<ReportViewModel.ReportWithMetaData>('/api' + '/getAllReports/' + reportID).toPromise();
-
     /*
-    return await this.http
-      .get<ReportViewModel.ReportWithMetaData>(
-        '/api' + 'single-report-with-meta.mockdata.json',
-        {
-          params: {
-            reportID: reportID,
-            orgID: orgID
-          }
-        }
-      )
-      .toPromise();
-      */
+    try {
+      const status = await <any>this.http.get('/api' + '/getAllReports/' + reportID).toPromise();
+      if (status.status === '200') {
+        return await status.report;
+      } else if (status.status === '400' ) {
+        this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
+          duration: 5000,
+        });
+        throw new Error('Something went wrong, please try again');
+      }
+    } catch (error) {
+      this.snackBar.open( error , 'Dismiss', {
+        duration: 5000,
+      });
+      throw error;
+    }
+    */
   }
 
   /**
@@ -157,6 +220,24 @@ export class ReportService {
    */
   public async getReportDetails(reportID): Promise<ReportViewModel.ReportDetails> {
     return await this.http.get<ReportViewModel.ReportDetails>('/api' + '/getAllReports/' + reportID).toPromise();
+    /*
+    try {
+      const status = await <any>this.http.get('/api' + '/getAllReports/' + reportID).toPromise();
+      if (status.status === '200') {
+        return await status.report;
+      } else if (status.status === '400' ) {
+        this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
+          duration: 5000,
+        });
+        throw new Error('Something went wrong, please try again');
+      }
+    } catch (error) {
+      this.snackBar.open( error , 'Dismiss', {
+        duration: 5000,
+      });
+      throw error;
+    }
+    */
   }
 
   /**
@@ -165,15 +246,25 @@ export class ReportService {
    * @param orgID - ID of the organization whose report POV you want to show
    */
   public async getReportNoMetaData(reportID, orgID): Promise<ReportViewModel.Report> {
-    return await this.http
-      .get<ReportViewModel.Report>('/api' + '/getAllReports', {
-        params: {
-          reportID: reportID,
-          orgID: orgID
-        }
-      })
-
-      .toPromise();
+    return await this.http.get<ReportViewModel.Report>('/api' + '/getAllReports/' + reportID).toPromise();
+    /*
+    try {
+      const status = await <any>this.http.get('/api' + '/getAllReports/' + reportID).toPromise();
+      if (status.status === '200') {
+        return await status.report;
+      } else if (status.status === '400' ) {
+        this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
+          duration: 5000,
+        });
+        throw new Error('Something went wrong, please try again');
+      }
+    } catch (error) {
+      this.snackBar.open( error , 'Dismiss', {
+        duration: 5000,
+      });
+      throw error;
+    }
+    */
   }
 
   /**
@@ -205,16 +296,13 @@ export class ReportService {
     };
     console.log(param);
     if (await this.authService.canSend()) {
-      return await this.http
-        .post('/api' + '/shareReport/', param)
-        .toPromise();
+      return await this.http.post('/api' + '/shareReport/', param).toPromise();
     } else {
       return await {
         status: '403',
         message: 'You do not have permission to perform this action'
       };
     }
-
   }
 
   /**

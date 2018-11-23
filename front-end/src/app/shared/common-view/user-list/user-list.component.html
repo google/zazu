@@ -25,7 +25,8 @@
     [disabled]="pagination.currentPage===1"> <i class="material-icons">
       chevron_left
     </i> </button>
-  {{this.pagination.currentPage}}/{{this.pagination.totalPages}} <button mat-mini-fab active (click)="nextPage() " [disabled]="pagination.currentPage === pagination.totalPages"
+    &nbsp;&nbsp;&nbsp;
+    Page <strong>&nbsp;{{this.pagination.currentPage}}</strong>&nbsp; of &nbsp;<strong>&nbsp;{{this.pagination.totalPages}}&nbsp;</strong>&nbsp;&nbsp;&nbsp;<button mat-mini-fab active (click)="nextPage() " [disabled]="pagination.currentPage === pagination.totalPages"
     color="white"> <i class="material-icons">
       chevron_right
     </i> </button>

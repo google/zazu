@@ -3,13 +3,14 @@ import { OrganizationDetails } from './../view-models/organization.viewmodel';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as OrganizationViewModel from '../view-models/organization.viewmodel';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrganizationService {
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService, public snackBar: MatSnackBar) {}
 
   organizations = [];
 
@@ -21,7 +22,25 @@ export class OrganizationService {
    */
   public async getAllOrganizationsWithNoDetails(): Promise<OrganizationViewModel.SimpleOrganization[]> {
     return await ((this.http.get<OrganizationViewModel.OrganizationDetails[]>( '/api' + '/getAllOrganizationsWithNoDetails')).toPromise());
-    // return await ((this.http.get<OrganizationViewModel.OrganizationDetails[]>( this.URL + 'organizations.mockdata.json')).toPromise());
+    /*
+    try {
+      const status = await <any>(this.http.get( '/api' + '/getAllOrganizationsWithNoDetails')).toPromise();
+      if (status.status === '200') {
+        return await status.organization;
+      } else if (status.status === '400' ) {
+        this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
+          duration: 5000,
+        });
+        throw new Error('Something went wrong, please try again');
+      }
+    } catch (error) {
+      this.snackBar.open( error , 'Dismiss', {
+        duration: 5000,
+      });
+      throw error;
+    }
+    */
+
   }
 
 
@@ -30,7 +49,25 @@ export class OrganizationService {
    */
   public async getAllOrganizations(): Promise<OrganizationViewModel.OrganizationDetails[]> {
     return await ((this.http.get<OrganizationViewModel.OrganizationDetails[]>( '/api' + '/getAllOrganizations')).toPromise());
-    // return await ((this.http.get<OrganizationViewModel.OrganizationDetails[]>( this.URL + 'organizations.mockdata.json')).toPromise());
+
+    /*
+    try {
+      const status = await <any>(this.http.get( '/api' + '/getAllOrganizationsWithNoDetails')).toPromise();
+      if (status.status === '200') {
+        return await status.organization;
+      } else if (status.status === '400' ) {
+        this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
+          duration: 5000,
+        });
+        throw new Error('Something went wrong, please try again');
+      }
+    } catch (error) {
+      this.snackBar.open( error , 'Dismiss', {
+        duration: 5000,
+      });
+      throw error;
+    }
+    */
   }
 
  /**
@@ -38,8 +75,25 @@ export class OrganizationService {
   * @param id - ID of the organization
   */
   public async getOrganizationById(id): Promise<OrganizationViewModel.OrganizationDetails> {
-    return await  await ((this.http.get<OrganizationViewModel.OrganizationDetails>( '/api' + '/getOrganizationById/' + id)).toPromise());
-    // return await ((this.http.get<OrganizationViewModel.OrganizationDetails>( this.URL + 'single-organization.mockup.json')).toPromise());
+    return await ((this.http.get<OrganizationViewModel.OrganizationDetails>( '/api' + '/getOrganizationById/' + id)).toPromise());
+    /*
+    try {
+      const status = await <any>((this.http.get( '/api' + '/getOrganizationById/' + id)).toPromise());
+      if (status.status === '200') {
+        return await status.organization;
+      } else if (status.status === '400' ) {
+        this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
+          duration: 5000,
+        });
+        throw new Error('Something went wrong, please try again');
+      }
+    } catch (error) {
+      this.snackBar.open( error , 'Dismiss', {
+        duration: 5000,
+      });
+      throw error;
+    }
+    */
   }
 
   /**

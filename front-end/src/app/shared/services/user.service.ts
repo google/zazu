@@ -19,11 +19,28 @@ export class UserService {
    *  Method for getting all users for all organizations
    */
   public async getAllUsers(): Promise<UserViewModel.SimpleUserView[]> {
-    const users = await this.http
-      .get<UserViewModel.SimpleUserView[]>('/api' + '/getAllUsers')
-      .toPromise();
+    const users = await this.http.get<UserViewModel.SimpleUserView[]>('/api' + '/getAllUsers').toPromise();
     this.users = users;
     return users;
+     /*
+    try {
+      const status = await <any>this.http.get('/api' + '/getAllUsers').toPromise();
+      if (status.status === '200') {
+        this.users = status.users;
+        return await status.users;
+      } else if (status.status === '400' ) {
+        this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
+          duration: 5000,
+        });
+        throw new Error('Something went wrong, please try again');
+      }
+    } catch (error) {
+      this.snackBar.open( error , 'Dismiss', {
+        duration: 5000,
+      });
+      throw error;
+    }
+    */
   }
 
   /**
@@ -32,9 +49,25 @@ export class UserService {
    */
   public async getUser(id): Promise<UserViewModel.User> {
     console.log(id);
-    return await this.http
-      .get<UserViewModel.User>('/api' + '/getAllUsers/' + id)
-      .toPromise();
+    return await this.http.get<UserViewModel.User>('/api' + '/getAllUsers/' + id).toPromise();
+    /*
+    try {
+      const status = await <any>this.http.get('/api' + '/getAllUsers/' + id).toPromise();
+      if (status.status === '200') {
+        return await status.users;
+      } else if (status.status === '400' ) {
+        this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
+          duration: 5000,
+        });
+        throw new Error('Something went wrong, please try again');
+      }
+    } catch (error) {
+      this.snackBar.open( error , 'Dismiss', {
+        duration: 5000,
+      });
+      throw error;
+    }
+    */
   }
 
   /**
@@ -42,11 +75,28 @@ export class UserService {
    * @param orgId -  ID of the organization you want to get all users
    */
   public async getUsersByOrganization(orgId) {
-    const users = await this.http
-      .get<UserViewModel.SimpleUserView[]>(this.URL + 'user-list.mockdata.json')
-      .toPromise();
+    const users = await this.http.get<UserViewModel.SimpleUserView[]>('/api' + '/getUsersByOrganization/' + orgId).toPromise();
     this.users = users;
     return users;
+    /*
+    try {
+      const status = await <any>this.http.get('/api' + '/getAllUsers/' + id).toPromise();
+      if (status.status === '200') {
+        return await status.users;
+      } else if (status.status === '400' ) {
+        this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
+          duration: 5000,
+        });
+        throw new Error('Something went wrong, please try again');
+      }
+    } catch (error) {
+      this.snackBar.open( error , 'Dismiss', {
+        duration: 5000,
+      });
+      throw error;
+    }
+    */
+
   }
   //  await ((this.http.get<UserViewModel.SimpleUserView[]>(this.URL + 'user-list.mockdata.json')).toPromise());
 
@@ -114,9 +164,7 @@ export class UserService {
     if (await this.authService.canSend()) {
       console.log('Getting permissions called...');
       // for revoking user
-      return await this.http
-        .post('/api/' + 'getPermissionsToRevokeUser/', user)
-        .toPromise();
+      return await this.http.post('/api/' + 'getPermissionsToRevokeUser/', user).toPromise();
     } else {
       return await {
         status: '403',
