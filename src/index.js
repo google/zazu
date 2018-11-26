@@ -87,7 +87,7 @@ app.use(session({
 // Set our api routes
 app.use('/api', api);
 
-app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email', 'https://www.googleapis.com/auth/drive'] }));
+app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email', 'https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/bigquery.insertdata'] }));
 
 app.get('/auth/google/callback',
   passport.authenticate('google', {

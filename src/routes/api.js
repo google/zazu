@@ -79,6 +79,7 @@ router.get('/getUsersByOrganization/:id', function(req, res) {
 });
 
 router.post('/createNewUser', function(req, res) {
+  // TODO: Add sharing of BigQuery dataset
 
   var newUser = req.body;
   var result = 0;
@@ -836,7 +837,6 @@ router.post('/initGhost', function(req, res) {
 });
 
 router.post('/createReport', function(req, res) {
-  // TODO: Add sharing of BigQuery and IAM roles
 
   var newReport = req.body;
   newReport.createdBy = req.session.passport.user.id;
