@@ -140,10 +140,12 @@ router.post('/createNewUser', function(req, res) {
                           res.send({ status: '500', message: err.message });
                         })
                         .on('data', function(data) {
+
                           Report.find({ organizations : { $elemMatch: { _id: data.organization_id } } }, function(err1, docs1) {
                               if (err1) {
                                 res.send({ status: '500', message: err1.message });
                               }
+                              var filesIdList = [];
 
                               for (j = 0; j < docs1.length; j++) {
                                 var orgList = docs1[j].organizations;
@@ -166,7 +168,7 @@ router.post('/createNewUser', function(req, res) {
                                   'role': 'reader',
                                   'emailAddress': newUser.googleID
                                 }];
-
+                             
                               for (var j = 0; j < filesIdList.length; j++) {
                                   utils.shareReport(filesIdList[j], permsList, 0, function(ret) {
                                           if (ret === 1) {
@@ -341,8 +343,8 @@ router.post('/createNewUser', function(req, res) {
               }
             });
           }
-        }
-      }
+        });
+      });
 });
 
 router.post('/deleteUser', function(req, res) {
