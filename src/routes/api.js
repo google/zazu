@@ -20,6 +20,8 @@ const BigQuery = require('@google-cloud/bigquery');
 
 const bigquery = new BigQuery();
 const async = require('async');
+var {google} = require('googleapis');
+const {OAuth2Client} = require('google-auth-library');
 
 var User = require('../models/user');
 var Organization = require('../models/organization');
@@ -84,267 +86,312 @@ router.post('/createNewUser', function(req, res) {
   var result = 0;
   var dataset = bigquery.dataset(config.bq_views_dataset);
 
-  dataset.getMetadata().then(function(data) {
-      var metadata = data[0];
-      var new_accesses = metadata.access;
-      var newAccess =     {
-            "role": "READER",
-            "userByEmail": newUser.googleID
-          }
-      new_accesses.push(newAccess);
-      metadata.access = new_accesses;
+  var cloudResourceManager = google.cloudresourcemanager('v1');
+  const oAuth2Client = new OAuth2Client();
 
-      dataset.setMetadata(metadata, function(err1, metadata, apiResponse1) {
+  oAuth2Client.credentials = {
+     access_token: config.access_token
+  };
+
+  var request = {
+    resource_: config.bq_instance,
+    resource: {},
+    auth: oAuth2Client
+  };
+
+  cloudResourceManager.projects.getIamPolicy(request, function(err, response) {
+      if (err) {
+        res.send({ status: '500', message: err.message });
+      }
+      var roleList = response.data.bindings;
+
+      for (var i = 0; i < roleList.length; i++) {
+        if (roleList[i].role == 'roles/bigquery.user') {
+          roleList[i].members.push('user:' + newUser.googleID);
+        }
+      }
+
+      var newPolicy = { "bindings": roleList };
+
+      var newrequest = {
+        resource_: config.bq_instance,
+        resource: { policy: newPolicy },
+        auth: oAuth2Client
+      };
+
+      cloudResourceManager.projects.setIamPolicy(newrequest, function(err1, response1) {
         if (err1) {
+          console.log(err1);
           res.send({ status: '500', message: err1.message });
         }
-        else {
+        
+        if (response1.status === 200) {
+          dataset.getMetadata().then(function(data) {
+              var metadata = data[0];
+              var new_accesses = metadata.access;
+              var newAccess =     {
+                    "role": "READER",
+                    "userByEmail": newUser.googleID
+                  }
+              new_accesses.push(newAccess);
+              metadata.access = new_accesses;
 
-            User.create(newUser, function(err, results) {
-              var newUserId = results._id;
+              dataset.setMetadata(metadata, function(err1, metadata, apiResponse1) {
+                if (err1) {
+                  res.send({ status: '500', message: err1.message });
+                }
+                else {
 
-              if (err) {
-                res.send({ status: '500', message: err.message });
-              } else {
-                var addNewUser =
-                  'INSERT INTO `' +
-                  config.bq_instance +
-                  '.' +
-                  config.bq_dataset +
-                  '.users_2` (user_id, googleID, role) VALUES ("' +
-                  newUserId +
-                  '", "' +
-                  newUser.googleID +
-                  '", "' +
-                  newUser.role +
-                  '")';
+                    User.create(newUser, function(err, results) {
+                      var newUserId = results._id;
 
-                bigquery
-                  .createQueryStream(addNewUser)
-                  .on('error', function(err) {
-                    res.send({ status: '500', message: err.message });
-                  })
-                  .on('data', function(data) {})
-                  .on('end', function() {
-                    if (newUser.role === 'admin') {
-                      var findAllOrgs =
-                        'SELECT organization_id FROM `' +
-                        config.bq_instance +
-                        '.' +
-                        config.bq_dataset +
-                        '.vendors_2`';
+                      if (err) {
+                        res.send({ status: '500', message: err.message });
+                      } else {
+                        var addNewUser =
+                          'INSERT INTO `' +
+                          config.bq_instance +
+                          '.' +
+                          config.bq_dataset +
+                          '.users_2` (user_id, googleID, role) VALUES ("' +
+                          newUserId +
+                          '", "' +
+                          newUser.googleID +
+                          '", "' +
+                          newUser.role +
+                          '")';
 
-                      bigquery
-                        .createQueryStream(findAllOrgs)
-                        .on('error', function(err) {
-                          res.send({ status: '500', message: err.message });
-                        })
-                        .on('data', function(data) {
+                        bigquery
+                          .createQueryStream(addNewUser)
+                          .on('error', function(err) {
+                            res.send({ status: '500', message: err.message });
+                          })
+                          .on('data', function(data) {})
+                          .on('end', function() {
+                            if (newUser.role === 'admin') {
+                              var findAllOrgs =
+                                'SELECT organization_id FROM `' +
+                                config.bq_instance +
+                                '.' +
+                                config.bq_dataset +
+                                '.vendors_2`';
 
-                          Report.find({ organizations : { $elemMatch: { _id: data.organization_id } } }, function(err1, docs1) {
-                              if (err1) {
-                                res.send({ status: '500', message: err1.message });
-                              }
-                              var filesIdList = [];
+                              bigquery
+                                .createQueryStream(findAllOrgs)
+                                .on('error', function(err) {
+                                  res.send({ status: '500', message: err.message });
+                                })
+                                .on('data', function(data) {
 
-                              for (j = 0; j < docs1.length; j++) {
-                                var orgList = docs1[j].organizations;
-                                var file_url = docs1[j].link;
-                                var extract_id = file_url.match(/reporting\/.*\/page/i);
-                                var file_id = extract_id.toString().split('/')[1];
+                                  Report.find({ organizations : { $elemMatch: { _id: data.organization_id } } }, function(err1, docs1) {
+                                      if (err1) {
+                                        res.send({ status: '500', message: err1.message });
+                                      }
+                                      var filesIdList = [];
 
-                                var filesIdList = [file_id];
-                                for (var i = 0; i < docs1[j].datasources.length; i++) {
-                                  var datasourcelink = docs1[j].datasources[i].datastudio;
-                                  var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
-                                  var datasource_id = extract_ds_link.toString().split('/')[1];
+                                      for (j = 0; j < docs1.length; j++) {
+                                        var orgList = docs1[j].organizations;
+                                        var file_url = docs1[j].link;
+                                        var extract_id = file_url.match(/reporting\/.*\/page/i);
+                                        var file_id = extract_id.toString().split('/')[1];
 
-                                  filesIdList.push(datasource_id);
-                                }
-                              }
+                                        var filesIdList = [file_id];
+                                        for (var i = 0; i < docs1[j].datasources.length; i++) {
+                                          var datasourcelink = docs1[j].datasources[i].datastudio;
+                                          var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
+                                          var datasource_id = extract_ds_link.toString().split('/')[1];
 
-                              var permsList = [{
-                                  'type': 'user',
-                                  'role': 'reader',
-                                  'emailAddress': newUser.googleID
-                                }];
-                             
-                              for (var j = 0; j < filesIdList.length; j++) {
-                                  utils.shareReport(filesIdList[j], permsList, 0, function(ret) {
-                                          if (ret === 1) {
-                                            console.log("Report sharing failed.");
-                                            var result = 1;
-                                          }
-                                          else {
-                                            console.log("Report shared successfully.");
-                                          }
-                                  });
-                                  if (result === 1) {
-                                      res.send({status: "500", message: "Sharing report error."});
-                                  }
-                                }
-                              });
-
-                                var addNewAdminVendor =
-                                  'INSERT INTO `' +
-                                  config.bq_instance +
-                                  '.' +
-                                  config.bq_dataset +
-                                  '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' +
-                                  newUserId +
-                                  '", "' +
-                                  data.organization_id +
-                                  '")';
-
-                                bigquery
-                                  .createQueryStream(addNewAdminVendor)
-                                  .on('error', function(err) {
-                                    res.send({ status: '500', message: err.message });
-                                  })
-                                  .on('data', function(data) {})
-                                  .on('end', function() {});
-                              })
-                              .on('end', function() {
-                                var orgList = [];
-
-                                Organization.find(function(err1, docs) {
-                                  if (err1) {
-                                    res.send({ status: '500', message: err1.message });
-                                  } else {
-                                    for (var i = 0; i < docs.length; i++) {
-                                      orgList.push({ _id: docs[i]._id, name: docs[i].name });
-                                    }
-
-                                    User.updateOne(
-                                      { _id: newUserId },
-                                      { organizations: orgList },
-                                      function(err2, res2) {
-                                        if (err2) {
-                                          res.send({ status: '500', message: err2.message });
-                                        } else {
-                                          res.send({ status: '200', userID: newUserId });
+                                          filesIdList.push(datasource_id);
                                         }
                                       }
-                                    );
+
+                                      var permsList = [{
+                                          'type': 'user',
+                                          'role': 'reader',
+                                          'emailAddress': newUser.googleID
+                                        }];
+
+                                      for (var j = 0; j < filesIdList.length; j++) {
+                                          utils.shareReport(filesIdList[j], permsList, 0, function(ret) {
+                                                  if (ret === 1) {
+                                                    console.log("Report sharing failed.");
+                                                    var result = 1;
+                                                  }
+                                                  else {
+                                                    console.log("Report shared successfully.");
+                                                  }
+                                          });
+                                          if (result === 1) {
+                                              res.send({status: "500", message: "Sharing report error."});
+                                          }
+                                        }
+                                      });
+
+                                        var addNewAdminVendor =
+                                          'INSERT INTO `' +
+                                          config.bq_instance +
+                                          '.' +
+                                          config.bq_dataset +
+                                          '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' +
+                                          newUserId +
+                                          '", "' +
+                                          data.organization_id +
+                                          '")';
+
+                                        bigquery
+                                          .createQueryStream(addNewAdminVendor)
+                                          .on('error', function(err) {
+                                            res.send({ status: '500', message: err.message });
+                                          })
+                                          .on('data', function(data) {})
+                                          .on('end', function() {});
+                                      })
+                                      .on('end', function() {
+                                        var orgList = [];
+
+                                        Organization.find(function(err1, docs) {
+                                          if (err1) {
+                                            res.send({ status: '500', message: err1.message });
+                                          } else {
+                                            for (var i = 0; i < docs.length; i++) {
+                                              orgList.push({ _id: docs[i]._id, name: docs[i].name });
+                                            }
+
+                                            User.updateOne(
+                                              { _id: newUserId },
+                                              { organizations: orgList },
+                                              function(err2, res2) {
+                                                if (err2) {
+                                                  res.send({ status: '500', message: err2.message });
+                                                } else {
+                                                  res.send({ status: '200', userID: newUserId });
+                                                }
+                                              }
+                                            );
+                                          }
+                                        });
+                                      });
+
+                            } else {
+                              var findOrgIds =
+                                'SELECT organization_id FROM `' +
+                                config.bq_instance +
+                                '.' +
+                                config.bq_dataset +
+                                '.vendors_2` WHERE organization IN (';
+
+                              for (var i = 0; i < newUser.organizations.length - 1; i++) {
+                                findOrgIds += '"' + newUser.organizations[i].name + '", ';
+
+                                Organization.updateOne(
+                                  { name: newUser.organizations[i].name },
+                                  { $inc: { usersCount: 1 } },
+                                  function(err1, res1) {
+                                    if (err1) {
+                                      res.send({ status: '500', message: err1.message });
+                                    }
                                   }
-                                });
-                              });
+                                );
+                              }
+                              findOrgIds +=
+                                '"' +
+                                newUser.organizations[newUser.organizations.length - 1].name +
+                                '")';
+                              Organization.updateOne(
+                                {
+                                  name:
+                                    newUser.organizations[newUser.organizations.length - 1].name
+                                },
+                                { $inc: { usersCount: 1 } },
+                                function(err1, res1) {
+                                  if (err1) {
+                                    res.send({ status: '500', message: err1.message });
+                                  }
+                                }
+                              );
 
-                    } else {
-                      var findOrgIds =
-                        'SELECT organization_id FROM `' +
-                        config.bq_instance +
-                        '.' +
-                        config.bq_dataset +
-                        '.vendors_2` WHERE organization IN (';
+                              bigquery
+                                .createQueryStream(findOrgIds)
+                                .on('error', function(err) {
+                                  res.send({ status: '500', message: err.message });
+                                })
+                                .on('data', function(data) {
+                                  Report.find({ organizations : { $elemMatch: { _id: data.organization_id } } }, function(err1, docs1) {
+                                      if (err1) {
+                                        res.send({ status: '500', message: err1.message });
+                                      }
 
-                      for (var i = 0; i < newUser.organizations.length - 1; i++) {
-                        findOrgIds += '"' + newUser.organizations[i].name + '", ';
+                                      for (j = 0; j < docs1.length; j++) {
+                                        var orgList = docs1[j].organizations;
+                                        var file_url = docs1[j].link;
+                                        var extract_id = file_url.match(/reporting\/.*\/page/i);
+                                        var file_id = extract_id.toString().split('/')[1];
 
-                        Organization.updateOne(
-                          { name: newUser.organizations[i].name },
-                          { $inc: { usersCount: 1 } },
-                          function(err1, res1) {
-                            if (err1) {
-                              res.send({ status: '500', message: err1.message });
+                                        var filesIdList = [file_id];
+                                        for (var i = 0; i < docs1[j].datasources.length; i++) {
+                                          var datasourcelink = docs1[j].datasources[i].datastudio;
+                                          var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
+                                          var datasource_id = extract_ds_link.toString().split('/')[1];
+
+                                          filesIdList.push(datasource_id);
+                                        }
+                                      }
+
+                                      var permsList = [{
+                                          'type': 'user',
+                                          'role': 'reader',
+                                          'emailAddress': newUser.googleID
+                                        }];
+
+                                      for (var j = 0; j < filesIdList.length; j++) {
+                                          utils.shareReport(filesIdList[j], permsList, 0, function(ret) {
+                                                  if (ret === 1) {
+                                                    console.log("Report sharing failed.");
+                                                    var result = 1;
+                                                  }
+                                                  else {
+                                                    console.log("Report shared successfully.");
+                                                  }
+                                          });
+                                          if (result === 1) {
+                                              res.send({status: "500", message: "Sharing report error."});
+                                          }
+                                        }
+                                      });
+                                        var addNewAdminVendor =
+                                          'INSERT INTO `' +
+                                          config.bq_instance +
+                                          '.' +
+                                          config.bq_dataset +
+                                          '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' +
+                                          newUserId +
+                                          '", "' +
+                                          data.organization_id +
+                                          '")';
+
+                                        bigquery
+                                          .createQueryStream(addNewAdminVendor)
+                                          .on('error', function(err) {
+                                            res.send({ status: '500', message: err.message });
+                                          })
+                                          .on('data', function(data) {})
+                                          .on('end', function() {});
+                                      })
+                                      .on('end', function() {
+                                        res.send({ status: '200', userID: newUserId });
+                                      });
                             }
-                          }
-                        );
+                          });
                       }
-                      findOrgIds +=
-                        '"' +
-                        newUser.organizations[newUser.organizations.length - 1].name +
-                        '")';
-                      Organization.updateOne(
-                        {
-                          name:
-                            newUser.organizations[newUser.organizations.length - 1].name
-                        },
-                        { $inc: { usersCount: 1 } },
-                        function(err1, res1) {
-                          if (err1) {
-                            res.send({ status: '500', message: err1.message });
-                          }
-                        }
-                      );
+                    });
+                  }
+                });
+              });
+        }
 
-                      bigquery
-                        .createQueryStream(findOrgIds)
-                        .on('error', function(err) {
-                          res.send({ status: '500', message: err.message });
-                        })
-                        .on('data', function(data) {
-                          Report.find({ organizations : { $elemMatch: { _id: data.organization_id } } }, function(err1, docs1) {
-                              if (err1) {
-                                res.send({ status: '500', message: err1.message });
-                              }
-
-                              for (j = 0; j < docs1.length; j++) {
-                                var orgList = docs1[j].organizations;
-                                var file_url = docs1[j].link;
-                                var extract_id = file_url.match(/reporting\/.*\/page/i);
-                                var file_id = extract_id.toString().split('/')[1];
-
-                                var filesIdList = [file_id];
-                                for (var i = 0; i < docs1[j].datasources.length; i++) {
-                                  var datasourcelink = docs1[j].datasources[i].datastudio;
-                                  var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
-                                  var datasource_id = extract_ds_link.toString().split('/')[1];
-
-                                  filesIdList.push(datasource_id);
-                                }
-                              }
-
-                              var permsList = [{
-                                  'type': 'user',
-                                  'role': 'reader',
-                                  'emailAddress': newUser.googleID
-                                }];
-
-                              for (var j = 0; j < filesIdList.length; j++) {
-                                  utils.shareReport(filesIdList[j], permsList, 0, function(ret) {
-                                          if (ret === 1) {
-                                            console.log("Report sharing failed.");
-                                            var result = 1;
-                                          }
-                                          else {
-                                            console.log("Report shared successfully.");
-                                          }
-                                  });
-                                  if (result === 1) {
-                                      res.send({status: "500", message: "Sharing report error."});
-                                  }
-                                }
-                              });
-                                var addNewAdminVendor =
-                                  'INSERT INTO `' +
-                                  config.bq_instance +
-                                  '.' +
-                                  config.bq_dataset +
-                                  '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' +
-                                  newUserId +
-                                  '", "' +
-                                  data.organization_id +
-                                  '")';
-
-                                bigquery
-                                  .createQueryStream(addNewAdminVendor)
-                                  .on('error', function(err) {
-                                    res.send({ status: '500', message: err.message });
-                                  })
-                                  .on('data', function(data) {})
-                                  .on('end', function() {});
-                              })
-                              .on('end', function() {
-                                res.send({ status: '200', userID: newUserId });
-                              });
-                    }
-                  });
-              }
-            });
-          }
-        });
       });
+    });
+
 });
 
 router.post('/deleteUser', function(req, res) {
