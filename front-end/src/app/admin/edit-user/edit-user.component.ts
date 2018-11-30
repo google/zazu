@@ -165,8 +165,10 @@ export class EditUserComponent implements OnInit {
           role: this.user.role
         };
       }
-      console.log(newUser);
-      const status = await <any>this.userService.editUser(newUser);
+      const oldUser = this.user;
+      // console.log(oldUser);
+      // console.log(newUser);
+      const status = await <any>this.userService.editUser(oldUser, newUser);
       if (status.status === '200') {
         await this.router.navigate(['../'], { relativeTo: this.route, queryParams: { edited: 'true'}} );
       } else {

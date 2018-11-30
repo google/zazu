@@ -126,17 +126,23 @@ export class UserService {
 
   /**
    * Edit user
-   * @param user - user object for editing user
+   * @param oldUser - pre-edit user object
+   * @param newUser - post-edit user object
    */
-  public async editUser(user: UserViewModel.EditUser) {
+  public async editUser(oldUser: UserViewModel.EditUser, newUser: UserViewModel.EditUser) {
+    const params = {
+      oldUser: oldUser,
+      newUser: newUser
+    };
     if (await this.authService.canSend()) {
-      return await this.http.post('/api/' + 'editUser/', user).toPromise();
+      return await this.http.post('/api/' + 'editUser/', params).toPromise();
     } else {
       return await {
         status: '403',
         message: 'You do not have permission to perform this action'
       };
     }
+
   }
 
   /**
