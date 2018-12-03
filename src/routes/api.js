@@ -997,7 +997,7 @@ router.get('/getReportByUser/:id', function(req, res) {
           for (var i = 0; i < reports.length; i++) {
             for (var k = 0; k < reports[i].organizations.length; k++) {
               for (var j = 0; j < userOrgList.length; j++) {
-                if (userOrgList[j]._id == reports[i].organizations[k]._id) {
+                if ((userOrgList[j]._id == reports[i].organizations[k]._id)&&(reportsByUser.indexOf(reports[i]) == -1)) {
                   reportsByUser.push(reports[i]);
                 }
               }
@@ -1013,11 +1013,12 @@ router.get('/getReportByUser/:id', function(req, res) {
 router.post('/initGhost', function(req, res) {
   console.log('initialize ghost');
 
+  var currentUser = req.session.passport.user.id;
   var userObj = req.body.user;
   var orgObj = req.body.organization;
   var viewExists = "-1";
 
-  var findViewRow = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor_2` WHERE user_id = ' + userObj._id;
+  var findViewRow = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor_2` WHERE user_id = "' + currentUser + '"';
 
   bigquery.createQueryStream(findViewRow)
     .on('error', function(err) {
@@ -1031,10 +1032,10 @@ router.post('/initGhost', function(req, res) {
     .on('end', function() {
 
       if (viewExists == "-1") {
-        var insertOrUpdateView = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor_2` (user_id, organization_id) VALUES (' + userObj._id + ', ' + orgObj._id + ')';
+        var insertOrUpdateView = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor_2` (user_id, organization_id) VALUES ("' + currentUser + '", "' + orgObj._id + '")';
       }
       else {
-        var insertOrUpdateView = 'UPDATE `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor_2` SET organization_id = ' + orgObj._id + ' WHERE user_id = ' + userObj._id;
+        var insertOrUpdateView = 'UPDATE `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor_2` SET organization_id = "' + orgObj._id + '" WHERE user_id = "' + currentUser + '"';
       }
 
       bigquery.createQueryStream(insertOrUpdateView)
