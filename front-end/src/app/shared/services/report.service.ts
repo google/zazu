@@ -19,6 +19,7 @@ export class ReportService {
   public async getAllReports(): Promise<ReportViewModel.SimpleReport[]> {
     try {
       const raw = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getAllReports').toPromise();
+      // const raw = await this.http.get<ReportViewModel.SimpleRawReport[]>('../../../assets/example-data/reports.mockdata.json').toPromise();
       /*
       const status =  await <any>this.http.get('/api' + '/getAllReports').toPromise();
       let raw = [];
@@ -97,6 +98,7 @@ export class ReportService {
         reports.push(temp2);
       }
     }
+    console.log(reports);
     return await reports;
   }
 
@@ -107,7 +109,8 @@ export class ReportService {
    */
   public async getReportsByOrganization(orgID: string): Promise<ReportViewModel.SimpleReport[]> {
     try {
-      const raw = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByOrganization/' + orgID).toPromise();
+       const raw = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByOrganization/' + orgID).toPromise();
+      // const raw = await this.http.get<ReportViewModel.SimpleRawReport[]>('../../../assets/example-data/reports.mockdata.json').toPromise();
       /*
       const status =  await <any>this.http.get('/api' + '/getReportByOrganization/' + orgID).toPromise();
       let raw = [];
@@ -121,6 +124,7 @@ export class ReportService {
       }
     */
       this.reports = raw;
+      console.log(this.reports);
       const reports = (await this.cleanSimpleRawReport(raw)).filter(report => {
         return report.organization._id === orgID;
       });
@@ -140,6 +144,7 @@ export class ReportService {
       console.log('Get Report By User called');
       const allReports = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByUser/' + userID).toPromise();
       this.reports = allReports;
+      console.log(allReports);
       /*
       const status =  await <any>this.http.get('/api' + '/getReportByOrganization/' + orgID).toPromise();
       let allReports = [];

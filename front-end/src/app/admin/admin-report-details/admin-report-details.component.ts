@@ -1,3 +1,5 @@
+import { AuthService } from 'src/app/auth/auth.service';
+import { ViewerService } from 'src/app/shared/services/viewer.service';
 import { UserService } from './../../shared/services/user.service';
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { ReportService } from '../../shared/services/report.service';
@@ -21,7 +23,9 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private router: Router,
     public snackBar: MatSnackBar,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private viewerService: ViewerService,
+    private authService: AuthService,
   ) {
   }
 
@@ -41,9 +45,12 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
   embedLink;
   permissions;
   shared;
+  adminUser;
   async ngOnInit() {
     try {
       this.viewInitialized = false;
+      // this.viewerService.initializeGhost()
+      this.adminUser = await this.userService.getUser(this.authService.userID);
       this.sub = this.route.params.subscribe(params => {
         this.organizationID = params['id'];
         this.userID = params['userID'];
@@ -51,11 +58,12 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
       });
       this.selectedOrgID = await this.route.snapshot.queryParamMap.get('selectedOrg');
       this.report = await this.reportService.getReport(this.reportID, this.selectedOrgID);
-      console.log(this.report);
       this.selectedOrg = await this.report.organizations.find( org => {
         return org._id === this.selectedOrgID;
       });
-
+      // initializes ghost
+      const ghostStatus = await <any> this.viewerService.initializeGhost(this.selectedOrg, this.adminUser);
+      console.log(ghostStatus);
       if (this.userID !== undefined) {
         this.userView = true;
         this.user = await this.userService.getLocalUser(this.userID);
@@ -71,15 +79,18 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
       this.new = (await this.route.snapshot.queryParamMap.get('new')) === 'new';
       this.edited = (await this.route.snapshot.queryParamMap.get('edited')) === 'true';
       this.shared = (await this.route.snapshot.queryParamMap.get('shared')) === 'true';
-      console.log(this.report.link);
 
       const patt = new RegExp('\/c\/(.)+\/reporting');
       const replaceLink = this.report.link.replace(patt, '/embed/reporting');
-      console.log(replaceLink);
       this.embedLink = this.sanitizer.bypassSecurityTrustResourceUrl(replaceLink);
-      console.log(this.embedLink);
 
-      this.viewInitialized = await true;
+      if (ghostStatus.status === '200') {
+        this.viewInitialized = await true;
+      } else {
+        this.snackBar.open('Failed to initialize view: ' + ghostStatus.message, 'Dismiss', {
+          duration: 5000,
+        });
+      }
 
     } catch (error) {
       console.log(error);

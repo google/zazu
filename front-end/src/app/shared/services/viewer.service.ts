@@ -20,6 +20,7 @@ export class ViewerService {
   initalized = false;
   initialized = new BehaviorSubject<Boolean>(false);
   init = true;
+  adminUser;
 
   setUserID(id) {
     this.userID = id;
@@ -80,7 +81,11 @@ export class ViewerService {
       organization: org,
       user: user
     };
-    return await this.http.post('/api' + '/initGhost', params).toPromise();
+    console.log('****************************');
+    console.log('initGhost Called');
+    console.log(params.organization);
+    console.log('****************************');
+    return await this.http.post('/api' + '/initGhost', org).toPromise();
   }
 
 
@@ -92,21 +97,23 @@ export class ViewerService {
     try {
       console.log('initial set called');
       const status = await this.authService.isLoggedIn();
-      console.log(status);
       if (status.role === 'viewer') {
         this.user = await this.userService.getUser(status.user);
-        console.log(this.user);
         this.reports = await this.reportService.getReportByUser(status.user);
-        console.log(this.reports);
       } else if (status.role === 'admin') {
         this.user = await this.userService.getUser(userID);
-        console.log(this.user);
+        this.adminUser = await this.userService.getUser(this.authService.userID);
         this.reports = await this.reportService.getReportByUser(userID);
-        console.log(this.reports);
       }
+      this.reports = this.reports.filter(report => {
+        let temp = false;
+        for (const org of this.user.organizations) {
+          temp = temp || report.organization._id === org._id;
+        }
+        return temp;
+      });
       const orgs = [];
       for (const rep of await this.reports) {
-        console.log(rep);
         if (orgs.findIndex(x => x._id === rep.organization._id) === -1) {
           const temp = {
             _id: rep.organization._id,
@@ -120,7 +127,6 @@ export class ViewerService {
       for (const org of this.organizations) {
         org.reportsCount = await this.reportsCountByOrg(org._id);
       }
-      console.log(this.organizations);
       this.initialized.next(true);
     } catch (error) {}
   }

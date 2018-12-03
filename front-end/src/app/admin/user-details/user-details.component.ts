@@ -56,13 +56,17 @@ export class UserDetailsComponent implements OnInit {
         orgs.push(org._id);
       }
       this.reports = await this.reportService.getReportByUser(this.userID);
+      this.reports = this.reports.filter(report => {
+        let temp = false;
+        for (const org of this.user.organizations) {
+          temp = temp || report.organization._id === org._id;
+        }
+        return temp;
+      });
       this.new = (await this.route.snapshot.queryParamMap.get('new')) === 'new';
       this.edited = (await this.route.snapshot.queryParamMap.get('edited')) === 'true';
       this.ghostsService.disableGhost();
       this.viewInitialized = true;
-      console.log(this.viewInitialized);
-      console.log(this.organization);
-      console.log(this.user);
     } catch (error) {
       console.log(error);
     }

@@ -51,7 +51,7 @@ const routes: Routes = [
           { path: '', redirectTo: 'org', pathMatch: 'full' },
           { path: 'org', component: ViewerOrganizationListComponent},
           { path: 'org/:orgID', component: ViewerReportListComponent},
-          { path: 'org/:id/r/:reportID', component: ViewerReportComponent},
+          { path: 'org/:orgID/r/:reportID', component: ViewerReportComponent},
           { path: 'org/r/:reportID', component: ViewerReportComponent}
         ]
       }

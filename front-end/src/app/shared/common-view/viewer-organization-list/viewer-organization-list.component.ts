@@ -57,6 +57,7 @@ export class ViewerOrganizationListComponent implements OnInit, OnDestroy {
           this.filterForm.addControl(category, new FormControl(''));
            }
           */
+         /*
          if (this.reports.length === 1) {
            console.log(this.reports);
           if (this.reports[0].organizations.length === 1) {
@@ -64,6 +65,7 @@ export class ViewerOrganizationListComponent implements OnInit, OnDestroy {
             this.router.navigate(['./r/', this.reports[0]._id], { relativeTo: this.route, queryParams: { selectedOrg: this.reports[0].organizations[0]._id}} );
           }
          }
+         */
          console.log(this.organizations);
           this.pageSubscription = this.paginationService.paginationChanged.subscribe(pagination => {
             this.pagination = pagination;
@@ -84,7 +86,13 @@ export class ViewerOrganizationListComponent implements OnInit, OnDestroy {
       console.log(id);
       const org = this.organizations.find(x => x._id === id);
       this.router.navigate(['./', id], { relativeTo: this.route });
-      const status = await <any>this.viewerService.initializeGhost(org, this.viewerService.getUser());
+
+      let status;
+      if (this.viewerService.adminUser) {
+         status = await <any>this.viewerService.initializeGhost(org, this.viewerService.adminUser);
+      } else {
+        status = await <any>this.viewerService.initializeGhost(org, this.viewerService.getUser());
+      }
       console.log(status);
       if (status.status === '200') {
         this.viewerService.chooseOrganization(id);

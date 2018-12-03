@@ -35,12 +35,11 @@ export class ViewerReportComponent implements OnInit, OnDestroy {
     this.viewerInitSubscription = this.viewerService.getInitialized().subscribe(async init => {
       console.log(init);
       if (init) {
-        console.log(this.viewerService.reports);
         this.oneReport = this.viewerService.reports.length === 1;
-        console.log(this.oneReport);
         this.sub = this.route.params.subscribe(params => {
           this.reportID = params['reportID'];
         });
+        console.log(this.reportID);
         this.selectedOrgID = this.route.snapshot.queryParamMap.get('selectedOrg');
         this.report = await this.reportService.getReport(this.reportID, this.selectedOrgID);
         this.selectedOrg = this.report.organizations.find(org => {
@@ -52,15 +51,20 @@ export class ViewerReportComponent implements OnInit, OnDestroy {
         this.embedLink = this.sanitizer.bypassSecurityTrustResourceUrl(replaceLink);
         if (!this.viewerService.currentOrganization) {
           const org = this.viewerService.getOrganization(this.selectedOrgID);
-          const status = await <any>this.viewerService.initializeGhost(org, this.viewerService.user);
+          let status;
+          if (this.viewerService.adminUser) {
+            status = await (<any>this.viewerService.initializeGhost(org, this.viewerService.adminUser));
+          } else {
+            status = await (<any>this.viewerService.initializeGhost(org, this.viewerService.getUser()));
+          }
           // delete this after
-          this.initialized =  true;
+          this.initialized = true;
           if (status.status === '200') {
             console.log(status);
             this.initialized = true;
           }
         } else {
-          this.initialized =  true;
+          this.initialized = true;
         }
       }
     });

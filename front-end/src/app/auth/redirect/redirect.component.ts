@@ -20,9 +20,7 @@ export class RedirectComponent implements OnInit {
 
     try {
       this.status = await <any>this.authService.isLoggedIn();
-      console.log(this.status);
       if (this.status.isLoggedIn) {
-        console.log(this.status.role);
         if (this.status.status === '200') {
           // Checks the user's role and re reroutes
           if (this.status.role === 'admin') {
