@@ -77,13 +77,9 @@ export class ViewerService {
   }
 
   public async initializeGhost(org, user) {
-    const params = {
-      organization: org,
-      user: user
-    };
     console.log('****************************');
     console.log('initGhost Called');
-    console.log(params.organization);
+    console.log(org);
     console.log('****************************');
     return await this.http.post('/api' + '/initGhost', org).toPromise();
   }

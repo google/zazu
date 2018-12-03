@@ -80,10 +80,12 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
       this.edited = (await this.route.snapshot.queryParamMap.get('edited')) === 'true';
       this.shared = (await this.route.snapshot.queryParamMap.get('shared')) === 'true';
 
-      const patt = new RegExp('\/c\/(.)+\/reporting');
-      const replaceLink = this.report.link.replace(patt, '/embed/reporting');
+      const patt = new RegExp('google\.com\/(.)+\/reporting');
+      console.log(this.report.link);
+      const replaceLink = this.report.link.replace(patt, 'google.com/embed/reporting');
+      console.log(replaceLink);
       this.embedLink = this.sanitizer.bypassSecurityTrustResourceUrl(replaceLink);
-
+      console.log(this.embedLink);
       if (ghostStatus.status === '200') {
         this.viewInitialized = await true;
       } else {
@@ -91,7 +93,6 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
           duration: 5000,
         });
       }
-
     } catch (error) {
       console.log(error);
     }
