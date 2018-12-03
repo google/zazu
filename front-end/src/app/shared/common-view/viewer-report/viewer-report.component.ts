@@ -45,10 +45,19 @@ export class ViewerReportComponent implements OnInit, OnDestroy {
         this.selectedOrg = this.report.organizations.find(org => {
           return org._id === this.selectedOrgID;
         });
+        /*
         this.reportsCount = await this.viewerService.reportsCount();
         const patt = new RegExp('/c/(.)+/reporting');
         const replaceLink = this.report.link.replace(patt, '/embed/reporting');
         this.embedLink = this.sanitizer.bypassSecurityTrustResourceUrl(replaceLink);
+        */
+        const patt = new RegExp('google\.com\/(.)+\/reporting');
+        console.log(this.report.link);
+        const replaceLink = this.report.link.replace(patt, 'google.com/embed/reporting');
+        console.log(replaceLink);
+        this.embedLink = this.sanitizer.bypassSecurityTrustResourceUrl(replaceLink);
+        console.log(this.embedLink);
+
         if (!this.viewerService.currentOrganization) {
           const org = this.viewerService.getOrganization(this.selectedOrgID);
           let status;
