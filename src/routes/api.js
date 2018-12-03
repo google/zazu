@@ -1014,8 +1014,7 @@ router.post('/initGhost', function(req, res) {
   console.log('initialize ghost');
 
   var currentUser = req.session.passport.user.id;
-  var userObj = req.body.user;
-  var orgObj = req.body.organization;
+  var orgObj = req.body;
   var viewExists = "-1";
 
   var findViewRow = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor_2` WHERE user_id = "' + currentUser + '"';
