@@ -47,7 +47,6 @@ router.get('/getAllUsers', function(req, res) {
 });
 
 router.get('/getAllUsers/:id', function(req, res) {
-  console.log(req.params.id);
   User.findOne({ _id: req.params.id }, function(err, docs) {
     if (err) {
       res.send({ status: '500', message: 'User list retrieved error.' });
@@ -321,6 +320,7 @@ router.post('/createNewUser', function(req, res) {
                                       if (err1) {
                                         res.send({ status: '500', message: err1.message });
                                       }
+                                      var filesIdList = [];
 
                                       for (j = 0; j < docs1.length; j++) {
                                         var orgList = docs1[j].organizations;
