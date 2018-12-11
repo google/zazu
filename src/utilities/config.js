@@ -9,11 +9,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 18fa2d0795615bb34e50a04e7b2d1a11bfdd5666
 module.exports = {
     bq_instance:  process.env.bq_instance,
     bq_dataset: process.env.bq_dataset,
@@ -31,9 +26,3 @@ module.exports = {
 
     mongo_connection_string: process.env.mongo_connection_string //'mongodb://zazuadmin:vendorcoop@localhost/zazu'
 }
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> 18fa2d0795615bb34e50a04e7b2d1a11bfdd5666
