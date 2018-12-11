@@ -18,7 +18,7 @@ var Schema = mongoose.Schema;
 
 // create a schema
 var ruleSchema = new Schema({
-  name: { type: String, required: true, unique: true },
+  name: { type: String, required: true },
   identifier: { type: String, required: true },
   condition: { type: String, required: true },
   token: { type: String, required: true },

@@ -495,7 +495,6 @@ router.post('/deleteUser', function(req, res) {
 });
 
 router.post('/editUser', function(req, res) {
-  // TODO: also handle org edits.
 
   var oldUser = req.body.oldUser;
   var editUser = req.body.newUser;
@@ -528,12 +527,12 @@ router.post('/editUser', function(req, res) {
       for (var i = 0; i < rmOrgs.length - 1; i++) {
         findOrgIdsToRm += '"' + rmOrgs[i] + '", ';
       }
-      findOrgIdsToRm += rmOrgs[rmOrgs.length - 1];
+      findOrgIdsToRm += '"' + rmOrgs[rmOrgs.length - 1] + '"';
 
       for (var i = 0; i < newOrgs.length - 1; i++) {
         findOrgIdsToAdd += '"' + newOrgs[i] + '", ';
       }
-      findOrgIdsToAdd += newOrgs[newOrgs.length - 1];
+      findOrgIdsToAdd += '"' + newOrgs[newOrgs.length - 1] + '"';
 
       var findOrgIds =
         'SELECT organization_id FROM `' +
@@ -555,7 +554,7 @@ router.post('/editUser', function(req, res) {
             '.' +
             config.bq_dataset +
             '.user_vendor_roles_2` WHERE organization_id = "' +
-            data._id + 'AND user_id = "' + newUser._id +
+            data._id + '" AND user_id = "' + editUser._id +
             '"';
 
             bigquery
@@ -566,106 +565,149 @@ router.post('/editUser', function(req, res) {
               .on('data', function(data) {
               })
               .on('end', function() {
+                 Report.find({ organizations : { $elemMatch: { name: { $in: { rmOrgs } } } } }, function(err1, docs1){
+                     if (err1) {
+                       res.send({ status: '500', message: err1.message });
+                     }
 
+                     Report.find({ organizations : { $elemMatch: { name: { $in: { newOrgs } } } } }, function(err2, docs2){
+                       if (err2) {
+                         res.send({ status: '500', message: err2.message });
+                       }
 
+                       // for (var i = 0; i < docs1.length; i++) {
+                       //      if (docs1[i].indexOf(docs2) == -1) {
+                       //         var file_url = docs1[i].link;
+                       //         var extract_id = file_url.match(/reporting\/.*\/page/i);
+                       //         var file_id = extract_id.toString().split('/')[1];
+                       //
+                       //         var filesIdList = [file_id];
+                       //         for (var j = 0; j < docs1[i].datasources.length; j++) {
+                       //            var datasourcelink = docs1[i].datasources[j].datastudio;
+                       //            var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
+                       //            var datasource_id = extract_ds_link.toString().split('/')[1];
+                       //
+                       //            filesIdList.push(datasource_id);
+                       //         }
+                       //
+                       //         Permission.find( { fileId: { $in: filesIdList }, googleID: editUser.googleID }, function(err3, docs3){
+                       //           if (err3) {
+                       //             res.send({ status: '500', message: err3.message });
+                       //           }
+                       //
+                       //            utils.shareReport(filesIdList, docs3, 1, function(ret) {
+                       //              if (ret === 1) {
+                       //                console.log("Report sharing failed.");
+                       //                var result = 1;
+                       //              }
+                       //              else {
+                       //                console.log("Report shared successfully.");
+                       //              }
+                       //            });
+                       //
+                       //            if (result === 1) {
+                       //              res.send({status: "500", message: "Sharing report error."});
+                       //            }
+                       //      });
+                       //   }
+                       // }
 
-                findOrgIds =
-                  'SELECT organization_id FROM `' +
-                  config.bq_instance +
-                  '.' +
-                  config.bq_dataset +
-                  '.vendors_2` WHERE organization IN (' + findOrgIdsToAdd + ')';
+                       // for (var i = 0; i < docs2.length; i++) {
+                       //      if (docs2[i].indexOf(docs1) == -1) {
+                       //         var file_url = docs2[i].link;
+                       //         var extract_id = file_url.match(/reporting\/.*\/page/i);
+                       //         var file_id = extract_id.toString().split('/')[1];
+                       //
+                       //         var filesIdList = [file_id];
+                       //         for (var j = 0; j < docs2[i].datasources.length; j++) {
+                       //            var datasourcelink = docs2[i].datasources[j].datastudio;
+                       //            var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
+                       //            var datasource_id = extract_ds_link.toString().split('/')[1];
+                       //
+                       //            filesIdList.push(datasource_id);
+                       //         }
+                       //
+                       //         Permission.find( { fileId: { $in: filesIdList }, googleID: editUser.googleID }, function(err3, docs3){
+                       //           if (err3) {
+                       //             res.send({ status: '500', message: err3.message });
+                       //           }
+                       //
+                       //            utils.shareReport(filesIdList, docs3, 0, function(ret) {
+                       //              if (ret === 1) {
+                       //                console.log("Report sharing failed.");
+                       //                var result = 1;
+                       //              }
+                       //              else {
+                       //                console.log("Report shared successfully.");
+                       //              }
+                       //            });
+                       //
+                       //            if (result === 1) {
+                       //              res.send({status: "500", message: "Sharing report error."});
+                       //            }
+                       //      });
+                       //   }
+                       // }
 
-                  bigquery
-                    .createQueryStream(findOrgIds)
-                    .on('error', function(err) {
-                        res.send({ status: '500', message: err.message });
-                    })
-                    .on('data', function(data) {
+                     });
+                 });
 
-                      var insertRow =
-                        'INSERT INTO `' +
-                        config.bq_instance +
-                        '.' +
-                        config.bq_dataset +
-                        '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' +
-                        newUser._id +
-                        '","' +
-                        data._id +
-                        '")';
+                 var findOrgIds =
+                   'SELECT organization_id FROM `' +
+                   config.bq_instance +
+                   '.' +
+                   config.bq_dataset +
+                   '.vendors_2` WHERE organization IN (' + findOrgIdsToAdd + ')';
 
-                      bigquery
-                        .createQueryStream(insertRow)
-                        .on('error', function(err) {
-                            res.send({ status: '500', message: err.message });
-                        })
-                        .on('data', function(data) {
-                        })
-                        .on('end', function() {
-                        });
-                    })
-                    .on('end', function(){
+                   bigquery
+                     .createQueryStream(findOrgIds)
+                     .on('error', function(err) {
+                         res.send({ status: '500', message: err.message });
+                     })
+                     .on('data', function(data) {
+
+                       var insertRow =
+                         'INSERT INTO `' +
+                         config.bq_instance +
+                         '.' +
+                         config.bq_dataset +
+                         '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' +
+                         newUser._id +
+                         '","' +
+                         data._id +
+                         '")';
+
+                       bigquery
+                         .createQueryStream(insertRow)
+                         .on('error', function(err) {
+                             res.send({ status: '500', message: err.message });
+                         })
+                         .on('data', function(data) {
+                         })
+                         .on('end', function() {
+
+                         });
+                     })
+                     .on('end', function(){
 
                     });
-
               });
-
         })
         .on('end', function() {
+          User.updateOne({ _id: editUser._id }, editUser, function(err, result) {
+            if (err) {
+              res.send({
+                status: '500',
+                message: 'User failed to update.'
+              });
+            }
+            res.send({ status: '200', results: result });
+          });
         });
 
     });
+
 });
-
-// Report.find({ organizations : $elemMatch: { name: $in: { rmOrgs } } }, function(err1, docs1){
-//     if (err1) {
-//       res.send({ status: '500', message: err1.message });
-//     }
-//     for (var j = 0; j < docs1.length; j++) {
-//       var file_url = doc1[j].link;
-//       var extract_id = file_url.match(/reporting\/.*\/page/i);
-//       var file_id = extract_id.toString().split('/')[1];
-//
-//       var filesIdList = [file_id];
-//       for (var i = 0; i < docs1[j].datasources.length; i++) {
-//         var datasourcelink = docs1[j].datasources[i].datastudio;
-//         var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
-//         var datasource_id = extract_ds_link.toString().split('/')[1];
-//
-//         filesIdList.push(datasource_id);
-//       }
-//
-//       Permission.find( { fileId: { $in: filesIdList }, googleID: newUser.googleID }, function(err2, docs2){
-//         if (err2) {
-//           res.send({ status: '500', message: err2.message });
-//         }
-//
-//         utils.messagert(filesIdList, docs2, 1, function(ret) {
-//           if (ret === 1) {
-//             console.log("Report sharing failed.");
-//             var result = 1;
-//           }
-//           else {
-//             console.log("Report shared successfully.");
-//           }
-//         });
-//
-//         if (result === 1) {
-//           res.send({status: "500", message: "Sharing report error."});
-//         }
-//       });
-//     }
-// });
-
-// User.updateOne({ _id: editUser._id }, editUser, function(err, result) {
-//   if (err) {
-//     res.send({
-//       status: '500',
-//       message: 'User failed to update.'
-//     });
-//   }
-//   res.send({ status: '200', results: result });
-// });
 
 router.get('/getAllOrganizations', function(req, res) {
   Organization.find(function(err, docs) {
@@ -1097,7 +1139,7 @@ router.post('/createReport', function(req, res) {
           }
 
           for (var j = 0; j < filesIdList.length; j++) {
-            utils.messagert(filesIdList[j], permsList, 0, function(ret) {
+            utils.shareReport(filesIdList[j], permsList, 0, function(ret) {
                     if (ret === 1) {
                       console.log("Report sharing failed.");
                       var result = 1;
@@ -1155,13 +1197,13 @@ router.post('/getPermissionsToRevoke', function(req, res) {
     filesIdList.push(datasource_id);
   }
 
-  if (req.body.organization) {
+  if (req.body.users) {
 
-    var organization = req.body.organization;
+    var usersToRevoke = req.body.users;
     var orgList = [organization._id];
   }
   else {
-
+    var usersToRevoke = [];
     var orgList = report.organizations;
   }
 
@@ -1169,17 +1211,18 @@ router.post('/getPermissionsToRevoke', function(req, res) {
     if (err1) {
       res.send({ status: '500', message: 'Report creation error.' });
     }
-    var usersToRevoke = [];
 
-    for (var i = 0; i < docs.length; i++) {
-        for (var j = 0; j < orgList.length; j++) {
-          for (var k = 0; k < docs[i].organizations.length; k++) {
+    if (usersToRevoke.length === 0) {
+      for (var i = 0; i < docs.length; i++) {
+          for (var j = 0; j < orgList.length; j++) {
+            for (var k = 0; k < docs[i].organizations.length; k++) {
 
-            if ((orgList[j]._id === docs[i].organizations[k]._id)&&(docs[i]._id.toString() !== req.session.passport.user.id)) {
-                usersToRevoke.push(docs[i].googleID);
-             }
+              if ((orgList[j]._id === docs[i].organizations[k]._id)&&(docs[i]._id.toString() !== req.session.passport.user.id)) {
+                  usersToRevoke.push(docs[i].googleID);
+               }
+            }
           }
-        }
+      }
     }
 
     Permission.find({ fileId: { $in: filesIdList }, googleID: { $in: usersToRevoke } }, function(err, docs) {
@@ -1222,7 +1265,7 @@ router.post('/deleteReport', function(req, res) {
         filesIdList.push(datasource_id);
       }
 
-        utils.messagert(filesIdList, permissions, 1, function(ret) {
+        utils.shareReport(filesIdList, permissions, 1, function(ret) {
           if (ret === 1) {
             console.log("Report sharing failed.");
             var result = 1;
