@@ -66,7 +66,8 @@ export class EditReportAccessComponent implements OnInit {
     });
     try {
       // gets all users that have access to the selected org
-      let users = await this.userService.getUsersByOrganization(org._id);
+      let users = await <any>this.userService.getUsersByOrganization(org._id);
+      console.log(users);
       users = users.filter(user => {
         if (user.organizations.length === 1) {
           return true ;
@@ -83,7 +84,11 @@ export class EditReportAccessComponent implements OnInit {
         }
       });
       console.log(users);
-      console.log(users);
+      const googleIDs = [];
+      for (const user of users ) {
+        googleIDs.push(<any>user.googleID);
+      }
+      console.log(googleIDs);
       this.permissions = await this.reportService.getPermissionsToRevoke(this.report, org);
     } catch (error) {}
     const dialogRef = this.dialog.open(RevokeAccessConfirmation, {

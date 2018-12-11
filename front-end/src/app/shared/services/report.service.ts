@@ -376,21 +376,21 @@ export class ReportService {
    * Helper used in delete report.
    * To retrieve the list of file permissions to be revoked
    */
-  public async getPermissionsToRevoke(report, organization) {
+  public async getPermissionsToRevoke(report, users) {
     if (await this.authService.canSend()) {
       console.log('Getting permissions called...');
       // for unsharing report  organizaiton
-      if (organization != null) {
+      if (users != null) {
         const params = {
           report: report,
-          organization: organization
+          users: users
         };
         return await this.http.post('/api/' + 'getPermissionsToRevoke/', params).toPromise();
       } else {
         // for delete report
         const params = {
           report: report,
-          organization: null
+          users: null
         };
         return await this.http.post('/api/' + 'getPermissionsToRevoke/', params).toPromise();
       }
