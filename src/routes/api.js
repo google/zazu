@@ -47,6 +47,7 @@ router.get('/getAllUsers', function(req, res) {
 });
 
 router.get('/getAllUsers/:id', function(req, res) {
+  console.log(req.params.id);
   User.findOne({ _id: req.params.id }, function(err, docs) {
     if (err) {
       res.send({ status: '500', message: 'User list retrieved error.' });
