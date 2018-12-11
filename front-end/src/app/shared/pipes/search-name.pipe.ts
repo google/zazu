@@ -5,8 +5,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class SearchNamePipe implements PipeTransform {
   transform(value: any[], input: string) {
-    console.log('searchName');
-
     if (value) {
       if (input) {
         input = input.toLowerCase();

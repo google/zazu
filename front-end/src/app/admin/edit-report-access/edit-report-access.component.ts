@@ -1,3 +1,4 @@
+import { UserService } from './../../shared/services/user.service';
 import { MatSnackBar, MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
 import { ReportService } from 'src/app/shared/services/report.service';
 import { OrganizationService } from './../../shared/services/organization.service';
@@ -22,7 +23,8 @@ export class EditReportAccessComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private userService: UserService
   ) {}
 
   filteredOptions: Observable<string[]>;
@@ -63,6 +65,25 @@ export class EditReportAccessComponent implements OnInit {
       return x._id === temp.selectedOrganization;
     });
     try {
+      // gets all users that have access to the selected org
+      let users = await this.userService.getUsersByOrganization(org._id);
+      users = users.filter(user => {
+        if (user.organizations.length === 1) {
+          return true ;
+        } else {
+          let checker = true;
+          for ( const orgInReport of this.report.organizations) {
+            for (const orgInUser of user.organizations) {
+              if (orgInUser._id !== org._id) {
+                checker = checker && (orgInReport._id !== orgInUser._id );
+              }
+            }
+          }
+          return checker;
+        }
+      });
+      console.log(users);
+      console.log(users);
       this.permissions = await this.reportService.getPermissionsToRevoke(this.report, org);
     } catch (error) {}
     const dialogRef = this.dialog.open(RevokeAccessConfirmation, {
@@ -83,9 +104,6 @@ export class EditReportAccessComponent implements OnInit {
       const org = this.organizations.find(x => {
         return x._id === temp.selectedOrganization;
       });
-      console.log(org);
-      console.log(this.report);
-
       const status = <any>await this.reportService.deleteOrgAccess(this.report, this.permissions);
       if (status.status === '200') {
         if (this.organizationID) {
@@ -102,7 +120,6 @@ export class EditReportAccessComponent implements OnInit {
             });
         }
       } else {
-         console.log(status);
         this.sending = false;
          this.snackBar.open('Error: ' + status.message, 'Dismiss', {
          duration: 5000

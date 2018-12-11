@@ -88,7 +88,6 @@ export class CreateNewOrganizationComponent implements OnInit {
       const newOrg = await <any>this.organizatinonService.createNewOrganization(
         org
       );
-      console.log(newOrg);
       if (await newOrg.status === '200') {
         await this.router.navigate(['../', newOrg.orgID], { relativeTo: this.route, queryParams: { new: 'new'}} );
       } else {

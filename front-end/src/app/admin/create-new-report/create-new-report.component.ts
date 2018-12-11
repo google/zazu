@@ -219,26 +219,21 @@ export class CreateNewReportComponent implements OnInit {
       datasources: rForm.datasources,
       organizations: org
     };
-    console.log(report);
     try {
       const status = await <any>this.reportService.createNewReport(report);
-      console.log(status);
       if (status.status === '200') {
         if (this.organizationID) {
-          console.log('coming from org details');
           await this.router.navigate(['../r', status.results], {
             relativeTo: this.route,
             queryParams: { new: 'new', selectedOrg: organization._id }
           });
         } else {
-          console.log('coming from report list');
           await this.router.navigate(['../../r', status.results], {
             relativeTo: this.route,
             queryParams: { new: 'new', selectedOrg: organization._id }
           });
         }
       } else {
-        console.log(status);
         this.sending = false;
         this.snackBar.open('Error: ' + status.message, 'Dismiss', {
           duration: 5000

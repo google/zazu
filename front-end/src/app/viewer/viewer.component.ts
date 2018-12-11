@@ -14,7 +14,6 @@ export class ViewerComponent implements OnInit {
   constructor(private authService: AuthService, public dialog: MatDialog, private viewerService: ViewerService) { }
 
   async ngOnInit() {
-    console.log('Viewer Initialized');
     await this.viewerService.initialSet('');
   }
 

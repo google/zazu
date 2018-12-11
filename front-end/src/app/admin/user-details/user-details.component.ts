@@ -51,10 +51,12 @@ export class UserDetailsComponent implements OnInit {
         this.organization = false;
       }
       this.user = await this.userService.getUser(this.userID);
+      /*
       const orgs = [];
       for ( const org of this.user.organizations) {
         orgs.push(org._id);
       }
+      */
       this.reports = await this.reportService.getReportByUser(this.userID);
       this.reports = this.reports.filter(report => {
         let temp = false;
@@ -112,7 +114,6 @@ export class UserDetailsComponent implements OnInit {
         if (result) {
           this.sending = true;
           const status = await <any>this.userService.deleteUser(this.user, this.permissions.permissions);
-          console.log(status);
           if (status.status === '200') {
             this.sending = false;
             this.router.navigate(['../../'], { relativeTo: this.route , queryParams: {deletedUser: this.user.firstName}});

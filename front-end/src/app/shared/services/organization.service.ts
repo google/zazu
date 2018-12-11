@@ -156,7 +156,6 @@ export class OrganizationService {
    * @param id organization ID
    */
   public async getLocalOrganization(id) {
-    console.log('local org called');
     if (this.organizations.length === 0) {
 
       try {
@@ -164,8 +163,6 @@ export class OrganizationService {
         const orga = await this.organizations.find(org => {
           return org._id === id;
         });
-        console.log(this.organizations);
-        console.log(orga);
         return orga;
       } catch (error) {
         console.log(error);
@@ -174,8 +171,6 @@ export class OrganizationService {
     const organization = await this.organizations.find(org => {
       return org._id === id;
     });
-    console.log(this.organizations);
-    console.log(organization);
     return organization;
   }
 

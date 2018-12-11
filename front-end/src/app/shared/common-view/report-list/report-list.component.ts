@@ -55,7 +55,6 @@ export class ReportListComponent implements OnInit, OnDestroy, OnChanges {
 
   async ngOnInit() {
     try {
-      console.log(this.menuOpen);
       this.paginationService.resetPage();
       this.sub = this.route.params.subscribe(params => {
         this.organizationID = params['id'];
@@ -116,7 +115,6 @@ export class ReportListComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   reportClicked(reportID, orgID) {
-    console.log(reportID);
     const report = {
       reportID: reportID,
       orgID: orgID
@@ -165,7 +163,6 @@ export class ReportListComponent implements OnInit, OnDestroy, OnChanges {
 
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
     });
   }
 

@@ -63,7 +63,6 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
       });
       // initializes ghost
       const ghostStatus = await <any> this.viewerService.initializeGhost(this.selectedOrg, this.adminUser);
-      console.log(ghostStatus);
       if (this.userID !== undefined) {
         this.userView = true;
         this.user = await this.userService.getLocalUser(this.userID);
@@ -81,11 +80,8 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
       this.shared = (await this.route.snapshot.queryParamMap.get('shared')) === 'true';
 
       const patt = new RegExp('google\.com\/(.)+\/reporting');
-      console.log(this.report.link);
       const replaceLink = this.report.link.replace(patt, 'google.com/embed/reporting');
-      console.log(replaceLink);
       this.embedLink = this.sanitizer.bypassSecurityTrustResourceUrl(replaceLink);
-      console.log(this.embedLink);
       if (ghostStatus.status === '200') {
         this.viewInitialized = await true;
       } else {
@@ -110,14 +106,12 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
 
   async openDialog( ) {
     this.permissions = await this.getPermissions();
-    console.log(this.permissions);
     const dialogRef = this.dialog.open(DeleteReportConfirmation, {
       data: { report: this.report.name}
     });
      dialogRef.afterClosed().subscribe(async result => {
       if (result) {
         const status = await <any>this.reportService.deleteReport(this.report, this.permissions.permissions);
-        console.log(await status);
         if (await status.status === '200') {
           this.snackBar.open('Report Deleted: ' + this.report.name, 'Dismiss', {
             duration: 5000,

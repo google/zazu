@@ -71,7 +71,6 @@ export class AuthService {
   }
 
   public async logout() {
-    console.log('Logout called');
     const status = await (<any>this.http.get('/api' + '/logout').toPromise());
     if (status.status === '200') {
       this.router.navigate(['/logout']);

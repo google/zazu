@@ -77,10 +77,6 @@ export class ViewerService {
   }
 
   public async initializeGhost(org, user) {
-    console.log('****************************');
-    console.log('initGhost Called');
-    console.log(org);
-    console.log('****************************');
     return await this.http.post('/api' + '/initGhost', org).toPromise();
   }
 
@@ -91,7 +87,6 @@ export class ViewerService {
 
   async initialSet(userID) {
     try {
-      console.log('initial set called');
       const status = await this.authService.isLoggedIn();
       if (status.role === 'viewer') {
         this.user = await this.userService.getUser(status.user);
