@@ -60,7 +60,6 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
       this.dataRule = this.dataRules.find(element => {
         return element._id === this.dataRuleId;
       });
-      console.log(this.dataRule);
       this.oldRule = this.dataRule;
       this.datasources = await this.datarulesService.getDataSources();
       this.identifiers = await this.dataruleService.getIdentifiers(

@@ -67,7 +67,6 @@ export class OrganizationListComponent implements OnInit, OnDestroy {
 
   // Go to organization details
   goToDetails(id) {
-    console.log(id);
     this.router.navigate(['../', id], { relativeTo: this.route });
   }
 

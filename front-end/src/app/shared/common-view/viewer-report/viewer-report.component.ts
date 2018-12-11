@@ -33,13 +33,11 @@ export class ViewerReportComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.viewerInitSubscription = this.viewerService.getInitialized().subscribe(async init => {
-      console.log(init);
       if (init) {
         this.oneReport = this.viewerService.reports.length === 1;
         this.sub = this.route.params.subscribe(params => {
           this.reportID = params['reportID'];
         });
-        console.log(this.reportID);
         this.selectedOrgID = this.route.snapshot.queryParamMap.get('selectedOrg');
         this.report = await this.reportService.getReport(this.reportID, this.selectedOrgID);
         this.selectedOrg = this.report.organizations.find(org => {
@@ -52,11 +50,8 @@ export class ViewerReportComponent implements OnInit, OnDestroy {
         this.embedLink = this.sanitizer.bypassSecurityTrustResourceUrl(replaceLink);
         */
         const patt = new RegExp('google\.com\/(.)+\/reporting');
-        console.log(this.report.link);
         const replaceLink = this.report.link.replace(patt, 'google.com/embed/reporting');
-        console.log(replaceLink);
         this.embedLink = this.sanitizer.bypassSecurityTrustResourceUrl(replaceLink);
-        console.log(this.embedLink);
 
         if (!this.viewerService.currentOrganization) {
           const org = this.viewerService.getOrganization(this.selectedOrgID);
@@ -69,7 +64,6 @@ export class ViewerReportComponent implements OnInit, OnDestroy {
           // delete this after
           this.initialized = true;
           if (status.status === '200') {
-            console.log(status);
             this.initialized = true;
           }
         } else {

@@ -1,5 +1,5 @@
 <div class="breadcrumb-container" *ngIf="initialized">
-  <div *ngIf= "!oneReport">
+  <div >
     <span (click)="goToList()"><i class="material-icons"> business </i> Organization List </span>
      &nbsp;&nbsp;
     <i class="material-icons arrow"> keyboard_arrow_right </i>
@@ -12,9 +12,11 @@
     &nbsp;&nbsp;
     <span class="active">{{report.name}}</span>
   </div>
+  <!--
   <div *ngIf= "oneReport">
     <span class="active"><i class="material-icons"> assessment </i>{{report.name}} ({{selectedOrg.name}})</span>
   </div>
+   -->
 </div>
 <div class="main-content-view">
   <div class="left-main-content-view" *ngIf="report && initialized">

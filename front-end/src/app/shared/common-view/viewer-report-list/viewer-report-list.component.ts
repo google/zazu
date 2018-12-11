@@ -37,19 +37,16 @@ export class ViewerReportListComponent implements OnInit, OnDestroy {
   viewerInitSubscription: Subscription;
   orgID;
   async ngOnInit() {
-    console.log('viewer report list init called');
     try {
       this.sub = this.route.params.subscribe(params => {
         this.orgID = params['reportID'];
       });
       this.viewerInitSubscription = this.viewerService.getInitialized().subscribe(async init => {
-        console.log(init);
         if (init) {
           this.sub = this.route.params.subscribe(params => {
             this.organizationID = params['orgID'];
           });
           if (this.organizationID) {
-            console.log('passed by checked');
             this.paginationService.resetPage();
             this.pageSubscription = this.paginationService.paginationChanged.subscribe(pagination => {
               this.pagination = pagination;
@@ -90,7 +87,6 @@ export class ViewerReportListComponent implements OnInit, OnDestroy {
   initializeOrg() {}
 
   reportClicked(reportID, orgID) {
-    console.log('report clicked');
     this.router.navigate(['./r/', reportID], { relativeTo: this.route, queryParams: { selectedOrg: orgID } });
   }
 

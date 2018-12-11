@@ -19,7 +19,6 @@ export class DatarulesService {
    * @param organizationID - ID of the organization you want to get the data source for
    */
   public async getDataRules(organizationID: string): Promise<DataViewModel.DataRule[]> {
-    console.log('getting data rules');
     return await this.http.get<DataViewModel.DataRule[]>('/api' + '/getDataRules/' + organizationID).toPromise();
     /*
     try {
@@ -112,7 +111,6 @@ export class DatarulesService {
       newRule: newRule,
       oldRule: oldRule
     };
-    console.log(parameter);
     if (await this.authService.canSend()) {
       return await this.http.post('/api/' + 'editRule/', parameter).toPromise();
     } else {

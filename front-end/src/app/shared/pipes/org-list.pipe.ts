@@ -83,7 +83,6 @@ export class OrgListPipe implements PipeTransform {
       );
       if (currentList.length === 0) {
         const reports = [{ empty: true }];
-        console.log('No Searches');
         return reports;
       } else {
         return currentList.slice(

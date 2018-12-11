@@ -140,9 +140,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
       // this.users = await this.userService.getUsersByOrganization(this.organizationID);
       this.users = await this.userService.getAllUsers();
       await this.userService.setLocalUsers(this.users);
-      console.log(this.users);
       this.users = this.users.filter(user => {
-        console.log(user);
         let temp = false;
         for (const org of user.organizations) {
           temp = temp || org._id === this.organizationID;
@@ -239,7 +237,6 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
           this.sending = true;
           this.deletingOrg = true;
           const status = await <any>this.organizationService.deleteOrganization(this.organization);
-          console.log(status);
           this.router.navigate(['../list'], { relativeTo: this.route, queryParams: { deletedOrg: this.organization.name } });
           if (status.status === '200') {
             this.sending = false;

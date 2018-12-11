@@ -112,7 +112,6 @@ export class CreateNewUserComponent implements OnInit {
       organizations: orgs,
       role: role
     };
-    console.log(newUser);
     try {
       const userStatus = await this.userService.createNewUser(newUser);
       console.log(userStatus);

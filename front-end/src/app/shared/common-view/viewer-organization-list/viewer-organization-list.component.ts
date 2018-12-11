@@ -43,13 +43,11 @@ export class ViewerOrganizationListComponent implements OnInit, OnDestroy {
   reports;
   async ngOnInit() {
     // Gets all organizations OnInit
-    console.log('org list init');
     try {
       this.viewerInitSubscription = this.viewerService.getInitialized().subscribe(async init => {
         if (init) {
           // await this.viewerService.initialSet();
           this.reports = await this.viewerService.getReportByUser(this.viewerService.getUser()._id);
-          console.log(this.reports);
           this.organizations = await this.viewerService.getOrganizations();
           // await this.getAllCategories(this.organizations);
           /*
@@ -66,7 +64,6 @@ export class ViewerOrganizationListComponent implements OnInit, OnDestroy {
           }
          }
          */
-         console.log(this.organizations);
           this.pageSubscription = this.paginationService.paginationChanged.subscribe(pagination => {
             this.pagination = pagination;
           });
@@ -83,7 +80,6 @@ export class ViewerOrganizationListComponent implements OnInit, OnDestroy {
   // Go to organization details
   async goToList(id) {
     try {
-      console.log(id);
       const org = this.organizations.find(x => x._id === id);
       this.router.navigate(['./', id], { relativeTo: this.route });
 
@@ -93,7 +89,6 @@ export class ViewerOrganizationListComponent implements OnInit, OnDestroy {
       } else {
         status = await <any>this.viewerService.initializeGhost(org, this.viewerService.getUser());
       }
-      console.log(status);
       if (status.status === '200') {
         this.viewerService.chooseOrganization(id);
         this.router.navigate(['./', id], { relativeTo: this.route });

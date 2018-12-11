@@ -48,7 +48,6 @@ export class UserService {
    * @param id - id of the user you want to get information
    */
   public async getUser(id): Promise<UserViewModel.User> {
-    console.log(id);
     return await this.http.get<UserViewModel.User>('/api' + '/getAllUsers/' + id).toPromise();
     /*
     try {
@@ -155,7 +154,6 @@ export class UserService {
       user: user,
       permissions: permissions
     };
-    console.log(params);
     if (await this.authService.canSend()) {
       return await this.http.post('/api/' + 'deleteUser/', params).toPromise();
     } else {
@@ -168,7 +166,6 @@ export class UserService {
 
   public async getPermissionsToRevokeUser(user) {
     if (await this.authService.canSend()) {
-      console.log('Getting permissions called...');
       // for revoking user
       return await this.http.post('/api/' + 'getPermissionsToRevokeUser/', user).toPromise();
     } else {

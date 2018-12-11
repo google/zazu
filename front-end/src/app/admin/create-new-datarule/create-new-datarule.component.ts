@@ -115,7 +115,6 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
 
 
     const ruleStatus = <any>await this.datarulesService.createNewDataRule(datarule);
-    console.log(ruleStatus);
     if ( ruleStatus.status === '200') {
       await this.router.navigate(['../'], { relativeTo: this.route, queryParams: { newRule: 'new'}} );
     } else {

@@ -18,7 +18,6 @@ export class AdminComponent implements OnInit, OnDestroy {
   ghostStatus: boolean;
   ngOnInit() {
     this.ghostSubscription = this.ghostService.ghostStatusObservable.subscribe(status => {
-      console.log(status);
       this.ghostStatus = status;
     });
     this.ghostService.getStatus();

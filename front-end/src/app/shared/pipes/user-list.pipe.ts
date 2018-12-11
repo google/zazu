@@ -32,7 +32,6 @@ export class UserListPipe implements PipeTransform {
         if (organization !== 'All') {
           currentList = currentList.filter(function(element) {
             return element.organizations.filter(function(org) {
-                console.log(org);
                 return org._id === organization;
               }).length > 0;
           });

@@ -59,7 +59,6 @@ export class EditUserComponent implements OnInit {
   async ngOnInit() {
     try {
       this.organizations = await this.organizationService.getAllOrganizationsWithNoDetails();
-      console.log(this.organizations);
       this.sub = this.route.params.subscribe(params => {
         this.organizationID = params['id'];
         this.userID = params['userID'];
@@ -89,7 +88,6 @@ export class EditUserComponent implements OnInit {
           new FormControl('', Validators.required)
         );
       }
-      console.log(this.firstFormGroup);
     } catch (error) {
       console.log(error);
     }
@@ -130,11 +128,9 @@ export class EditUserComponent implements OnInit {
    */
   async onSubmit() {
     try {
-      console.log('Submit Called');
       this.sending = true;
       const firstForm = this.firstFormGroup.value;
       const orgs = [];
-      console.log('On Submit called');
       let newUser: UserViewModel.EditUser;
       if (this.user.role === 'viewer') {
         for (const orgID of firstForm.organizations) {
@@ -166,8 +162,6 @@ export class EditUserComponent implements OnInit {
         };
       }
       const oldUser = this.user;
-      // console.log(oldUser);
-      // console.log(newUser);
       const status = await <any>this.userService.editUser(oldUser, newUser);
       if (status.status === '200') {
         await this.router.navigate(['../'], { relativeTo: this.route, queryParams: { edited: 'true'}} );
