@@ -385,6 +385,7 @@ export class ReportService {
           report: report,
           users: users
         };
+        console.log(params);
         return await this.http.post('/api/' + 'getPermissionsToRevoke/', params).toPromise();
       } else {
         // for delete report

@@ -116,10 +116,7 @@ export class CreateNewUserComponent implements OnInit {
       const userStatus = await this.userService.createNewUser(newUser);
       console.log(userStatus);
       if (userStatus.status === '200') {
-        // ****************** DELAY ***************
-        setTimeout(() => {
           this.router.navigate(['../u', userStatus.userID], { relativeTo: this.route, queryParams: { new: 'new' } });
-        }, 2000);
       } else {
         this.sending = false;
         this.snackBar.open('Error: ' + userStatus.message, 'Dismiss', {
