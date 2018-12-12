@@ -19,6 +19,8 @@ export class AllUserListComponent implements OnInit {
   viewInitialized = false;
   users: any;
   deletedUser;
+  error = false;
+  errorMessage = '';
   async ngOnInit() {
     try {
       this.users = await  this.userService.getAllUsers();

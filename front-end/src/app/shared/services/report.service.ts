@@ -334,12 +334,14 @@ export class ReportService {
    * @param report - the report object you want to revoke access too
    * @param org - organization object you want to unshare the report to
    */
-  public async deleteOrgAccess(report, permissions) {
+  public async deleteOrgAccess(report, permissions, org) {
     const params = {
       report: report,
-      permissions: permissions
+      permissions: permissions,
+      organization: org
     };
     console.log('Delete Access');
+    console.log(params);
     if (await this.authService.canSend()) {
       return await this.http.post('/api' + '/unshareReport/', params).toPromise();
     } else {

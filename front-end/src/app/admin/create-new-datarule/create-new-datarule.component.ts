@@ -42,7 +42,8 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
     datasource: 'Select a data source for this rule, each rule can only be applied to a single data source.  If you’d like to apply the rule to many data sources, you must create multiple rules.'
   };
 
-
+  error = false;
+  errorMessage = '';
   async ngOnInit() {
     try {
       this.sub = this.route.params.subscribe(params => {

@@ -1,99 +1,98 @@
 <div class="breadcrumb-container">
-  <div class="breadcrumb"> <span class="active"> <i class="material-icons"> business </i> Organization List </span></div>
+  <div class="breadcrumb">
+    <span class="active"> <i class="material-icons"> business </i> Organization List </span>
+  </div>
 </div>
 
 <div class="main-content-view">
-  <div class="left-main-content-view" *ngIf="initialized  && organizations.length > 0">
+  <div class="left-main-content-view" *ngIf="initialized && organizations.length > 0">
     <div class="list" *ngIf="pagination">
-      <div *ngFor="let organization of organizations  |   orgList:  search: selectedCategories : sortValue: pagination.currentPage " [ngClass]="{'card': !organization.empty}">
-        <div class="container" (click)="goToDetails(organization._id)"  *ngIf="!organization.empty">
-          <h2 class="title">{{organization.name}}</h2>
-          <h4 class="secondary"><span *ngFor="let category of organization.categories, let i = index">{{category}}<span *ngIf="i < organization.categories.length -1">,&nbsp;&nbsp;</span>
-            </span> </h4>
+      <div
+        *ngFor="let organization of (organizations | orgList: search:selectedCategories:sortValue:pagination.currentPage)"
+        [ngClass]="{ card: !organization.empty }"
+      >
+        <div class="container" (click)="goToDetails(organization._id)" *ngIf="!organization.empty">
+          <h2 class="title">{{ organization.name }}</h2>
+          <h4 class="secondary">
+            <span *ngFor="let category of organization.categories; let i = index"
+              >{{ category }}<span *ngIf="i < organization.categories.length - 1">,&nbsp;&nbsp;</span>
+            </span>
+          </h4>
           <p class="stats">
-            <span class="left"><i class="material-icons">
-                assessment
-              </i> {{organization.reportsCount}} Reports</span>
-            <span class="middle"> <i class="material-icons">
-                person_outline
-              </i>{{organization.usersCount}} Users</span>
-            <span class="right"> <i class="material-icons">
-                dns
-              </i> {{organization.datarulesCount}} Data Rules</span>
+            <span class="left"><i class="material-icons"> assessment </i> {{ organization.reportsCount }} Reports</span>
+            <span class="middle"> <i class="material-icons"> person_outline </i>{{ organization.usersCount }} Users</span>
+            <span class="right"> <i class="material-icons"> dns </i> {{ organization.datarulesCount }} Data Rules</span>
           </p>
         </div>
         <div class="no-result" *ngIf="organization.empty && organizations.length > 0">
-            <p class="icon"><i class="material-icons">
-                search
-                </i></p>
-            <h3 class="title">
-              No result found.
-            </h3>
-            <p class="text"> We can't find any organization matching your search.</p>
-          </div>
+          <p class="icon"><i class="material-icons"> search </i></p>
+          <h3 class="title">No result found.</h3>
+          <p class="text">We can't find any organization matching your search.</p>
+        </div>
       </div>
     </div>
-    <p class="pagination" *ngIf="this.pagination && this.pagination.totalPages > 1" style="text-align: center"> <button mat-mini-fab (click)="previousPage()" color="white"
-        [disabled]="pagination.currentPage===1"> <i class="material-icons">
-          chevron_left
-        </i> </button>&nbsp;&nbsp;&nbsp;
-      Page <strong>&nbsp;{{this.pagination.currentPage}}</strong>&nbsp; of &nbsp;<strong>&nbsp;{{this.pagination.totalPages}}&nbsp;</strong>&nbsp;&nbsp;&nbsp;<button mat-mini-fab active (click)="nextPage() " [disabled]="pagination.currentPage === pagination.totalPages"
-        color="white"> <i class="material-icons">
-          chevron_right
-        </i> </button>
+    <p class="pagination" *ngIf="this.pagination && this.pagination.totalPages > 1" style="text-align: center">
+      <button mat-mini-fab (click)="previousPage()" color="white" [disabled]="pagination.currentPage === 1">
+        <i class="material-icons"> chevron_left </i></button
+      >&nbsp;&nbsp;&nbsp; Page <strong>&nbsp;{{ this.pagination.currentPage }}</strong
+      >&nbsp; of &nbsp;<strong>&nbsp;{{ this.pagination.totalPages }}&nbsp;</strong>&nbsp;&nbsp;&nbsp;<button
+        mat-mini-fab
+        active
+        (click)="nextPage()"
+        [disabled]="pagination.currentPage === pagination.totalPages"
+        color="white"
+      >
+        <i class="material-icons"> chevron_right </i>
+      </button>
     </p>
   </div>
   <div class="right-main-content-view" *ngIf="initialized && organizations.length > 0">
     <div class="filter" style="margin-top: 13px">
       <form [formGroup]="filterForm" (ngSubmit)="onSearch()">
         <button class="reset" mat-stroked-button (click)="searchFormReset()">RESET</button>
-        <p class="title"> Filter by</p>
+        <p class="title">Filter by</p>
         <mat-form-field appearance="outline" class="search">
           <mat-label class="label-color">Name</mat-label>
-          <input matInput type="text" placeholder="Search Name" formControlName="name">
+          <input matInput type="text" placeholder="Search Name" formControlName="name" />
         </mat-form-field>
-        <p class="title"> Company Type</p>
+        <p class="title">Company Type</p>
         <div class="checkbox" *ngFor="let category of categories">
-          <mat-checkbox value="{{category}}" formControlName="{{category}}">{{category}}</mat-checkbox>
+          <mat-checkbox value="{{category}}" formControlName="{{category}}">{{ category }}</mat-checkbox>
         </div>
-        <br>
+        <br />
         <button mat-raised-button class="search" type="submit">Search</button>
       </form>
     </div>
 
     <div class="sort">
-      <p class="title"> Sort By</p>
+      <p class="title">Sort By</p>
       <mat-radio-group class="example-radio-group" [(ngModel)]="sortValue">
-        <mat-radio-button *ngFor="let sort of sorts" value="{{sort}}" (click)="changeSort(sort)" class="radio">
-          {{sort}}
-        </mat-radio-button>
+        <mat-radio-button *ngFor="let sort of sorts" value="{{sort}}" (click)="changeSort(sort)" class="radio"> {{ sort }} </mat-radio-button>
       </mat-radio-group>
     </div>
 
     <div class="add-button">
-      <button routerLink="../new-organization" mat-fab class="button-fab" color="primary-button"> <i class="material-icons plus-icon">
-          add
-        </i>
-        <i class="material-icons back-icon">
-          business
-        </i></button>
+      <button routerLink="../new-organization" mat-fab class="button-fab" color="primary-button">
+        <i class="material-icons plus-icon"> add </i> <i class="material-icons back-icon"> business </i>
+      </button>
     </div>
   </div>
 
-  <div *ngIf="!initialized" style="margin:auto; padding-top: 50px;">
+  <div *ngIf="!initialized && !error" style="margin:auto; padding-top: 50px;">
     <mat-spinner></mat-spinner>
     <p style="text-align: center;">Loading...</p>
   </div>
 
-  <div *ngIf="initialized && organizations.length === 0 " class="empty-list" style="">
+  <div *ngIf="initialized && organizations.length === 0" class="empty-list">
     <div class="icons">
       <i class="material-icons main"> business </i>
-      <button routerLink="../new-organization" mat-fab class="button-fab add" color="primary-button"> <i class="material-icons">
-          add
-        </i>
-        </button>
+      <button routerLink="../new-organization" mat-fab class="button-fab add" color="primary-button"><i class="material-icons"> add </i></button>
     </div>
-    <h2 class="title"> There are no organizations.</h2>
-    <h3 class="create-text" routerLink="../new-organization"> Create new organization</h3>
+    <h2 class="title">There are no organizations.</h2>
+    <h3 class="create-text" routerLink="../new-organization">Create new organization</h3>
+  </div>
+
+  <div *ngIf="error" style="text-align: center; width: 100%;">
+    <app-error-message [errorMessage]="errorMessage" (tryAgain)="reInitialize()"></app-error-message>
   </div>
 </div>

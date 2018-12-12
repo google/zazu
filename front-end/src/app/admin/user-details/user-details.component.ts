@@ -24,7 +24,7 @@ export class UserDetailsComponent implements OnInit {
     public dialog: MatDialog,
     private ghostsService: GhostService,
     private viewerService: ViewerService,
-    public snackBar: MatSnackBar,
+    public snackBar: MatSnackBar
   ) {}
 
   sub: any;
@@ -39,6 +39,8 @@ export class UserDetailsComponent implements OnInit {
   edited = false;
   sending = false;
   permissions;
+  error = false;
+  errorMessage = '';
   async ngOnInit() {
     try {
       this.sub = this.route.params.subscribe(params => {
@@ -69,9 +71,17 @@ export class UserDetailsComponent implements OnInit {
       this.edited = (await this.route.snapshot.queryParamMap.get('edited')) === 'true';
       this.ghostsService.disableGhost();
       this.viewInitialized = true;
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      this.error = true;
+      this.errorMessage = e.message;
+      console.log(e.message);
     }
+  }
+
+  reInitialize() {
+    console.log('initialize again');
+    this.error = false;
+    this.ngOnInit();
   }
 
   ghostView() {
@@ -86,8 +96,6 @@ export class UserDetailsComponent implements OnInit {
     this.edited = false;
   }
 
-
-
   // Gets the name of the organization for breadcrumbs & user acceses
   private getOrganization(id) {
     return this.organizationService.getOrganizationById(id);
@@ -99,12 +107,11 @@ export class UserDetailsComponent implements OnInit {
   }
 
   public goToReport(report) {
-    this.router.navigate(['./r', report.reportID], { relativeTo: this.route, queryParams: { selectedOrg: report.orgID} } );
+    this.router.navigate(['./r', report.reportID], { relativeTo: this.route, queryParams: { selectedOrg: report.orgID } });
   }
 
   async openDialog() {
     try {
-
       const user = this.user.firstName + ' ' + this.user.lastName;
       const dialogRef = this.dialog.open(DeleteUserConfirmation, {
         data: { user: user }
@@ -113,16 +120,16 @@ export class UserDetailsComponent implements OnInit {
       dialogRef.afterClosed().subscribe(async result => {
         if (result) {
           this.sending = true;
-          const status = await <any>this.userService.deleteUser(this.user, this.permissions.permissions);
+          const status = await (<any>this.userService.deleteUser(this.user, this.permissions.permissions));
           if (status.status === '200') {
             this.sending = false;
-            this.router.navigate(['../../'], { relativeTo: this.route , queryParams: {deletedUser: this.user.firstName}});
+            this.router.navigate(['../../'], { relativeTo: this.route, queryParams: { deletedUser: this.user.firstName } });
             this.snackBar.open('User Deleted: ' + this.user.firstName + ' ' + this.user.lastName, 'Dismiss', {
-              duration: 5000,
+              duration: 5000
             });
           } else {
             this.snackBar.open('Derror ' + status.message, 'Dismiss', {
-              duration: 5000,
+              duration: 5000
             });
           }
         }
@@ -130,7 +137,6 @@ export class UserDetailsComponent implements OnInit {
     } catch (error) {
       console.log(error);
     }
-
   }
 }
 
@@ -139,10 +145,7 @@ export class UserDetailsComponent implements OnInit {
   templateUrl: 'delete-user-confirmation.html'
 })
 export class DeleteUserConfirmation {
-  constructor(
-    public dialogRef: MatDialogRef<DeleteUserConfirmation>,
-    @Inject(MAT_DIALOG_DATA) public data
-  ) {}
+  constructor(public dialogRef: MatDialogRef<DeleteUserConfirmation>, @Inject(MAT_DIALOG_DATA) public data) {}
 
   onNoClick(): void {
     this.dialogRef.close();
