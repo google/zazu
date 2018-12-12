@@ -1201,7 +1201,7 @@ router.post('/getPermissionsToRevoke', function(req, res) {
   if (req.body.users) {
 
     var usersToRevoke = req.body.users;
-    var orgList = [organization._id];
+    var orgList = [];
   }
   else {
     var usersToRevoke = [];
@@ -1297,10 +1297,10 @@ router.post('/deleteReport', function(req, res) {
 });
 
 router.post('/unshareReport', function(req, res) {
-  // TODO: Don't unshare if one user is a part of another org that has the report
 
   var unshareReport = req.body.report;
   var permissions = req.body.permissions;
+  var org = req.body.organization;
   var result = 0;
   var filePermsList = [];
 
@@ -1318,6 +1318,7 @@ router.post('/unshareReport', function(req, res) {
     filesIdList.push(datasource_id);
   }
 
+  if (permissions.length > 0) {
     utils.shareReport(filesIdList, permissions, 1, function(ret) {
       if (ret === 1) {
         console.log("Report sharing failed.");
@@ -1331,10 +1332,11 @@ router.post('/unshareReport', function(req, res) {
     if (result === 1) {
       res.send({status: "500", message: "Sharing report error."});
     }
+  }
 
-    for (var i = 0; i < unshareReport.organizations.length; i++) {
+  for (var i = 0; i < unshareReport.organizations.length; i++) {
       Organization.updateOne(
-        { _id: deleteReport.organizations[i]._id },
+        { _id: unshareReport.organizations[i]._id },
         { $inc: { reportsCount: -1 } },
         function(err1, res1) {
           if (err1) {
@@ -1342,8 +1344,14 @@ router.post('/unshareReport', function(req, res) {
           }
         }
       );
+  }
+
+  Report.updateOne({ _id: unshareReport._id }, { $pull: { organizations: org  } }, function(err2, res2) {
+    if (err2) {
+      res.send({ status: '500', message: err2.message });
     }
-    res.send({ status: '200', results: results._id });
+    res.send({ status: '200', message: "Report unshare succeeded." });
+  }
 });
 
 router.post('/editReport', function(req, res) {
