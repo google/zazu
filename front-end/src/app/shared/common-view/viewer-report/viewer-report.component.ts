@@ -30,10 +30,12 @@ export class ViewerReportComponent implements OnInit, OnDestroy {
   selectedOrg;
   viewerInitSubscription: Subscription;
   oneReport;
-
+  error = false;
+  errorMessage = '';
   async ngOnInit() {
     this.viewerInitSubscription = this.viewerService.getInitialized().subscribe(async init => {
       if (init) {
+        try {
         this.oneReport = this.viewerService.reports.length === 1;
         this.sub = this.route.params.subscribe(params => {
           this.reportID = params['reportID'];
@@ -69,8 +71,19 @@ export class ViewerReportComponent implements OnInit, OnDestroy {
         } else {
           this.initialized = true;
         }
+      } catch (e) {
+        this.error = true;
+        this.errorMessage = e.message;
+        console.log(e.message);
+      }
       }
     });
+  }
+
+  reInitialize() {
+    console.log('initialize again');
+    this.error = false;
+    this.ngOnInit();
   }
 
   goBack() {

@@ -21,7 +21,26 @@ export class OrganizationService {
    *  Primarily used in filters and breadcrumbs
    */
   public async getAllOrganizationsWithNoDetails(): Promise<OrganizationViewModel.SimpleOrganization[]> {
-    return await ((this.http.get<OrganizationViewModel.OrganizationDetails[]>( '/api' + '/getAllOrganizationsWithNoDetails')).toPromise());
+    // return await ((this.http.get<OrganizationViewModel.OrganizationDetails[]>( '/api' + '/getAllOrganizationsWithNoDetails')).toPromise());
+    try {
+      const status =  await <any>((this.http.get<OrganizationViewModel.OrganizationDetails[]>( '/api' + '/getAllOrganizationsWithNoDetails')).toPromise());
+      if (status.status) {
+        if (status.status === '200') {
+          return await status.organization;
+        } else if (status.status === '500' ) {
+          throw new Error(status.message);
+        }
+      } else {
+        return status;
+      }
+    } catch (error) {
+      this.snackBar.open( error.message , 'Dismiss', {
+        duration: 5000,
+      });
+      throw new Error(error.message);
+    }
+
+
     /*
     try {
       const status = await <any>(this.http.get( '/api' + '/getAllOrganizationsWithNoDetails')).toPromise();
@@ -48,26 +67,25 @@ export class OrganizationService {
    * Method for getting all of the organizations with all the details
    */
   public async getAllOrganizations(): Promise<OrganizationViewModel.OrganizationDetails[]> {
-    return await ((this.http.get<OrganizationViewModel.OrganizationDetails[]>( '/api' + '/getAllOrganizations')).toPromise());
-
-    /*
+    // return await ((this.http.get<OrganizationViewModel.OrganizationDetails[]>( '/api' + '/getAllOrganizations')).toPromise());
     try {
-      const status = await <any>(this.http.get( '/api' + '/getAllOrganizationsWithNoDetails')).toPromise();
-      if (status.status === '200') {
-        return await status.organization;
-      } else if (status.status === '400' ) {
-        this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
-          duration: 5000,
-        });
-        throw new Error('Something went wrong, please try again');
+      const status = await <any>(this.http.get( '/api' + '/getAllOrganizations')).toPromise();
+      if (status.status) {
+        if (status.status === '200') {
+          return await status.organization;
+        } else if (status.status === '500' ) {
+          throw new Error(status.message);
+        }
+      } else {
+        return status;
       }
     } catch (error) {
-      this.snackBar.open( error , 'Dismiss', {
+      this.snackBar.open( error.message , 'Dismiss', {
         duration: 5000,
       });
-      throw error;
+      throw new Error(error.message);
     }
-    */
+
   }
 
  /**
@@ -75,7 +93,26 @@ export class OrganizationService {
   * @param id - ID of the organization
   */
   public async getOrganizationById(id): Promise<OrganizationViewModel.OrganizationDetails> {
-    return await ((this.http.get<OrganizationViewModel.OrganizationDetails>( '/api' + '/getOrganizationById/' + id)).toPromise());
+    // return await ((this.http.get<OrganizationViewModel.OrganizationDetails>( '/api' + '/getOrganizationById/' + id)).toPromise());
+
+    try {
+      const status =  await <any>((this.http.get<OrganizationViewModel.OrganizationDetails>( '/api' + '/getOrganizationById/' + id)).toPromise());
+      if (status.status) {
+        if (status.status === '200') {
+          return await status.organization;
+        } else if (status.status === '500' ) {
+          throw new Error(status.message);
+        }
+      } else {
+        return status;
+      }
+    } catch (error) {
+      this.snackBar.open( error.message , 'Dismiss', {
+        duration: 5000,
+      });
+      throw new Error(error.message);
+    }
+
     /*
     try {
       const status = await <any>((this.http.get( '/api' + '/getOrganizationById/' + id)).toPromise());

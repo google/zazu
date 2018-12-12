@@ -18,7 +18,7 @@ export class ReportService {
    */
   public async getAllReports(): Promise<ReportViewModel.SimpleReport[]> {
     try {
-      const raw = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getAllReports').toPromise();
+      // const raw = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getAllReports').toPromise();
       // const raw = await this.http.get<ReportViewModel.SimpleRawReport[]>('../../../assets/example-data/reports.mockdata.json').toPromise();
       /*
       const status =  await <any>this.http.get('/api' + '/getAllReports').toPromise();
@@ -32,15 +32,25 @@ export class ReportService {
         throw new Error('Something went wrong, please try again');
       }
     */
-      console.log(raw);
+      let raw = [];
+      const status = await (<any>this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getAllReports').toPromise());
+      if (status.status) {
+        if (status.status === '200') {
+          raw = status.reports;
+        } else if (status.status === '500') {
+          throw new Error(status.message);
+        }
+      } else {
+        raw = status;
+      }
       this.reports = raw;
       const reports = await this.cleanSimpleRawReport(raw);
       return await reports;
     } catch (error) {
-      this.snackBar.open(error, 'Dismiss', {
+      this.snackBar.open(error.message, 'Dismiss', {
         duration: 5000
       });
-      throw error;
+      throw new Error(error.message);
     }
   }
 
@@ -49,7 +59,25 @@ export class ReportService {
    * but this one keeps the org[]
    */
   public async getAllRawReports(): Promise<ReportViewModel.SimpleRawReport[]> {
-    return await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getAllReports').toPromise();
+    // return await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getAllReports').toPromise();
+
+    try {
+      const status = await (<any>this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getAllReports').toPromise());
+      if (status.status) {
+        if (status.status === '200') {
+          return await status.reports;
+        } else if (status.status === '500') {
+          throw new Error(status.message);
+        }
+      } else {
+        return status;
+      }
+    } catch (error) {
+      this.snackBar.open(error.message, 'Dismiss', {
+        duration: 5000
+      });
+      throw new Error(error.message);
+    }
     /*
     try {
       const status = await <any>this.http.get('/api' + '/getAllReports').toPromise();
@@ -109,7 +137,7 @@ export class ReportService {
    */
   public async getReportsByOrganization(orgID: string): Promise<ReportViewModel.SimpleReport[]> {
     try {
-       const raw = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByOrganization/' + orgID).toPromise();
+      // const raw = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByOrganization/' + orgID).toPromise();
       // const raw = await this.http.get<ReportViewModel.SimpleRawReport[]>('../../../assets/example-data/reports.mockdata.json').toPromise();
       /*
       const status =  await <any>this.http.get('/api' + '/getReportByOrganization/' + orgID).toPromise();
@@ -123,6 +151,18 @@ export class ReportService {
         throw new Error('Something went wrong, please try again');
       }
     */
+
+      let raw = [];
+      const status = await (<any>this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByOrganization/' + orgID).toPromise());
+      if (status.status) {
+        if (status.status === '200') {
+          raw = status.reports;
+        } else if (status.status === '500') {
+          throw new Error(status.message);
+        }
+      } else {
+        raw = status;
+      }
       this.reports = raw;
       console.log(this.reports);
       const reports = (await this.cleanSimpleRawReport(raw)).filter(report => {
@@ -142,9 +182,20 @@ export class ReportService {
   public async getReportByUser(userID: string): Promise<ReportViewModel.SimpleReport[]> {
     try {
       console.log('Get Report By User called');
-      const allReports = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByUser/' + userID).toPromise();
-      this.reports = allReports;
-      console.log(allReports);
+      // const allReports = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByUser/' + userID).toPromise();
+
+      let raw = [];
+      const status = <any> await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByUser/' + userID).toPromise();
+      if (status.status) {
+        if (status.status === '200') {
+          raw = status.reports;
+          this.reports = raw;
+        } else if (status.status === '500') {
+          throw new Error(status.message);
+        }
+      } else {
+        raw = status;
+      }
       /*
       const status =  await <any>this.http.get('/api' + '/getReportByOrganization/' + orgID).toPromise();
       let allReports = [];
@@ -169,8 +220,32 @@ export class ReportService {
           }
         }
       */
-      const reports = await this.cleanSimpleRawReport(allReports);
+      const reports = await this.cleanSimpleRawReport(raw);
       return reports;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  /** Get All raw reports by user */
+  public async getRawReportsByUser(userID: string): Promise<ReportViewModel.SimpleRawReport[]> {
+    try {
+      console.log('Get Report By User called');
+      // const allReports = await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByUser/' + userID).toPromise();
+      let raw = [];
+      const status = <any> await this.http.get<ReportViewModel.SimpleRawReport[]>('/api' + '/getReportByUser/' + userID).toPromise();
+      if (status.status) {
+        if (status.status === '200') {
+          raw = status.reports;
+          this.reports = raw;
+          return raw;
+        } else if (status.status === '500') {
+          throw new Error(status.message);
+        }
+      } else {
+        raw = status;
+        return raw;
+      }
     } catch (error) {
       console.log(error);
     }
@@ -198,7 +273,24 @@ export class ReportService {
       });
       return await <ReportViewModel.ReportWithMetaData>report;
     }*/
-    return await this.http.get<ReportViewModel.ReportWithMetaData>('/api' + '/getAllReports/' + reportID).toPromise();
+    try {
+      const status = <any> await this.http.get<ReportViewModel.ReportWithMetaData>('/api' + '/getAllReports/' + reportID).toPromise();
+      if (status.status) {
+        if (status.status === '200') {
+          return await status.report;
+        } else if (status.status === '500' ) {
+          throw new Error(status.message);
+        }
+      } else {
+        return status;
+      }
+    } catch (error) {
+      this.snackBar.open( error.message , 'Dismiss', {
+        duration: 5000,
+      });
+      throw new Error(error.message);
+    }
+    // return await this.http.get<ReportViewModel.ReportWithMetaData>('/api' + '/getAllReports/' + reportID).toPromise();
     /*
     try {
       const status = await <any>this.http.get('/api' + '/getAllReports/' + reportID).toPromise();
@@ -217,6 +309,8 @@ export class ReportService {
       throw error;
     }
     */
+
+
   }
 
   /**
@@ -224,7 +318,24 @@ export class ReportService {
    * @param reportId - ID of the specific report
    */
   public async getReportDetails(reportID): Promise<ReportViewModel.ReportDetails> {
-    return await this.http.get<ReportViewModel.ReportDetails>('/api' + '/getAllReports/' + reportID).toPromise();
+    try {
+      const status = <any> await this.http.get<ReportViewModel.ReportDetails>('/api' + '/getAllReports/' + reportID).toPromise();
+      if (status.status) {
+        if (status.status === '200') {
+          return await status.report;
+        } else if (status.status === '500' ) {
+          throw new Error(status.message);
+        }
+      } else {
+        return status;
+      }
+    } catch (error) {
+      this.snackBar.open( error.message , 'Dismiss', {
+        duration: 5000,
+      });
+      throw new Error(error.message);
+    }
+    // return await this.http.get<ReportViewModel.ReportDetails>('/api' + '/getAllReports/' + reportID).toPromise();
     /*
     try {
       const status = await <any>this.http.get('/api' + '/getAllReports/' + reportID).toPromise();
@@ -404,6 +515,8 @@ export class ReportService {
       };
     }
   }
+
+
 
   public async getReportMock() {
     return await this.http.get('../../../assets/example-data/report-mock.mockdata.json').toPromise();
