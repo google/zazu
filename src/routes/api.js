@@ -1351,7 +1351,7 @@ router.post('/unshareReport', function(req, res) {
       res.send({ status: '500', message: err2.message });
     }
     res.send({ status: '200', message: "Report unshare succeeded." });
-  }
+  });
 });
 
 router.post('/editReport', function(req, res) {
