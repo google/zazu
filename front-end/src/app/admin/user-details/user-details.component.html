@@ -67,10 +67,14 @@
   </div>
 </div>
 
-<div *ngIf="!viewInitialized " class='spinner-container' [ngClass]="{'disable-display': sending}">
+<div *ngIf="!viewInitialized && !error " class='spinner-container' [ngClass]="{'disable-display': sending}">
   <mat-spinner class="spinner"></mat-spinner>
   <p >User Loading...</p>
 </div>
+
+<div *ngIf="error" style="text-align: center; width: 100%;">
+    <app-error-message [errorMessage]="errorMessage" (tryAgain)="reInitialize()"></app-error-message>
+  </div>
 
 
 <div [ngClass]="{'disable-display': !sending}" class="spinner-container">

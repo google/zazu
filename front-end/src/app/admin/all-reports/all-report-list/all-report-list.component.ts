@@ -12,14 +12,26 @@ export class AllReportListComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router, private reportService: ReportService) {}
   reports: ReportViewModel.SimpleReport[];
   viewInitialized = false;
+  error = false;
+  errorMessage = '';
   async ngOnInit() {
     try {
       this.reports = await this.reportService.getAllReports();
       this.viewInitialized = await true;
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      this.error = true;
+      this.errorMessage = e.message;
+      console.log(e.message);
     }
   }
+
+
+  reInitialize() {
+    console.log('initialize again');
+    this.error = false;
+    this.ngOnInit();
+  }
+
 
   goToReport(report) {
     this.router.navigate(['/admin/reports/r', report.reportID], { relativeTo: this.route, queryParams: { selectedOrg: report.orgID} } );

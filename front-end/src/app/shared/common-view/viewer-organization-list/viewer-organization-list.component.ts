@@ -41,39 +41,49 @@ export class ViewerOrganizationListComponent implements OnInit, OnDestroy {
   initialized = false;
   viewerInitSubscription: Subscription;
   reports;
+  error = false;
+  errorMessage = '';
   async ngOnInit() {
     // Gets all organizations OnInit
     try {
       this.viewerInitSubscription = this.viewerService.getInitialized().subscribe(async init => {
         if (init) {
-          // await this.viewerService.initialSet();
-          this.reports = await this.viewerService.getReportByUser(this.viewerService.getUser()._id);
-          this.organizations = await this.viewerService.getOrganizations();
-          // await this.getAllCategories(this.organizations);
-          /*
-          for (const category of this.categories) {
-          this.filterForm.addControl(category, new FormControl(''));
-           }
-          */
-         /*
-         if (this.reports.length === 1) {
-           console.log(this.reports);
-          if (this.reports[0].organizations.length === 1) {
-            console.log('one report - one org');
-            this.router.navigate(['./r/', this.reports[0]._id], { relativeTo: this.route, queryParams: { selectedOrg: this.reports[0].organizations[0]._id}} );
+          try {
+            // await this.viewerService.initialSet();
+            this.reports = await this.viewerService.getReportByUser(this.viewerService.getUser()._id);
+            this.organizations = await this.viewerService.getOrganizations();
+            // await this.getAllCategories(this.organizations);
+            /*
+ for (const category of this.categories) {
+ this.filterForm.addControl(category, new FormControl(''));
+  }
+ */
+            /*
+if (this.reports.length === 1) {
+  console.log(this.reports);
+ if (this.reports[0].organizations.length === 1) {
+   console.log('one report - one org');
+   this.router.navigate(['./r/', this.reports[0]._id], { relativeTo: this.route, queryParams: { selectedOrg: this.reports[0].organizations[0]._id}} );
+ }
+}
+*/
+            this.pageSubscription = this.paginationService.paginationChanged.subscribe(pagination => {
+              this.pagination = pagination;
+            });
+            this.paginationService.getPagination();
+            this.paginationService.changePage(1);
+            this.initialized = true;
+          } catch (e) {
+            this.error = true;
+            this.errorMessage = e.message;
+            console.log(e.message);
           }
-         }
-         */
-          this.pageSubscription = this.paginationService.paginationChanged.subscribe(pagination => {
-            this.pagination = pagination;
-          });
-          this.paginationService.getPagination();
-          this.paginationService.changePage(1);
-          this.initialized = true;
         }
       });
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      this.error = true;
+      this.errorMessage = e.message;
+      console.log(e.message);
     }
   }
 
@@ -85,18 +95,23 @@ export class ViewerOrganizationListComponent implements OnInit, OnDestroy {
 
       let status;
       if (this.viewerService.adminUser) {
-         status = await <any>this.viewerService.initializeGhost(org, this.viewerService.adminUser);
+        status = await (<any>this.viewerService.initializeGhost(org, this.viewerService.adminUser));
       } else {
-        status = await <any>this.viewerService.initializeGhost(org, this.viewerService.getUser());
+        status = await (<any>this.viewerService.initializeGhost(org, this.viewerService.getUser()));
       }
       if (status.status === '200') {
         this.viewerService.chooseOrganization(id);
         this.router.navigate(['./', id], { relativeTo: this.route });
       }
-
     } catch (error) {
       console.log(error);
     }
+  }
+
+  reInitialize() {
+    console.log('initialize again');
+    this.error = false;
+    this.ngOnInit();
   }
 
   /*

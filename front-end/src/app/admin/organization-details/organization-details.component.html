@@ -94,7 +94,7 @@
                   <button routerLink="./new-user" mat-fab class="button-fab add" color="primary-button"><i class="material-icons"> add </i></button>
                 </div>
                 <h2 class="title">There are no users.</h2>
-                <h3 class="title" >Create new user</h3>
+                <h3 class="title">Create new user</h3>
               </div>
             </mat-tab>
             <mat-tab label="Data Rules">
@@ -196,14 +196,15 @@
         </div>
       </div>
     </div>
-    <div *ngIf="!viewInitialized" style="margin:auto; padding-top: 50px;">
+    <div *ngIf="!viewInitialized && !error" style="margin:auto; padding-top: 50px;">
       <mat-spinner></mat-spinner>
       <p style="text-align: center;">Loading...</p>
     </div>
+    <div *ngIf="error" style="text-align: center; width: 100%;">
+      <app-error-message [errorMessage]="errorMessage" (tryAgain)="reInitialize()"></app-error-message>
+    </div>
   </div>
 </div>
-
-
 
 <div [ngClass]="{ 'disable-display': !sending }" class="spinner-container">
   <mat-spinner class="spinner"></mat-spinner>

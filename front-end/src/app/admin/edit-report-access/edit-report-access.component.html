@@ -17,6 +17,7 @@
             business
           </i>
           <mat-form-field appearance="fill" style="width:80%" class="select">
+              <mat-label>Select Organization</mat-label>
             <mat-select formControlName="selectedOrganization">
               <mat-option *ngFor="let org of organizations" value="{{org._id}}">{{org.name}}</mat-option>
             </mat-select>

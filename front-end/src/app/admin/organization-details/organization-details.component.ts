@@ -67,6 +67,8 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
   sending = false;
   deletingOrg = false;
   deletingRule = false;
+  error = false;
+  errorMessage = '';
   async ngOnInit() {
     try {
       this.sub = this.route.params.subscribe(params => {
@@ -92,9 +94,18 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
         this.selectedTab = 0;
       }
       this.viewInitialized = true;
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      this.error = true;
+      this.errorMessage = e.message;
+      console.log(e.message);
     }
+  }
+
+
+  reInitialize() {
+    console.log('initialize again');
+    this.error = false;
+    this.ngOnInit();
   }
   async selected(event) {
     this.selectedTab = event;

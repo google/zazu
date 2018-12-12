@@ -9,6 +9,7 @@ import { RawReportListPipe } from './pipes/raw-report-list.pipe';
 import { LogoutConfirmation } from '../admin/admin.component';
 import { ViewerOrganizationListComponent } from './common-view/viewer-organization-list/viewer-organization-list.component';
 import { OrgListPipe } from './pipes/org-list.pipe';
+import { ErrorMessageComponent } from './common-view/error-message/error-message.component';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { OrgListPipe } from './pipes/org-list.pipe';
     ViewerReportComponent,
     ViewerReportListComponent,
     LogoutConfirmation,
-    ViewerOrganizationListComponent
+    ViewerOrganizationListComponent,
+    ErrorMessageComponent
   ],
   exports: [
     ReportListPipe,
@@ -35,6 +37,7 @@ import { OrgListPipe } from './pipes/org-list.pipe';
     LogoutConfirmation,
     ViewerOrganizationListComponent,
     OrgListPipe,
+    ErrorMessageComponent
   ],
   entryComponents: [
     LogoutConfirmation

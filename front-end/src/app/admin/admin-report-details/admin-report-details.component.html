@@ -108,7 +108,12 @@
 </div>
 
 
-<div *ngIf="!viewInitialized" style="margin:auto; padding-top: 80px; text-align: center">
+<div *ngIf="!viewInitialized && !error" style="margin:auto; padding-top: 80px; text-align: center">
   <mat-spinner style="margin:auto"></mat-spinner>
   <p style="text-align: center;">Reports Loading...</p>
 </div>
+
+<div *ngIf="error" style="text-align: center; width: 100%;">
+    <app-error-message [errorMessage]="errorMessage" (tryAgain)="reInitialize()"></app-error-message>
+  </div>
+

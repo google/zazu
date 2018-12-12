@@ -38,9 +38,11 @@ export class OrganizationListComponent implements OnInit, OnDestroy {
     name: new FormControl('')
   });
   initialized = false;
-
+  error = false;
+  errorMessage = '';
   async ngOnInit() {
     // Gets all organizations OnInit
+    console.log('init called');
     try {
       this.organizations = await this.organizationService.getAllOrganizations();
       this.organizationService.setLocalOrg(this.organizations);
@@ -60,15 +62,26 @@ export class OrganizationListComponent implements OnInit, OnDestroy {
           duration: 5000,
         });
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      this.error = true;
+      this.errorMessage = e.message;
+      console.log(e.message);
     }
+  }
+
+
+  reInitialize() {
+    console.log('initialize again');
+    this.error = false;
+    this.ngOnInit();
   }
 
   // Go to organization details
   goToDetails(id) {
     this.router.navigate(['../', id], { relativeTo: this.route });
   }
+
+
 
   // Get all categories with no repetition
   getAllCategories(orgs: OrganizationViewModel.OrganizationDetails[]) {
@@ -80,6 +93,7 @@ export class OrganizationListComponent implements OnInit, OnDestroy {
       });
     });
   }
+
 
   // changes sort preferences
   changeSort(sort) {

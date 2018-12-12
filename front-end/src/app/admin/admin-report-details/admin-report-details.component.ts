@@ -46,6 +46,8 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
   permissions;
   shared;
   adminUser;
+  error = false;
+  errorMessage = '';
   async ngOnInit() {
     try {
       this.viewInitialized = false;
@@ -89,10 +91,18 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
           duration: 5000,
         });
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      this.error = true;
+      this.errorMessage = e.message;
+      console.log(e);
     }
 
+  }
+
+  reInitialize() {
+    console.log('initialize again');
+    this.error = false;
+    this.ngOnInit();
   }
 
   editReport() {
