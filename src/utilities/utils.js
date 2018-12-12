@@ -105,6 +105,7 @@ module.exports = {
               if (err) {
                 // Handle error
                 console.error(err);
+                callback(1);
               } else {
                 // All permissions inserted
               }
@@ -121,7 +122,7 @@ module.exports = {
               if (err) {
                 // Handle error...
                 console.log(err);
-                //callback(1);
+                callback(1);
               } else {
                 console.log(res.status);
                 console.log("Removing permissions...");
