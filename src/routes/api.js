@@ -1334,24 +1334,21 @@ router.post('/unshareReport', function(req, res) {
     }
   }
 
-  for (var i = 0; i < unshareReport.organizations.length; i++) {
-      Organization.updateOne(
-        { _id: unshareReport.organizations[i]._id },
+  Organization.updateOne(
+        { _id: org._id },
         { $inc: { reportsCount: -1 } },
         function(err1, res1) {
           if (err1) {
             res.send({ status: '500', message: err1.message });
           }
+          Report.updateOne({ _id: unshareReport._id }, { $pull: { organizations: org  } }, function(err2, res2) {
+            if (err2) {
+              res.send({ status: '500', message: err2.message });
+            }
+            res.send({ status: '200', message: "Report unshare succeeded." });
+          });
         }
       );
-  }
-
-  Report.updateOne({ _id: unshareReport._id }, { $pull: { organizations: org  } }, function(err2, res2) {
-    if (err2) {
-      res.send({ status: '500', message: err2.message });
-    }
-    res.send({ status: '200', message: "Report unshare succeeded." });
-  });
 });
 
 router.post('/editReport', function(req, res) {
