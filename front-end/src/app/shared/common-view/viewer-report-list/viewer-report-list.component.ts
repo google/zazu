@@ -36,6 +36,8 @@ export class ViewerReportListComponent implements OnInit, OnDestroy {
   selectedOrgName;
   viewerInitSubscription: Subscription;
   orgID;
+  error = false;
+  errorMessage = '';
   async ngOnInit() {
     try {
       this.sub = this.route.params.subscribe(params => {
@@ -43,39 +45,45 @@ export class ViewerReportListComponent implements OnInit, OnDestroy {
       });
       this.viewerInitSubscription = this.viewerService.getInitialized().subscribe(async init => {
         if (init) {
-          this.sub = this.route.params.subscribe(params => {
-            this.organizationID = params['orgID'];
-          });
-          if (this.organizationID) {
-            this.paginationService.resetPage();
-            this.pageSubscription = this.paginationService.paginationChanged.subscribe(pagination => {
-              this.pagination = pagination;
+          try {
+            this.sub = this.route.params.subscribe(params => {
+              this.organizationID = params['orgID'];
             });
-            this.paginationService.getPagination();
+            if (this.organizationID) {
+              this.paginationService.resetPage();
+              this.pageSubscription = this.paginationService.paginationChanged.subscribe(pagination => {
+                this.pagination = pagination;
+              });
+              this.paginationService.getPagination();
 
-            this.reports = await this.viewerService.getReportsByOrganization(this.organizationID);
-            if (this.reports.length === 1) {
-              // this.router.navigate(['../', this.reports[0]._id], { relativeTo: this.route });
-            }
-            const temp = [];
-            for (const report of this.reports) {
-              if (this.organizations.filter(e => e._id === report.organization._id).length === 0) {
-                this.organizations.push(report.organization);
+              this.reports = await this.viewerService.getReportsByOrganization(this.organizationID);
+              if (this.reports.length === 1) {
+                // this.router.navigate(['../', this.reports[0]._id], { relativeTo: this.route });
               }
+              const temp = [];
+              for (const report of this.reports) {
+                if (this.organizations.filter(e => e._id === report.organization._id).length === 0) {
+                  this.organizations.push(report.organization);
+                }
+              }
+              if (this.organizations.length !== 1) {
+                this.filterForm.addControl('selectedOrganization', new FormControl('All'));
+              }
+              /*
+              if (!this.viewerService.currentOrganization) {
+                const org = this.organizations.find(x => x._id === this.organizationID);
+                console.log(org);
+                console.log(this.viewerService.user);
+                const status = this.viewerService.initializeGhost(org, this.viewerService.user);
+                console.log(status);
+              }
+              */
+             this.initialized = true;
             }
-            if (this.organizations.length !== 1) {
-              this.filterForm.addControl('selectedOrganization', new FormControl('All'));
-            }
-            /*
-            if (!this.viewerService.currentOrganization) {
-              const org = this.organizations.find(x => x._id === this.organizationID);
-              console.log(org);
-              console.log(this.viewerService.user);
-              const status = this.viewerService.initializeGhost(org, this.viewerService.user);
-              console.log(status);
-            }
-            */
-            this.initialized = true;
+          } catch (e) {
+            this.error = true;
+            this.errorMessage = e.message;
+            console.log(e.message);
           }
         }
       });
@@ -84,7 +92,12 @@ export class ViewerReportListComponent implements OnInit, OnDestroy {
     }
   }
 
-  initializeOrg() {}
+  reInitialize() {
+    console.log('initialize again');
+    this.error = false;
+    this.ngOnInit();
+  }
+
 
   reportClicked(reportID, orgID) {
     this.router.navigate(['./r/', reportID], { relativeTo: this.route, queryParams: { selectedOrg: orgID } });

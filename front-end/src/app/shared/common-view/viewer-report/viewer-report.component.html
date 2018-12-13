@@ -39,8 +39,12 @@
       </p>
     </div>
   </div>
-  <div *ngIf="!initialized" style="margin:auto; padding-top: 50px;">
+  <div *ngIf="!initialized && !error" style="margin:auto; padding-top: 50px;">
     <mat-spinner></mat-spinner>
     <p style="text-align: center;">Loading...</p>
   </div>
+
+  <div *ngIf="error" style="text-align: center; width: 100%;">
+      <app-error-message [errorMessage]="errorMessage" (tryAgain)="reInitialize()"></app-error-message>
+    </div>
 </div>

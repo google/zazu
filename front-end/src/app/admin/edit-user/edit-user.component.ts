@@ -3,21 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OrganizationService } from './../../shared/services/organization.service';
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import * as OrganizationViewModel from './../../shared/view-models/organization.viewmodel';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormControl
-} from '@angular/forms';
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-  MatStepper,
-  MatSnackBar
-} from '@angular/material';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatStepper, MatSnackBar } from '@angular/material';
 import * as UserViewModel from '../../shared/view-models/user.viewmodel';
 import { UserService } from 'src/app/shared/services/user.service';
+import { ReportService } from 'src/app/shared/services/report.service';
 
 @Component({
   selector: 'app-edit-user',
@@ -32,7 +22,8 @@ export class EditUserComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService,
     private router: Router,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
+    public reportService: ReportService
   ) {}
   sub: any;
   roleSelected;
@@ -48,12 +39,13 @@ export class EditUserComponent implements OnInit {
   sending = false;
 
   tooltip = {
-    role: 'Viewer access provides users the ability to view reports that are shared with them. Warning! Admin access provides the user with full access to create, update and edit reports.Admin access should only be provided to users who have full access to the data.',
+    role:
+      'Viewer access provides users the ability to view reports that are shared with them. Warning! Admin access provides the user with full access to create, update and edit reports.Admin access should only be provided to users who have full access to the data.',
     organization: 'Select one or many organizations this user is permitted to access',
-    first : 'Enter the user\'s first name',
-    last: 'Enter the user\'s last name',
+    first: "Enter the user's first name",
+    last: "Enter the user's last name",
     gmail: 'Specify the user’s Google Account.  A Google account is required to allow the user to log in as well as view the reports.',
-    secondary: '(Optional) Add another email address for this user. Doesn\'t have to be a Google Account'
+    secondary: "(Optional) Add another email address for this user. Doesn't have to be a Google Account"
   };
 
   async ngOnInit() {
@@ -68,14 +60,8 @@ export class EditUserComponent implements OnInit {
         this.selectedOrganizationIds.push(org._id);
       }
       this.firstFormGroup = await this.formBuilder.group({
-        firstName: [
-          this.user.firstName,
-          [Validators.required, this.noWhitespaceValidator]
-        ],
-        lastName: [
-          this.user.lastName,
-          [Validators.required, this.noWhitespaceValidator]
-        ],
+        firstName: [this.user.firstName, [Validators.required, this.noWhitespaceValidator]],
+        lastName: [this.user.lastName, [Validators.required, this.noWhitespaceValidator]],
         secondaryEmail: [this.user.secondaryEmail, Validators.email]
       });
       this.userRole = this.user.role;
@@ -83,10 +69,7 @@ export class EditUserComponent implements OnInit {
         this.firstFormGroup.removeControl('organizations');
       }
       if (this.user.role === 'viewer') {
-        this.firstFormGroup.addControl(
-          'organizations',
-          new FormControl('', Validators.required)
-        );
+        this.firstFormGroup.addControl('organizations', new FormControl('', Validators.required));
       }
     } catch (error) {
       console.log(error);
@@ -140,6 +123,80 @@ export class EditUserComponent implements OnInit {
             })
           );
         }
+        const oldOrgs = this.user.organizations;
+        const newOrgs = orgs;
+        const removedOrgs = oldOrgs.filter(org => {
+          const tempx = newOrgs.findIndex(x => {
+            return x._id === org._id;
+          });
+          return tempx === -1;
+        });
+        const addedOrgs = newOrgs.filter(org => {
+          const tempx = oldOrgs.findIndex(x => {
+            return x._id === org._id;
+          });
+          return tempx === -1;
+        });
+        const stayingOrgs = newOrgs.filter(org => {
+          const tempx = oldOrgs.findIndex(x => {
+            return x._id === org._id;
+          });
+          return tempx > -1;
+        });
+        console.log(stayingOrgs);
+        const currentReports = await this.reportService.getRawReportsByUser(this.userID);
+        // Removing Orgs
+        if (removedOrgs.length > 0) {
+          const revokedReports = currentReports.filter(report => {
+            let checker = true;
+            for (const org of report.organizations) {
+              for (const newOrg of newOrgs) {
+                if (org._id === newOrg._id) {
+                  checker = false;
+                }
+              }
+            }
+            return checker;
+          });
+          if (revokedReports.length > 0) {
+            const revokePermissions = await (<any>this.userService.getPermissionsToRevokeOrg(revokedReports, this.user));
+            if (revokePermissions.status !== '200') {
+              throw new Error(revokePermissions.message);
+            }
+            const unshareReport = await (<any>this.reportService.deleteOrgAccess(null, revokePermissions, null));
+            if (unshareReport.status !== '200') {
+              throw new Error(unshareReport.message);
+            }
+          }
+        }
+        // Adding Orgs
+        if (addedOrgs.length > 0) {
+          const allReports = await this.reportService.getAllRawReports();
+          let newReports = allReports.filter(report => {
+            for (const org of report.organizations) {
+              for (const addedOrg of addedOrgs) {
+                if (org._id === addedOrg._id) {
+                  return true;
+                }
+              }
+            }
+          });
+           newReports = newReports.filter(report => {
+            for (const org of report.organizations) {
+              for (const stayingOrg of stayingOrgs) {
+                if (org._id === stayingOrg._id) {
+                  return false;
+                }
+              }
+            }
+            return true;
+          });
+          if (newReports.length > 0) {
+            // DO SHARE API CALL HERE
+            // const sharingReport = await
+          }
+        }
+
         newUser = {
           _id: this.userID,
           firstName: firstForm.firstName,
@@ -162,17 +219,22 @@ export class EditUserComponent implements OnInit {
         };
       }
       const oldUser = this.user;
-      const status = await <any>this.userService.editUser(oldUser, newUser);
+      /*
+      const status = await (<any>this.userService.editUser(oldUser, newUser));
       if (status.status === '200') {
-        await this.router.navigate(['../'], { relativeTo: this.route, queryParams: { edited: 'true'}} );
+        await this.router.navigate(['../'], { relativeTo: this.route, queryParams: { edited: 'true' } });
       } else {
         this.sending = false;
         this.snackBar.open('Error: ' + status.message, 'Dismiss', {
-          duration: 5000,
+          duration: 5000
         });
       }
+      */
     } catch (error) {
-
+      this.sending = false;
+      this.snackBar.open('Error: ' + error.message, 'Dismiss', {
+        duration: 5000
+      });
     }
   }
   /*

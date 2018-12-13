@@ -1,14 +1,14 @@
 import { AuthService } from './../../auth/auth.service';
 import { HttpClient } from '@angular/common/http';
-import { RequestOptions, Request, RequestMethod } from '@angular/http';
 import { Injectable } from '@angular/core';
 import * as UserViewModel from '../view-models/user.viewmodel';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService, public snackBar: MatSnackBar) {}
   VIEWACCESS = 'viewer';
   ADMIN = 'admin';
   URL = '../../../assets/example-data/';
@@ -19,9 +19,26 @@ export class UserService {
    *  Method for getting all users for all organizations
    */
   public async getAllUsers(): Promise<UserViewModel.SimpleUserView[]> {
-    const users = await this.http.get<UserViewModel.SimpleUserView[]>('/api' + '/getAllUsers').toPromise();
-    this.users = users;
-    return users;
+    try {
+      const status = await <any>this.http.get<UserViewModel.SimpleUserView[]>('/api' + '/getAllUsers').toPromise();
+      if (status.status) {
+        if (status.status === '200') {
+          return await status.users;
+        } else if (status.status === '500' ) {
+          throw new Error(status.message);
+        }
+      } else {
+        return status;
+      }
+    } catch (error) {
+      this.snackBar.open( error.message , 'Dismiss', {
+        duration: 5000,
+      });
+      throw new Error(error.message);
+    }
+    // const users = await this.http.get<UserViewModel.SimpleUserView[]>('/api' + '/getAllUsers').toPromise();
+    // this.users = users;
+    // return users;
      /*
     try {
       const status = await <any>this.http.get('/api' + '/getAllUsers').toPromise();
@@ -48,7 +65,24 @@ export class UserService {
    * @param id - id of the user you want to get information
    */
   public async getUser(id): Promise<UserViewModel.User> {
-    return await this.http.get<UserViewModel.User>('/api' + '/getAllUsers/' + id).toPromise();
+    // return await this.http.get<UserViewModel.User>('/api' + '/getAllUsers/' + id).toPromise();
+    try {
+      const status = await <any>this.http.get<UserViewModel.User>('/api' + '/getAllUsers/' + id).toPromise();
+      if (status.status) {
+        if (status.status === '200') {
+          return await status.user;
+        } else if (status.status === '500' ) {
+          throw new Error(status.message);
+        }
+      } else {
+        return status;
+      }
+    } catch (error) {
+      this.snackBar.open( error.message , 'Dismiss', {
+        duration: 5000,
+      });
+      throw new Error(error.message);
+    }
     /*
     try {
       const status = await <any>this.http.get('/api' + '/getAllUsers/' + id).toPromise();
@@ -168,6 +202,27 @@ export class UserService {
     if (await this.authService.canSend()) {
       // for revoking user
       return await this.http.post('/api/' + 'getPermissionsToRevokeUser/', user).toPromise();
+    } else {
+      return await {
+        status: '403',
+        message: 'You do not have permission to perform this action'
+      };
+    }
+  }
+
+
+
+  /**
+   * pass in the list of reports only associated with the orgs that are removed from the user's access list. it'll give you back all permissions to revoke
+   * @param reports
+   */
+  public async getPermissionsToRevokeOrg(reports, user) {
+    const params = {
+      reports: reports,
+      users: user
+    };
+    if (await this.authService.canSend()) {
+      return await this.http.post('/api/' + 'getPermissionsToRevokeOrg/', params).toPromise();
     } else {
       return await {
         status: '403',
