@@ -167,9 +167,10 @@ export class ShareReportComponent implements OnInit {
         return x._id === this.selectedOrg._id;
       });
       const report = this.selectedReport;
-      console.log(report);
-      const status = await <any>this.reportService.shareReport(report, org);
-      console.log(status);
+      const reports = [];
+      reports.push(report);
+
+      const status = await <any>this.reportService.shareReport(reports, org, null);
       if (status.status === '200') {
         if (this.organizationID) {
           console.log('coming from org details');

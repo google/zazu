@@ -143,7 +143,7 @@ export class EditUserComponent implements OnInit {
           });
           return tempx > -1;
         });
-        console.log(stayingOrgs);
+        // console.log(stayingOrgs);
         const currentReports = await this.reportService.getRawReportsByUser(this.userID);
         // Removing Orgs
         if (removedOrgs.length > 0) {
@@ -163,7 +163,7 @@ export class EditUserComponent implements OnInit {
             if (revokePermissions.status !== '200') {
               throw new Error(revokePermissions.message);
             }
-            const unshareReport = await (<any>this.reportService.deleteOrgAccess(null, revokePermissions, null));
+            const unshareReport = await (<any>this.reportService.deleteOrgAccess(revokedReports, revokePermissions, null));
             if (unshareReport.status !== '200') {
               throw new Error(unshareReport.message);
             }
@@ -194,9 +194,12 @@ export class EditUserComponent implements OnInit {
           if (newReports.length > 0) {
             // DO SHARE API CALL HERE
             // const sharingReport = await
+            const sharingReport = await <any>this.reportService.shareReport(newReports, null, this.user);
+            if (sharingReport.status !== '200') {
+              throw new Error(sharingReport.message);
+            }
           }
         }
-
         newUser = {
           _id: this.userID,
           firstName: firstForm.firstName,
