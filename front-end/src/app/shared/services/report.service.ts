@@ -404,12 +404,13 @@ export class ReportService {
    * @param report - the report object you want to share
    * @param org - organization object you want to share the report with
    */
-  public async shareReport(reports: any[], org, user) {
+  public async shareReport(reports: any[], org, user, added) {
     console.log('Share Access');
     const param = {
       reports: reports,
       organization: org,
-      user: user
+      user: user,
+      addedOrganization: added,
     };
     console.log(param);
     if (await this.authService.canSend()) {
@@ -446,15 +447,15 @@ export class ReportService {
    * @param report - the report object you want to revoke access too
    * @param org - organization object you want to unshare the report to
    */
-  public async deleteOrgAccess(report: any[], permissions, org) {
+  public async deleteOrgAccess(report: any[], permissions, org, removed) {
     const params = {
       reports: report,
       permissions: permissions,
-      organization: org
+      organization: org,
+      removedOrganizations: removed
     };
     console.log('Delete Access');
     console.log(params);
-
     if (await this.authService.canSend()) {
       return await this.http.post('/api' + '/unshareReport/', params).toPromise();
     } else {

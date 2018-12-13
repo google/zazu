@@ -163,7 +163,7 @@ export class EditUserComponent implements OnInit {
             if (revokePermissions.status !== '200') {
               throw new Error(revokePermissions.message);
             }
-            const unshareReport = await (<any>this.reportService.deleteOrgAccess(revokedReports, revokePermissions, null));
+            const unshareReport = await (<any>this.reportService.deleteOrgAccess(revokedReports, revokePermissions, null, removedOrgs));
             if (unshareReport.status !== '200') {
               throw new Error(unshareReport.message);
             }
@@ -194,7 +194,7 @@ export class EditUserComponent implements OnInit {
           if (newReports.length > 0) {
             // DO SHARE API CALL HERE
             // const sharingReport = await
-            const sharingReport = await <any>this.reportService.shareReport(newReports, null, this.user);
+            const sharingReport = await <any>this.reportService.shareReport(newReports, null, this.user, addedOrgs);
             if (sharingReport.status !== '200') {
               throw new Error(sharingReport.message);
             }

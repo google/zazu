@@ -122,7 +122,7 @@ export class EditReportAccessComponent implements OnInit {
       });
       const reports = [];
       reports.push(this.report);
-      const status = <any>await this.reportService.deleteOrgAccess(reports, this.permissions, org);
+      const status = <any>await this.reportService.deleteOrgAccess(reports, this.permissions, org, null);
       if (status.status === '200') {
         if (this.organizationID) {
           await this.router.navigate(['../../../'], {
