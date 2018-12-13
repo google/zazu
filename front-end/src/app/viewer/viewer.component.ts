@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { ViewerService } from './../shared/services/viewer.service';
 import { AuthService } from './../auth/auth.service';
 import { Component, OnInit } from '@angular/core';
@@ -11,10 +12,14 @@ import { LogoutConfirmation } from '../admin/admin.component';
 })
 export class ViewerComponent implements OnInit {
 
-  constructor(private authService: AuthService, public dialog: MatDialog, private viewerService: ViewerService) { }
+  constructor(private authService: AuthService, public dialog: MatDialog, private viewerService: ViewerService,  private http: HttpClient) { }
+
+  companyName;
 
   async ngOnInit() {
     await this.viewerService.initialSet('');
+    const call = await <any> this.http.get('../../assets/main-variables.json').toPromise();
+    this.companyName = call.companyName;
   }
 
   logout() {
