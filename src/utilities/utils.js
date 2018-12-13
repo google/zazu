@@ -75,6 +75,7 @@ module.exports = {
             resource: permission,
             fileId: file_id,
             fields: 'id',
+            sendNotificationEmail: false
           }, function (err, res) {
             if (err) {
               // Handle error...
