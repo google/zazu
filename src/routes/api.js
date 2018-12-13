@@ -578,7 +578,7 @@ router.post('/editUser', function(req, res) {
                   '.' +
                   config.bq_dataset +
                   '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' +
-                  newUser._id +
+                  editUser._id +
                   '","' +
                   data._id +
                   '")';
