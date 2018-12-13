@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 export interface Pagination {
   currentPage: number;
@@ -14,9 +15,8 @@ export interface Pagination {
 /**
  * This is a service used for paginating the list
  */
-export class PaginationService {
+export class PaginationService  {
 
-  constructor() { }
 
   paginationChanged = new Subject <Pagination>();
 
@@ -29,6 +29,7 @@ export class PaginationService {
     itemsPerPage: this.ITEMS_PER_PAGE,
     totalPages: 1
   };
+
 
   public getPagination() {
     this.paginationChanged.next(this.pagination);
@@ -47,6 +48,11 @@ export class PaginationService {
   public resetPage() {
     this.pagination.currentPage = 1;
     this.paginationChanged.next(this.pagination);
+  }
+
+  public changeItemsPerPage(number) {
+    this.pagination.itemsPerPage = number;
+    this.getPagination();
   }
 
 

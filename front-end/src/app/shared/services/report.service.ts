@@ -410,7 +410,7 @@ export class ReportService {
       reports: reports,
       organization: org,
       user: user,
-      addedOrganization: added,
+      addedOrganizations: added,
     };
     console.log(param);
     if (await this.authService.canSend()) {

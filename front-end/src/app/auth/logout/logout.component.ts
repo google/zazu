@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { AuthService } from './../auth.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -8,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LogoutComponent implements OnInit {
 
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService, private http: HttpClient) { }
 
-  ngOnInit() {
+  companyName;
+
+  async ngOnInit() {
+    const call = await <any> this.http.get('../../assets/main-variables.json').toPromise();
+    this.companyName = call.companyName;
     /*
     console.log('Logging Out...');
     this.auth.logout();

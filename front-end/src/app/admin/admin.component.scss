@@ -58,7 +58,7 @@
     top: 22px;
     font-size: $text-size;
     font-weight: bold;
-    color: white;
+    color: $sidenav-company-color;
     left: 70px;
 
   }
@@ -71,6 +71,10 @@
 
   .menu-active {
     background-color: $sidenav-active-color;
+
+    .menu {
+      color: $side-nav-text-active-color !important;
+    }
   }
 
   .menu:hover{
