@@ -4,6 +4,7 @@ import { Component, OnInit, OnDestroy, Inject, AfterViewChecked, ChangeDetectorR
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatStepper } from '@angular/material';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin',
@@ -12,15 +13,25 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatStepper } from '@angular/m
 })
 export class AdminComponent implements OnInit, OnDestroy {
   minimized = false;
-  constructor(private router: Router, private ghostService: GhostService, public dialog: MatDialog, private authService: AuthService, private cdRef: ChangeDetectorRef) {
-  }
+  constructor(
+    private router: Router,
+    private ghostService: GhostService,
+    public dialog: MatDialog,
+    private authService: AuthService,
+    private cdRef: ChangeDetectorRef,
+    private http: HttpClient
+  ) {}
   ghostSubscription: Subscription;
   ghostStatus: boolean;
-  ngOnInit() {
+  companyName;
+
+  async ngOnInit() {
     this.ghostSubscription = this.ghostService.ghostStatusObservable.subscribe(status => {
       this.ghostStatus = status;
     });
     this.ghostService.getStatus();
+    const call = await <any> this.http.get('../../assets/main-variables.json').toPromise();
+    this.companyName = call.companyName;
   }
 
   toggleMenu() {

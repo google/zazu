@@ -222,7 +222,6 @@ export class EditUserComponent implements OnInit {
         };
       }
       const oldUser = this.user;
-      /*
       const status = await (<any>this.userService.editUser(oldUser, newUser));
       if (status.status === '200') {
         await this.router.navigate(['../'], { relativeTo: this.route, queryParams: { edited: 'true' } });
@@ -232,7 +231,6 @@ export class EditUserComponent implements OnInit {
           duration: 5000
         });
       }
-      */
     } catch (error) {
       this.sending = false;
       this.snackBar.open('Error: ' + error.message, 'Dismiss', {
