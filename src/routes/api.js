@@ -997,7 +997,6 @@ router.post('/createReport', function(req, res) {
 
   var newReport = req.body;
   newReport.createdBy = req.session.passport.user.id;
-  newReport.updatedBy = '';
   newReport.created_at = new Date();
 
   Report.create(newReport, function(err, results) {

@@ -23,7 +23,6 @@ var reportSchema = new Schema({
   link: { type: String, required: true }, // data studio link
   datasources: { type: [{ datastudio: String, bigquery: String }], required: true },
   createdBy: { type: String, required: true }, // the admin who created it
-  updatedBy: { type: String },  // the admin who last updated it
   created_at: Date
 });
 
