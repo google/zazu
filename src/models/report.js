@@ -24,8 +24,7 @@ var reportSchema = new Schema({
   datasources: { type: [{ datastudio: String, bigquery: String }], required: true },
   createdBy: { type: String, required: true }, // the admin who created it
   updatedBy: { type: String },  // the admin who last updated it
-  created_at: Date,
-  updated_at: Date
+  created_at: Date
 });
 
 // the schema is useless so far

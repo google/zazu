@@ -998,6 +998,7 @@ router.post('/createReport', function(req, res) {
   var newReport = req.body;
   newReport.createdBy = req.session.passport.user.id;
   newReport.updatedBy = '';
+  newReport.created_at = new Date();
 
   Report.create(newReport, function(err, results) {
     if (err) {
@@ -1297,7 +1298,7 @@ router.post('/unshareReport', function(req, res) {
 
 });
 
-router.post('/editReport', function(req, res) {
+router.post('/rt', function(req, res) {
 
   var oldReport = req.body.oldReport;
   var newReport = req.body.newReport;
