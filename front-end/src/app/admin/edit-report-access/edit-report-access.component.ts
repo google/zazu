@@ -78,7 +78,6 @@ export class EditReportAccessComponent implements OnInit {
         }
         return y;
       });
-      console.log(users);
       users = users.filter(user => {
         if (user.organizations.length === 1) {
           return true ;
@@ -94,12 +93,10 @@ export class EditReportAccessComponent implements OnInit {
           return checker;
         }
       });
-      console.log(users);
       const googleIDs = [];
       for (const user of users ) {
         googleIDs.push(<any>user.googleID);
       }
-      console.log(googleIDs);
       this.permissions = await this.reportService.getPermissionsToRevoke(this.report, googleIDs);
     } catch (error) {}
     const dialogRef = this.dialog.open(RevokeAccessConfirmation, {

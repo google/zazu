@@ -17,17 +17,16 @@ export class AllReportListComponent implements OnInit {
   async ngOnInit() {
     try {
       this.reports = await this.reportService.getAllReports();
+      // console.log(this.reports);
       this.viewInitialized = await true;
     } catch (e) {
       this.error = true;
       this.errorMessage = e.message;
-      console.log(e.message);
     }
   }
 
 
   reInitialize() {
-    console.log('initialize again');
     this.error = false;
     this.ngOnInit();
   }

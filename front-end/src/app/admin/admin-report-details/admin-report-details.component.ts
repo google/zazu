@@ -46,6 +46,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
   permissions;
   shared;
   adminUser;
+  createdByUser;
   error = false;
   errorMessage = '';
   async ngOnInit() {
@@ -60,6 +61,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
       });
       this.selectedOrgID = await this.route.snapshot.queryParamMap.get('selectedOrg');
       this.report = await this.reportService.getReport(this.reportID, this.selectedOrgID);
+      this.createdByUser = await this.userService.getUser(this.report.createdBy);
       this.selectedOrg = await this.report.organizations.find( org => {
         return org._id === this.selectedOrgID;
       });
@@ -94,13 +96,11 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
     } catch (e) {
       this.error = true;
       this.errorMessage = e.message;
-      console.log(e);
     }
 
   }
 
   reInitialize() {
-    console.log('initialize again');
     this.error = false;
     this.ngOnInit();
   }

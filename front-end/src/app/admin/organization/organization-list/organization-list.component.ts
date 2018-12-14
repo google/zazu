@@ -1,6 +1,6 @@
 import { PaginationService } from './../../../shared/services/pagination.service';
 import { OrganizationService } from './../../../shared/services/organization.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as OrganizationViewModel from '../../../shared/view-models/organization.viewmodel';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -12,13 +12,14 @@ import { MatSnackBar } from '@angular/material';
   templateUrl: './organization-list.component.html',
   styleUrls: ['./organization-list.component.scss']
 })
-export class OrganizationListComponent implements OnInit, OnDestroy {
+export class OrganizationListComponent implements OnInit, OnDestroy, AfterViewChecked {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private organizationService: OrganizationService,
     private paginationService: PaginationService,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
+    private cdRef: ChangeDetectorRef
   ) {}
   sorts = ['Alphabetical', 'Most Reports', 'Most Users', 'Most Data Rules'];
   // Array of all organizations
@@ -42,7 +43,6 @@ export class OrganizationListComponent implements OnInit, OnDestroy {
   errorMessage = '';
   async ngOnInit() {
     // Gets all organizations OnInit
-    console.log('init called');
     try {
       this.organizations = await this.organizationService.getAllOrganizations();
       this.organizationService.setLocalOrg(this.organizations);
@@ -65,13 +65,19 @@ export class OrganizationListComponent implements OnInit, OnDestroy {
     } catch (e) {
       this.error = true;
       this.errorMessage = e.message;
-      console.log(e.message);
     }
+  }
+
+  ngAfterViewChecked(): void {
+    // Called after every check of the component's view. Applies to components only.
+    if (this.pagination) {
+      this.cdRef.detectChanges();
+    }
+
   }
 
 
   reInitialize() {
-    console.log('initialize again');
     this.error = false;
     this.ngOnInit();
   }

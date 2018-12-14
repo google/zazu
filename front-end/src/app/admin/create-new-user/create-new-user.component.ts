@@ -114,7 +114,6 @@ export class CreateNewUserComponent implements OnInit {
     };
     try {
       const userStatus = await this.userService.createNewUser(newUser);
-      console.log(userStatus);
       if (userStatus.status === '200') {
           this.router.navigate(['../u', userStatus.userID], { relativeTo: this.route, queryParams: { new: 'new' } });
       } else {

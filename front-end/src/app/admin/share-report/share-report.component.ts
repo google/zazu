@@ -1,5 +1,5 @@
 import { DataRule } from './../../shared/view-models/data.viewmodel';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import * as ReportViewModel from '../../shared/view-models/report.viewmodel';
 import { ReportService } from 'src/app/shared/services/report.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -25,7 +25,8 @@ export class ShareReportComponent implements OnInit {
     private organizationService: OrganizationService,
     private formBuilder: FormBuilder,
     private datarulesService: DatarulesService,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
+    private cdRef: ChangeDetectorRef
   ) {}
   reports: ReportViewModel.SimpleRawReport[];
   organizations: OrganizationViewModel.SimpleOrganization[];
@@ -72,6 +73,7 @@ export class ShareReportComponent implements OnInit {
           this.organizationID
         );
       }
+      this.cdRef.detectChanges();
     } catch (error) {
       console.log(error);
     }
@@ -84,15 +86,12 @@ export class ShareReportComponent implements OnInit {
     });
      for ( const datasource of await this.selectedReport.datasources) {
        const temp = this.rules.filter(rule => {
-         console.log(rule.datasource);
-         console.log(datasource);
           return rule.datasource === datasource.bigquery;
        });
        if (temp.length === 0) {
           this.missingRules.push(datasource.bigquery);
        }
     }
-    console.log(this.missingRules);
     if (this.organizationID) {
       await this.selectStep(1);
     } else {
@@ -112,8 +111,6 @@ export class ShareReportComponent implements OnInit {
   public noDataRuleValidator(control: FormControl): Validators {
     this.missingRules = [];
     if (control.value) {
-      console.log(control.value);
-      console.log(this.rules);
       for (const datasource of control.value) {
         const temp = this.rules.filter(rule => {
           return rule.datasource === datasource;
@@ -155,12 +152,10 @@ export class ShareReportComponent implements OnInit {
     this.rules = await this.datarulesService.getDataRules(
       this.selectedOrg._id
     );
-    console.log(this.rules);
     await this.selectStep(1);
   }
 
   async  onSubmit() {
-    console.log('submit');
     this.sending = true;
     try {
       const org = this.organizations.find(x => {
@@ -173,20 +168,17 @@ export class ShareReportComponent implements OnInit {
       const status = await <any>this.reportService.shareReport(reports, org, null, null);
       if (status.status === '200') {
         if (this.organizationID) {
-          console.log('coming from org details');
           await this.router.navigate(['../r', report._id], {
             relativeTo: this.route,
             queryParams: { shared: 'true', selectedOrg: this.organizationID }
           });
         } else {
-          console.log('coming from report list');
           await this.router.navigate(['../../r', report._id], {
             relativeTo: this.route,
             queryParams: { shared: 'true', selectedOrg: this.selectedOrg._id }
           });
         }
       } else {
-        console.log(status);
         this.sending = false;
         this.snackBar.open('Error: ' + status.message, 'Dismiss', {
           duration: 5000
@@ -197,7 +189,6 @@ export class ShareReportComponent implements OnInit {
       this.snackBar.open('Error occured', 'Dismiss', {
         duration: 5000
       });
-      console.log(error);
     }
   }
 }

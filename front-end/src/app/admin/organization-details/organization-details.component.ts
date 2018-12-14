@@ -1,6 +1,6 @@
 import { DatarulesService } from './../../shared/services/datarules.service';
 import { OrganizationService } from './../../shared/services/organization.service';
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as OrganizationViewModel from '../../shared/view-models/organization.viewmodel';
 import * as DataViewModel from '../../shared/view-models/data.viewmodel';
@@ -28,7 +28,8 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private paginationService: PaginationService,
     public dialog: MatDialog,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
+    private cdRef: ChangeDetectorRef
   ) {}
   // Subscription for route
   sub: any;
@@ -97,13 +98,11 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
     } catch (e) {
       this.error = true;
       this.errorMessage = e.message;
-      console.log(e.message);
     }
   }
 
 
   reInitialize() {
-    console.log('initialize again');
     this.error = false;
     this.ngOnInit();
   }
@@ -254,7 +253,9 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
             this.deletingOrg = false;
             this.router.navigate(['../list'], { relativeTo: this.route, queryParams: { deletedOrg: this.organization.name } });
           } else {
-            console.log(status);
+            this.snackBar.open('Error' + status.message, 'Dismiss', {
+              duration: 5000
+            });
           }
         }
       });

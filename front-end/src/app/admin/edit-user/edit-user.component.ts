@@ -143,7 +143,6 @@ export class EditUserComponent implements OnInit {
           });
           return tempx > -1;
         });
-        // console.log(stayingOrgs);
         const currentReports = await this.reportService.getRawReportsByUser(this.userID);
         // Removing Orgs
         if (removedOrgs.length > 0) {

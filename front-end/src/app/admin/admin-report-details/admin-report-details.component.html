@@ -87,8 +87,10 @@
           <p>Big Query: <span class="info">{{datasource.bigquery}} </span> </p>
           <p>Data Studio:<span class="info"> {{datasource.datastudio}} </span> </p>
           </div>
-            <p>Created By: <span class="info">{{ report.created_at | date}}</span> </p>
+            <p>Created By: <span class="info">{{ this.createdByUser.firstName}} {{this.createdByUser.lastName}}</span> </p>
+            <!--
             <p>Updated By: <span class="info">{{ report.updatedBy}}</span></p>
+             -->
             <p>Who can see it: </p>
             <p *ngFor="let org of report.organizations"> <span class="info"> &nbsp;&nbsp;&#9679; &nbsp;{{org.name}}
               </span></p>
@@ -98,19 +100,12 @@
       </div>
     </div>
   </div>
-
-  <div *ngIf="!viewInitialized" style="margin:auto; padding-top: 80px; text-align: center">
-      <mat-spinner style="margin:auto"></mat-spinner>
-      <p style="text-align: center;">Report Loading...</p>
-  </div>
-
-
 </div>
 
 
 <div *ngIf="!viewInitialized && !error" style="margin:auto; padding-top: 80px; text-align: center">
   <mat-spinner style="margin:auto"></mat-spinner>
-  <p style="text-align: center;">Reports Loading...</p>
+  <p style="text-align: center;">Report Loading...</p>
 </div>
 
 <div *ngIf="error" style="text-align: center; width: 100%;">

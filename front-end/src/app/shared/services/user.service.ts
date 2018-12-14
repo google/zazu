@@ -221,7 +221,6 @@ export class UserService {
       reports: reports,
       users: user
     };
-    console.log(params);
     if (await this.authService.canSend()) {
       return await this.http.post('/api/' + 'getPermissionsToRevokeOrg/', params).toPromise();
     } else {

@@ -1,5 +1,5 @@
 import { OrganizationService } from './../../services/organization.service';
-import { Component, OnInit, EventEmitter, Input, Output, OnDestroy } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output, OnDestroy, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import * as UserViewModel from '../../view-models/user.viewmodel';
 import * as OrganizationViewModel from '../../view-models/organization.viewmodel';
 import { PaginationService } from '../../services/pagination.service';
@@ -12,11 +12,12 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss']
 })
-export class UserListComponent implements OnInit, OnDestroy {
+export class UserListComponent implements OnInit, OnDestroy, AfterViewChecked {
   constructor(
     private organizationService: OrganizationService,
     private paginationService: PaginationService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cdRef: ChangeDetectorRef
   ) {}
 
   @Input()
@@ -64,6 +65,17 @@ export class UserListComponent implements OnInit, OnDestroy {
       console.log(error);
     }
   }
+
+
+
+  ngAfterViewChecked(): void {
+    // Called after every check of the component's view. Applies to components only.
+    if (this.pagination) {
+      this.cdRef.detectChanges();
+    }
+
+  }
+
 
   userClicked(id: string) {
     this.userID.emit(id);

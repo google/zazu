@@ -33,7 +33,7 @@ export class AllUserListComponent implements OnInit {
       }
       this.viewInitialized = true;
     } catch (error) {
-      console.log('error');
+      console.log(error);
     }
   }
 

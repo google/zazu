@@ -1,6 +1,6 @@
 import { ViewerService } from 'src/app/shared/services/viewer.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { OrganizationService } from '../../services/organization.service';
 import { PaginationService } from '../../services/pagination.service';
 import { MatSnackBar } from '@angular/material';
@@ -13,14 +13,15 @@ import { FormGroup, FormControl } from '@angular/forms';
   templateUrl: './viewer-organization-list.component.html',
   styleUrls: ['./viewer-organization-list.component.scss']
 })
-export class ViewerOrganizationListComponent implements OnInit, OnDestroy {
+export class ViewerOrganizationListComponent implements OnInit, OnDestroy,  AfterViewChecked  {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private organizationService: OrganizationService,
     private paginationService: PaginationService,
     public snackBar: MatSnackBar,
-    private viewerService: ViewerService
+    private viewerService: ViewerService,
+    private cdRef: ChangeDetectorRef
   ) {}
   sorts = ['Alphabetical', 'Most Reports'];
   // Array of all organizations
@@ -54,19 +55,20 @@ export class ViewerOrganizationListComponent implements OnInit, OnDestroy {
             this.organizations = await this.viewerService.getOrganizations();
             // await this.getAllCategories(this.organizations);
             /*
- for (const category of this.categories) {
- this.filterForm.addControl(category, new FormControl(''));
-  }
- */
-            /*
-if (this.reports.length === 1) {
-  console.log(this.reports);
- if (this.reports[0].organizations.length === 1) {
-   console.log('one report - one org');
-   this.router.navigate(['./r/', this.reports[0]._id], { relativeTo: this.route, queryParams: { selectedOrg: this.reports[0].organizations[0]._id}} );
- }
-}
-*/
+            for (const category of this.categories) {
+              this.filterForm.addControl(category, new FormControl(''));
+            }
+            if (this.reports.length === 1) {
+              console.log(this.reports);
+              if (this.reports[0].organizations.length === 1) {
+                console.log('one report - one org');
+                this.router.navigate(['./r/', this.reports[0]._id], {
+                  relativeTo: this.route,
+                  queryParams: { selectedOrg: this.reports[0].organizations[0]._id }
+                });
+              }
+            }
+            */
             this.pageSubscription = this.paginationService.paginationChanged.subscribe(pagination => {
               this.pagination = pagination;
             });
@@ -76,15 +78,22 @@ if (this.reports.length === 1) {
           } catch (e) {
             this.error = true;
             this.errorMessage = e.message;
-            console.log(e.message);
           }
         }
       });
     } catch (e) {
       this.error = true;
       this.errorMessage = e.message;
-      console.log(e.message);
     }
+  }
+
+
+  ngAfterViewChecked(): void {
+    // Called after every check of the component's view. Applies to components only.
+    if (this.pagination) {
+      this.cdRef.detectChanges();
+    }
+
   }
 
   // Go to organization details
@@ -109,7 +118,6 @@ if (this.reports.length === 1) {
   }
 
   reInitialize() {
-    console.log('initialize again');
     this.error = false;
     this.ngOnInit();
   }
