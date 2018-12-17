@@ -178,6 +178,43 @@ export class UserService {
 
   }
 
+
+
+  public async editUserRemoveOrgs(oldUser: UserViewModel.EditUser, newUser: UserViewModel.EditUser) {
+    console.log('Removing orgs');
+    const params = {
+      oldUser: oldUser,
+      newUser: newUser
+    };
+    console.log(params);
+    if (await this.authService.canSend()) {
+      return await this.http.post('/api/' + 'editUserRemoveOrgs/', params).toPromise();
+    } else {
+      return await {
+        status: '403',
+        message: 'You do not have permission to perform this action'
+      };
+    }
+  }
+
+  public async editUserAddOrgs(oldUser: UserViewModel.EditUser, newUser: UserViewModel.EditUser) {
+    console.log('Adding Orgs');
+    const params = {
+      oldUser: oldUser,
+      newUser: newUser
+    };
+    console.log(params);
+    if (await this.authService.canSend()) {
+      return await this.http.post('/api/' + 'editUserAddOrgs/', params).toPromise();
+    } else {
+      return await {
+        status: '403',
+        message: 'You do not have permission to perform this action'
+      };
+    }
+  }
+
+
   /**
    * Delete user
    * @param user - user object you want to delete

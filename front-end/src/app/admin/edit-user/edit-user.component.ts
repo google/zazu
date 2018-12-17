@@ -112,6 +112,7 @@ export class EditUserComponent implements OnInit {
   async onSubmit() {
     try {
       this.sending = true;
+      const oldUser = this.user;
       const firstForm = this.firstFormGroup.value;
       const orgs = [];
       let newUser: UserViewModel.EditUser;
@@ -144,6 +145,7 @@ export class EditUserComponent implements OnInit {
           return tempx > -1;
         });
         const currentReports = await this.reportService.getRawReportsByUser(this.userID);
+
         // Removing Orgs
         if (removedOrgs.length > 0) {
           const revokedReports = currentReports.filter(report => {
@@ -208,7 +210,37 @@ export class EditUserComponent implements OnInit {
           organizations: orgs,
           role: this.user.role
         };
+        let redirectStatus = true;
+        const statusRemove = await (<any>this.userService.editUserRemoveOrgs(oldUser, newUser));
+
+        if (statusRemove.status === '200') {
+          // await this.router.navigate(['../'], { relativeTo: this.route, queryParams: { edited: 'true' } });
+          // redirectStatus = true;
+        } else {
+          redirectStatus = false;
+          this.sending = false;
+          this.snackBar.open('Error: ' + statusRemove.message, 'Dismiss', {
+            duration: 5000
+          });
+        }
+
+
+        const statusAdd = await (<any>this.userService.editUserAddOrgs(oldUser, newUser));
+        if (statusAdd.status === '200') {
+          // await this.router.navigate(['../'], { relativeTo: this.route, queryParams: { edited: 'true' } });
+          // redirectStatus = true;
+        } else {
+          redirectStatus = false;
+          this.sending = false;
+          this.snackBar.open('Error: ' + statusAdd.message, 'Dismiss', {
+            duration: 5000
+          });
+        }
+        if (redirectStatus) {
+          await this.router.navigate(['../'], { relativeTo: this.route, queryParams: { edited: 'true' } });
+        }
       }
+      // If admin user
       if (this.user.role === 'admin') {
         newUser = {
           _id: this.userID,
@@ -219,16 +251,15 @@ export class EditUserComponent implements OnInit {
           organizations: this.user.organizations,
           role: this.user.role
         };
-      }
-      const oldUser = this.user;
-      const status = await (<any>this.userService.editUser(oldUser, newUser));
-      if (status.status === '200') {
-        await this.router.navigate(['../'], { relativeTo: this.route, queryParams: { edited: 'true' } });
-      } else {
-        this.sending = false;
-        this.snackBar.open('Error: ' + status.message, 'Dismiss', {
-          duration: 5000
-        });
+        const status = await (<any>this.userService.editUserAddOrgs(oldUser, newUser));
+        if (status.status === '200') {
+          await this.router.navigate(['../'], { relativeTo: this.route, queryParams: { edited: 'true' } });
+        } else {
+          this.sending = false;
+          this.snackBar.open('Error: ' + status.message, 'Dismiss', {
+            duration: 5000
+          });
+        }
       }
     } catch (error) {
       this.sending = false;
