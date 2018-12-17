@@ -119,3 +119,95 @@ server.listen(port, () => console.log(`API running on localhost:${port}`));
 app.use('*', (req, res, next) => {
   res.sendFile(path.join(__dirname, '../front-end/dist/front-end/index.html'));
 });
+
+function applyRule(curr_rule, bq_instance, bq_dataset, bq_client_dataset, bq_client_data_perms) {
+
+    var permsList = [];
+
+    for (var j = 0; j < curr_rule.organization.length; j++) {
+      var findId = 'SELECT organization_id FROM `' + bq_instance + '.' + bq_dataset + '.vendors_2` WHERE organization = "' + curr_rule.organization[j] + '"';
+
+      bigquery.query(findId, function(err, rows) {
+          if (err) {
+            console.log(err);
+            return 1;
+          }
+          else {
+            permsList.push(rows[0].organization_id);
+
+            var updateRow = utils.buildPermissionsQuery(bq_instance, bq_client_dataset, bq_client_data_perms, permsList, curr_rule.identifier, curr_rule.identifierType, curr_rule.condition, curr_rule.token);
+
+            bigquery.query(updateRow, function(err2, rows2) {
+                if (err2) {
+                  console.log(err2);
+                  return 1;
+                }
+                else {
+                      console.log("Successfully refreshed permissions table.");
+                      return 0;
+                }
+
+            })
+          }
+      })
+
+    }
+
+}
+
+var job = new CronJob({
+    cronTime: '00 30 23 * * 0-6',
+    onTick: function() {
+
+      var dataset = bigquery.dataset(config.bq_client_dataset);
+      const dest_table = dataset.table(config.bq_client_data_perms);
+      const orig_table = dataset.table(config.bq_client_data_base);
+
+      dest_table.delete(function(err, apiResponse) {
+
+        if ((err)&&(err.code != 404)) {
+          console.log(err.message);
+        }
+        else {
+            orig_table.copy(dest_table, function(err1, apiResponse1) {
+
+               if (err1) {
+                 console.log(err1.message);
+               }
+               else {
+                 dest_table.getMetadata().then(function(data) {
+                     var metadata = data[0];
+                     var new_schema = metadata.schema.fields;
+
+                     new_schema.push({ name: "Permissions", type: "STRING", mode: "REPEATED" });
+                     metadata.schema.fields = new_schema;
+
+                     dest_table.setMetadata(metadata, function(err2, metadata, apiResponse2) {
+
+                       if (err2) {
+                         console.log(err2.message);
+                       }
+                       else {
+
+                         Rule.find(function(err, docs) {
+                             if (err) {
+                               console.log("Rule list retrieved error.");
+                             }
+
+                            for (var i = 0; i < docs.length; i++) {
+                                sleep.sleep(30);
+                                setTimeout(applyRule, 30000, docs[i], config.bq_instance, config.bq_dataset, config.bq_client_dataset, config.bq_client_data_perms);
+                            }
+                        });
+
+                       }
+                     });
+                 });
+               }
+            });
+        }
+      });
+    },
+    start: true,
+    timeZone: 'America/New_York'
+});
