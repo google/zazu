@@ -70,17 +70,17 @@
                 </mat-error>
 
               </mat-form-field>
-              <i class="material-icons info-icon" matTooltip={{tooltip.datastudioLink}}>
+              <a href="http://www.zazu.report/#/help/reports/id/5bfefb0e943b10f649323e8d" target="_blank"><i class="material-icons info-icon" matTooltip={{tooltip.datastudioLink}}>
                 info
-              </i>
+              </i> </a>
             </div>
 
 
             <div formArrayName="datasources">
                 <div *ngFor="let id of reportInfoForm.controls.datasources.controls; let i=index" [formGroupName]="i">
-                    <h4 class="input-header"> Data Source {{i + 1}} <i class="material-icons info-icon" matTooltip={{tooltip.datastudioSource}}>
+                    <h4 class="input-header"> Data Source {{i + 1}}  <a href="http://www.zazu.report/#/help/reports/id/5bfefb0e3065f76e8fa4962a" target="_blank"> <i class="material-icons info-icon" matTooltip={{tooltip.datastudioSource}}>
                         info
-                      </i></h4>
+                      </i></a> </h4>
               <div class="row">
                 <i class="material-icons form-icon">
                   link
