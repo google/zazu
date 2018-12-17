@@ -19,7 +19,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private authService: AuthService,
     private cdRef: ChangeDetectorRef,
-    private http: HttpClient
+    private http: HttpClient,
   ) {}
   ghostSubscription: Subscription;
   ghostStatus: boolean;
@@ -28,11 +28,24 @@ export class AdminComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.ghostSubscription = this.ghostService.ghostStatusObservable.subscribe(status => {
       this.ghostStatus = status;
+      this.cdRef.detectChanges();
     });
     this.ghostService.getStatus();
     const call = await <any> this.http.get('../../assets/main-variables.json').toPromise();
     this.companyName = call.companyName;
   }
+  /*
+  ngAfterViewChecked(): void {
+    // Called after every check of the component's view. Applies to components only.
+    if (this.ghostStatus) {
+      this.cdRef.detectChanges();
+    }
+    if (!this.ghostStatus) {
+      this.cdRef.detectChanges();
+    }
+
+  }
+  */
 
   toggleMenu() {
     this.minimized = !this.minimized;

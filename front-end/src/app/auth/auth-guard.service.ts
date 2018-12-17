@@ -9,10 +9,8 @@ export class AuthGuard implements CanActivate {
   async canActivate() {
     const status = await this.authService.isLoggedIn();
     if (status.isLoggedIn) {
-      console.log('You are authenticated, go through!');
       return true;
     } else {
-      console.log('Not an Authenticated! Begoneeeee');
       this.route.navigate(['unauthorized']);
       return false;
     }

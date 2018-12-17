@@ -10,7 +10,9 @@ import {
   OnDestroy,
   OnChanges,
   Inject,
-  ViewChild
+  ViewChild,
+  AfterViewChecked,
+  ChangeDetectorRef
 } from '@angular/core';
 import * as ReportViewModel from '../../view-models/report.viewmodel';
 import { PaginationService } from '../../services/pagination.service';
@@ -23,12 +25,13 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatMenuTrigger } from '@angul
   templateUrl: './report-list.component.html',
   styleUrls: ['./report-list.component.scss']
 })
-export class ReportListComponent implements OnInit, OnDestroy, OnChanges {
+export class ReportListComponent implements OnInit, OnDestroy, OnChanges, AfterViewChecked {
   constructor(
     private paginationService: PaginationService,
     private organizationService: OrganizationService,
     private route: ActivatedRoute,
     public dialog: MatDialog,
+    private cdRef: ChangeDetectorRef
   ) {}
   @Input() reports: ReportViewModel.SimpleReport[];
   @Input() allowAdd: boolean;
@@ -110,6 +113,14 @@ export class ReportListComponent implements OnInit, OnDestroy, OnChanges {
         );
       }
       this.formInitialize = true;
+    }
+
+  }
+
+  ngAfterViewChecked(): void {
+    // Called after every check of the component's view. Applies to components only.
+    if (this.pagination) {
+      this.cdRef.detectChanges();
     }
 
   }

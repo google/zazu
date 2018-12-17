@@ -16,10 +16,6 @@ export class LogoutComponent implements OnInit {
   async ngOnInit() {
     const call = await <any> this.http.get('../../assets/main-variables.json').toPromise();
     this.companyName = call.companyName;
-    /*
-    console.log('Logging Out...');
-    this.auth.logout();
-    */
   }
 
 }

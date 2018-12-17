@@ -24,7 +24,6 @@ export class GhostComponent implements OnInit, OnDestroy {
   orgID: string;
   companyName;
   async ngOnInit() {
-    console.log('ghost init');
     this.ghostService.activatedGhost();
     try {
       this.sub = this.route.params.subscribe(params => {
@@ -41,7 +40,6 @@ export class GhostComponent implements OnInit, OnDestroy {
   }
 
   disableGhost() {
-    console.log('disabling ghost');
     this.ghostService.disableGhost();
     if (this.orgID) {
       this.router.navigate(['admin/o/' + this.orgID + '/u/' + this.userID]);

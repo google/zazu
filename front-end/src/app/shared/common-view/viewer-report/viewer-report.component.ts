@@ -74,14 +74,12 @@ export class ViewerReportComponent implements OnInit, OnDestroy {
       } catch (e) {
         this.error = true;
         this.errorMessage = e.message;
-        console.log(e.message);
       }
       }
     });
   }
 
   reInitialize() {
-    console.log('initialize again');
     this.error = false;
     this.ngOnInit();
   }

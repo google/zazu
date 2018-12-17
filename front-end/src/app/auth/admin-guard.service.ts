@@ -8,10 +8,10 @@ export class AdminGuard implements CanActivate {
 
   canActivate() {
     if (this.authService.isAdmin()) {
-      console.log('You are admin, go through!');
+      console.log('Welcome Admin');
       return true;
     } else {
-      console.log('Not an Admin! Begoneeeee');
+      console.log('Unauthorized');
       this.route.navigate(['unauthorized']);
       return false;
     }
