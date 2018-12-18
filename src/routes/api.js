@@ -487,6 +487,7 @@ router.post('/editUserRemoveOrgs', function(req, res) {
 
   var oldUser = req.body.oldUser;
   var editUser = req.body.newUser;
+  var deleteCount = 0;
 
   var updateUser = 'UPDATE `' + config.bq_instance + '.' + config.bq_dataset + '.users_2` SET googleID = "' + editUser.googleID + '" WHERE user_id = "' + editUser._id + '"';
 
@@ -503,7 +504,7 @@ router.post('/editUserRemoveOrgs', function(req, res) {
 
       for (var i = 0; i < oldUser.organizations.length; i++) {
         if (editUser.organizations.indexOf(oldUser.organizations[i]) == -1) {
-          rmOrgs.push(oldUser.organizations[i].name);
+          rmOrgs.push(oldUser.organizations[i]._id);
         }
       }
 
@@ -512,43 +513,25 @@ router.post('/editUserRemoveOrgs', function(req, res) {
       }
       findOrgIdsToRm += '"' + rmOrgs[rmOrgs.length - 1] + '"';
 
-      var findOrgIds =
-        'SELECT organization_id FROM `' +
-        config.bq_instance +
-        '.' +
-        config.bq_dataset +
-        '.vendors_2` WHERE organization IN (' + findOrgIdsToRm + ')';
-
-      bigquery
-        .createQueryStream(findOrgIds)
-        .on('error', function(err) {
-            res.send({ status: '500', message: err.message });
-        })
-        .on('data', function(data) {
-
-          var deleteUserVendor =
+      var deleteUserVendor =
             'DELETE FROM `' +
             config.bq_instance +
             '.' +
             config.bq_dataset +
-            '.user_vendor_roles_2` WHERE organization_id = "' +
-            data._id + '" AND user_id = "' + editUser._id +
+            '.user_vendor_roles_2` WHERE organization_id in (' +
+             findOrgIdsToRm + ') AND user_id = "' + editUser._id +
             '"';
 
-            bigquery
-              .createQueryStream(deleteUserVendor)
-              .on('error', function(err) {
-                  res.send({ status: '500', message: err.message });
-              })
-              .on('data', function(data) {
-              })
-              .on('end', function() {
-
-              });
+      bigquery
+        .createQueryStream(deleteUserVendor)
+        .on('error', function(err) {
+            res.send({ status: '500', message: err.message });
+        })
+        .on('data', function(data) {
         })
         .on('end', function() {
-
-        });
+            res.send({ status: '200', message: 'Removed org access successfully.' });
+        })
     });
 });
 
@@ -556,7 +539,6 @@ router.post('/editUserAddOrgs', function(req, res) {
 
   var oldUser = req.body.oldUser;
   var editUser = req.body.newUser;
-  var addCount = 0;
 
   var newOrgs = [];
   var findOrgIdsToAdd = "";
@@ -585,7 +567,6 @@ router.post('/editUserAddOrgs', function(req, res) {
           })
           .on('data', function(data) {
 
-              addCount++;
               var insertRow =
                   'INSERT INTO `' +
                   config.bq_instance +
@@ -594,7 +575,7 @@ router.post('/editUserAddOrgs', function(req, res) {
                   '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' +
                   editUser._id +
                   '","' +
-                  data._id +
+                  data.organization_id +
                   '")';
 
               bigquery
@@ -605,21 +586,19 @@ router.post('/editUserAddOrgs', function(req, res) {
                   .on('data', function(data) {
                   })
                   .on('end', function() {
-                    if (addCount == (newOrgs.length - 1)) {
-                      User.updateOne({ _id: editUser._id }, editUser, function(err, result) {
-                        if (err) {
-                          res.send({
-                            status: '500',
-                            message: 'User failed to update.'
-                          });
-                        }
-                        res.send({ status: '200', results: result });
-                      });
-                    }
 
                   });
           })
           .on('end', function(){
+            User.updateOne({ _id: editUser._id }, editUser, function(err, result) {
+              if (err) {
+                res.send({
+                  status: '500',
+                  message: 'User failed to update.'
+                });
+              }
+              res.send({ status: '200', results: result });
+            });
           });
 });
 
@@ -1625,6 +1604,7 @@ router.get('/listIdentifiers/:name', function(req, res) {
 
   table.getMetadata().then(function(data) {
     var identifiers = data[0].schema.fields;
+    identifiers.splice( identifiers.indexOf('perms'), 1 );
 
     res.send(identifiers);
   });
@@ -1646,7 +1626,6 @@ router.get('/getRole', (req, res) => {
     res.send({ status: '403', message: 'User not logged in.', role: 'none' });
   }
 
-  // if they aren't redirect them to the home page
 });
 
 //
