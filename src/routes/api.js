@@ -1604,6 +1604,7 @@ router.get('/listIdentifiers/:name', function(req, res) {
 
   table.getMetadata().then(function(data) {
     var identifiers = data[0].schema.fields;
+    identifiers.splice( identifiers.indexOf('perms'), 1 );
 
     res.send(identifiers);
   });
@@ -1625,7 +1626,6 @@ router.get('/getRole', (req, res) => {
     res.send({ status: '403', message: 'User not logged in.', role: 'none' });
   }
 
-  // if they aren't redirect them to the home page
 });
 
 //
