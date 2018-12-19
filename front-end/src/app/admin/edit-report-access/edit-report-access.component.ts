@@ -51,7 +51,9 @@ export class EditReportAccessComponent implements OnInit {
       });
       this.selectedOrgID = await this.route.snapshot.queryParamMap.get('selectedOrg');
     } catch (error) {
-      console.log(error);
+      this.snackBar.open('Error: ' + error.message, 'Dismiss', {
+        duration: 5000,
+      });
     }
   }
 
@@ -146,7 +148,9 @@ export class EditReportAccessComponent implements OnInit {
       this.snackBar.open('Error occured', 'Dismiss', {
         duration: 5000
       });
-      console.log(error);
+      this.snackBar.open('Error: ' + error.message, 'Dismiss', {
+        duration: 5000,
+      });
     }
   }
 

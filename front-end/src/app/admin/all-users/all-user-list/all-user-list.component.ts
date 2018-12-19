@@ -33,7 +33,9 @@ export class AllUserListComponent implements OnInit {
       }
       this.viewInitialized = true;
     } catch (error) {
-      console.log(error);
+      this.snackBar.open( 'Error: ' +  error.message  , 'Dismiss', {
+        duration: 5000,
+      });
     }
   }
 

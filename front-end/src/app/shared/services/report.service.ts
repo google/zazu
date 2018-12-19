@@ -424,8 +424,6 @@ export class ReportService {
       oldReport: oldReport,
       newReport: newReport
     };
-    console.log('edit report called');
-    console.log(params);
     if (await this.authService.canSend()) {
       return await this.http.post('/api/' + 'editReport/', params).toPromise();
     } else {

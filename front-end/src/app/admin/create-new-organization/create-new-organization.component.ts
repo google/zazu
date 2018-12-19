@@ -46,7 +46,9 @@ export class CreateNewOrganizationComponent implements OnInit {
         itemRows: this._fb.array([this.initItemRows()], this.noDuplicate)
       });
     } catch (error) {
-      console.log(error);
+      this.snackBar.open('Error: ' + error.message, 'Dismiss', {
+        duration: 5000,
+      });
     }
   }
 

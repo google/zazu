@@ -130,7 +130,9 @@ export class CreateNewReportComponent implements OnInit {
         this.selectedOrg._id
       );
     } catch (error) {
-      console.log(error);
+      this.snackBar.open('Error: ' + error.message, 'Dismiss', {
+        duration: 5000,
+      });
     }
   }
 
@@ -240,7 +242,9 @@ export class CreateNewReportComponent implements OnInit {
         });
       }
     } catch (error) {
-      console.log(error);
+      this.snackBar.open('Error: ' + error.message, 'Dismiss', {
+        duration: 5000,
+      });
       this.sending = false;
     }
   }

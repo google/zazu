@@ -3,6 +3,7 @@ import { ViewerService } from 'src/app/shared/services/viewer.service';
 import { GhostService } from './../../shared/services/ghost.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Route, ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-ghost',
@@ -15,7 +16,8 @@ export class GhostComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private viewerService: ViewerService,
-    private http: HttpClient
+    private http: HttpClient,
+    public snackBar: MatSnackBar,
   ) {}
   sub: any;
   name: string;
@@ -35,7 +37,9 @@ export class GhostComponent implements OnInit, OnDestroy {
       const call = await (<any>this.http.get('../../assets/main-variables.json').toPromise());
       this.companyName = call.companyName;
     } catch (error) {
-      console.log(error);
+      this.snackBar.open('Error: ' + error.message, 'Dismiss', {
+        duration: 5000,
+      });
     }
   }
 

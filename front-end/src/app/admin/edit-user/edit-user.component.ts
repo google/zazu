@@ -73,7 +73,9 @@ export class EditUserComponent implements OnInit {
       }
     } catch (error) {
       this.ngOnInit();
-      console.log(error);
+      this.snackBar.open('Error: ' + error.message, 'Dismiss', {
+        duration: 5000,
+      });
     }
   }
   /*

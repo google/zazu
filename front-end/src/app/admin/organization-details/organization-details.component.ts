@@ -161,7 +161,9 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
         return user.role === 'viewer';
       });
     } catch (error) {
-      console.log(error);
+      this.snackBar.open('Error: ' + error.message, 'Dismiss', {
+        duration: 5000,
+      });
     }
   }
 
@@ -275,9 +277,14 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
         const status = await (<any>this.dataruleService.deleteDataRule(datarule));
         if (status.status === '200') {
           await this.getRules();
+          this.organization = await this.organizationService.getOrganizationById(this.organizationID);
           this.sending = false;
           this.deletingRule = false;
           this.snackBar.open('Data Rule "' + datarule.name + '" Successfully Deleted', 'Dismiss', {
+            duration: 5000
+          });
+        } else {
+          this.snackBar.open('Error' + status.message  , 'Dismiss', {
             duration: 5000
           });
         }

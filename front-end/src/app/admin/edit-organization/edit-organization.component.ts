@@ -68,7 +68,9 @@ export class EditOrganizationComponent implements OnInit {
         this.addNewRow(category);
       }
     } catch (error) {
-      console.log(error);
+      this.snackBar.open('Error: ' + error.message, 'Dismiss', {
+        duration: 5000,
+      });
     }
   }
 
@@ -133,7 +135,9 @@ export class EditOrganizationComponent implements OnInit {
       this.snackBar.open('Error: ' + error.error.error.message, 'Dismiss', {
         duration: 5000
       });
-      console.log(error);
+      this.snackBar.open('Error: ' + error.message, 'Dismiss', {
+        duration: 5000,
+      });
     }
   }
 

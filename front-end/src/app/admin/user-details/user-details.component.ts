@@ -133,7 +133,9 @@ export class UserDetailsComponent implements OnInit {
         }
       });
     } catch (error) {
-      console.log(error);
+      this.snackBar.open('Error: ' + error.message, 'Dismiss', {
+        duration: 5000,
+      });
     }
   }
 }

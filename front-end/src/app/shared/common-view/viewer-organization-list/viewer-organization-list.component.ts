@@ -113,7 +113,9 @@ export class ViewerOrganizationListComponent implements OnInit, OnDestroy,  Afte
         this.router.navigate(['./', id], { relativeTo: this.route });
       }
     } catch (error) {
-      console.log(error);
+      this.snackBar.open('Error: ' + error.message, 'Dismiss', {
+        duration: 5000,
+      });
     }
   }
 

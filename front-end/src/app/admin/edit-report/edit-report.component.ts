@@ -115,7 +115,9 @@ export class EditReportComponent implements OnInit {
         this.addNewRow(datasource.datastudio, datasource.bigquery);
       }
     } catch (error) {
-      console.log(error);
+      this.snackBar.open('Error: ' + error.message, 'Dismiss', {
+        duration: 5000,
+      });
     }
   }
 
@@ -278,7 +280,9 @@ export class EditReportComponent implements OnInit {
       this.snackBar.open('Error: ' + error.message, 'Dismiss', {
         duration: 5000,
       });
-      console.log(error);
+      this.snackBar.open('Error: ' + error.message, 'Dismiss', {
+        duration: 5000,
+      });
     }
   }
 }

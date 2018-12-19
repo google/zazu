@@ -84,7 +84,9 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
       this.secondFormInitialized = true;
       this.dataruleFormGroup.reset();
     } catch (error) {
-      console.log(error);
+      this.snackBar.open('Error: ' + error.message, 'Dismiss', {
+        duration: 5000,
+      });
 
     }
 

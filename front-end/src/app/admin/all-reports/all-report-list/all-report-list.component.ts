@@ -17,7 +17,6 @@ export class AllReportListComponent implements OnInit {
   async ngOnInit() {
     try {
       this.reports = await this.reportService.getAllReports();
-      // console.log(this.reports);
       this.viewInitialized = await true;
     } catch (e) {
       this.error = true;

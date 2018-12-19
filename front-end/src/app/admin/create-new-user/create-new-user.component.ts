@@ -66,7 +66,9 @@ export class CreateNewUserComponent implements OnInit {
         this.selectedOrg = this.organizations.find(org => org._id === this.organizationID);
       }
     } catch (error) {
-      console.log(error);
+      this.snackBar.open('Error: ' + error.message, 'Dismiss', {
+        duration: 5000,
+      });
     }
   }
 
