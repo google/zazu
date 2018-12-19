@@ -15,9 +15,16 @@ limitations under the License. */
 var {google} = require('googleapis');
 const {OAuth2Client} = require('google-auth-library');
 const async = require('async');
+const BigQuery = require('@google-cloud/bigquery');
+
+const bigquery = new BigQuery();
 
 var config = require('./config');
 const Permission = require('../models/permission');
+const User = require('./src/app/models/user');
+const Organization = require('../models/organization');
+const Report = require('../models/report');
+var config = require('../utilities/config');
 
 module.exports = {
 
@@ -142,4 +149,67 @@ module.exports = {
          });
     }
   }
+
+  // regenerateTables: function() {
+  //
+  //   Organization.find(function(err1, docs1) {
+  //       if (err1) {
+  //         return 1;
+  //       }
+  //
+  //       var allOrgIds = [];
+  //       var findAllOrgs =
+  //         'SELECT organization_id FROM `' +
+  //         config.bq_instance +
+  //         '.' +
+  //         config.bq_dataset +
+  //         '.vendors_2`';
+  //
+  //       bigquery
+  //         .createQueryStream(findAllOrgs)
+  //         .on('error', function(err) {
+  //           return 1;
+  //         })
+  //         .on('data', function(data) {
+  //            allOrgIds.push(data.organization_id);
+  //         })
+  //         .on('end', function() {
+  //           for (var i = 0; i < docs1.length; i++) {
+  //             var createRow = '';
+  //
+  //             if (allOrgIds.indexOf(docs1[i]._id) == -1) {
+  //
+  //                 createRow = 'INSERT INTO `' +
+  //                         config.bq_instance +
+  //                         '.' +
+  //                         config.bq_dataset +
+  //                         '.vendors_2` (organization_id, organization) VALUES ("' +
+  //                         docs1[i]._id +
+  //                         '","' +
+  //                         docs1[i].name +
+  //                         '")';
+  //             }
+  //             else {
+  //               createRow = 'UPDATE `' +
+  //                       config.bq_instance +
+  //                       '.' + config.bq_dataset +
+  //                       '.vendors_2` SET organization = "' +
+  //                        docs1[i].name + '" WHERE organization_id = "' + docs1[i]._id + '"';
+  //
+  //             }
+  //
+  //             bigquery
+  //               .createQueryStream(createRow)
+  //               .on('error', function(err) {
+  //                 return 1;
+  //               })
+  //               .on('data', function(data) {
+  //               })
+  //               .on('end', function() {
+  //
+  //               });
+  //           }
+  //         });
+  //   });
+  // }
 };
