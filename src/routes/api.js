@@ -1384,14 +1384,16 @@ router.post('/shareReport', function(req, res) {
         'emailAddress': user.googleID
       }];
 
+    var isCallSuccessful = false;
     for (var j = 0; j < filesIdList.length; j++) {
           utils.shareReport(filesIdList[j], permsList, 0, function(ret) {
                   if (ret === 1) {
                     console.log("Report sharing failed.");
-                    res.send({status: "500", message: "Sharing report error."});
+                    res.send({status: '500', message: "Sharing report error."});
                   }
                   else {
                     console.log("Report shared successfully.");
+                    isCallSuccessful = true;
                   }
           });
     }
@@ -1402,12 +1404,16 @@ router.post('/shareReport', function(req, res) {
             { $inc: { usersCount: -1 } },
             function(err1, res1) {
               if (err1) {
+                isCallSuccessful = false;
                 res.send({ status: '500', message: err1.message });
+              } else {
+                isCallSuccessful = true;
               }
             });
     }
-
-    res.send({ status: '200', results: "Report shared successfully." });
+    if (isCallSuccessful) {
+      res.send({ status: '200', results: "Report shared successfully." });
+    }
   }
 
 });
