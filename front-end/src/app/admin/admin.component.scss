@@ -72,9 +72,10 @@
   .menu-active {
     background-color: $sidenav-active-color;
 
-    .menu {
-      color: $side-nav-text-active-color !important;
-    }
+
+  }
+  .menu.menu-active {
+    color: $sidenav-text-active-color !important;
   }
 
   .menu:hover{

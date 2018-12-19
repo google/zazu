@@ -254,7 +254,7 @@ export class EditReportComponent implements OnInit {
     this.sending = true;
     try {
       const rForm = this.reportInfoForm.value;
-      const newReport: ReportViewModel.EditReport = {
+      const newReport = {
         _id: this.reportID,
         name: rForm.name,
         link: rForm.link,
@@ -262,7 +262,7 @@ export class EditReportComponent implements OnInit {
         organizations: this.report.organizations,
         created_at: this.report.created_at,
         createdBy: this.report.createdBy,
-        updatedBy: this.report.updatedBy
+        // updatedBy: this.report.updatedBy
       };
       const status =  await <any>this.reportService.editReport(this.report, newReport);
       if (status.status === '200') {
@@ -275,6 +275,9 @@ export class EditReportComponent implements OnInit {
       }
     } catch (error) {
       this.sending = false;
+      this.snackBar.open('Error: ' + error.message, 'Dismiss', {
+        duration: 5000,
+      });
       console.log(error);
     }
   }

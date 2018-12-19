@@ -71,20 +71,12 @@ const adminRoutes: Routes = [
           { path: ':id/u/:userID/edit-user', component: EditUserComponent },
           { path: ':id/r/:reportID', component: AdminReportDetailsComponent },
           {
-            path: ':id/r/:reportID/edit-report',
-            component: EditReportComponent
-          },
-          {
             path: ':id/r/:reportID/edit-access',
             component: EditReportAccessComponent
           },
           {
             path: ':id/u/:userID/r/:reportID',
             component: AdminReportDetailsComponent
-          },
-          {
-            path: ':id/u/:userID/r/:reportID/edit-report',
-            component: EditReportComponent
           },
           {
             path: ':id/u/:userID/r/:reportID/edit-access',
@@ -118,10 +110,6 @@ const adminRoutes: Routes = [
             component: AdminReportDetailsComponent
           },
           {
-            path: 'u/:userID/r/:reportID/edit-report',
-            component: EditReportComponent
-          },
-          {
             path: 'u/:userID/r/:reportID/edit-access',
             component: EditReportAccessComponent
           },
@@ -137,7 +125,6 @@ const adminRoutes: Routes = [
           { path: 'list/new-report', component: CreateNewReportComponent },
           { path: 'list/share-report', component: ShareReportComponent },
           { path: 'r/:reportID', component: AdminReportDetailsComponent },
-          { path: 'r/:reportID/edit-report', component: EditReportComponent },
           {
             path: 'r/:reportID/edit-access',
             component: EditReportAccessComponent

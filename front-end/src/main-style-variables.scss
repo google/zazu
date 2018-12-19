@@ -1,57 +1,142 @@
-/************* TOOLBAR ****************/
-// UI variables for top toolbar
-$toolbar-color: #616161; // toobar color
-
-$toolbar-text-color: white; // toobar text/material icon color
-
-$icon: url('./assets/company-icon.png'); // icon
-
-$text-size: 20px; // toolbar "company size"
-
-$company-name-color:  white;
 
 /******  MAIN COLOURS  ******/
-$main-content-color: #f5f5f5; // background  color of the main content view
 
-$primary: #0877c1; // used for buttons, click to action
+// (A) background  color of the main content view
+$main-content-color: #f5f5f5;
 
-$warning: #faac18; // used for warning before delete
+// (B) used for buttons, click to action
+$primary: #0877c1;
 
-$danger: #f44336; // used for errors
+// (C) used for warning before delete
+$warning: #faac18;
 
-$success: #8ad245; // used for success bar when creating and editing
+// (D) used for errors
+$danger: #f44336;
 
-$title-color: #e7554b; // red titles
+// (E) used for success bar when creating and editing
+$success: #8ad245;
+
+// (F) red titles
+$title-color: #e7554b;
+
+
+/************* TOOLBAR ****************/
+/****** UI variables for top toolbar ******/
+
+// (1) toolbar color background colour
+$toolbar-color: #616161;
+
+// (2) toolbar text/material icon color
+$toolbar-text-color: white;
+
+// (3) icon
+$icon: url('./assets/company-icon.png');
+
+// (4) toolbar "company size"
+$text-size: 20px;
+
+// (5) Company name color
+$company-name-color:  white;
+
 
 /*************** SIDE NAVIGATION VARIABLES *******************/
 
-// Maximum width size for side navigation
+// (6) Maximum width size for side navigation
 $side-nav-max: 190px;
 
-// Width size when side navigation is minimized
+// (7) Width size when side navigation is minimized
 $side-nav-minimized: 64px;
 
-/* Side nav background color */
+// (8) Side nav background color
 $sidenav-color: #323232;
 
-// Text menu color for all navigations
+// (9) Text menu color for all navigations
 $menu-color: white;
 
-// Active color for side navigation menu var
+// Company Name Color ** same color as 5
+$sidenav-company-color: $company-name-color;
+
+// (10) Active color for side navigation menu var
 $sidenav-active-color: rgb(85, 85, 85);
 
-// Company Name Color
-$sidenav-company-color: white;
+// (11) Side navigation text color when active
+$sidenav-text-active-color: white;
 
-$side-nav-text-active-color: white;
+
+/********* BREADCRUMBS STYLING ******/
+
+// (12) Non-active breadcrumbs text color
+$breadcrumb-non-active: #b4b4b4;
+
+// (13) Text color when mouse hovers
+$breadcrumb-hover: #3e3e3e;
+
+// (14) Active breadcrumbs text color
+$breadcrumb-active: #6296e6;
+
+// (15) breadcrumbs background color
+$breadcrumb-background-color: white;
+
+
+/*********** LIST CARD VARIABLES  ***********/
+
+// (16) Card Shadow
+$card-box-shadow: 2px 3px 4px rgba(101, 101, 101, 0.5);
+
+// (17) Card background color
+$card-background-color: white;
+
+// (18) Card border style
+$card-border: 1px solid #d7d7d7;
+
+// (19) Card border radius
+$card-border-radius: 5px;
+
+// (20) Card title color
+$card-title-color: $title-color;
+
+// (21)  Secondary Text color
+$card-secondary-color: #3e3e3e;
+
+// (22) Tertiary Text Color
+$card-tertiary-color: #b4b4b4;
+
+// (23) other content text color
+$card-content-color: #494949;
+
+// (24) Card border color on cursor hover
+$card-color-hover: #a0a0a0;
+
 
 /********* ORGANIZATION DETAILS VARIABLES **********/
 
-// color of the active tab
+// (25) color of the active tab
 $tab-active-color: $primary;
 
-// color of the non-active tab
+// (26) color of the non-active tab
 $tab-text-color: #3e3e3e;
+
+// (27) Tabs Background color
+$tab-background-color: white;
+
+
+/***** Filter Card ***/
+
+// (28) filter/sort background color
+$filter-background-color: white;
+
+// (29) reset button color
+$filter-reset-button-color: #757575;
+
+// (30) filter/sort border color
+$filter-card-border-color: 1px solid #e1e1e1;
+
+// (31) search button border color
+$filter-search-button-border: 1px solid #d7d7d7;
+
+// (32) filter/sort box shadow
+$filter-box-shadow: 2px 3px 4px rgba(101, 101, 101, 0.5);
+
 
 /*********** GHOST HEADER TITLE **********/
 // Also known as User View
@@ -65,34 +150,7 @@ $ghost-icon-bg-color: white;
 // close icon color "x"
 $ghost-icon-color: #616161; // same as toolbar color
 
-/*********** LIST CARD VARIABLES  ***********/
 
-$card-box-shadow: 2px 3px 4px rgba(101, 101, 101, 0.5);
-
-$card-background-color: white;
-
-$card-border: 1px solid #d7d7d7;
-
-$card-border-radius: 5px;
-
-$card-title-color: $title-color;
-
-$card-secondary-color: #3e3e3e;
-
-$card-tertiary-color: #b4b4b4;
-
-$card-content-color: #494949;
-
-$card-color-hover: #a0a0a0;
-
-/********* BREADCRUMBS STYLING ******/
-$breadcrumb-non-active: #b4b4b4;
-
-$breadcrumb-active: #6296e6;
-
-$breadcrumb-hover: #3e3e3e;
-
-$breadcrumb-background-color: white;
 
 /******* FORMS STYLING & FILTERS ******/
 
@@ -120,15 +178,6 @@ $input-header-color: #636363;
 
 $form-error-color: $danger;
 
-/***** Filter Card ***/
-
-$filter-reset-button-color: #757575;
-
-$filter-card-border-color: 1px solid #e1e1e1;
-
-$filter-search-button-border: 1px solid #d7d7d7;
-
-$filter-box-shadow: 2px 3px 4px rgba(101, 101, 101, 0.5);
 
 /****** Buttons Colors  **/
 $primary-button-color: $primary;

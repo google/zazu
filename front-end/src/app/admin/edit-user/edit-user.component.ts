@@ -72,6 +72,7 @@ export class EditUserComponent implements OnInit {
         this.firstFormGroup.addControl('organizations', new FormControl('', Validators.required));
       }
     } catch (error) {
+      this.ngOnInit();
       console.log(error);
     }
   }
