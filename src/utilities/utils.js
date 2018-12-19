@@ -21,7 +21,7 @@ const bigquery = new BigQuery();
 
 var config = require('./config');
 const Permission = require('../models/permission');
-const User = require('./src/app/models/user');
+const User = require('../models/user');
 const Organization = require('../models/organization');
 const Report = require('../models/report');
 var config = require('../utilities/config');
