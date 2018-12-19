@@ -417,13 +417,15 @@ export class ReportService {
 
   /**
    * Editing Report
-   * @param report - report object
+   *
    */
   public async editReport(oldReport, newReport) {
     const params = {
       oldReport: oldReport,
       newReport: newReport
     };
+    console.log('edit report called');
+    console.log(params);
     if (await this.authService.canSend()) {
       return await this.http.post('/api/' + 'editReport/', params).toPromise();
     } else {

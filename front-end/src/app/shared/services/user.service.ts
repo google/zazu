@@ -181,12 +181,10 @@ export class UserService {
 
 
   public async editUserRemoveOrgs(oldUser: UserViewModel.EditUser, newUser: UserViewModel.EditUser) {
-    console.log('Removing orgs');
     const params = {
       oldUser: oldUser,
       newUser: newUser
     };
-    console.log(params);
     if (await this.authService.canSend()) {
       return await this.http.post('/api/' + 'editUserRemoveOrgs/', params).toPromise();
     } else {
@@ -198,12 +196,10 @@ export class UserService {
   }
 
   public async editUserAddOrgs(oldUser: UserViewModel.EditUser, newUser: UserViewModel.EditUser) {
-    console.log('Adding Orgs');
     const params = {
       oldUser: oldUser,
       newUser: newUser
     };
-    console.log(params);
     if (await this.authService.canSend()) {
       return await this.http.post('/api/' + 'editUserAddOrgs/', params).toPromise();
     } else {
