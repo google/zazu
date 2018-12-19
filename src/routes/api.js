@@ -807,7 +807,7 @@ router.post('/deleteOrganization', function(req, res) {
                         res.send({ status: '500', message: err.message });
                       } else {
 
-                          Rule.find({ organization: { $elemMatch: { _id: orgDelete._id } } }, function(err3, res3) {
+                          Rule.find({ organization: { $elemMatch: { _id: orgDelete._id, name: orgDelete.name } } }, function(err3, res3) {
                             if (err3) {
                               res.send({ status: '500', message: err3.message });
                             }
