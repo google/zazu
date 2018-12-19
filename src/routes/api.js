@@ -1437,6 +1437,7 @@ router.get('/getDataRules/:orgid', function(req, res) {
 
 router.post('/createRule', (req, res) => {
   var newRule = req.body;
+  newRule.created_at = new Date();
 
   var updateRow = utils.buildPermissionsQuery(
     config.bq_instance,
