@@ -10,6 +10,7 @@ var fs = require('fs');
 var CronJob = require('cron').CronJob;
 var {google} = require('googleapis');
 var config = require('./utilities/config');
+var util = require('./utilities/utils');
 
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var User = require('./models/user');

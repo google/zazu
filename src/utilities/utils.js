@@ -150,11 +150,11 @@ module.exports = {
     }
   },
 
-  regenerateTables: function() {
+  regenerateTables: function(callback) {
 
     Organization.find(function(err1, docs1) {
         if (err1) {
-          return 1;
+          callback(1);
         }
 
         var deleteAllOrgs =
@@ -171,7 +171,7 @@ module.exports = {
         bigquery
           .createQueryStream(deleteAllOrgs)
           .on('error', function(err) {
-            return 1;
+            callback(1);
           })
           .on('data', function(data) {
           })
@@ -191,7 +191,7 @@ module.exports = {
               bigquery
                 .createQueryStream(createOrgRow)
                 .on('error', function(err) {
-                  return 1;
+                  callback(1);
                 })
                 .on('data', function(data) {
                 })
@@ -199,7 +199,7 @@ module.exports = {
                     if (i == docs1.length) {
                       User.find(function(err2, docs2) {
                         if (err2) {
-                          return 1;
+                          callback(1);
                         }
 
                         var deleteAllUsers =
@@ -216,7 +216,7 @@ module.exports = {
                         bigquery
                           .createQueryStream(deleteAllUsers)
                           .on('error', function(err) {
-                              return 1;
+                              callback(1);
                           })
                           .on('data', function(data) {
                           })
@@ -256,7 +256,7 @@ module.exports = {
                                 bigquery
                                   .createQueryStream(deleteAllCurrentRoles)
                                   .on('error', function(err) {
-                                      return 1;
+                                      callback(1);
                                   })
                                   .on('data', function(data) {
                                   })
@@ -278,7 +278,7 @@ module.exports = {
                                       bigquery
                                         .createQueryStream(createUserRow)
                                         .on('error', function(err) {
-                                            return 1;
+                                            callback(1);
                                         })
                                         .on('data', function(data) {
                                         })
@@ -300,14 +300,14 @@ module.exports = {
                                              bigquery
                                                 .createQueryStream(createUserVendorRow)
                                                 .on('error', function(err) {
-                                                    return 1;
+                                                    callback(1);
                                                 })
                                                 .on('data', function(data) {
                                                 })
                                                 .on('end', function() {
 
                                                   if ((j == docs2.length)&&(k == user_orgs.length)) {
-                                                    return 0;
+                                                    callback(0);
                                                   }
                                                 });
                                            }
