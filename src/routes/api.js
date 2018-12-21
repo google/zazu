@@ -807,7 +807,7 @@ router.post('/deleteOrganization', function(req, res) {
                         res.send({ status: '500', message: err.message });
                       } else {
 
-                          Rule.find({ organization: { $elemMatch: { _id: orgDelete._id, name: orgDelete.name } } }, function(err3, res3) {
+                          Rule.find({ organization: { name: orgDelete.name, _id: orgDelete._id } }, function(err3, res3) {
                             if (err3) {
                               res.send({ status: '500', message: err3.message });
                             }
@@ -817,6 +817,8 @@ router.post('/deleteOrganization', function(req, res) {
                             }
 
                             for (var i = 0; i < res3.length; i++) {
+                              var curr_rule = res3[i];
+
                               var updateRow = utils.buildPermissionsQuery(
                                 config.bq_instance,
                                 config.bq_client_dataset,
@@ -835,11 +837,11 @@ router.post('/deleteOrganization', function(req, res) {
                                 })
                                 .on('data', function(data) {})
                                 .on('end', function() {
-                                  Rule.deleteOne({ _id: res3[i]._id }, function(err, results) {
+                                  Rule.deleteOne({ _id: curr_rule._id }, function(err, results) {
                                     if (err) {
                                       res.send({ status: '500', message: err.message });
                                     }
-                                    if (i === (res3.length - 1)) {
+                                    if (i === res3.length) {
                                       res.send({ status: '200', orgID: orgDelete._id });
                                     }
                                   });
