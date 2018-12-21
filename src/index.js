@@ -218,8 +218,9 @@ var job = new CronJob({
 
 
 
+/*
 var job1 = new CronJob({
-  cronTime: '00 37 15 * * 0-6',
+  cronTime: '00 59 15 * * 0-6',
   onTick: function() {
     utils.regenerateTables( function(data) {
       console.log(data);
@@ -228,3 +229,4 @@ var job1 = new CronJob({
   start: true,
   timeZone: 'America/New_York'
 });
+*/
