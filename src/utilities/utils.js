@@ -68,7 +68,7 @@ module.exports = {
       console.log('Sharing report...');
       var sharedCount = 0;
 
-      for (var file_id in file_ids) {
+      for (var file_id of file_ids) {
         async.eachSeries(
           permissions,
           function(permission, callback) {
