@@ -49,6 +49,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
   createdByUser;
   error = false;
   errorMessage = '';
+  deleting = false;
   async ngOnInit() {
     try {
       this.viewInitialized = false;
@@ -121,6 +122,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
     });
      dialogRef.afterClosed().subscribe(async result => {
       if (result) {
+        this.deleting = true;
         const status = await <any>this.reportService.deleteReport(this.report, this.permissions.permissions);
         if (await status.status === '200') {
           this.snackBar.open('Report Deleted: ' + this.report.name, 'Dismiss', {
@@ -128,6 +130,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
           });
           this.router.navigate(['../../'], { relativeTo: this.route, queryParams: { selectedOrg: this.selectedOrgID} });
         } else {
+          this.deleting = false;
           this.snackBar.open('Error: ' + status.message, 'Dismiss', {
             duration: 5000,
           });
