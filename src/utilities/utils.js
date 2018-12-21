@@ -55,7 +55,7 @@ module.exports = {
     return updateRow;
   },
 
-  shareReport: function(file_id, permissions, revoke, callback) {
+  shareReport: function(file_ids, permissions, revoke, callback) {
     const oAuth2Client = new OAuth2Client();
 
     oAuth2Client.credentials = {
@@ -68,7 +68,7 @@ module.exports = {
       console.log('Sharing report...');
       var sharedCount = 0;
 
-      for (var file_id in file_ids) {
+      for (var file_id of file_ids) {
         async.eachSeries(
           permissions,
           function(permission, callback) {
