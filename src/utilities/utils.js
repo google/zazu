@@ -162,8 +162,10 @@ module.exports = {
         '.' +
         config.bq_dataset +
         '.vendors_2`)';
+        console.log(' ');
       console.log('******** deleteAllOrgs');
       console.log(deleteAllOrgs);
+      console.log(' ');
       bigquery
         .createQueryStream(deleteAllOrgs)
         .on('error', function(err) {
@@ -183,8 +185,10 @@ module.exports = {
             '.' +
             config.bq_dataset +
             '.users_2`)';
+            console.log(' ');
           console.log('******** deleteAllUsers');
           console.log(deleteAllUsers);
+          console.log(' ');
           bigquery
             .createQueryStream(deleteAllUsers)
             .on('error', function(err) {
@@ -204,8 +208,10 @@ module.exports = {
                 '.' +
                 config.bq_dataset +
                 '.user_vendor_roles_2`)';
+              console.log(' ');
               console.log('******  deleteAllUserVendorRoles ');
               console.log(deleteAllUserVendorRoles);
+              console.log(' ');
               bigquery
                 .createQueryStream(deleteAllUserVendorRoles)
                 .on('error', function(err) {
@@ -225,8 +231,10 @@ module.exports = {
                     '.' +
                     config.bq_dataset +
                     '.user_current_vendor_2`)';
+                    console.log(' ');
                   console.log('******* deleteAllCurrentRoles ');
                   console.log(deleteAllCurrentRoles);
+                  console.log(' ');
                   bigquery
                     .createQueryStream(deleteAllCurrentRoles)
                     .on('error', function(err) {
@@ -239,8 +247,10 @@ module.exports = {
                         var flag = 0;
                         for (var i = 0; i < docs1.length; i++) {
                           var createOrgRow = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.vendors_2` (organization_id, organization) VALUES ("' + docs1[i]._id + '","' + docs1[i].name + '")';
+                          console.log(' ');
                           console.log('*********** createOrgRow ');
                           console.log(createOrgRow);
+                          console.log(' ');
                           bigquery
                             .createQueryStream(createOrgRow)
                             .on('error', function(err) {
@@ -263,6 +273,7 @@ module.exports = {
 
                                   for (var j = 0; j < docs2.length; j++) {
                                       var currentUser = docs2[j];
+                                      console.log('currentUser: ' + currentUser);
                                       var createUserRow =
                                             'INSERT INTO `' +
                                             config.bq_instance +
@@ -275,8 +286,10 @@ module.exports = {
                                             '","' +
                                             docs2[j].role +
                                             '")';
+                                            console.log(' ');
                                             console.log('*********** createUserRow ');
                                             console.log(createUserRow);
+                                            console.log(' ');
 
                                             bigquery
                                               .createQueryStream(createUserRow)
@@ -300,8 +313,10 @@ module.exports = {
                                                         '","' +
                                                         currentUser.organizations[k]._id +
                                                         '")';
+                                                      console.log(' ');
                                                       console.log('******* createUserVendorRow  ');
                                                       console.log(createUserVendorRow);
+                                                      console.log(' ');
                                                       bigquery
                                                         .createQueryStream(createUserVendorRow)
                                                         .on('error', function(err) {
