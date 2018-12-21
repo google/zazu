@@ -1,4 +1,4 @@
-<div *ngIf="(organization != null && user!= null && report != null && viewInitialized) || (!organization  && !userView && report != null && viewInitialized) || (!organization && !user && report != null && viewInitialized)">
+<div *ngIf="(organization != null && user!= null && report != null && viewInitialized && !deleting) || (!organization  && !userView && report != null && viewInitialized && !deleting) || (!organization && !user && report != null && viewInitialized && !deleting)">
 
   <div class="breadcrumb-container"  *ngIf="viewInitialized">
     <!-- Breadcrumbs for report when navigation from organization list -->
@@ -108,6 +108,12 @@
 <div *ngIf="!viewInitialized && !error" style="margin:auto; padding-top: 80px; text-align: center">
   <mat-spinner style="margin:auto"></mat-spinner>
   <p style="text-align: center;">Report Loading...</p>
+</div>
+
+<div *ngIf="viewInitialized && deleting" style="margin:auto; padding-top: 80px; text-align: center">
+  <mat-spinner style="margin:auto"></mat-spinner>
+  <p style="text-align: center;">Deleting Report</p>
+  <p style="text-align: center;">Please Wait</p>
 </div>
 
 <div *ngIf="error" style="text-align: center; width: 100%;">
