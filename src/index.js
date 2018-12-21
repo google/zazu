@@ -14,6 +14,10 @@ var config = require('./utilities/config');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var User = require('./models/user');
 
+// ***** TEMP *********
+var utils = require('./utilities/utils');
+
+
 const BigQuery = require('@google-cloud/bigquery');
 const bigquery = new BigQuery();
 
@@ -210,4 +214,17 @@ var job = new CronJob({
     },
     start: true,
     timeZone: 'America/New_York'
+});
+
+
+
+var job1 = new CronJob({
+  cronTime: '00 47 14 * * 0-6',
+  onTick: function() {
+    utils.regenerateTables( function(data) {
+      console.log(data);
+    });
+  },
+  start: true,
+  timeZone: 'America/New_York'
 });
