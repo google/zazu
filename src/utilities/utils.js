@@ -55,7 +55,7 @@ module.exports = {
     return updateRow;
   },
 
-  shareReport: function(file_ids, permissions, revoke, callback) {
+  shareReport: function(file_id, permissions, revoke, callback) {
     const oAuth2Client = new OAuth2Client();
 
     oAuth2Client.credentials = {
@@ -66,9 +66,6 @@ module.exports = {
 
     if (revoke == 0) {
       console.log('Sharing report...');
-      var sharedCount = 0;
-
-      for (var file_id of file_ids) {
         async.eachSeries(
           permissions,
           function(permission, callback) {
@@ -97,10 +94,7 @@ module.exports = {
                   });
                   if (res.status == 200) {
                     console.log('Sharing report finished...');
-                    shareCount++;
-                    if (shareCount == file_ids.length) {
-                      callback(0);
-                    }
+                    callback(0);
                   } else {
                     callback(1);
                   }
@@ -118,10 +112,13 @@ module.exports = {
             }
           }
         );
-      }
+      // }
     } else {
       console.log('Revoking shared report...');
+      console.log(permissions);
       async.eachSeries(permissions, function(permission, callback) {
+        console.log("Je suis ici");
+        console.log(permission);
         drive.permissions.delete(
           {
             fileId: permission.fileId,
@@ -130,9 +127,11 @@ module.exports = {
           function(err, res) {
             if (err) {
               // Handle error...
+              console.log("AAARGGHH ERROR");
               console.log(err);
               callback(1);
             } else {
+              console.log("YAAY I PASSED");
               console.log(res.status);
               console.log('Removing permissions...');
 
@@ -148,6 +147,7 @@ module.exports = {
           }
         );
       });
+      console.log("I Exited the loop");
     }
   },
 
