@@ -210,8 +210,8 @@ router.post('/createNewUser', function(req, res) {
                                           'emailAddress': newUser.googleID
                                         }];
 
-                                      for (var j = 0; j < filesIdList.length; j++) {
-                                          utils.shareReport(filesIdList[j], permsList, 0, function(ret) {
+                                      
+                                          utils.shareReport(filesIdList, permsList, 0, function(ret) {
                                                   if (ret === 1) {
                                                     console.log("Report sharing failed.");
                                                     res.send({status: "500", message: "Sharing report error."});
@@ -220,7 +220,7 @@ router.post('/createNewUser', function(req, res) {
                                                     console.log("Report shared successfully.");
                                                   }
                                           });
-                                        }
+                                        
                                       });
 
                                         var addNewAdminVendor =
@@ -340,8 +340,8 @@ router.post('/createNewUser', function(req, res) {
                                           'emailAddress': newUser.googleID
                                         }];
 
-                                      for (var j = 0; j < filesIdList.length; j++) {
-                                          utils.shareReport(filesIdList[j], permsList, 0, function(ret) {
+                                      
+                                          utils.shareReport(filesIdList, permsList, 0, function(ret) {
                                                   if (ret === 1) {
                                                     console.log("Report sharing failed.");
                                                     res.send({status: "500", message: "Sharing report error."});
@@ -350,7 +350,7 @@ router.post('/createNewUser', function(req, res) {
                                                     console.log("Report shared successfully.");
                                                   }
                                           });
-                                        }
+                                        
                                       });
                                         var addNewAdminVendor =
                                           'INSERT INTO `' +
@@ -1032,8 +1032,7 @@ router.post('/createReport', function(req, res) {
             }
           }
 
-          for (var j = 0; j < filesIdList.length; j++) {
-            utils.shareReport(filesIdList[j], permsList, 0, function(ret) {
+            utils.shareReport(filesIdList, permsList, 0, function(ret) {
                     if (ret === 1) {
                       console.log("Report sharing failed.");
                       res.send({status: "500", message: "Sharing report error."});
@@ -1042,8 +1041,6 @@ router.post('/createReport', function(req, res) {
                       console.log("Report shared successfully.");
                     }
             });
-
-          }
 
         for (var i = 0; i < newReport.organizations.length; i++) {
             Organization.updateOne({ _id: newReport.organizations[i]._id }, { $inc: { reportsCount: 1 } }, function(err1, res1) {
@@ -1348,8 +1345,7 @@ router.post('/shareReport', function(req, res) {
         }
       }
 
-      for (var j = 0; j < filesIdList.length; j++) {
-          utils.shareReport(filesIdList[j], permsList, 0, function(ret) {
+          utils.shareReport(filesIdList, permsList, 0, function(ret) {
                   if (ret === 1) {
                     console.log("Report sharing failed.");
                     res.send({status: "500", message: "Sharing report error."});
@@ -1358,7 +1354,6 @@ router.post('/shareReport', function(req, res) {
                     console.log("Report shared successfully.");
                   }
           });
-      }
 
       Organization.updateOne({ _id: orgToShare._id }, { $inc: { reportsCount: 1 } }, function(err1, res1) {
         if (err1) {
@@ -1387,8 +1382,7 @@ router.post('/shareReport', function(req, res) {
       }];
 
     var isCallSuccessful = false;
-    for (var j = 0; j < filesIdList.length; j++) {
-          utils.shareReport(filesIdList[j], permsList, 0, function(ret) {
+          utils.shareReport(filesIdList, permsList, 0, function(ret) {
                   if (ret === 1) {
                     console.log("Report sharing failed.");
                     res.send({status: '500', message: "Sharing report error."});
@@ -1398,7 +1392,6 @@ router.post('/shareReport', function(req, res) {
                     isCallSuccessful = true;
                   }
           });
-    }
 
     for (var i = 0; i < addedOrganizations.length; i++) {
       Organization.updateOne(
