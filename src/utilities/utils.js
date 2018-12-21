@@ -55,7 +55,7 @@ module.exports = {
     return updateRow;
   },
 
-  shareReport: function(file_id, permissions, revoke, callback) {
+  shareReport: function(file_ids, permissions, revoke, callback) {
     const oAuth2Client = new OAuth2Client();
 
     oAuth2Client.credentials = {
