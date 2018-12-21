@@ -66,54 +66,59 @@ module.exports = {
 
     if (revoke == 0) {
       console.log('Sharing report...');
+      var sharedCount = 0;
 
-      async.eachSeries(
-        permissions,
-        function(permission, callback) {
-          drive.permissions.create(
-            {
-              resource: permission,
-              fileId: file_id,
-              fields: 'id',
-              sendNotificationEmail: false
-            },
-            function(err, res) {
-              if (err) {
-                // Handle error...
-                console.log(err);
-                callback(1);
-              } else {
-                console.log(res.status);
-                console.log('Saving permissions...');
+      for (var file_id in file_ids) {
+        async.eachSeries(
+          permissions,
+          function(permission, callback) {
+            drive.permissions.create(
+              {
+                resource: permission,
+                fileId: file_id,
+                fields: 'id',
+                sendNotificationEmail: false
+              },
+              function(err, res) {
+                if (err) {
+                  // Handle error...
+                  console.log(err);
+                  callback(1);
+                } else {
+                  console.log(res.status);
+                  console.log('Saving permissions...');
 
-                var permObj = { fileId: file_id, googleID: permission.emailAddress, drivePermId: res.data.id };
-                Permission.create(permObj, function(err3, res3) {
-                  if (err3) {
-                    console.log(err3);
+                  var permObj = { fileId: file_id, googleID: permission.emailAddress, drivePermId: res.data.id };
+                  Permission.create(permObj, function(err3, res3) {
+                    if (err3) {
+                      console.log(err3);
+                      callback(1);
+                    }
+                  });
+                  if (res.status == 200) {
+                    console.log('Sharing report finished...');
+                    shareCount++;
+                    if (shareCount == file_ids.length) {
+                      callback(0);
+                    }
+                  } else {
                     callback(1);
                   }
-                });
-
-                if (res.status == 200) {
-                  console.log('Sharing report finished...');
-                  callback(0);
-                } else {
-                  callback(1);
                 }
               }
+            );
+          },
+          function(err) {
+            if (err) {
+              // Handle error
+              console.error(err);
+              callback(1);
+            } else {
+              // All permissions inserted
             }
-          );
-        },
-        function(err) {
-          if (err) {
-            // Handle error
-            console.error(err);
-            callback(1);
-          } else {
-            // All permissions inserted
           }
-        }
-      );
+        );
+      }
     } else {
       console.log('Revoking shared report...');
       async.eachSeries(permissions, function(permission, callback) {
