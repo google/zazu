@@ -238,11 +238,14 @@ module.exports = {
                     .on('end', function() {
                         for (var i = 0; i < docs1.length; i++) {
                           var createOrgRow = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.vendors_2` (organization_id, organization) VALUES ("' + docs1[i]._id + '","' + docs1[i].name + '")';
-
+                          console.log('*********** createOrgRow ');
+                          console.log(createOrgRow);
                           bigquery
                             .createQueryStream(createOrgRow)
                             .on('error', function(err) {
                               callback(1);
+                              console.log('##### ERROR : createOrgRow');
+                              console.log(err);
                             })
                             .on('data', function(data) {})
                             .on('end', function() {

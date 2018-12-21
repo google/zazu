@@ -219,7 +219,7 @@ var job = new CronJob({
 
 
 var job1 = new CronJob({
-  cronTime: '00 47 14 * * 0-6',
+  cronTime: '00 06 15 * * 0-6',
   onTick: function() {
     utils.regenerateTables( function(data) {
       console.log(data);
