@@ -250,7 +250,7 @@ module.exports = {
                               console.log('!!!! Printing i: ' + i);
                               if (flag == 0) {
                                 flag = 1;
-                                
+
                                 User.find(function(err2, docs2) {
                                   if (err2) {
                                     callback(1);
@@ -258,6 +258,7 @@ module.exports = {
                                     console.log(err);
                                   }
 
+                                  var queryList = [];
                                   for (var j = 0; j < docs2.length; j++) {
                                       var currentUser = docs2[j];
                                       var createUserRow =
@@ -275,55 +276,47 @@ module.exports = {
                                             console.log('*********** createUserRow ');
                                             console.log(createUserRow);
 
-                                            bigquery
-                                              .createQueryStream(createUserRow)
-                                              .on('error', function(err) {
-                                                 callback(1);
-                                                 console.log('##### ERROR : createUserRow');
-                                                 console.log(err);
-                                              })
-                                              .on('data', function(data) {})
-                                              .on('end', function() {
-                                                   var user_orgs = currentUser.organizations;
+                                      queryList.push(createUserRow);
 
-                                                    for (var k = 0; k < user_orgs.length; k++) {
-                                                      var createUserVendorRow =
-                                                        'INSERT INTO `' +
-                                                        config.bq_instance +
-                                                        '.' +
-                                                        config.bq_dataset +
-                                                        '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' +
-                                                        currentUser._id +
-                                                        '","' +
-                                                        currentUser.organizations[k]._id +
-                                                        '")';
-                                                      console.log('******* createUserVendorRow  ');
-                                                      console.log(createUserVendorRow);
-                                                      bigquery
-                                                        .createQueryStream(createUserVendorRow)
-                                                        .on('error', function(err) {
-                                                          callback(1);
-                                                          console.log('##### ERROR : createUserVendorRow');
-                                                          console.log(err);
-                                                        })
-                                                        .on('data', function(data) {})
-                                                        .on('end', function() {
-                                                          if (j == docs2.length && k == user_orgs.length) {
-                                                            callback(0);
-                                                          }
-                                                        });
-                                  }
-                               });
-                             }
+                                      var user_orgs = currentUser.organizations;
+
+                                       for (var k = 0; k < user_orgs.length; k++) {
+                                         var createUserVendorRow =
+                                           'INSERT INTO `' +
+                                           config.bq_instance +
+                                           '.' +
+                                           config.bq_dataset +
+                                           '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' +
+                                           currentUser._id +
+                                           '","' +
+                                           currentUser.organizations[k]._id +
+                                           '")';
+
+                                          queryList.push(createUserVendorRow);
+                                         }
+                                    }
+
+                                    for (var k = 0; k < queryList.length; k++) {
+                                      bigquery
+                                        .createQueryStream(queryList[k])
+                                        .on('error', function(err) {
+                                          callback(1);
+                                        })
+                                        .on('data', function(data) {})
+                                        .on('end', function() {
+                                          if (k == queryList.length) {
+                                            return(1);
+                                          }
+                                        });
+                                    }
+                                  });
+                                }
+                              });
+                            }
                           });
-                        }
+                        });
                       });
-                    }
+                    });
                   });
-              });
-            });
-        });
-    });
-  }
-
+                }
 };
