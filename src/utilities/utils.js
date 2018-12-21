@@ -173,153 +173,154 @@ module.exports = {
         })
         .on('data', function(data) {})
         .on('end', function() {
-          for (var i = 0; i < docs1.length; i++) {
-            var createOrgRow = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.vendors_2` (organization_id, organization) VALUES ("' + docs1[i]._id + '","' + docs1[i].name + '")';
-
-            bigquery
-              .createQueryStream(createOrgRow)
-              .on('error', function(err) {
-                callback(1);
-              })
-              .on('data', function(data) {})
-              .on('end', function() {
-                console.log('!!!! Printing i: ' + i);
-                if (i == docs1.length) {
-                  User.find(function(err2, docs2) {
-                    if (err2) {
+          var deleteAllUsers =
+            'DELETE FROM `' +
+            config.bq_instance +
+            '.' +
+            config.bq_dataset +
+            '.users_2` WHERE user_id in (SELECT user_id FROM `' +
+            config.bq_instance +
+            '.' +
+            config.bq_dataset +
+            '.users_2`)';
+          console.log('******** deleteAllUsers');
+          console.log(deleteAllUsers);
+          bigquery
+            .createQueryStream(deleteAllUsers)
+            .on('error', function(err) {
+              callback(1);
+              console.log('##### ERROR : deleteAllUsers');
+              console.log(err);
+            })
+            .on('data', function(data) {})
+            .on('end', function() {
+              var deleteAllUserVendorRoles =
+                'DELETE FROM `' +
+                config.bq_instance +
+                '.' +
+                config.bq_dataset +
+                '.user_vendor_roles_2` WHERE user_id in (SELECT user_id FROM `' +
+                config.bq_instance +
+                '.' +
+                config.bq_dataset +
+                '.user_vendor_roles_2`)';
+              console.log('******  deleteAllUserVendorRoles ');
+              console.log(deleteAllUserVendorRoles);
+              bigquery
+                .createQueryStream(deleteAllUserVendorRoles)
+                .on('error', function(err) {
+                  callback(1);
+                  console.log('##### ERROR : deleteAllUserVendorRoles');
+                  console.log(err);
+                })
+                .on('data', function(data) {})
+                .on('end', function() {
+                  var deleteAllCurrentRoles =
+                    'DELETE FROM `' +
+                    config.bq_instance +
+                    '.' +
+                    config.bq_dataset +
+                    '.user_current_vendor_2` WHERE user_id in (SELECT user_id FROM `' +
+                    config.bq_instance +
+                    '.' +
+                    config.bq_dataset +
+                    '.user_current_vendor_2`)';
+                  console.log('******* deleteAllCurrentRoles ');
+                  console.log(deleteAllCurrentRoles);
+                  bigquery
+                    .createQueryStream(deleteAllCurrentRoles)
+                    .on('error', function(err) {
                       callback(1);
-                      console.log('##### ERROR : createOrgRow');
+                      console.log('##### ERROR : deleteAllCurrentRoles');
                       console.log(err);
-                    }
+                    })
+                    .on('data', function(data) {})
+                    .on('end', function() {
+                        for (var i = 0; i < docs1.length; i++) {
+                          var createOrgRow = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.vendors_2` (organization_id, organization) VALUES ("' + docs1[i]._id + '","' + docs1[i].name + '")';
 
-                    var deleteAllUsers =
-                      'DELETE FROM `' +
-                      config.bq_instance +
-                      '.' +
-                      config.bq_dataset +
-                      '.users_2` WHERE user_id in (SELECT user_id FROM `' +
-                      config.bq_instance +
-                      '.' +
-                      config.bq_dataset +
-                      '.users_2`)';
-                    console.log('******** deleteAllUsers');
-                    console.log(deleteAllUsers);
-                    bigquery
-                      .createQueryStream(deleteAllUsers)
-                      .on('error', function(err) {
-                        callback(1);
-                        console.log('##### ERROR : deleteAllUsers');
-                        console.log(err);
-                      })
-                      .on('data', function(data) {})
-                      .on('end', function() {
-                        var deleteAllUserVendorRoles =
-                          'DELETE FROM `' +
-                          config.bq_instance +
-                          '.' +
-                          config.bq_dataset +
-                          '.user_vendor_roles_2` WHERE user_id in (SELECT user_id FROM `' +
-                          config.bq_instance +
-                          '.' +
-                          config.bq_dataset +
-                          '.user_vendor_roles_2`)';
-                        console.log('******  deleteAllUserVendorRoles ');
-                        console.log(deleteAllUserVendorRoles);
-                        bigquery
-                          .createQueryStream(deleteAllUserVendorRoles)
-                          .on('error', function(err) {
-                            callback(1);
-                            console.log('##### ERROR : deleteAllUserVendorRoles');
-                            console.log(err);
-                          })
-                          .on('data', function(data) {})
-                          .on('end', function() {
-                            var deleteAllCurrentRoles =
-                              'DELETE FROM `' +
-                              config.bq_instance +
-                              '.' +
-                              config.bq_dataset +
-                              '.user_current_vendor_2` WHERE user_id in (SELECT user_id FROM `' +
-                              config.bq_instance +
-                              '.' +
-                              config.bq_dataset +
-                              '.user_current_vendor_2`)';
-                            console.log('******* deleteAllCurrentRoles ');
-                            console.log(deleteAllCurrentRoles);
-                            bigquery
-                              .createQueryStream(deleteAllCurrentRoles)
-                              .on('error', function(err) {
-                                callback(1);
-                                console.log('##### ERROR : deleteAllCurrentRoles');
-                                console.log(err);
-                              })
-                              .on('data', function(data) {})
-                              .on('end', function() {
-                                for (var j = 0; j < docs2.length; j++) {
-                                  var currentUser = docs2[j];
-                                  var createUserRow =
-                                    'INSERT INTO `' +
-                                    config.bq_instance +
-                                    '.' +
-                                    config.bq_dataset +
-                                    '.users_2` (user_id, googleID, role) VALUES ("' +
-                                    docs2[j]._id +
-                                    '","' +
-                                    docs2[j].googleID +
-                                    '","' +
-                                    docs2[j].role +
-                                    '")';
-                                  console.log('*********** createUserRow ');
-                                  console.log(createUserRow);
+                          bigquery
+                            .createQueryStream(createOrgRow)
+                            .on('error', function(err) {
+                              callback(1);
+                            })
+                            .on('data', function(data) {})
+                            .on('end', function() {
+                              console.log('!!!! Printing i: ' + i);
+                              if (i == docs1.length) {
+                                User.find(function(err2, docs2) {
+                                  if (err2) {
+                                    callback(1);
+                                    console.log('##### ERROR : createOrgRow');
+                                    console.log(err);
+                                  }
 
-                                  bigquery
-                                    .createQueryStream(createUserRow)
-                                    .on('error', function(err) {
-                                      callback(1);
-                                      console.log('##### ERROR : createUserRow');
-                                      console.log(err);
-                                    })
-                                    .on('data', function(data) {})
-                                    .on('end', function() {
-                                      var user_orgs = currentUser.organizations;
+                                  for (var j = 0; j < docs2.length; j++) {
+                                      var currentUser = docs2[j];
+                                      var createUserRow =
+                                            'INSERT INTO `' +
+                                            config.bq_instance +
+                                            '.' +
+                                            config.bq_dataset +
+                                            '.users_2` (user_id, googleID, role) VALUES ("' +
+                                            docs2[j]._id +
+                                            '","' +
+                                            docs2[j].googleID +
+                                            '","' +
+                                            docs2[j].role +
+                                            '")';
+                                            console.log('*********** createUserRow ');
+                                            console.log(createUserRow);
 
-                                      for (var k = 0; k < user_orgs.length; k++) {
-                                        var createUserVendorRow =
-                                          'INSERT INTO `' +
-                                          config.bq_instance +
-                                          '.' +
-                                          config.bq_dataset +
-                                          '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' +
-                                          currentUser._id +
-                                          '","' +
-                                          currentUser.organizations[k]._id +
-                                          '")';
-                                        console.log('******* createUserVendorRow  ');
-                                        console.log(createUserVendorRow);
-                                        bigquery
-                                          .createQueryStream(createUserVendorRow)
-                                          .on('error', function(err) {
-                                            callback(1);
-                                            console.log('##### ERROR : createUserVendorRow');
-                                            console.log(err);
-                                          })
-                                          .on('data', function(data) {})
-                                          .on('end', function() {
-                                            if (j == docs2.length && k == user_orgs.length) {
-                                              callback(0);
-                                            }
-                                          });
-                                      }
-                                    });
-                                }
-                              });
+                                            bigquery
+                                              .createQueryStream(createUserRow)
+                                              .on('error', function(err) {
+                                                 callback(1);
+                                                 console.log('##### ERROR : createUserRow');
+                                                 console.log(err);
+                                              })
+                                              .on('data', function(data) {})
+                                              .on('end', function() {
+                                                   var user_orgs = currentUser.organizations;
+
+                                                    for (var k = 0; k < user_orgs.length; k++) {
+                                                      var createUserVendorRow =
+                                                        'INSERT INTO `' +
+                                                        config.bq_instance +
+                                                        '.' +
+                                                        config.bq_dataset +
+                                                        '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' +
+                                                        currentUser._id +
+                                                        '","' +
+                                                        currentUser.organizations[k]._id +
+                                                        '")';
+                                                      console.log('******* createUserVendorRow  ');
+                                                      console.log(createUserVendorRow);
+                                                      bigquery
+                                                        .createQueryStream(createUserVendorRow)
+                                                        .on('error', function(err) {
+                                                          callback(1);
+                                                          console.log('##### ERROR : createUserVendorRow');
+                                                          console.log(err);
+                                                        })
+                                                        .on('data', function(data) {})
+                                                        .on('end', function() {
+                                                          if (j == docs2.length && k == user_orgs.length) {
+                                                            callback(0);
+                                                          }
+                                                        });
+                                  }
+                               });
+                             }
                           });
+                        }
                       });
+                    }
                   });
-                }
               });
-          }
+            });
         });
     });
   }
+
 };
