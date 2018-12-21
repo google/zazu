@@ -236,6 +236,7 @@ module.exports = {
                     })
                     .on('data', function(data) {})
                     .on('end', function() {
+                        var flag = 0;
                         for (var i = 0; i < docs1.length; i++) {
                           var createOrgRow = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.vendors_2` (organization_id, organization) VALUES ("' + docs1[i]._id + '","' + docs1[i].name + '")';
 
@@ -247,7 +248,9 @@ module.exports = {
                             .on('data', function(data) {})
                             .on('end', function() {
                               console.log('!!!! Printing i: ' + i);
-                              if (i == docs1.length) {
+                              if (flag == 0) {
+                                flag = 1;
+                                
                                 User.find(function(err2, docs2) {
                                   if (err2) {
                                     callback(1);
