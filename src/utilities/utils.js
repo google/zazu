@@ -109,16 +109,15 @@ module.exports = {
               callback(1);
             } else {
               // All permissions inserted
+              callback(0);
             }
           }
         );
       // }
     } else {
       console.log('Revoking shared report...');
-      console.log(permissions);
+
       async.eachSeries(permissions, function(permission, callback) {
-        console.log("Je suis ici");
-        console.log(permission);
         drive.permissions.delete(
           {
             fileId: permission.fileId,
@@ -127,12 +126,9 @@ module.exports = {
           function(err, res) {
             if (err) {
               // Handle error...
-              console.log("AAARGGHH ERROR");
               console.log(err);
               callback(1);
             } else {
-              console.log("YAAY I PASSED");
-              console.log(res.status);
               console.log('Removing permissions...');
 
               if (res.status == 204) {
@@ -146,8 +142,17 @@ module.exports = {
             }
           }
         );
+      },
+      function(err) {
+        if (err) {
+          // Handle error
+          console.error(err);
+          callback(1);
+        } else {
+          // All permissions inserted
+          callback(0);
+        }
       });
-      console.log("I Exited the loop");
     }
   },
 
@@ -304,7 +309,7 @@ module.exports = {
                                       console.log('user_orgs.length :' + user_orgs.length);
                                       console.log('');
                                        for (var k = 0; k < user_orgs.length; k++) {
-                                       
+
                                          var createUserVendorRow =
                                            'INSERT INTO `' +
                                            config.bq_instance +
@@ -352,7 +357,7 @@ module.exports = {
                 }
 
 
-                
+
 /*
 var job1 = new CronJob({
   cronTime: '00 59 15 * * 0-6',
