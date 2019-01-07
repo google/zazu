@@ -3,12 +3,7 @@ import { OrganizationService } from 'src/app/shared/services/organization.servic
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatarulesService } from './../../shared/services/datarules.service';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormControl
-} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as DataViewModel from '../../shared/view-models/data.viewmodel';
 
@@ -45,7 +40,8 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
     identifier: 'Select the column name for this data rule.',
     condition: 'Select the comparative logic for this data rule',
     token: 'Select the comparison value for this data rule.',
-    datasource: 'Select a data source for this rule, each rule can only be applied to a single data source.  If you’d like to apply the rule to many data sources, you must create multiple rules.'
+    datasource:
+      'Select a data source for this rule, each rule can only be applied to a single data source.  If you’d like to apply the rule to many data sources, you must create multiple rules.'
   };
 
   async ngOnInit() {
@@ -54,34 +50,24 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
         this.organizationId = params['id'];
         this.dataRuleId = params['ruleID'];
       });
-      this.dataRules = await this.datarulesService.getDataRules(
-        this.organizationId
-      );
+      this.dataRules = await this.datarulesService.getDataRules(this.organizationId);
       this.dataRule = this.dataRules.find(element => {
         return element._id === this.dataRuleId;
       });
       this.oldRule = this.dataRule;
       this.datasources = await this.datarulesService.getDataSources();
-      this.identifiers = await this.dataruleService.getIdentifiers(
-        this.dataRule.datasource
-      );
+      this.identifiers = await this.dataruleService.getIdentifiers(this.dataRule.datasource);
       this.dataruleFormGroup = this.formBuilder.group({
-        name: [
-          this.dataRule.name,
-          [Validators.required, this.noWhitespaceValidator]
-        ],
-        identifier: [this.dataRule.identifier, Validators.required],
+        name: [this.dataRule.name, [Validators.required, this.noWhitespaceValidator]],
+        identifier: [this.dataRule.identifier.name, Validators.required],
         condition: [this.dataRule.condition, Validators.required],
-        token: [
-          this.dataRule.token,
-          [Validators.required, this.noWhitespaceValidator]
-        ]
+        token: [this.dataRule.token, [Validators.required, this.noWhitespaceValidator]]
       });
 
       this.initiated = true;
     } catch (error) {
       this.snackBar.open('Error: ' + error.message, 'Dismiss', {
-        duration: 5000,
+        duration: 5000
       });
     }
   }
@@ -98,17 +84,18 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
     return isValid ? null : { whitespace: true };
   }
 
-
-
   async onSubmit() {
     try {
       this.sending = true;
       const form = this.dataruleFormGroup.value;
+      const selectedIdentifier = this.identifiers.find(identifier => {
+        return identifier.name === form.identifier;
+      });
       const newRule = {
         _id: this.dataRuleId,
         name: form.name,
         datasource: String(this.dataRule.datasource),
-        identifier: form.identifier,
+        identifier: selectedIdentifier,
         condition: form.condition,
         token: form.token,
         organization: this.dataRule.organization
@@ -128,7 +115,7 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
     } catch (error) {
       this.sending = false;
       this.snackBar.open('Error: ' + error.message, 'Dismiss', {
-        duration: 5000,
+        duration: 5000
       });
     }
   }

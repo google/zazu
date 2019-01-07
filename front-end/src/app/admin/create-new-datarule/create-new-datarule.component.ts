@@ -6,6 +6,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as DataViewModel from '../../shared/view-models/data.viewmodel';
 import { MatSnackBar } from '@angular/material';
+import { formatNumber } from '@angular/common';
 
 @Component({
   selector: 'app-create-new-datarule',
@@ -107,16 +108,17 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
       name: this.organization.name,
       _id: this.organization._id
     };
+    const selectedIdentifier = this.identifiers.find( identifier => {
+      return identifier.name === form.identifier;
+    });
     const datarule = {
       name: form.name,
       datasource: datasource,
-      identifier: form.identifier,
+      identifier: selectedIdentifier,
       condition: form.condition,
       token: form.token,
       organization: org
     };
-
-
     const ruleStatus = <any>await this.datarulesService.createNewDataRule(datarule);
     if ( ruleStatus.status === '200') {
       await this.router.navigate(['../'], { relativeTo: this.route, queryParams: { newRule: 'new'}} );
