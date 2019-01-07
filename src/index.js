@@ -6,13 +6,14 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 var passport = require('passport');
 var fs = require('fs');
-//var sleep = require('sleep');
+var sleep = require('system-sleep');
 var CronJob = require('cron').CronJob;
 var {google} = require('googleapis');
 var config = require('./utilities/config');
 
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var User = require('./models/user');
+var Rule = require('./models/rule');
 
 // ***** TEMP *********
 var utils = require('./utilities/utils');
@@ -126,60 +127,47 @@ app.use('*', (req, res, next) => {
 
 function applyRule(curr_rule, bq_instance, bq_dataset, bq_client_dataset, bq_client_data_perms) {
 
-    var permsList = [];
+  var permsList = [curr_rule.organization._id];
 
-    for (var j = 0; j < curr_rule.organization.length; j++) {
-      var findId = 'SELECT organization_id FROM `' + bq_instance + '.' + bq_dataset + '.vendors_2` WHERE organization = "' + curr_rule.organization[j] + '"';
+  var updateRow = utils.buildPermissionsQuery(bq_instance, bq_client_dataset, bq_client_data_perms, permsList, curr_rule.identifier.name, curr_rule.identifier.type, curr_rule.condition, curr_rule.token);
 
-      bigquery.query(findId, function(err, rows) {
-          if (err) {
-            console.log(err);
-            return 1;
-          }
-          else {
-            permsList.push(rows[0].organization_id);
-
-            var updateRow = utils.buildPermissionsQuery(bq_instance, bq_client_dataset, bq_client_data_perms, permsList, curr_rule.identifier, curr_rule.identifierType, curr_rule.condition, curr_rule.token);
-
-            bigquery.query(updateRow, function(err2, rows2) {
-                if (err2) {
-                  console.log(err2);
-                  return 1;
-                }
-                else {
-                      console.log("Successfully refreshed permissions table.");
-                      return 0;
-                }
-
-            })
-          }
-      })
-
+  bigquery.query(updateRow, function(err2, rows2) {
+    if (err2) {
+      console.log(err2);
+      return 1;
     }
+    else {
+      console.log("Successfully refreshed permissions table.");
+      return 0;
+    }
+  })
 
 }
 
 var job = new CronJob({
-    cronTime: '00 30 23 * * 0-6',
+    cronTime: '00 46 12 * * 0-6',
     onTick: function() {
+
+      console.log("Start of rules refresh");
 
       var dataset = bigquery.dataset(config.bq_client_dataset);
       const dest_table = dataset.table(config.bq_client_data_perms);
       const orig_table = dataset.table(config.bq_client_data_base);
 
       dest_table.delete(function(err, apiResponse) {
-
+        console.log("Delete table");
         if ((err)&&(err.code != 404)) {
           console.log(err.message);
         }
         else {
             orig_table.copy(dest_table, function(err1, apiResponse1) {
-
+              console.log("Copy table");
                if (err1) {
                  console.log(err1.message);
                }
                else {
                  dest_table.getMetadata().then(function(data) {
+                     console.log("Fetch metadata");
                      var metadata = data[0];
                      var new_schema = metadata.schema.fields;
 
@@ -187,7 +175,7 @@ var job = new CronJob({
                      metadata.schema.fields = new_schema;
 
                      dest_table.setMetadata(metadata, function(err2, metadata, apiResponse2) {
-
+                       console.log("Change metadata");
                        if (err2) {
                          console.log(err2.message);
                        }
@@ -197,9 +185,9 @@ var job = new CronJob({
                              if (err) {
                                console.log("Rule list retrieved error.");
                              }
-
+                            console.log("Apply rules");
                             for (var i = 0; i < docs.length; i++) {
-                                sleep.sleep(30);
+                                sleep(30000);
                                 setTimeout(applyRule, 30000, docs[i], config.bq_instance, config.bq_dataset, config.bq_client_dataset, config.bq_client_data_perms);
                             }
                         });
