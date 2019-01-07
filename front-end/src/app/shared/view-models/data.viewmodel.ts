@@ -10,6 +10,8 @@ export interface DataSource {
 
 export interface Identifier {
   name: string;
+  mode: string;
+  type: string;
 }
 
 /**
@@ -20,7 +22,7 @@ export interface DataRule {
   name: string;
   organization: OrganizationViewModel.SimpleOrganization;
   datasource: string;
-  identifier: string;
+  identifier: Identifier;
   condition: string;
   token: string;
   created_at: Date;
@@ -31,7 +33,7 @@ export interface CreateNewDataRule {
   name: string;
   organization: OrganizationViewModel.SimpleOrganization;
   datasource: string;
-  identifier: string;
+  identifier: Identifier;
   condition: string;
   token: string;
 }
