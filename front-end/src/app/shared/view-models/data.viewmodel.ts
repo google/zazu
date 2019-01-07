@@ -46,7 +46,7 @@ export interface EditDataRule {
   name: string;
   organization: OrganizationViewModel.SimpleOrganization;
   datasource: string;
-  identifier: string;
+  identifier: Identifier;
   condition: string;
   token: string;
 }
