@@ -129,7 +129,7 @@ function applyRule(curr_rule, bq_instance, bq_dataset, bq_client_dataset, bq_cli
 
   var permsList = [curr_rule.organization._id];
 
-  var updateRow = utils.buildPermissionsQuery(bq_instance, bq_client_dataset, bq_client_data_perms, permsList, curr_rule.identifier.name, curr_rule.identifier.type, curr_rule.condition, curr_rule.token);
+  var updateRow = utils.buildPermissionsQuery(bq_instance, bq_client_dataset, bq_client_data_perms, permsList, curr_rule.identifier.name, curr_rule.identifier.identifierType, curr_rule.condition, curr_rule.token);
 
   bigquery.query(updateRow, function(err2, rows2) {
     if (err2) {
