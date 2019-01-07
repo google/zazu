@@ -111,15 +111,21 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
     const selectedIdentifier = this.identifiers.find( identifier => {
       return identifier.name === form.identifier;
     });
+    const newIdentifier = {
+      name: selectedIdentifier.name,
+      identifierType: selectedIdentifier.type,
+      mode: selectedIdentifier.mode,
+    };
     const datarule = {
       name: form.name,
       datasource: datasource,
-      identifier: selectedIdentifier,
+      identifier: newIdentifier,
       condition: form.condition,
       token: form.token,
       organization: org
     };
     const ruleStatus = <any>await this.datarulesService.createNewDataRule(datarule);
+
     if ( ruleStatus.status === '200') {
       await this.router.navigate(['../'], { relativeTo: this.route, queryParams: { newRule: 'new'}} );
     } else {
@@ -128,5 +134,6 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
         duration: 5000,
       });
     }
+
   }
 }
