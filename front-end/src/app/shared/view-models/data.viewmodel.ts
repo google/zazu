@@ -14,6 +14,12 @@ export interface Identifier {
   type: string;
 }
 
+export interface IdentifierMongo {
+  name: string;
+  mode: string;
+  identifierType: string;
+}
+
 /**
  * View model that i used for listing data rule
  */
@@ -22,7 +28,7 @@ export interface DataRule {
   name: string;
   organization: OrganizationViewModel.SimpleOrganization;
   datasource: string;
-  identifier: Identifier;
+  identifier: IdentifierMongo;
   condition: string;
   token: string;
   created_at: Date;
@@ -33,7 +39,7 @@ export interface CreateNewDataRule {
   name: string;
   organization: OrganizationViewModel.SimpleOrganization;
   datasource: string;
-  identifier: Identifier;
+  identifier: IdentifierMongo;
   condition: string;
   token: string;
 }
@@ -46,7 +52,7 @@ export interface EditDataRule {
   name: string;
   organization: OrganizationViewModel.SimpleOrganization;
   datasource: string;
-  identifier: Identifier;
+  identifier: IdentifierMongo;
   condition: string;
   token: string;
 }

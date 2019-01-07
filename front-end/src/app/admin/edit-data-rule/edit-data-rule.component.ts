@@ -91,15 +91,21 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
       const selectedIdentifier = this.identifiers.find(identifier => {
         return identifier.name === form.identifier;
       });
+      const newIdentifier = {
+        name: selectedIdentifier.name,
+        identifierType: selectedIdentifier.type,
+        mode: selectedIdentifier.mode,
+      };
       const newRule = {
         _id: this.dataRuleId,
         name: form.name,
         datasource: String(this.dataRule.datasource),
-        identifier: selectedIdentifier,
+        identifier: newIdentifier,
         condition: form.condition,
         token: form.token,
         organization: this.dataRule.organization
       };
+
       const status = await (<any>this.dataruleService.editDataRule(newRule, this.oldRule));
       if (status.status === '200') {
         await this.router.navigate(['../../'], {
@@ -112,6 +118,7 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
           duration: 5000
         });
       }
+
     } catch (error) {
       this.sending = false;
       this.snackBar.open('Error: ' + error.message, 'Dismiss', {

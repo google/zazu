@@ -28,4 +28,3 @@ module.exports = {
 
     mongo_connection_string: process.env.mongo_connection_string //'mongodb://zazuadmin:vendorcoop@localhost/zazu'
 }
-
