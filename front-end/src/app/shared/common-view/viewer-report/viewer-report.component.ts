@@ -51,7 +51,7 @@ export class ViewerReportComponent implements OnInit, OnDestroy {
         const replaceLink = this.report.link.replace(patt, '/embed/reporting');
         this.embedLink = this.sanitizer.bypassSecurityTrustResourceUrl(replaceLink);
         */
-        const patt = new RegExp('google\.com\/(.)+\/reporting');
+        const patt = new RegExp('google\.com(.)*\/reporting');
         const replaceLink = this.report.link.replace(patt, 'google.com/embed/reporting');
         this.embedLink = this.sanitizer.bypassSecurityTrustResourceUrl(replaceLink);
 
