@@ -145,7 +145,7 @@ function applyRule(curr_rule, bq_instance, bq_dataset, bq_client_dataset, bq_cli
 }
 
 var job = new CronJob({
-    cronTime: '00 46 12 * * 0-6',
+    cronTime: '00 30 23 * * 0-6',
     onTick: function() {
 
       console.log("Start of rules refresh");

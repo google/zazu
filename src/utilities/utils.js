@@ -167,11 +167,11 @@ module.exports = {
         config.bq_instance +
         '.' +
         config.bq_dataset +
-        '.vendors_2` WHERE organization_id IN (SELECT organization_id FROM `' +
+        '.vendors` WHERE organization_id IN (SELECT organization_id FROM `' +
         config.bq_instance +
         '.' +
         config.bq_dataset +
-        '.vendors_2`)';
+        '.vendors`)';
         console.log(' ');
       console.log('******** deleteAllOrgs');
       console.log(deleteAllOrgs);
@@ -190,11 +190,11 @@ module.exports = {
             config.bq_instance +
             '.' +
             config.bq_dataset +
-            '.users_2` WHERE user_id in (SELECT user_id FROM `' +
+            '.users` WHERE user_id in (SELECT user_id FROM `' +
             config.bq_instance +
             '.' +
             config.bq_dataset +
-            '.users_2`)';
+            '.users`)';
             console.log(' ');
           console.log('******** deleteAllUsers');
           console.log(deleteAllUsers);
@@ -213,11 +213,11 @@ module.exports = {
                 config.bq_instance +
                 '.' +
                 config.bq_dataset +
-                '.user_vendor_roles_2` WHERE user_id in (SELECT user_id FROM `' +
+                '.user_vendor_roles` WHERE user_id in (SELECT user_id FROM `' +
                 config.bq_instance +
                 '.' +
                 config.bq_dataset +
-                '.user_vendor_roles_2`)';
+                '.user_vendor_roles`)';
               console.log(' ');
               console.log('******  deleteAllUserVendorRoles ');
               console.log(deleteAllUserVendorRoles);
@@ -236,11 +236,11 @@ module.exports = {
                     config.bq_instance +
                     '.' +
                     config.bq_dataset +
-                    '.user_current_vendor_2` WHERE user_id in (SELECT user_id FROM `' +
+                    '.user_current_vendor` WHERE user_id in (SELECT user_id FROM `' +
                     config.bq_instance +
                     '.' +
                     config.bq_dataset +
-                    '.user_current_vendor_2`)';
+                    '.user_current_vendor`)';
                     console.log(' ');
                   console.log('******* deleteAllCurrentRoles ');
                   console.log(deleteAllCurrentRoles);
@@ -256,7 +256,7 @@ module.exports = {
                     .on('end', function() {
                         var flag = 0;
                         for (var i = 0; i < docs1.length; i++) {
-                          var createOrgRow = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.vendors_2` (organization_id, organization) VALUES ("' + docs1[i]._id + '","' + docs1[i].name + '")';
+                          var createOrgRow = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.vendors` (organization_id, organization) VALUES ("' + docs1[i]._id + '","' + docs1[i].name + '")';
                           console.log(' ');
                           console.log('*********** createOrgRow ');
                           console.log(createOrgRow);
@@ -290,7 +290,7 @@ module.exports = {
                                             config.bq_instance +
                                             '.' +
                                             config.bq_dataset +
-                                            '.users_2` (user_id, googleID, role) VALUES ("' +
+                                            '.users` (user_id, googleID, role) VALUES ("' +
                                             docs2[j]._id +
                                             '","' +
                                             docs2[j].googleID +
@@ -315,7 +315,7 @@ module.exports = {
                                            config.bq_instance +
                                            '.' +
                                            config.bq_dataset +
-                                           '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' +
+                                           '.user_vendor_roles` (user_id, organization_id) VALUES ("' +
                                            currentUser._id +
                                            '","' +
                                            currentUser.organizations[k]._id +

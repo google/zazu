@@ -152,7 +152,7 @@ router.post('/createNewUser', function(req, res) {
                           config.bq_instance +
                           '.' +
                           config.bq_dataset +
-                          '.users_2` (user_id, googleID, role) VALUES ("' +
+                          '.users` (user_id, googleID, role) VALUES ("' +
                           newUserId +
                           '", "' +
                           newUser.googleID +
@@ -173,7 +173,7 @@ router.post('/createNewUser', function(req, res) {
                                 config.bq_instance +
                                 '.' +
                                 config.bq_dataset +
-                                '.vendors_2`';
+                                '.vendors`';
 
                               bigquery
                                 .createQueryStream(findAllOrgs)
@@ -230,7 +230,7 @@ router.post('/createNewUser', function(req, res) {
                                           config.bq_instance +
                                           '.' +
                                           config.bq_dataset +
-                                          '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' +
+                                          '.user_vendor_roles` (user_id, organization_id) VALUES ("' +
                                           newUserId +
                                           '", "' +
                                           data.organization_id +
@@ -276,7 +276,7 @@ router.post('/createNewUser', function(req, res) {
                                 config.bq_instance +
                                 '.' +
                                 config.bq_dataset +
-                                '.vendors_2` WHERE organization IN (';
+                                '.vendors` WHERE organization IN (';
 
                               for (var i = 0; i < newUser.organizations.length - 1; i++) {
                                 findOrgIds += '"' + newUser.organizations[i].name + '", ';
@@ -361,7 +361,7 @@ router.post('/createNewUser', function(req, res) {
                                           config.bq_instance +
                                           '.' +
                                           config.bq_dataset +
-                                          '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' +
+                                          '.user_vendor_roles` (user_id, organization_id) VALUES ("' +
                                           newUserId +
                                           '", "' +
                                           data.organization_id +
@@ -406,7 +406,7 @@ router.post('/deleteUser', function(req, res) {
         config.bq_instance +
         '.' +
         config.bq_dataset +
-        '.users_2` WHERE user_id = "' +
+        '.users` WHERE user_id = "' +
         deleteUser._id +
         '"';
 
@@ -422,7 +422,7 @@ router.post('/deleteUser', function(req, res) {
             config.bq_instance +
             '.' +
             config.bq_dataset +
-            '.user_vendor_roles_2` WHERE user_id = "' +
+            '.user_vendor_roles` WHERE user_id = "' +
             deleteUser._id +
             '"';
 
@@ -438,7 +438,7 @@ router.post('/deleteUser', function(req, res) {
                 config.bq_instance +
                 '.' +
                 config.bq_dataset +
-                '.user_current_vendor_2` WHERE user_id = "' +
+                '.user_current_vendor` WHERE user_id = "' +
                 deleteUser._id +
                 '"';
 
@@ -493,7 +493,7 @@ router.post('/editUserRemoveOrgs', function(req, res) {
   var editUser = req.body.newUser;
   var deleteCount = 0;
 
-  var updateUser = 'UPDATE `' + config.bq_instance + '.' + config.bq_dataset + '.users_2` SET googleID = "' + editUser.googleID + '" WHERE user_id = "' + editUser._id + '"';
+  var updateUser = 'UPDATE `' + config.bq_instance + '.' + config.bq_dataset + '.users` SET googleID = "' + editUser.googleID + '" WHERE user_id = "' + editUser._id + '"';
 
   bigquery
     .createQueryStream(updateUser)
@@ -522,7 +522,7 @@ router.post('/editUserRemoveOrgs', function(req, res) {
             config.bq_instance +
             '.' +
             config.bq_dataset +
-            '.user_vendor_roles_2` WHERE organization_id in (' +
+            '.user_vendor_roles` WHERE organization_id in (' +
              findOrgIdsToRm + ') AND user_id = "' + editUser._id +
             '"';
 
@@ -562,7 +562,7 @@ router.post('/editUserAddOrgs', function(req, res) {
        config.bq_instance +
        '.' +
        config.bq_dataset +
-       '.vendors_2` WHERE organization IN (' + findOrgIdsToAdd + ')';
+       '.vendors` WHERE organization IN (' + findOrgIdsToAdd + ')';
 
         bigquery
           .createQueryStream(findOrgIds)
@@ -576,7 +576,7 @@ router.post('/editUserAddOrgs', function(req, res) {
                   config.bq_instance +
                   '.' +
                   config.bq_dataset +
-                  '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' +
+                  '.user_vendor_roles` (user_id, organization_id) VALUES ("' +
                   editUser._id +
                   '","' +
                   data.organization_id +
@@ -665,7 +665,7 @@ router.post('/createOrganization', function(req, res) {
         config.bq_instance +
         '.' +
         config.bq_dataset +
-        '.vendors_2` (organization_id, organization) VALUES ("' +
+        '.vendors` (organization_id, organization) VALUES ("' +
         newOrgId +
         '","' +
         newOrg.name +
@@ -684,7 +684,7 @@ router.post('/createOrganization', function(req, res) {
             config.bq_instance +
             '.' +
             config.bq_dataset +
-            '.users_2` WHERE role = "admin"';
+            '.users` WHERE role = "admin"';
 
           bigquery
             .createQueryStream(getRetailerIds)
@@ -698,7 +698,7 @@ router.post('/createOrganization', function(req, res) {
                 config.bq_instance +
                 '.' +
                 config.bq_dataset +
-                '.user_vendor_roles_2` (user_id, organization_id) VALUES ("' +
+                '.user_vendor_roles` (user_id, organization_id) VALUES ("' +
                 user_id +
                 '", "' +
                 newOrgId +
@@ -747,7 +747,7 @@ router.post('/deleteOrganization', function(req, res) {
         config.bq_instance +
         '.' +
         config.bq_dataset +
-        '.vendors_2` WHERE organization_id = "' +
+        '.vendors` WHERE organization_id = "' +
         orgDelete._id +
         '"';
 
@@ -763,7 +763,7 @@ router.post('/deleteOrganization', function(req, res) {
             config.bq_instance +
             '.' +
             config.bq_dataset +
-            '.user_current_vendor_2` WHERE organization_id = "' +
+            '.user_current_vendor` WHERE organization_id = "' +
             orgDelete._id +
             '"';
 
@@ -779,7 +779,7 @@ router.post('/deleteOrganization', function(req, res) {
                 config.bq_instance +
                 '.' +
                 config.bq_dataset +
-                '.user_vendor_roles_2` WHERE organization_id = "' +
+                '.user_vendor_roles` WHERE organization_id = "' +
                 orgDelete._id +
                 '"';
 
@@ -866,7 +866,7 @@ router.post('/editOrganization', function(req, res) {
 
   var editOrg = req.body;
 
-  var updateOrg = 'UPDATE `' + config.bq_instance + '.' + config.bq_dataset + '.vendors_2` SET organization = "' + editOrg.name + '" WHERE organization_id = "' + editOrg._id + '"';
+  var updateOrg = 'UPDATE `' + config.bq_instance + '.' + config.bq_dataset + '.vendors` SET organization = "' + editOrg.name + '" WHERE organization_id = "' + editOrg._id + '"';
 
   bigquery
     .createQueryStream(updateOrg)
@@ -958,7 +958,7 @@ router.post('/initGhost', function(req, res) {
   var orgObj = req.body;
   var viewExists = "-1";
 
-  var findViewRow = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor_2` WHERE user_id = "' + currentUser + '"';
+  var findViewRow = 'SELECT organization_id FROM `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor` WHERE user_id = "' + currentUser + '"';
 
   bigquery.createQueryStream(findViewRow)
     .on('error', function(err) {
@@ -972,10 +972,10 @@ router.post('/initGhost', function(req, res) {
     .on('end', function() {
 
       if (viewExists == "-1") {
-        var insertOrUpdateView = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor_2` (user_id, organization_id) VALUES ("' + currentUser + '", "' + orgObj._id + '")';
+        var insertOrUpdateView = 'INSERT INTO `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor` (user_id, organization_id) VALUES ("' + currentUser + '", "' + orgObj._id + '")';
       }
       else {
-        var insertOrUpdateView = 'UPDATE `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor_2` SET organization_id = "' + orgObj._id + '" WHERE user_id = "' + currentUser + '"';
+        var insertOrUpdateView = 'UPDATE `' + config.bq_instance + '.' + config.bq_dataset + '.user_current_vendor` SET organization_id = "' + orgObj._id + '" WHERE user_id = "' + currentUser + '"';
       }
 
       bigquery.createQueryStream(insertOrUpdateView)
