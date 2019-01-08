@@ -84,7 +84,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
       this.edited = (await this.route.snapshot.queryParamMap.get('edited')) === 'true';
       this.shared = (await this.route.snapshot.queryParamMap.get('shared')) === 'true';
 
-      const patt = new RegExp('google\.com\/(.)+\/reporting');
+      const patt = new RegExp('google\.com(.)*\/reporting');
       const replaceLink = this.report.link.replace(patt, 'google.com/embed/reporting');
       this.embedLink = this.sanitizer.bypassSecurityTrustResourceUrl(replaceLink);
       if (ghostStatus.status === '200') {
