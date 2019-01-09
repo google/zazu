@@ -1004,6 +1004,7 @@ router.post('/createReport', function(req, res) {
 
   if (extract_id === null) {
     res.send({ status: '500', message: 'Report creation error.' });
+    return;
   }
   var file_id = extract_id.toString().split('/')[1];
 
@@ -1014,6 +1015,7 @@ router.post('/createReport', function(req, res) {
 
     if (extract_ds_link === null) {
       res.send({ status: '500', message: 'Report creation error.' });
+      return;
     }
     var datasource_id = extract_ds_link.toString().split('/')[1];
 
