@@ -100,6 +100,7 @@ export class EditReportAccessComponent implements OnInit {
         googleIDs.push(<any>user.googleID);
       }
       this.permissions = await this.reportService.getPermissionsToRevoke(this.report, googleIDs);
+
     } catch (error) {}
     const dialogRef = this.dialog.open(RevokeAccessConfirmation, {
       data: { organization: org.name, report: this.report.name }
@@ -121,7 +122,7 @@ export class EditReportAccessComponent implements OnInit {
       });
       const reports = [];
       reports.push(this.report);
-      const status = <any>await this.reportService.deleteOrgAccess(reports, this.permissions, org, null);
+      const status = <any>await this.reportService.deleteOrgAccess(reports, this.permissions.permissions, org, null);
       if (status.status === '200') {
         if (this.organizationID) {
           await this.router.navigate(['../../../'], {
