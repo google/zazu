@@ -162,7 +162,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
       });
     } catch (error) {
       this.snackBar.open('Error: ' + error.message, 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
     }
   }
@@ -256,7 +256,7 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
             this.router.navigate(['../list'], { relativeTo: this.route, queryParams: { deletedOrg: this.organization.name } });
           } else {
             this.snackBar.open('Error' + status.message, 'Dismiss', {
-              duration: 5000
+              duration: 30000
             });
           }
         }
@@ -281,11 +281,11 @@ export class OrganizationDetailsComponent implements OnInit, OnDestroy {
           this.sending = false;
           this.deletingRule = false;
           this.snackBar.open('Data Rule "' + datarule.name + '" Successfully Deleted', 'Dismiss', {
-            duration: 5000
+            duration: 30000
           });
         } else {
           this.snackBar.open('Error' + status.message  , 'Dismiss', {
-            duration: 5000
+            duration: 30000
           });
         }
       }

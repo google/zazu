@@ -52,7 +52,7 @@ export class EditReportAccessComponent implements OnInit {
       this.selectedOrgID = await this.route.snapshot.queryParamMap.get('selectedOrg');
     } catch (error) {
       this.snackBar.open('Error: ' + error.message, 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
     }
   }
@@ -127,29 +127,29 @@ export class EditReportAccessComponent implements OnInit {
           await this.router.navigate(['../../../'], {
             relativeTo: this.route});
             this.snackBar.open('Removed access to \"' + this.report.name + '\" for \"' + org.name + '\"', 'Dismiss', {
-              duration: 5000
+              duration: 30000
             });
         } else {
           await this.router.navigate(['../../../list'], {
             relativeTo: this.route});
             this.snackBar.open('Removed access to \"' + this.report.name + '\" for \"' + org.name + '\"', 'Dismiss', {
-              duration: 5000
+              duration: 30000
             });
         }
       } else {
         this.sending = false;
          this.snackBar.open('Error: ' + status.message, 'Dismiss', {
-         duration: 5000
+         duration: 30000
        });
        }
 
     } catch (error) {
       this.sending = false;
       this.snackBar.open('Error occured', 'Dismiss', {
-        duration: 5000
+        duration: 30000
       });
       this.snackBar.open('Error: ' + error.message, 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
     }
   }

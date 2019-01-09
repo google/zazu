@@ -59,7 +59,7 @@ export class OrganizationListComponent implements OnInit, OnDestroy, AfterViewCh
       this.initialized = true;
       if (this.deletedOrg) {
         this.snackBar.open( this.deletedOrg + ' Successfully Deleted' , 'Dismiss', {
-          duration: 5000,
+          duration: 30000,
         });
       }
     } catch (e) {

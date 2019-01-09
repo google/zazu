@@ -86,7 +86,7 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
       this.dataruleFormGroup.reset();
     } catch (error) {
       this.snackBar.open('Error: ' + error.message, 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
 
     }
@@ -131,7 +131,7 @@ export class CreateNewDataruleComponent implements OnInit, OnDestroy {
     } else {
       this.sending = false;
       this.snackBar.open('Error: ' + ruleStatus.message, 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
     }
 

@@ -28,13 +28,13 @@ export class AllUserListComponent implements OnInit {
       this.deletedUser = await this.route.snapshot.queryParamMap.get('deletedUser');
       if (this.deletedUser) {
         this.snackBar.open( 'User "' +  this.deletedUser + '" Successfully Deleted' , 'Dismiss', {
-          duration: 5000,
+          duration: 30000,
         });
       }
       this.viewInitialized = true;
     } catch (error) {
       this.snackBar.open( 'Error: ' +  error.message  , 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
     }
   }

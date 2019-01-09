@@ -27,7 +27,7 @@ export class ReportService {
         raw =  status.reports;
       } else if (status.status === '400' ) {
         this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
-          duration: 5000,
+          duration: 30000,
         });
         throw new Error('Something went wrong, please try again');
       }
@@ -48,7 +48,7 @@ export class ReportService {
       return await reports;
     } catch (error) {
       this.snackBar.open(error.message, 'Dismiss', {
-        duration: 5000
+        duration: 30000
       });
       throw new Error(error.message);
     }
@@ -74,7 +74,7 @@ export class ReportService {
       }
     } catch (error) {
       this.snackBar.open(error.message, 'Dismiss', {
-        duration: 5000
+        duration: 30000
       });
       throw new Error(error.message);
     }
@@ -85,13 +85,13 @@ export class ReportService {
         return await status.reports;
       } else if (status.status === '400' ) {
         this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
-          duration: 5000,
+          duration: 30000,
         });
         throw new Error('Something went wrong, please try again');
       }
     } catch (error) {
       this.snackBar.open( error , 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
       throw error;
     }
@@ -144,7 +144,7 @@ export class ReportService {
         raw =  status.reports;
       } else if (status.status === '400' ) {
         this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
-          duration: 5000,
+          duration: 30000,
         });
         throw new Error('Something went wrong, please try again');
       }
@@ -168,7 +168,7 @@ export class ReportService {
       return reports;
     } catch (error) {
       this.snackBar.open(error, 'Dismiss', {
-        duration: 5000
+        duration: 30000
       });
     }
   }
@@ -200,7 +200,7 @@ export class ReportService {
         this.reports = allReports;
       } else if (status.status === '400' ) {
         this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
-          duration: 5000,
+          duration: 30000,
         });
         throw new Error('Something went wrong, please try again');
       }
@@ -281,7 +281,7 @@ export class ReportService {
       }
     } catch (error) {
       this.snackBar.open( error.message , 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
       throw new Error(error.message);
     }
@@ -293,13 +293,13 @@ export class ReportService {
         return await status.report;
       } else if (status.status === '400' ) {
         this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
-          duration: 5000,
+          duration: 30000,
         });
         throw new Error('Something went wrong, please try again');
       }
     } catch (error) {
       this.snackBar.open( error , 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
       throw error;
     }
@@ -326,7 +326,7 @@ export class ReportService {
       }
     } catch (error) {
       this.snackBar.open( error.message , 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
       throw new Error(error.message);
     }
@@ -338,13 +338,13 @@ export class ReportService {
         return await status.report;
       } else if (status.status === '400' ) {
         this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
-          duration: 5000,
+          duration: 30000,
         });
         throw new Error('Something went wrong, please try again');
       }
     } catch (error) {
       this.snackBar.open( error , 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
       throw error;
     }
@@ -365,13 +365,13 @@ export class ReportService {
         return await status.report;
       } else if (status.status === '400' ) {
         this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
-          duration: 5000,
+          duration: 30000,
         });
         throw new Error('Something went wrong, please try again');
       }
     } catch (error) {
       this.snackBar.open( error , 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
       throw error;
     }

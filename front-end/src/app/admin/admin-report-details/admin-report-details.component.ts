@@ -91,7 +91,7 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
         this.viewInitialized = await true;
       } else {
         this.snackBar.open('Failed to initialize view: ' + ghostStatus.message, 'Dismiss', {
-          duration: 5000,
+          duration: 30000,
         });
       }
     } catch (e) {
@@ -126,13 +126,13 @@ export class AdminReportDetailsComponent implements OnInit, OnDestroy {
         const status = await <any>this.reportService.deleteReport(this.report, this.permissions.permissions);
         if (await status.status === '200') {
           this.snackBar.open('Report Deleted: ' + this.report.name, 'Dismiss', {
-            duration: 5000,
+            duration: 30000,
           });
           this.router.navigate(['../../'], { relativeTo: this.route, queryParams: { selectedOrg: this.selectedOrgID} });
         } else {
           this.deleting = false;
           this.snackBar.open('Error: ' + status.message, 'Dismiss', {
-            duration: 5000,
+            duration: 30000,
           });
         }
       }

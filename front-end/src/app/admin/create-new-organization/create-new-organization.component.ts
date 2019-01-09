@@ -47,7 +47,7 @@ export class CreateNewOrganizationComponent implements OnInit {
       });
     } catch (error) {
       this.snackBar.open('Error: ' + error.message, 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
     }
   }
@@ -95,7 +95,7 @@ export class CreateNewOrganizationComponent implements OnInit {
       } else {
         this.sending = false;
         this.snackBar.open('Error: ' + newOrg.message, 'Dismiss', {
-          duration: 5000,
+          duration: 30000,
         });
       }
     } catch (error) {

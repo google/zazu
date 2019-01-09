@@ -74,7 +74,7 @@ export class EditUserComponent implements OnInit {
     } catch (error) {
       this.ngOnInit();
       this.snackBar.open('Error: ' + error.message, 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
     }
   }
@@ -223,7 +223,7 @@ export class EditUserComponent implements OnInit {
           redirectStatus = false;
           this.sending = false;
           this.snackBar.open('Error: ' + statusRemove.message, 'Dismiss', {
-            duration: 5000
+            duration: 30000
           });
         }
 
@@ -236,7 +236,7 @@ export class EditUserComponent implements OnInit {
           redirectStatus = false;
           this.sending = false;
           this.snackBar.open('Error: ' + statusAdd.message, 'Dismiss', {
-            duration: 5000
+            duration: 30000
           });
         }
         if (redirectStatus) {
@@ -260,14 +260,14 @@ export class EditUserComponent implements OnInit {
         } else {
           this.sending = false;
           this.snackBar.open('Error: ' + status.message, 'Dismiss', {
-            duration: 5000
+            duration: 30000
           });
         }
       }
     } catch (error) {
       this.sending = false;
       this.snackBar.open('Error: ' + error.message, 'Dismiss', {
-        duration: 5000
+        duration: 30000
       });
     }
   }

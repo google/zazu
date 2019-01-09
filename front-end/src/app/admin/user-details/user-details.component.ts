@@ -123,18 +123,18 @@ export class UserDetailsComponent implements OnInit {
             this.sending = false;
             this.router.navigate(['../../'], { relativeTo: this.route, queryParams: { deletedUser: this.user.firstName } });
             this.snackBar.open('User Deleted: ' + this.user.firstName + ' ' + this.user.lastName, 'Dismiss', {
-              duration: 5000
+              duration: 30000
             });
           } else {
             this.snackBar.open('Derror ' + status.message, 'Dismiss', {
-              duration: 5000
+              duration: 30000
             });
           }
         }
       });
     } catch (error) {
       this.snackBar.open('Error: ' + error.message, 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
     }
   }

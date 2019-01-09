@@ -114,7 +114,7 @@ export class ViewerOrganizationListComponent implements OnInit, OnDestroy,  Afte
       }
     } catch (error) {
       this.snackBar.open('Error: ' + error.message, 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
     }
   }

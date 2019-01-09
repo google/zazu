@@ -67,7 +67,7 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
       this.initiated = true;
     } catch (error) {
       this.snackBar.open('Error: ' + error.message, 'Dismiss', {
-        duration: 5000
+        duration: 30000
       });
     }
   }
@@ -115,14 +115,14 @@ export class EditDataRuleComponent implements OnInit, OnDestroy {
       } else {
         this.sending = false;
         this.snackBar.open('Error: ' + status.message, 'Dismiss', {
-          duration: 5000
+          duration: 30000
         });
       }
 
     } catch (error) {
       this.sending = false;
       this.snackBar.open('Error: ' + error.message, 'Dismiss', {
-        duration: 5000
+        duration: 30000
       });
     }
   }

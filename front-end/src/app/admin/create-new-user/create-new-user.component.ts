@@ -67,7 +67,7 @@ export class CreateNewUserComponent implements OnInit {
       }
     } catch (error) {
       this.snackBar.open('Error: ' + error.message, 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
     }
   }
@@ -121,7 +121,7 @@ export class CreateNewUserComponent implements OnInit {
       } else {
         this.sending = false;
         this.snackBar.open('Error: ' + userStatus.message, 'Dismiss', {
-          duration: 5000
+          duration: 30000
         });
       }
     } catch (error) {

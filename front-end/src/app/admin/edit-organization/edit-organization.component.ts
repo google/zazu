@@ -69,7 +69,7 @@ export class EditOrganizationComponent implements OnInit {
       }
     } catch (error) {
       this.snackBar.open('Error: ' + error.message, 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
     }
   }
@@ -127,16 +127,16 @@ export class EditOrganizationComponent implements OnInit {
       } else {
         this.sending = false;
         this.snackBar.open('Error: ' + status.message, 'Dismiss', {
-          duration: 5000
+          duration: 30000
         });
       }
     } catch (error) {
       this.sending = false;
       this.snackBar.open('Error: ' + error.error.error.message, 'Dismiss', {
-        duration: 5000
+        duration: 30000
       });
       this.snackBar.open('Error: ' + error.message, 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
     }
   }

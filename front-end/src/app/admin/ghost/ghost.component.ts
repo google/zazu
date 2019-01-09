@@ -38,7 +38,7 @@ export class GhostComponent implements OnInit, OnDestroy {
       this.companyName = call.companyName;
     } catch (error) {
       this.snackBar.open('Error: ' + error.message, 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
     }
   }

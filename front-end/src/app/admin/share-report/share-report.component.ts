@@ -76,7 +76,7 @@ export class ShareReportComponent implements OnInit {
       this.cdRef.detectChanges();
     } catch (error) {
       this.snackBar.open('Error: ' + error.message, 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
     }
   }
@@ -183,13 +183,13 @@ export class ShareReportComponent implements OnInit {
       } else {
         this.sending = false;
         this.snackBar.open('Error: ' + status.message, 'Dismiss', {
-          duration: 5000
+          duration: 30000
         });
       }
     } catch (error) {
       this.sending = false;
       this.snackBar.open('Error occured', 'Dismiss', {
-        duration: 5000
+        duration: 30000
       });
     }
   }

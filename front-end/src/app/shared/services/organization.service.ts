@@ -35,7 +35,7 @@ export class OrganizationService {
       }
     } catch (error) {
       this.snackBar.open( error.message , 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
       throw new Error(error.message);
     }
@@ -48,13 +48,13 @@ export class OrganizationService {
         return await status.organization;
       } else if (status.status === '400' ) {
         this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
-          duration: 5000,
+          duration: 30000,
         });
         throw new Error('Something went wrong, please try again');
       }
     } catch (error) {
       this.snackBar.open( error , 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
       throw error;
     }
@@ -81,7 +81,7 @@ export class OrganizationService {
       }
     } catch (error) {
       this.snackBar.open( error.message , 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
       throw new Error(error.message);
     }
@@ -108,7 +108,7 @@ export class OrganizationService {
       }
     } catch (error) {
       this.snackBar.open( error.message , 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
       throw new Error(error.message);
     }
@@ -120,13 +120,13 @@ export class OrganizationService {
         return await status.organization;
       } else if (status.status === '400' ) {
         this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
-          duration: 5000,
+          duration: 30000,
         });
         throw new Error('Something went wrong, please try again');
       }
     } catch (error) {
       this.snackBar.open( error , 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
       throw error;
     }

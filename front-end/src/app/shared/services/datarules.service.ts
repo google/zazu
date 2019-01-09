@@ -27,13 +27,13 @@ export class DatarulesService {
         return await status.rules;
       } else if (status.status === '400' ) {
         this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
-          duration: 5000,
+          duration: 30000,
         });
         throw new Error('Something went wrong, please try again');
       }
     } catch (error) {
       this.snackBar.open( error , 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
       throw error;
     }
@@ -52,13 +52,13 @@ export class DatarulesService {
         return await status.datasources;
       } else if (status.status === '400' ) {
         this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
-          duration: 5000,
+          duration: 30000,
         });
         throw new Error('Something went wrong, please try again');
       }
     } catch (error) {
       this.snackBar.open( error , 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
       throw error;
     }
@@ -74,13 +74,13 @@ export class DatarulesService {
         return await status.identifiers;
       } else if (status.status === '400' ) {
         this.snackBar.open( 'Something went wrong, please try again' , 'Dismiss', {
-          duration: 5000,
+          duration: 30000,
         });
         throw new Error('Something went wrong, please try again');
       }
     } catch (error) {
       this.snackBar.open( error , 'Dismiss', {
-        duration: 5000,
+        duration: 30000,
       });
       throw error;
     }
