@@ -1308,7 +1308,7 @@ router.post('/unshareReport', function(req, res) {
 
 });
 
-router.post('/rt', function(req, res) {
+router.post('/editReport', function(req, res) {
 
   var oldReport = req.body.oldReport;
   var newReport = req.body.newReport;
