@@ -86,12 +86,21 @@ module.exports = {
                   console.log('Saving permissions...');
 
                   var permObj = { fileId: file_id, googleID: permission.emailAddress, drivePermId: res.data.id };
-                  Permission.create(permObj, function(err3, res3) {
-                    if (err3) {
-                      console.log(err3);
-                      callback(1);
-                    }
+                  Permission.find(permObj, function(err4, docs4) {
+                     if (err4) {
+                       console.log(err4);
+                       callback(1);
+                     }
+                     if (docs4.length === 0) {
+                       Permission.create(permObj, function(err3, res3) {
+                         if (err3) {
+                           console.log(err3);
+                           callback(1);
+                         }
+                       });
+                     }
                   });
+
                   if (res.status == 200) {
                     console.log('Sharing report finished...');
                     callback(0);
