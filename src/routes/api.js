@@ -998,23 +998,32 @@ router.post('/createReport', function(req, res) {
   newReport.createdBy = req.session.passport.user.id;
   newReport.created_at = new Date();
 
+  var orgList = newReport.organizations;
+  var file_url = newReport.link;
+  var extract_id = file_url.match(/reporting\/.*\/page/i);
+
+  if (extract_id === null) {
+    res.send({ status: '500', message: 'Report creation error.' });
+  }
+  var file_id = extract_id.toString().split('/')[1];
+
+  var filesIdList = [file_id];
+  for (var i = 0; i < newReport.datasources.length; i++) {
+    var datasourcelink = newReport.datasources[i].datastudio;
+    var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
+
+    if (extract_ds_link === null) {
+      res.send({ status: '500', message: 'Report creation error.' });
+    }
+    var datasource_id = extract_ds_link.toString().split('/')[1];
+
+    filesIdList.push(datasource_id);
+  }
+
   Report.create(newReport, function(err, results) {
     if (err) {
       res.send({ status: '500', message: 'Report creation error.' });
     } else {
-      var orgList = newReport.organizations;
-      var file_url = newReport.link;
-      var extract_id = file_url.match(/reporting\/.*\/page/i);
-      var file_id = extract_id.toString().split('/')[1];
-
-      var filesIdList = [file_id];
-      for (var i = 0; i < newReport.datasources.length; i++) {
-        var datasourcelink = newReport.datasources[i].datastudio;
-        var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
-        var datasource_id = extract_ds_link.toString().split('/')[1];
-
-        filesIdList.push(datasource_id);
-      }
 
       User.find(function(err1, docs) {
         if (err1) {
