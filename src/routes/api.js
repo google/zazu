@@ -128,19 +128,10 @@ router.post('/createNewUser', function(req, res) {
           dataset.getMetadata().then(function(data) {
               var metadata = data[0];
               var new_accesses = metadata.access;
-              if (newUser.role === "admin") {
-                var newAccess =     {
-                      "role": "WRITER",
-                      "userByEmail": newUser.googleID
-                    }
-              }
-              else {
-                var newAccess =     {
-                      "role": "READER",
-                      "userByEmail": newUser.googleID
-                    }
-              }
-
+              var newAccess =     {
+                    "role": "READER",
+                    "userByEmail": newUser.googleID
+                  }
               new_accesses.push(newAccess);
               metadata.access = new_accesses;
 
@@ -215,7 +206,7 @@ router.post('/createNewUser', function(req, res) {
 
                                       var permsList = [{
                                           'type': 'user',
-                                          'role': 'reader',
+                                          'role': 'writer',
                                           'emailAddress': newUser.googleID
                                         }];
 
@@ -1041,17 +1032,26 @@ router.post('/createReport', function(req, res) {
           res.send({ status: '500', message: 'Retrieving users error.' });
         }
         var permsList = [];
-        console.log(docs);
+
         for (var i = 0; i < docs.length; i++) {
             for (var j = 0; j < orgList.length; j++) {
               for (var k = 0; k < docs[i].organizations.length; k++) {
                   if ((orgList[j]._id === docs[i].organizations[k]._id)&&(docs[i]._id.toString() !== req.session.passport.user.id)) {
-                    console.log(docs[i]);
-                    permsList.push({
-                        'type': 'user',
-                        'role': 'reader',
-                        'emailAddress': docs[i].googleID
-                      });
+                    if (docs[i].role === 'admin') {
+                      permsList.push({
+                          'type': 'user',
+                          'role': 'writer',
+                          'emailAddress': docs[i].googleID
+                        });
+                    }
+                    else {
+                      permsList.push({
+                          'type': 'user',
+                          'role': 'reader',
+                          'emailAddress': docs[i].googleID
+                        });
+                    }
+
                   }
               }
             }
@@ -1364,11 +1364,21 @@ router.post('/shareReport', function(req, res) {
       for (var i = 0; i < docs.length; i++) {
         for (var k = 0; k < docs[i].organizations.length; k++) {
                 if ((orgToShare._id === docs[i].organizations[k]._id)&&(docs[i]._id.toString() !== req.session.passport.user.id)) {
-                  permsList.push({
-                      'type': 'user',
-                      'role': 'reader',
-                      'emailAddress': docs[i].googleID
-                    });
+                  if (docs[i].role === 'admin') {
+                    permsList.push({
+                        'type': 'user',
+                        'role': 'writer',
+                        'emailAddress': docs[i].googleID
+                      });
+                  }
+                  else {
+                    permsList.push({
+                        'type': 'user',
+                        'role': 'reader',
+                        'emailAddress': docs[i].googleID
+                      });
+                  }
+
                 }
         }
       }
@@ -1405,11 +1415,20 @@ router.post('/shareReport', function(req, res) {
   else if (req.body.user) {
 
     var user = req.body.user;
-    var permsList = [{
-        'type': 'user',
-        'role': 'reader',
-        'emailAddress': user.googleID
-      }];
+    if (user.role === 'admin') {
+      var permsList = [{
+          'type': 'user',
+          'role': 'writer',
+          'emailAddress': user.googleID
+        }];
+    }
+    else {
+      var permsList = [{
+          'type': 'user',
+          'role': 'reader',
+          'emailAddress': user.googleID
+        }];
+    }
 
     var isCallSuccessful = false;
     for (var j = 0; j < filesIdList.length; j++) {
