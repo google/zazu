@@ -128,10 +128,19 @@ router.post('/createNewUser', function(req, res) {
           dataset.getMetadata().then(function(data) {
               var metadata = data[0];
               var new_accesses = metadata.access;
-              var newAccess =     {
-                    "role": "READER",
-                    "userByEmail": newUser.googleID
-                  }
+              if (newUser.role === "admin") {
+                var newAccess =     {
+                      "role": "WRITER",
+                      "userByEmail": newUser.googleID
+                    }
+              }
+              else {
+                var newAccess =     {
+                      "role": "READER",
+                      "userByEmail": newUser.googleID
+                    }
+              }
+
               new_accesses.push(newAccess);
               metadata.access = new_accesses;
 
