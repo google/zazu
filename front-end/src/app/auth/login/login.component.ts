@@ -19,12 +19,17 @@ export class LoginComponent implements OnInit {
 
   public auth2: any;
 
-  // public init() {
-    
-  // }
   public signIn(element) {
     this.auth2.attachClickHandler(element, {},
       (googleUser) => {
+
+        const status  = this.authService.login(googleUser.getAuthResponse().id_token);
+        // const status  = await this.authService.isLoggedIn();
+        // const call = await <any> this.http.get('../../assets/main-variables.json').toPromise();
+        // this.companyName = call.companyName;
+        // if (status.isLoggedIn) {
+        //   this.router.navigate(['../redirect'], {relativeTo: this.route});
+        // }
 
         let profile = googleUser.getBasicProfile();
         console.log('Token || ' + googleUser.getAuthResponse().id_token);
@@ -40,20 +45,15 @@ export class LoginComponent implements OnInit {
 
   async ngOnInit() {
     try {
-      // const status  = await this.authService.isLoggedIn();
-      // const call = await <any> this.http.get('../../assets/main-variables.json').toPromise();
-      // this.companyName = call.companyName;
-      // if (status.isLoggedIn) {
-      //   this.router.navigate(['../redirect'], {relativeTo: this.route});
-      // }
+
       gapi.load('auth2', () => {
-      this.auth2 = gapi.auth2.init({
-        client_id: '***************',
-        cookiepolicy: 'single_host_origin',
-        scope: 'profile email'
+        this.auth2 = gapi.auth2.init({
+          client_id: '********',
+          cookiepolicy: 'single_host_origin',
+          scope: 'profile email https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/bigquery https://www.googleapis.com/auth/cloud-platform'
+        });
+        this.signIn(document.getElementById('google-signin'));
       });
-      this.signIn(document.getElementById('google-signin'));
-    });
     } catch (error) {
       console.log(error);
     }

@@ -36,6 +36,21 @@ export class AuthService {
     }
   }
 
+  public async login(token): Promise<IsLoggedIn> {
+    const params = {
+      token: token
+    };
+    const status = await this.http.post<IsLoggedIn>('/api' + '/login', params).toPromise();
+    if ( status.status === '200') {
+      if (!this.userID) {
+        this.setUserID(status.user);
+      }
+      return await status ;
+    } else {
+      return status;
+    }
+  }
+
   /**
    * Method for checking the user's role
    */
