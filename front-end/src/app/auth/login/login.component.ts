@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
+declare const gapi: any;
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -15,15 +17,43 @@ export class LoginComponent implements OnInit {
 
   companyName;
 
+  public auth2: any;
+
+  // public init() {
+    
+  // }
+  public signIn(element) {
+    this.auth2.attachClickHandler(element, {},
+      (googleUser) => {
+
+        let profile = googleUser.getBasicProfile();
+        console.log('Token || ' + googleUser.getAuthResponse().id_token);
+        console.log('ID: ' + profile.getId());
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail());
+        //YOUR CODE HERE
+      }, (error) => {
+        alert(JSON.stringify(error, undefined, 2));
+      });
+  }
 
   async ngOnInit() {
     try {
-      const status  = await this.authService.isLoggedIn();
-      const call = await <any> this.http.get('../../assets/main-variables.json').toPromise();
-      this.companyName = call.companyName;
-      if (status.isLoggedIn) {
-        this.router.navigate(['../redirect'], {relativeTo: this.route});
-      }
+      // const status  = await this.authService.isLoggedIn();
+      // const call = await <any> this.http.get('../../assets/main-variables.json').toPromise();
+      // this.companyName = call.companyName;
+      // if (status.isLoggedIn) {
+      //   this.router.navigate(['../redirect'], {relativeTo: this.route});
+      // }
+      gapi.load('auth2', () => {
+      this.auth2 = gapi.auth2.init({
+        client_id: '***************',
+        cookiepolicy: 'single_host_origin',
+        scope: 'profile email'
+      });
+      this.signIn(document.getElementById('google-signin'));
+    });
     } catch (error) {
       console.log(error);
     }
