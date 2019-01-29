@@ -1608,9 +1608,8 @@ router.post('/editRule', (req, res) => {
 
 router.post('/login', (req, res) => {
 
-  console.log(req.body.token);
   const client = new OAuth2Client(config.google_client_id);
-  async function verify() {
+  async function verify(callback) {
     const ticket = await client.verifyIdToken({
         idToken: req.body.token,
         audience: config.google_client_id,  // Specify the CLIENT_ID of the app that accesses the backend
@@ -1619,28 +1618,41 @@ router.post('/login', (req, res) => {
     });
     const payload = ticket.getPayload();
     const userid = payload['sub'];
-    res.send({status: "200", message: "User successfully logged in."});
-
+    callback(payload.email);
     // If request specified a G Suite domain:
     //const domain = payload['hd'];
   }
-  verify().catch(res.send({status: "500", message: "User failed to log in."}));
+
+  try {
+    verify(function(userid){
+       User.findOne({ googleID: userid }, function(err, docs) {
+         if (err) {
+           res.send({ status: '500', message: 'User failed to log in.' });
+         }
+         config.access_token = req.body.token;
+         req.session.user = { id : userid, role: docs.role };
+       });
+       res.send({status: "200", message: "User successfully logged in."});
+    });
+  }
+  catch(error) {
+    res.send({status: "500", message: "User failed to log in. " + error});
+  }
 });
 
 // route middleware to make sure a user is logged in
 router.get('/isLoggedIn', (req, res) => {
   // if user is authenticated in the session, carry on
   if (
-    req.session.passport &&
-    req.session.passport.user.id &&
-    req.session.passport.user != ''
+    req.session.user.id &&
+    req.session.user != ''
   ) {
     res.send({
       status: '200',
       message: 'User logged in.',
       isLoggedIn: true,
-      role: req.session.passport.user.role,
-      user: req.session.passport.user.id
+      role: req.session.user.role,
+      user: req.session.user.id
     });
   } else {
     res.send({

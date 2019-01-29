@@ -32,8 +32,6 @@ const app = express();
 
 app.use(express.static('front-end/dist/front-end'));
 
-
-
 app.use(passport.initialize());
 app.use(passport.session());
 
