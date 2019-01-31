@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -12,8 +12,7 @@ declare const gapi: any;
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute, private http: HttpClient) { }
-
+  constructor(private authService: AuthService, private ngZone: NgZone, private router: Router, private route: ActivatedRoute, private http: HttpClient) { }
 
   companyName;
 
@@ -22,25 +21,18 @@ export class LoginComponent implements OnInit {
   public signIn(element) {
     this.auth2.attachClickHandler(element, {},
       (googleUser) => {
+           this.login(googleUser);
 
-        const status  = this.authService.login(googleUser.getAuthResponse().id_token);
-        // const status  = await this.authService.isLoggedIn();
-        // const call = await <any> this.http.get('../../assets/main-variables.json').toPromise();
-        // this.companyName = call.companyName;
-        // if (status.isLoggedIn) {
-        //   this.router.navigate(['../redirect'], {relativeTo: this.route});
-        // }
-
-        let profile = googleUser.getBasicProfile();
-        console.log('Token || ' + googleUser.getAuthResponse().id_token);
-        console.log('ID: ' + profile.getId());
-        console.log('Name: ' + profile.getName());
-        console.log('Image URL: ' + profile.getImageUrl());
-        console.log('Email: ' + profile.getEmail());
-        //YOUR CODE HERE
       }, (error) => {
         alert(JSON.stringify(error, undefined, 2));
       });
+  }
+
+  async login(googleUser) {
+    const loginuser  = await <any>this.authService.login(googleUser.getAuthResponse().id_token);
+    const call = <any> this.http.get('../../assets/main-variables.json').toPromise();
+    this.companyName = call.companyName;
+    this.ngZone.run(() => this.router.navigate(['../redirect'], {relativeTo: this.route})).then();
   }
 
   async ngOnInit() {
@@ -54,6 +46,7 @@ export class LoginComponent implements OnInit {
         });
         this.signIn(document.getElementById('google-signin'));
       });
+
     } catch (error) {
       console.log(error);
     }

@@ -19,6 +19,7 @@ export class RedirectComponent implements OnInit {
   async ngOnInit() {
 
     try {
+      
       this.status = await <any>this.authService.isLoggedIn();
       if (this.status.isLoggedIn) {
         if (this.status.status === '200') {

@@ -1609,6 +1609,7 @@ router.post('/editRule', (req, res) => {
 router.post('/login', (req, res) => {
 
   const client = new OAuth2Client(config.google_client_id);
+
   async function verify(callback) {
     const ticket = await client.verifyIdToken({
         idToken: req.body.token,
@@ -1618,6 +1619,7 @@ router.post('/login', (req, res) => {
     });
     const payload = ticket.getPayload();
     const userid = payload['sub'];
+
     callback(payload.email);
     // If request specified a G Suite domain:
     //const domain = payload['hd'];
@@ -1626,26 +1628,42 @@ router.post('/login', (req, res) => {
   try {
     verify(function(userid){
        User.findOne({ googleID: userid }, function(err, docs) {
+
          if (err) {
            res.send({ status: '500', message: 'User failed to log in.' });
          }
          config.access_token = req.body.token;
          req.session.user = { id : userid, role: docs.role };
+         console.log(req.session);
+         res.send({
+           status: '200',
+           message: 'User logged in.',
+           isLoggedIn: true,
+           role: req.session.user.role,
+           user: req.session.user.id
+         });
        });
-       res.send({status: "200", message: "User successfully logged in."});
-    });
+     });
   }
   catch(error) {
-    res.send({status: "500", message: "User failed to log in. " + error});
+    res.send({
+      status: '403',
+      message: 'User not logged in.',
+      isLoggedIn: false,
+      role: 'None',
+      user: 'None'
+    });
   }
 });
 
 // route middleware to make sure a user is logged in
 router.get('/isLoggedIn', (req, res) => {
+
   // if user is authenticated in the session, carry on
   if (
-    req.session.user.id &&
-    req.session.user != ''
+    req.session.user &&
+    req.session.user != '' &&
+    req.session.user.id
   ) {
     res.send({
       status: '200',
