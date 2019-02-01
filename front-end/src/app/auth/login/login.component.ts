@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, NgZone } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { environment } from '../../../environments/environment.prod'
 
 declare const gapi: any;
 
@@ -40,7 +41,7 @@ export class LoginComponent implements OnInit {
 
       gapi.load('auth2', () => {
         this.auth2 = gapi.auth2.init({
-          client_id: '*********',
+          client_id: environment.google_client_id,
           cookiepolicy: 'single_host_origin',
           scope: 'profile email https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/bigquery https://www.googleapis.com/auth/cloud-platform'
         });

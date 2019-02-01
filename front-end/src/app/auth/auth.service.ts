@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { UserService } from '../shared/services/user.service';
 
+declare const gapi: any;
+
 interface IsLoggedIn {
   status: string;
   message: string;
@@ -87,7 +89,12 @@ export class AuthService {
 
   public async logout() {
     const status = await (<any>this.http.get('/api' + '/logout').toPromise());
+
     if (status.status === '200') {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+      });
       this.router.navigate(['/logout']);
     }
   }
