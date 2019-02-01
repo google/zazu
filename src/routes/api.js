@@ -15,7 +15,6 @@ limitations under the License.*/
 const express = require('express');
 const router = express.Router();
 
-const passport = require('passport');
 const BigQuery = require('@google-cloud/bigquery');
 
 const bigquery = new BigQuery();
@@ -954,7 +953,7 @@ router.get('/getReportByUser/:id', function(req, res) {
 router.post('/initGhost', function(req, res) {
   console.log('initialize ghost');
 
-  var currentUser = req.session.passport.user.id;
+  var currentUser = req.session.user.id;
   var orgObj = req.body;
   var viewExists = "-1";
 
@@ -995,7 +994,7 @@ router.post('/initGhost', function(req, res) {
 router.post('/createReport', function(req, res) {
 
   var newReport = req.body;
-  newReport.createdBy = req.session.passport.user.id;
+  newReport.createdBy = req.session.user.id;
   newReport.created_at = new Date();
 
   var orgList = newReport.organizations;
@@ -1036,7 +1035,7 @@ router.post('/createReport', function(req, res) {
         for (var i = 0; i < docs.length; i++) {
             for (var j = 0; j < orgList.length; j++) {
               for (var k = 0; k < docs[i].organizations.length; k++) {
-                  if ((orgList[j]._id === docs[i].organizations[k]._id)&&(docs[i]._id.toString() !== req.session.passport.user.id)) {
+                  if ((orgList[j]._id === docs[i].organizations[k]._id)&&(docs[i]._id.toString() !== req.session.user.id)) {
                     if (docs[i].role === 'admin') {
                       permsList.push({
                           'type': 'user',
@@ -1134,7 +1133,7 @@ router.post('/getPermissionsToRevoke', function(req, res) {
           for (var j = 0; j < orgList.length; j++) {
             for (var k = 0; k < docs[i].organizations.length; k++) {
 
-              if ((orgList[j]._id === docs[i].organizations[k]._id)&&(docs[i]._id.toString() !== req.session.passport.user.id)) {
+              if ((orgList[j]._id === docs[i].organizations[k]._id)&&(docs[i]._id.toString() !== req.session.user.id)) {
                   usersToRevoke.push(docs[i].googleID);
                }
             }
@@ -1363,7 +1362,7 @@ router.post('/shareReport', function(req, res) {
 
       for (var i = 0; i < docs.length; i++) {
         for (var k = 0; k < docs[i].organizations.length; k++) {
-                if ((orgToShare._id === docs[i].organizations[k]._id)&&(docs[i]._id.toString() !== req.session.passport.user.id)) {
+                if ((orgToShare._id === docs[i].organizations[k]._id)&&(docs[i]._id.toString() !== req.session.user.id)) {
                   if (docs[i].role === 'admin') {
                     permsList.push({
                         'type': 'user',
@@ -1606,20 +1605,71 @@ router.post('/editRule', (req, res) => {
      });
 });
 
+router.post('/login', (req, res) => {
+
+  const client = new OAuth2Client(config.google_client_id);
+
+  async function verify(callback) {
+    const ticket = await client.verifyIdToken({
+        idToken: req.body.token,
+        audience: config.google_client_id,  // Specify the CLIENT_ID of the app that accesses the backend
+        // Or, if multiple clients access the backend:
+        //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+    });
+    const payload = ticket.getPayload();
+    const userid = payload['sub'];
+
+    callback(payload.email);
+    // If request specified a G Suite domain:
+    //const domain = payload['hd'];
+  }
+
+  try {
+    verify(function(userid){
+       User.findOne({ googleID: userid }, function(err, docs) {
+
+         if (err) {
+           res.send({ status: '500', message: 'User failed to log in.' });
+         }
+         config.access_token = req.body.token;
+         req.session.user = { id : userid, role: docs.role };
+
+         res.send({
+           status: '200',
+           message: 'User logged in.',
+           isLoggedIn: true,
+           role: req.session.user.role,
+           user: req.session.user.id
+         });
+       });
+     });
+  }
+  catch(error) {
+    res.send({
+      status: '403',
+      message: 'User not logged in.',
+      isLoggedIn: false,
+      role: 'None',
+      user: 'None'
+    });
+  }
+});
+
 // route middleware to make sure a user is logged in
 router.get('/isLoggedIn', (req, res) => {
+
   // if user is authenticated in the session, carry on
   if (
-    req.session.passport &&
-    req.session.passport.user.id &&
-    req.session.passport.user != ''
+    req.session.user &&
+    req.session.user != '' &&
+    req.session.user.id
   ) {
     res.send({
       status: '200',
       message: 'User logged in.',
       isLoggedIn: true,
-      role: req.session.passport.user.role,
-      user: req.session.passport.user.id
+      role: req.session.user.role,
+      user: req.session.user.id
     });
   } else {
     res.send({
@@ -1666,14 +1716,13 @@ router.get('/listIdentifiers/:name', function(req, res) {
 router.get('/getRole', (req, res) => {
   // if user is authenticated in the session, carry on
   if (
-    req.session.passport &&
-    req.session.passport.user.role &&
-    req.session.passport.user != ''
+    req.session.user.role &&
+    req.session.user != ''
   ) {
     res.send({
       status: '200',
       message: 'User logged in.',
-      role: req.session.passport.user.role
+      role: req.session.user.role
     });
   } else {
     res.send({ status: '403', message: 'User not logged in.', role: 'none' });
