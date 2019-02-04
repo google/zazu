@@ -1007,79 +1007,92 @@ router.post('/createReport', function(req, res) {
   }
   var file_id = extract_id.toString().split('/')[1];
 
-  var filesIdList = [file_id];
-  for (var i = 0; i < newReport.datasources.length; i++) {
-    var datasourcelink = newReport.datasources[i].datastudio;
-    var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
-
-    if (extract_ds_link === null) {
-      res.send({ status: '500', message: 'Report creation error.' });
-      return;
+  Report.find({ link: { $regex: "*" + file_id + "*" } }, function(err1, docs1){
+    if (err1) {
+      res.send({ status: '500', message: 'Report creation error. ' + err1 });
     }
-    var datasource_id = extract_ds_link.toString().split('/')[1];
 
-    filesIdList.push(datasource_id);
-  }
+    if (docs1.length == 0) {
+      
+      var filesIdList = [file_id];
+      for (var i = 0; i < newReport.datasources.length; i++) {
+        var datasourcelink = newReport.datasources[i].datastudio;
+        var extract_ds_link = datasourcelink.match(/datasources\/.*/i);
 
-  Report.create(newReport, function(err, results) {
-    if (err) {
-      res.send({ status: '500', message: 'Report creation error.' });
-    } else {
-
-      User.find(function(err1, docs) {
-        if (err1) {
-          res.send({ status: '500', message: 'Retrieving users error.' });
+        if (extract_ds_link === null) {
+          res.send({ status: '500', message: 'Report creation error.' });
+          return;
         }
-        var permsList = [];
+        var datasource_id = extract_ds_link.toString().split('/')[1];
 
-        for (var i = 0; i < docs.length; i++) {
-            for (var j = 0; j < orgList.length; j++) {
-              for (var k = 0; k < docs[i].organizations.length; k++) {
-                  if ((orgList[j]._id === docs[i].organizations[k]._id)&&(docs[i]._id.toString() !== req.session.user.id)) {
-                    if (docs[i].role === 'admin') {
-                      permsList.push({
-                          'type': 'user',
-                          'role': 'writer',
-                          'emailAddress': docs[i].googleID
-                        });
-                    }
-                    else {
-                      permsList.push({
-                          'type': 'user',
-                          'role': 'reader',
-                          'emailAddress': docs[i].googleID
-                        });
-                    }
+        filesIdList.push(datasource_id);
+      }
 
-                  }
-              }
+      Report.create(newReport, function(err, results) {
+        if (err) {
+          res.send({ status: '500', message: 'Report creation error.' });
+        } else {
+
+          User.find(function(err1, docs) {
+            if (err1) {
+              res.send({ status: '500', message: 'Retrieving users error.' });
             }
-          }
+            var permsList = [];
 
-       for (var j = 0; j < filesIdList.length; j++) {
-            utils.shareReport(filesIdList[j], permsList, 0, function(ret) {
-                    if (ret === 1) {
-                      console.log("Report sharing failed.");
-                      res.send({status: "500", message: "Sharing report error."});
-                    }
-                    else {
-                      console.log("Report shared successfully.");
-                    }
-            });
+            for (var i = 0; i < docs.length; i++) {
+                for (var j = 0; j < orgList.length; j++) {
+                  for (var k = 0; k < docs[i].organizations.length; k++) {
+                      if ((orgList[j]._id === docs[i].organizations[k]._id)&&(docs[i]._id.toString() !== req.session.user.id)) {
+                        if (docs[i].role === 'admin') {
+                          permsList.push({
+                              'type': 'user',
+                              'role': 'writer',
+                              'emailAddress': docs[i].googleID
+                            });
+                        }
+                        else {
+                          permsList.push({
+                              'type': 'user',
+                              'role': 'reader',
+                              'emailAddress': docs[i].googleID
+                            });
+                        }
 
-          }
-
-        for (var i = 0; i < newReport.organizations.length; i++) {
-            Organization.updateOne({ _id: newReport.organizations[i]._id }, { $inc: { reportsCount: 1 } }, function(err1, res1) {
-              if (err1) {
-                res.send({ status: '500', message: err1.message });
+                      }
+                  }
+                }
               }
-            });
+
+           for (var j = 0; j < filesIdList.length; j++) {
+                utils.shareReport(filesIdList[j], permsList, 0, function(ret) {
+                        if (ret === 1) {
+                          console.log("Report sharing failed.");
+                          res.send({status: "500", message: "Sharing report error."});
+                        }
+                        else {
+                          console.log("Report shared successfully.");
+                        }
+                });
+
+              }
+
+            for (var i = 0; i < newReport.organizations.length; i++) {
+                Organization.updateOne({ _id: newReport.organizations[i]._id }, { $inc: { reportsCount: 1 } }, function(err1, res1) {
+                  if (err1) {
+                    res.send({ status: '500', message: err1.message });
+                  }
+                });
+            }
+            res.send({ status: '200', results: results._id });
+          });
         }
-        res.send({ status: '200', results: results._id });
       });
     }
+    else {
+      res.send({ status: '500', message: 'Report creation error: The report already exists in the system. Share instead.' });
+    }
   });
+
 });
 
 router.post('/getPermissionsToRevokeUser', function(req, res) {
