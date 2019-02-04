@@ -30,37 +30,76 @@ var Permission = require('../models/permission');
 
 var utils = require('../utilities/utils');
 var config = require('../utilities/config');
+var log_severity = require('../utilities/log_config');
+
+const {Logging} = require('@google-cloud/logging');
+const logging = new Logging({
+  projectId: config.bq_instance
+});
+
+const log_resource = {
+  type: 'logging_sink',
+  name: "Zazu logs",
+  description: "Sink for all Zazu logs",
+  labels: {
+    project_id: config.bq_instance
+  }
+};
+
+const log = logging.log('zazu');
+
+async function logger(endpoint, log_severity, log_message, user_id) {
+  const log_entry = log.entry(
+    {resource: log_resource},
+    {
+      endpoint: endpoint,
+      severity: log_severity,
+      log_message: log_message,
+      user_id: user_id
+    });
+  await log.write(log_entry);
+}
 
 var _ = require('lodash');
 
 router.get('/logout', function(req, res) {
+  var user_id = req.session.user.id;
+  logger('/logout', log_severity.info, 'User logged out', user_id);
   req.session.destroy();
   res.send({ status: '200', message: 'User logged out' });
 });
 
 router.get('/getAllUsers', function(req, res) {
+  var user_id = req.session.user.id;
   User.find(function(err, docs) {
     if (err) {
-      res.send({ status: '500', message: 'User list retrieved error.' });
+      logger('/getAllUsers', log_severity.error, 'User list retrieved error.', user_id);
+      res.send({ status: '500', message: 'User list retrieved error.' });   
     }
+    logger('/getAllUsers', log_severity.info, '', user_id);
     res.send(docs);
   });
 });
 
 router.get('/getAllUsers/:id', function(req, res) {
+  var user_id = req.session.user.id;
   User.findOne({ _id: req.params.id }, function(err, docs) {
     if (err) {
+      logger('/getAllUsers/'+req.params.id, log_severity.error, 'User list retrieved error.', user_id);
       res.send({ status: '500', message: 'User list retrieved error.' });
     }
+    logger('/getAllUsers/'+req.params.id, log_severity.info, '', user_id);
     res.send(docs);
   });
 });
 
 router.get('/getUsersByOrganization/:id', function(req, res) {
+  var user_id = req.session.user.id;
   var usersByOrg = [];
 
   User.find(function(err, docs) {
     if (err) {
+      logger('/getUsersByOrganization/'+req.params.id, log_severity.error, 'User list retrieved error.', user_id);
       res.send({ status: '500', message: 'User list retrieved error.' });
     } else {
       for (var i = 0; i < docs.length; i++) {
@@ -76,13 +115,14 @@ router.get('/getUsersByOrganization/:id', function(req, res) {
           }
         }
       }
+      logger('/getUsersByOrganization/'+req.params.id, log_severity.info, '', user_id);
       res.send(usersByOrg);
     }
   });
 });
 
 router.post('/createNewUser', function(req, res) {
-
+  var user_id = req.session.user.id;
   var newUser = req.body;
   var dataset = bigquery.dataset(config.bq_views_dataset);
 
@@ -101,6 +141,7 @@ router.post('/createNewUser', function(req, res) {
 
   cloudResourceManager.projects.getIamPolicy(request, function(err, response) {
       if (err) {
+        logger('/createNewUser', log_severity.error, err.message, user_id);
         res.send({ status: '500', message: err.message });
       }
       var roleList = response.data.bindings;
@@ -121,7 +162,7 @@ router.post('/createNewUser', function(req, res) {
 
       cloudResourceManager.projects.setIamPolicy(newrequest, function(err1, response1) {
         if (err1) {
-          console.log(err1);
+          logger('/createNewUser', log_severity.error, err1.message, user_id);
           res.send({ status: '500', message: err1.message });
         }
 
@@ -138,6 +179,7 @@ router.post('/createNewUser', function(req, res) {
 
               dataset.setMetadata(metadata, function(err1, metadata, apiResponse1) {
                 if (err1) {
+                  logger('/createNewUser', log_severity.error, err1.message, user_id);
                   res.send({ status: '500', message: err1.message });
                 }
                 else {
@@ -146,6 +188,7 @@ router.post('/createNewUser', function(req, res) {
                       var newUserId = results._id;
 
                       if (err) {
+                        logger('/createNewUser', log_severity.error, err.message, user_id);
                         res.send({ status: '500', message: err.message });
                       } else {
                         var addNewUser =
@@ -164,6 +207,7 @@ router.post('/createNewUser', function(req, res) {
                         bigquery
                           .createQueryStream(addNewUser)
                           .on('error', function(err) {
+                            logger('/createNewUser', log_severity.error, err.message, user_id);
                             res.send({ status: '500', message: err.message });
                           })
                           .on('data', function(data) {})
@@ -179,12 +223,14 @@ router.post('/createNewUser', function(req, res) {
                               bigquery
                                 .createQueryStream(findAllOrgs)
                                 .on('error', function(err) {
+                                  logger('/createNewUser', log_severity.error, err.message, user_id);
                                   res.send({ status: '500', message: err.message });
                                 })
                                 .on('data', function(data) {
 
                                   Report.find({ organizations : { $elemMatch: { _id: data.organization_id } } }, function(err1, docs1) {
                                       if (err1) {
+                                        logger('/createNewUser', log_severity.error, err1.message, user_id);
                                         res.send({ status: '500', message: err1.message });
                                       }
                                       var filesIdList = [];
@@ -228,11 +274,11 @@ router.post('/createNewUser', function(req, res) {
                                             utils.shareReport(filesIdList[j], permsList, 0, req.session.user.access_token, function(ret) {
                                                   if (ret === 1) {
                                                     failedReport(this);
-                                                    console.log("Report sharing failed.");
+                                                    logger('/createNewUser', log_severity.error, 'Error sharing report ' + filesIdList[j], user_id);
                                                   }
                                                   else {
                                                     createdReport();
-                                                    console.log("Report shared successfully.");
+                                                    logger('/createNewUser', log_severity.info, 'Report ' + filesIdList[j] + ' shared successfully', user_id);
                                                   }
                                           });
                                         }
@@ -253,6 +299,7 @@ router.post('/createNewUser', function(req, res) {
                                         bigquery
                                           .createQueryStream(addNewAdminVendor)
                                           .on('error', function(err) {
+                                            logger('/createNewUser', log_severity.error, err.message, user_id);
                                             res.send({ status: '500', message: err.message });
                                           })
                                           .on('data', function(data) {})
@@ -263,6 +310,7 @@ router.post('/createNewUser', function(req, res) {
 
                                         Organization.find(function(err1, docs) {
                                           if (err1) {
+                                            logger('/createNewUser', log_severity.error, err1.message, user_id);
                                             res.send({ status: '500', message: err1.message });
                                           } else {
                                             for (var i = 0; i < docs.length; i++) {
@@ -274,8 +322,10 @@ router.post('/createNewUser', function(req, res) {
                                               { organizations: orgList },
                                               function(err2, res2) {
                                                 if (err2) {
+                                                  logger('/createNewUser', log_severity.error, err2.message, user_id);
                                                   res.send({ status: '500', message: err2.message });
                                                 } else {
+                                                  logger('/createNewUser', log_severity.info, '', user_id);
                                                   res.send({ status: '200', userID: newUserId });
                                                 }
                                               }
@@ -300,6 +350,7 @@ router.post('/createNewUser', function(req, res) {
                                   { $inc: { usersCount: 1 } },
                                   function(err1, res1) {
                                     if (err1) {
+                                      logger('/createNewUser', log_severity.error, err1.message, user_id);
                                       res.send({ status: '500', message: err1.message });
                                     }
                                   }
@@ -317,6 +368,7 @@ router.post('/createNewUser', function(req, res) {
                                 { $inc: { usersCount: 1 } },
                                 function(err1, res1) {
                                   if (err1) {
+                                    logger('/createNewUser', log_severity.error, err1.message, user_id);
                                     res.send({ status: '500', message: err1.message });
                                   }
                                 }
@@ -325,11 +377,13 @@ router.post('/createNewUser', function(req, res) {
                               bigquery
                                 .createQueryStream(findOrgIds)
                                 .on('error', function(err) {
+                                  logger('/createNewUser', log_severity.error, err.message, user_id);
                                   res.send({ status: '500', message: err.message });
                                 })
                                 .on('data', function(data) {
                                   Report.find({ organizations : { $elemMatch: { _id: data.organization_id } } }, function(err1, docs1) {
                                       if (err1) {
+                                        logger('/createNewUser', log_severity.error, err1.message, user_id);
                                         res.send({ status: '500', message: err1.message });
                                       }
                                       var filesIdList = [];
@@ -373,11 +427,11 @@ router.post('/createNewUser', function(req, res) {
                                           utils.shareReport(filesIdList[j], permsList, 0, req.session.user.access_token, function(ret) {
                                                   if (ret === 1) {
                                                     failedReport(this);
-                                                    console.log("Report sharing failed.");
+                                                    logger('/createNewUser', log_severity.error, 'Error sharing report ' + filesIdList[j], user_id);
                                                   }
                                                   else {
                                                     createdReport();
-                                                    console.log("Report shared successfully.");
+                                                    logger('/createNewUser', log_severity.info, 'Report ' + filesIdList[j] + ' shared successfully', user_id);
                                                   }
                                           });
                                         }
@@ -397,12 +451,14 @@ router.post('/createNewUser', function(req, res) {
                                         bigquery
                                           .createQueryStream(addNewAdminVendor)
                                           .on('error', function(err) {
+                                            logger('/createNewUser', log_severity.error, err.message, user_id);
                                             res.send({ status: '500', message: err.message });
                                           })
                                           .on('data', function(data) {})
                                           .on('end', function() {});
                                       })
                                       .on('end', function() {
+                                        logger('/createNewUser', log_severity.info, '', user_id);
                                         res.send({ status: '200', userID: newUserId });
                                       });
                             }
@@ -420,12 +476,13 @@ router.post('/createNewUser', function(req, res) {
 });
 
 router.post('/deleteUser', function(req, res) {
-
+  var user_id = req.session.user.id;
   var deleteUser = req.body.user;
   var permissions = req.body.permissions;
 
   User.deleteOne({ _id: deleteUser._id }, function(err, results) {
     if (err) {
+      logger('/deleteUser', log_severity.error, err.message, user_id);
       res.send({ status: '500', message: err.message });
     } else {
       var deleteUserQuery =
@@ -440,6 +497,7 @@ router.post('/deleteUser', function(req, res) {
       bigquery
         .createQueryStream(deleteUserQuery)
         .on('error', function(err) {
+          logger('/deleteUser', log_severity.error, err.message, user_id);
           res.send({ status: '500', message: err.message });
         })
         .on('data', function(data) {})
@@ -456,6 +514,7 @@ router.post('/deleteUser', function(req, res) {
           bigquery
             .createQueryStream(deleteUserVendor)
             .on('error', function(err) {
+              logger('/deleteUser', log_severity.error, err.message, user_id);
               res.send({ status: '500', message: err.message });
             })
             .on('data', function(data) {})
@@ -472,6 +531,7 @@ router.post('/deleteUser', function(req, res) {
               bigquery
                 .createQueryStream(deleteCurrentVendorView)
                 .on('error', function(err) {
+                  logger('/deleteUser', log_severity.error, err.message, user_id);
                   res.send({ status: '500', message: err.message });
                 })
                 .on('data', function(data) {})
@@ -483,6 +543,7 @@ router.post('/deleteUser', function(req, res) {
                         { $inc: { usersCount: -1 } },
                         function(err1, res1) {
                           if (err1) {
+                            logger('/deleteUser', log_severity.error, err1.message, user_id);
                             res.send({ status: '500', message: err1.message });
                           }
                         }
@@ -496,7 +557,7 @@ router.post('/deleteUser', function(req, res) {
                   }
 
                   var createdReport = _.after(filesIdList.length, () => {
-                    res.send({ status: '200', results: results._id });
+                    res.send({ status: '200', deletedUser: deletedUser._id });
                   });
 
                   var failed = false;
@@ -510,14 +571,14 @@ router.post('/deleteUser', function(req, res) {
                   utils.shareReport(filesIdList, permissions, 1, req.session.user.access_token, function(ret) {
                     if (ret === 1) {
                       failedReport(this);
-                      console.log("Report sharing failed.");
+                      logger('/createNewUser', log_severity.error, 'Error sharing report ' + filesIdList, user_id);
                     }
                     else {
                       createdReport();
-                      console.log("Report shared successfully.");
+                      logger('/createNewUser', log_severity.info, 'Report ' + filesIdList + ' shared successfully', user_id);
                     }
                   });
-
+                  logger('/deleteUser', log_severity.info, 'Deleted user: ' + deleteUser._id, user_id);
                   res.send({status: "200", deletedUser: deleteUser._id });
 
                 });
@@ -528,7 +589,7 @@ router.post('/deleteUser', function(req, res) {
 });
 
 router.post('/editUserRemoveOrgs', function(req, res) {
-
+  var user_id = req.session.user.id;
   var oldUser = req.body.oldUser;
   var editUser = req.body.newUser;
   var deleteCount = 0;
@@ -538,6 +599,7 @@ router.post('/editUserRemoveOrgs', function(req, res) {
   bigquery
     .createQueryStream(updateUser)
     .on('error', function(err) {
+      logger('/editUserRemoveOrgs', log_severity.error, err.message, user_id);
       res.send({ status: '500', message: err.message });
     })
     .on('data', function(data) {})
@@ -569,18 +631,20 @@ router.post('/editUserRemoveOrgs', function(req, res) {
       bigquery
         .createQueryStream(deleteUserVendor)
         .on('error', function(err) {
+          logger('/editUserRemoveOrgs', log_severity.error, err.message, user_id);
             res.send({ status: '500', message: err.message });
         })
         .on('data', function(data) {
         })
         .on('end', function() {
+            logger('/editUserRemoveOrgs', log_severity.info, '', user_id);
             res.send({ status: '200', message: 'Removed org access successfully.' });
         })
     });
 });
 
 router.post('/editUserAddOrgs', function(req, res) {
-
+  var user_id = req.session.user.id;
   var oldUser = req.body.oldUser;
   var editUser = req.body.newUser;
 
@@ -607,6 +671,7 @@ router.post('/editUserAddOrgs', function(req, res) {
         bigquery
           .createQueryStream(findOrgIds)
           .on('error', function(err) {
+              logger('/editUserAddOrgs', log_severity.error, err.message, user_id);
               res.send({ status: '500', message: err.message });
           })
           .on('data', function(data) {
@@ -625,6 +690,7 @@ router.post('/editUserAddOrgs', function(req, res) {
               bigquery
                   .createQueryStream(insertRow)
                   .on('error', function(err) {
+                      logger('/editUserAddOrgs', log_severity.error, err.message, user_id);
                       res.send({ status: '500', message: err.message });
                   })
                   .on('data', function(data) {
@@ -636,33 +702,40 @@ router.post('/editUserAddOrgs', function(req, res) {
           .on('end', function(){
             User.updateOne({ _id: editUser._id }, editUser, function(err, result) {
               if (err) {
+                logger('/editUserAddOrgs', log_severity.error, err.message, user_id);
                 res.send({
                   status: '500',
                   message: 'User failed to update.'
                 });
               }
+              logger('/editUserAddOrgs', log_severity.info, '', user_id);
               res.send({ status: '200', results: result });
             });
           });
 });
 
 router.get('/getAllOrganizations', function(req, res) {
+  var user_id = req.session.user.id;
   Organization.find(function(err, docs) {
     if (err) {
+      logger('/getAllOrganizations', log_severity.error, result, user_id);
       res.send({
         status: '500',
         message: 'Organization list retrieved error.'
       });
     }
+    logger('/getAllOrganizations', log_severity.info, '', user_id);
     res.send(docs);
   });
 });
 
 router.get('/getAllOrganizationsWithNoDetails', function(req, res) {
+  var user_id = req.session.user.id;
   var orgsNoDetails = [];
 
   Organization.find(function(err, docs) {
     if (err) {
+      logger('/getAllOrganizationsWithNoDetails', log_severity.error, err.message, user_id);
       res.send({
         status: '500',
         message: 'Organization list retrieved error.'
@@ -672,23 +745,28 @@ router.get('/getAllOrganizationsWithNoDetails', function(req, res) {
     for (var i = 0; i < docs.length; i++) {
       orgsNoDetails.push({ _id: docs[i]._id, name: docs[i].name });
     }
+    logger('/getAllOrganizationsWithNoDetails', log_severity.info, '', user_id);
     res.send(orgsNoDetails);
   });
 });
 
 router.get('/getOrganizationById/:orgid', function(req, res) {
+  var user_id = req.session.user.id;
   Organization.findOne({ _id: req.params.orgid }, function(err, docs) {
     if (err) {
+      logger('/getOrganizationById/'+req.params.orgid, log_severity.error, err.message, user_id);
       res.send({
         status: '500',
         message: 'Organization list retrieved error.'
       });
     }
+    logger('/getOrganizationById/'+req.params.orgid, log_severity.info, '', user_id);
     res.send(docs);
   });
 });
 
 router.post('/createOrganization', function(req, res) {
+  var user_id = req.session.user.id;
   var newOrg = req.body;
   newOrg.reportsCount = 0;
   newOrg.usersCount = 0;
@@ -698,6 +776,7 @@ router.post('/createOrganization', function(req, res) {
     var newOrgId = results._id;
 
     if (err) {
+      logger('/createOrganization', log_severity.error, err.message, user_id);
       res.send({ status: '500', message: err.message });
     } else {
       var insertRow =
@@ -714,6 +793,7 @@ router.post('/createOrganization', function(req, res) {
       bigquery
         .createQueryStream(insertRow)
         .on('error', function(err) {
+          logger('/createOrganization', log_severity.error, err.message, user_id);
           res.send({ status: '500', message: err.message });
         })
         .on('data', function(data) {})
@@ -729,6 +809,7 @@ router.post('/createOrganization', function(req, res) {
           bigquery
             .createQueryStream(getRetailerIds)
             .on('error', function(err) {
+              logger('/createOrganization', log_severity.error, err.message, user_id);
               res.send({ status: '500', message: err.message });
             })
             .on('data', function(data) {
@@ -747,6 +828,7 @@ router.post('/createOrganization', function(req, res) {
               bigquery
                 .createQueryStream(addRetailerAccesses)
                 .on('error', function(err) {
+                  logger('/createOrganization', log_severity.error, err.message, user_id);
                   res.send({ status: '500', message: err.message });
                 })
                 .on('data', function(data) {})
@@ -760,7 +842,7 @@ router.post('/createOrganization', function(req, res) {
                     },
                     function(err, res1) {
                       if (err) {
-                        console.log(err);
+                        logger('/createOrganization', log_severity.error, err.message, user_id);
                         res.send({ status: '500', message: err.message });
                       }
                     }
@@ -768,6 +850,7 @@ router.post('/createOrganization', function(req, res) {
                 });
             })
             .on('end', function() {
+              logger('/createOrganization', log_severity.info, '', user_id);
               res.send({ status: '200', orgID: newOrgId });
             });
         });
@@ -776,10 +859,12 @@ router.post('/createOrganization', function(req, res) {
 });
 
 router.post('/deleteOrganization', function(req, res) {
+  var user_id = req.session.user.id;
   var orgDelete = req.body;
 
   Organization.deleteOne({ _id: orgDelete._id }, function(err, results) {
     if (err) {
+      logger('/createOrganization', log_severity.error, err.message, user_id);
       res.send({ status: '500', message: err.message });
     } else {
       var delOrg =
@@ -794,6 +879,7 @@ router.post('/deleteOrganization', function(req, res) {
       bigquery
         .createQueryStream(delOrg)
         .on('error', function(err) {
+          logger('/createOrganization', log_severity.error, err.message, user_id);
           res.send({ status: '500', message: err.message });
         })
         .on('data', function(data) {})
@@ -810,6 +896,7 @@ router.post('/deleteOrganization', function(req, res) {
           bigquery
             .createQueryStream(delCurrentVendorView)
             .on('error', function(err) {
+              logger('/createOrganization', log_severity.error, err.message, user_id);
               res.send({ status: '500', message: err.message });
             })
             .on('data', function(data) {})
@@ -826,6 +913,7 @@ router.post('/deleteOrganization', function(req, res) {
               bigquery
                 .createQueryStream(delUserVendor)
                 .on('error', function(err) {
+                  logger('/createOrganization', log_severity.error, err.message, user_id);
                   res.send({ status: '500', message: err.message });
                 })
                 .on('data', function(data) {})
@@ -847,16 +935,18 @@ router.post('/deleteOrganization', function(req, res) {
                     },
                     function(err, res1) {
                       if (err) {
-                        console.log(err);
+                        logger('/createOrganization', log_severity.error, err.message, user_id);
                         res.send({ status: '500', message: err.message });
                       } else {
 
                           Rule.find({ organization: { name: orgDelete.name, _id: orgDelete._id } }, function(err3, res3) {
                             if (err3) {
+                              logger('/createOrganization', log_severity.error, err3.message, user_id);
                               res.send({ status: '500', message: err3.message });
                             }
 
                             if (res3.length == 0) {
+                              logger('/createOrganization', log_severity.info, '', user_id);
                               res.send({ status: '200', orgID: orgDelete._id });
                             }
 
@@ -877,15 +967,18 @@ router.post('/deleteOrganization', function(req, res) {
                               bigquery
                                 .createQueryStream(updateRow)
                                 .on('error', function(err) {
+                                  logger('/createOrganization', log_severity.error, err.message, user_id);
                                   res.send({ status: '500', message: err.message });
                                 })
                                 .on('data', function(data) {})
                                 .on('end', function() {
                                   Rule.deleteOne({ _id: curr_rule._id }, function(err, results) {
                                     if (err) {
+                                      logger('/createOrganization', log_severity.error, err.message, user_id);
                                       res.send({ status: '500', message: err.message });
                                     }
                                     if (i === res3.length) {
+                                      logger('/createOrganization', log_severity.info, '', user_id);
                                       res.send({ status: '200', orgID: orgDelete._id });
                                     }
                                   });
@@ -903,7 +996,7 @@ router.post('/deleteOrganization', function(req, res) {
 });
 
 router.post('/editOrganization', function(req, res) {
-
+  var user_id = req.session.user.id;
   var editOrg = req.body;
 
   var updateOrg = 'UPDATE `' + config.bq_instance + '.' + config.bq_dataset + '.vendors` SET organization = "' + editOrg.name + '" WHERE organization_id = "' + editOrg._id + '"';
@@ -911,14 +1004,17 @@ router.post('/editOrganization', function(req, res) {
   bigquery
     .createQueryStream(updateOrg)
     .on('error', function(err) {
+      logger('/editOrganization', log_severity.error, err.message, user_id);
       res.send({ status: '500', message: err.message });
     })
     .on('data', function(data) {})
     .on('end', function() {
       Organization.updateOne({ _id : editOrg._id }, editOrg, function(err, result) {
         if (err) {
+          logger('/editOrganization', log_severity.error, err.message, user_id);
           res.send({ status: '500', message: 'Organization failed to update.' });
         } else {
+          logger('/editOrganization', log_severity.info, '', user_id);
           res.send({ status: '200', result: result });
         }
       });
@@ -926,29 +1022,37 @@ router.post('/editOrganization', function(req, res) {
 });
 
 router.get('/getAllReports', function(req, res) {
+  var user_id = req.session.user.id;
   Report.find(function(err, docs) {
     if (err) {
+      logger('/getAllReports', log_severity.error, err.message, user_id);
       res.send({ status: '500', message: 'Report list retrieved error.' });
     } else {
+      logger('/getAllReports', log_severity.info, '', user_id);
       res.send(docs);
     }
   });
 });
 
 router.get('/getAllReports/:id', function(req, res) {
+  var user_id = req.session.user.id;
   Report.findOne({ _id: req.params.id }, function(err, docs) {
     if (err) {
+      logger('/getAllReports/'+req.params.id, log_severity.error, err.message, user_id);
       res.send({ status: '500', message: 'Report list retrieved error.' });
     }
+    logger('/getAllReports/'+req.params.id, log_severity.info, '', user_id);
     res.send(docs);
   });
 });
 
 router.get('/getReportByOrganization/:id', function(req, res) {
+  var user_id = req.session.user.id;
   var reportsByOrg = [];
 
   Report.find(function(err, docs) {
     if (err) {
+      logger('/getReportByOrganization/'+req.params.id, log_severity.error, err.message, user_id);
       res.send({ status: '500', message: 'Report list retrieved error.' });
     } else {
       for (var i = 0; i < docs.length; i++) {
@@ -958,21 +1062,25 @@ router.get('/getReportByOrganization/:id', function(req, res) {
           }
         }
       }
+      logger('/getReportByOrganization/'+req.params.id, log_severity.info, '', user_id);
       res.send(reportsByOrg);
     }
   });
 });
 
 router.get('/getReportByUser/:id', function(req, res) {
+  var user_id = req.session.user.id;
   var reportsByUser = [];
   User.find({ _id: req.params.id }, function(err, docs) {
     if (err) {
+      logger('/getReportByUser/'+req.params.id, log_severity.error, err.message, user_id);
       res.send({ status: '500', message: 'User retrieved error.' });
     } else {
       var userOrgList = docs[0].organizations;
 
       Report.find(function(err, reports) {
         if (err) {
+          logger('/getReportByUser/'+req.params.id, log_severity.error, err.message, user_id);
           res.send({ status: '500', message: 'Report list retrieved error.' });
         } else {
           for (var i = 0; i < reports.length; i++) {
@@ -984,6 +1092,7 @@ router.get('/getReportByUser/:id', function(req, res) {
               }
             }
           }
+          logger('/getReportByUser/'+req.params.id, log_severity.info, '', user_id);
           res.send(reportsByUser);
         }
       });
@@ -992,7 +1101,7 @@ router.get('/getReportByUser/:id', function(req, res) {
 });
 
 router.post('/initGhost', function(req, res) {
-  console.log('initialize ghost');
+  var user_id = req.session.user.id;
 
   var currentUser = req.session.user.id;
   var orgObj = req.body;
@@ -1002,6 +1111,7 @@ router.post('/initGhost', function(req, res) {
 
   bigquery.createQueryStream(findViewRow)
     .on('error', function(err) {
+        logger('/getReportByUser', log_severity.error, err.message, user_id);
         res.send({status: "500", message: err.message });
     })
     .on('data', function(row) {
@@ -1020,20 +1130,21 @@ router.post('/initGhost', function(req, res) {
 
       bigquery.createQueryStream(insertOrUpdateView)
         .on('error', function(err) {
+          logger('/getReportByUser', log_severity.error, err.message, user_id);
           res.send({status: "500", message: err.message });
         })
         .on('data', function(data) {
 
         })
         .on('end', function() {
-
+            logger('/getReportByUser', log_severity.info, '', user_id);
             res.send({ status: "200", message: "Successfully changed view."});
         });
       });
 });
 
 router.post('/createReport', function(req, res) {
-
+  var user_id = req.session.user.id;
   var newReport = req.body;
   newReport.createdBy = req.session.user.id;
   newReport.created_at = new Date();
@@ -1043,6 +1154,7 @@ router.post('/createReport', function(req, res) {
   var extract_id = file_url.match(/reporting\/.*\/page/i);
 
   if (extract_id === null) {
+    logger('/createReport', log_severity.error, 'Report creation error', user_id);
     res.send({ status: '500', message: 'Report creation error.' });
     return;
   }
@@ -1128,14 +1240,13 @@ router.post('/createReport', function(req, res) {
                 utils.shareReport(filesIdList[j], permsList, 0, req.session.user.access_token, function(ret) {
                         if (ret === 1) {
                           failedReport(this);
-                          console.log("Report sharing failed.");
+                          logger('/createNewUser', log_severity.error, 'Error sharing report ' + filesIdList[j], user_id);
                         }
                         else {
                           createdReport();
-                          console.log("Report shared successfully.");
+                          logger('/createNewUser', log_severity.info, 'Report ' + filesIdList[j] + ' shared successfully', user_id);
                         }
                 });
-
               }
           });
         }
@@ -1149,19 +1260,21 @@ router.post('/createReport', function(req, res) {
 });
 
 router.post('/getPermissionsToRevokeUser', function(req, res) {
-
+    var user_id = req.session.user.id;
     var user = req.body;
 
     Permission.find({ googleID: user.googleID }, function(err, docs) {
       if (err) {
+        logger('/getPermissionsToRevokeUser', log_severity.error, err.message, user_id);
         res.send({ status: '500', message: err.message });
       }
+      logger('/getPermissionsToRevokeUser', log_severity.info, '', user_id);
       res.send({ status: '200', permissions: docs });
     });
 });
 
 router.post('/getPermissionsToRevoke', function(req, res) {
-
+  var user_id = req.session.user.id;
   var report = req.body.report;
 
   var permsList = [];
@@ -1191,6 +1304,7 @@ router.post('/getPermissionsToRevoke', function(req, res) {
 
   User.find(function(err1, docs) {
     if (err1) {
+      logger('/getPermissionsToRevoke', log_severity.error, err1.message, user_id);
       res.send({ status: '500', message: 'Report creation error.' });
     }
 
@@ -1210,12 +1324,13 @@ router.post('/getPermissionsToRevoke', function(req, res) {
     Permission.find({ fileId: { $in: filesIdList }, googleID: { $in: usersToRevoke } }, function(err, docs) {
 
       if (err) {
+        logger('/getPermissionsToRevoke', log_severity.error, err.message, user_id);
         res.send({ status: '500', message: 'Report creation error.' });
       }
       for (var l = 0; l < docs.length; l++) {
         permsList.push(docs[l]);
       }
-
+      logger('/getPermissionsToRevoke', log_severity.info, '', user_id);
       res.send({ status: '200', permissions: permsList });
     });
   });
@@ -1223,7 +1338,7 @@ router.post('/getPermissionsToRevoke', function(req, res) {
 });
 
 router.post('/getPermissionsToRevokeOrg', function(req, res) {
-
+  var user_id = req.session.user.id;
   var reports = req.body.reports;
   var user = req.body.users;
 
@@ -1248,19 +1363,20 @@ router.post('/getPermissionsToRevokeOrg', function(req, res) {
     Permission.find({ fileId: { $in: filesIdList }, googleID: user.googleID }, function(err, docs) {
 
       if (err) {
+        logger('/getPermissionsToRevokeOrg', log_severity.error, err.message, user_id);
         res.send({ status: '500', message: 'Report creation error.' });
       }
       for (var l = 0; l < docs.length; l++) {
         permsList.push(docs[l]);
       }
-
+      logger('/getPermissionsToRevokeOrg', log_severity.info, '', user_id);
       res.send({ status: '200', permissions: permsList });
     });
 
 });
 
 router.post('/deleteReport', function(req, res) {
-  console.log('delete report called');
+  var user_id = req.session.user.id;
   var deleteReport = req.body.report;
   var permissions = req.body.permissions;
   var filePermsList = [];
@@ -1312,17 +1428,17 @@ router.post('/deleteReport', function(req, res) {
       utils.shareReport(filesIdList, permissions, 1, req.session.user.access_token, function(ret) {
           if (ret === 1) {
             failedReport(this);
-            console.log("Report sharing failed.");
+            logger('/createNewUser', log_severity.error, 'Error sharing report ' + filesIdList, user_id);
           }
           else {
             createdReport();
-            console.log("Report shared successfully.");
+            logger('/createNewUser', log_severity.info, 'Report ' + filesIdList + ' shared successfully', user_id);
           }
       });
 });
 
 router.post('/unshareReport', function(req, res) {
-
+  var user_id = req.session.user.id;
   var unshareReports = req.body.reports;
   var permissions = req.body.permissions;
   var org = req.body.organization;
@@ -1361,11 +1477,11 @@ router.post('/unshareReport', function(req, res) {
     utils.shareReport(filesIdList, permissions, 1, req.session.user.access_token, function(ret) {
       if (ret === 1) {
         failedReport(this);
-        console.log("Report sharing failed.");
+        logger('/createNewUser', log_severity.error, 'Error sharing report ' + filesIdList, user_id);
       }
       else {
         createdReport();
-        console.log("Report shared successfully.");
+        logger('/createNewUser', log_severity.info, 'Report ' + filesIdList + ' shared successfully', user_id);
       }
     });
 
@@ -1377,15 +1493,18 @@ router.post('/unshareReport', function(req, res) {
           { $inc: { reportsCount: -1 } },
           function(err1, res1) {
             if (err1) {
+              logger('/unshareReport', log_severity.error, err1.message, user_id);
               res.send({ status: '500', message: err1.message });
             }
             for (var j = 0; j < unshareReports.length; j++) {
               Report.updateOne({ _id: unshareReports[j]._id }, { $pull: { organizations: org  } }, function(err2, res2) {
                 if (err2) {
+                  logger('/unshareReport', log_severity.error, err2.message, user_id);
                   res.send({ status: '500', message: err2.message });
                 }
               });
             }
+            logger('/unshareReport', log_severity.info, 'Report unsharing succeeded', user_id);
             res.send({ status: '200', message: "Report unshare succeeded." });
 
           }
@@ -1398,32 +1517,35 @@ router.post('/unshareReport', function(req, res) {
             { $inc: { usersCount: -1 } },
             function(err1, res1) {
               if (err1) {
+                logger('/unshareReport', log_severity.error, err1.message, user_id);
                 res.send({ status: '500', message: err1.message });
               }
             });
     }
+    logger('/unshareReport', log_severity.error, 'Report unsharing succeeded', user_id);
     res.send({ status: '200', message: "Report unshare succeeded." });
   }
 
 });
 
 router.post('/editReport', function(req, res) {
-
+  var user_id = req.session.user.id;
   var oldReport = req.body.oldReport;
   var newReport = req.body.newReport;
 
   Report.updateOne({ _id: oldReport._id }, newReport, function(err, results) {
     if (err) {
-
+      logger('/editReport', log_severity.error, err.message, user_id);
       res.send({status: "500", message: err.message });
     }
+    logger('/editReport', log_severity.info, 'Report edited successfully', user_id);
     res.send({status: "200", message: "Report edit succeeded." });
   });
 
 });
 
 router.post('/shareReport', function(req, res) {
-
+  var user_id = req.session.user.id;
   var reportsToShare = req.body.reports;
   var orgToShare = req.body.organization;
   var addedOrganizations = req.body.addedOrganizations;
@@ -1447,6 +1569,7 @@ router.post('/shareReport', function(req, res) {
   if (req.body.organization) {
     User.find(function(err1, docs) {
       if (err1) {
+        logger('/shareReport', log_severity.error, err1.message, user_id);
         res.send({ status: '500', message: 'Retrieving users error.' });
       }
       var permsList = [];
@@ -1489,24 +1612,27 @@ router.post('/shareReport', function(req, res) {
           utils.shareReport(filesIdList[j], permsList, 0, req.session.user.access_token, function(ret) {
                   if (ret === 1) {
                     failedReport(this);
-                    console.log("Report sharing failed.");
+                    logger('/createNewUser', log_severity.error, 'Error sharing report ' + filesIdList[j], user_id);
                   }
                   else {
                     createdReport();
-                    console.log("Report shared successfully.");
+                    logger('/createNewUser', log_severity.info, 'Report ' + filesIdList[j] + ' shared successfully', user_id);
                   }
           });
       }
 
       Organization.updateOne({ _id: orgToShare._id }, { $inc: { reportsCount: 1 } }, function(err1, res1) {
         if (err1) {
+          logger('/shareReport', log_severity.error, err1.message, user_id);
           res.send({ status: '500', message: err1.message });
         }
 
         Report.updateOne({ _id: reportsToShare[0]._id }, {   $push: { organizations: { _id: orgToShare._id, name: orgToShare.name } } }, function(err2, res2) {
           if (err2) {
+            logger('/shareReport', log_severity.error, err2.message, user_id);
             res.send({ status: '500', message: err2.message });
           }
+          logger('/shareReport', log_severity.error, 'Report shared successfully', user_id);
           res.send({ status: '200', results: "Report shared successfully." });
 
         });
@@ -1549,11 +1675,11 @@ router.post('/shareReport', function(req, res) {
           utils.shareReport(filesIdList[j], permsList, 0, req.session.user.access_token, function(ret) {
                   if (ret === 1) {
                     failedReport(this);
-                    console.log("Report sharing failed.");
+                    logger('/createNewUser', log_severity.error, 'Error sharing report ' + filesIdList[j], user_id);
                   }
                   else {
                     createdReport();
-                    console.log("Report shared successfully.");
+                    logger('/createNewUser', log_severity.info, 'Report ' + filesIdList[j] + ' shared successfully', user_id);
                   }
           });
     }
@@ -1564,6 +1690,7 @@ router.post('/shareReport', function(req, res) {
             { $inc: { usersCount: -1 } },
             function(err1, res1) {
               if (err1) {
+                logger('/shareReport', log_severity.error, err1.message, user_id);
                 isCallSuccessful = false;
                 res.send({ status: '500', message: err1.message });
               } else {
@@ -1572,6 +1699,7 @@ router.post('/shareReport', function(req, res) {
             });
     }
     if (isCallSuccessful) {
+      logger('/shareReport', log_severity.info, 'Report shared successfully', user_id);
       res.send({ status: '200', results: "Report shared successfully." });
     }
   }
@@ -1579,10 +1707,12 @@ router.post('/shareReport', function(req, res) {
 });
 
 router.get('/getDataRules/:orgid', function(req, res) {
+  var user_id = req.session.user.id;
   var rulesByOrg = [];
 
   Rule.find(function(err, docs) {
     if (err) {
+      logger('/getDataRules/'+req.params.orgid, log_severity.error, err.message, user_id);
       res.send({ status: '500', message: 'Rule list retrieved error.' });
     } else {
       for (var i = 0; i < docs.length; i++) {
@@ -1590,12 +1720,14 @@ router.get('/getDataRules/:orgid', function(req, res) {
           rulesByOrg.push(docs[i]);
         }
       }
+      logger('/getDataRules/'+req.params.orgid, log_severity.info, '', user_id);
       res.send(rulesByOrg);
     }
   });
 });
 
 router.post('/createRule', (req, res) => {
+  var user_id = req.session.user.id;
   var newRule = req.body;
   newRule.created_at = new Date();
 
@@ -1613,12 +1745,14 @@ router.post('/createRule', (req, res) => {
   bigquery
     .createQueryStream(updateRow)
     .on('error', function(err) {
+      logger('/createRule', log_severity.error, err.message, user_id);
       res.send({ status: '500', message: err.message });
     })
     .on('data', function(data) {})
     .on('end', function() {
       Rule.create(newRule, function(err, results) {
         if (err) {
+          logger('/createRule', log_severity.error, err.message, user_id);
           res.send({ status: '500', message: err.message });
         }
         Organization.updateOne(
@@ -1626,8 +1760,10 @@ router.post('/createRule', (req, res) => {
           { $inc: { datarulesCount: 1 } },
           function(err1, res1) {
             if (err1) {
+              logger('/createRule', log_severity.error, err1.message, user_id);
               res.send({ status: '500', message: err1.message });
             } else {
+              logger('/createRule', log_severity.info, 'Rule creation succeeded', user_id);
               res.send({
                 status: '200',
                 message: 'Rule creation succeeded.',
@@ -1641,6 +1777,7 @@ router.post('/createRule', (req, res) => {
 });
 
 router.post('/deleteRule', (req, res) => {
+  var user_id = req.session.user.id;
   var delRule = req.body;
   var updateRow = utils.buildPermissionsQuery(
     config.bq_instance,
@@ -1656,12 +1793,14 @@ router.post('/deleteRule', (req, res) => {
   bigquery
     .createQueryStream(updateRow)
     .on('error', function(err) {
+      logger('/deleteRule', log_severity.error, err.message, user_id);
       res.send({ status: '500', message: err.message });
     })
     .on('data', function(data) {})
     .on('end', function() {
       Rule.deleteOne({ _id: delRule._id }, function(err, results) {
         if (err) {
+          logger('/deleteRule', log_severity.error, err.message, user_id);
           res.send({ status: '500', message: err.message });
         }
         Organization.updateOne(
@@ -1669,8 +1808,10 @@ router.post('/deleteRule', (req, res) => {
           { $inc: { datarulesCount: -1 } },
           function(err1, res1) {
             if (err1) {
+              logger('/deleteRule', log_severity.error, err1.message, user_id);
               res.send({ status: '500', message: err1.message });
             } else {
+              logger('/deleteRule', log_severity.info, 'Rule deletion succeeded', user_id);
               res.send({
                 status: '200',
                 message: 'Rule deletion succeeded.',
@@ -1684,7 +1825,7 @@ router.post('/deleteRule', (req, res) => {
 });
 
 router.post('/editRule', (req, res) => {
-
+  var user_id = req.session.user.id;
   var oldRule = req.body.oldRule;
   var newRule = req.body.newRule;
 
@@ -1692,6 +1833,7 @@ router.post('/editRule', (req, res) => {
 
   bigquery.createQueryStream(updateRow)
      .on('error', function(err) {
+       logger('/editRule', log_severity.error, err.message, user_id);
         res.send({status: "500", message: err.message });
      })
      .on('data', function(data) {
@@ -1703,6 +1845,7 @@ router.post('/editRule', (req, res) => {
 
         bigquery.createQueryStream(secondUpdateRow)
           .on('error', function(err) {
+            logger('/editRule', log_severity.error, err.message, user_id);
             res.send({status: "500", message: err.message });
         })
         .on('data', function(data) {
@@ -1711,9 +1854,10 @@ router.post('/editRule', (req, res) => {
         .on('end', function() {
           Rule.updateOne({ _id: oldRule._id }, { name: newRule.name, identifier: newRule.identifier, condition: newRule.condition, token: newRule.token, organization: newRule.organization }, function(err, results) {
             if (err) {
+              logger('/editRule', log_severity.error, err.message, user_id);
               res.send({status: "500", message: err.message });
             }
-
+            logger('/editRule', log_severity.info, 'Rule edited successfully', user_id);
             res.send({status: "200", message: "Rule edited successfully." });
           })
         });
@@ -1744,10 +1888,10 @@ router.post('/login', (req, res) => {
        User.findOne({ googleID: userid }, function(err, docs) {
 
          if (err) {
+           logger('/login', log_severity.error, err.message, userid);
            res.send({ status: '500', message: 'User failed to log in.' });
          }
          req.session.user = { id : docs._id, role: docs.role, access_token: req.body.access_token };
-
          res.send({
            status: '200',
            message: 'User logged in.',
@@ -1759,6 +1903,7 @@ router.post('/login', (req, res) => {
      });
   }
   catch(error) {
+    logger('/login', log_severity.error, err.message, userid);
     res.send({
       status: '403',
       message: 'User not logged in.',
@@ -1778,6 +1923,7 @@ router.get('/isLoggedIn', (req, res) => {
     req.session.user != '' &&
     req.session.user.id
   ) {
+    logger('/isLoggedIn', log_severity.info, 'User is logged in', req.session.user.id);
     res.send({
       status: '200',
       message: 'User logged in.',
@@ -1786,6 +1932,7 @@ router.get('/isLoggedIn', (req, res) => {
       user: req.session.user.id
     });
   } else {
+    logger('/isLoggedIn', log_severity.error, 'User not logged in', '');
     res.send({
       status: '403',
       message: 'User not logged in.',
@@ -1799,22 +1946,26 @@ router.get('/isLoggedIn', (req, res) => {
 });
 
 router.get('/listDatasources', function(req, res) {
+  var user_id = req.session.user.id;
   var dsList = [];
   var dataset = bigquery.dataset(config.bq_views_dataset);
 
   dataset.getTables(function(err, tables) {
     if (err) {
+      logger('/listDatasources', log_severity.error, err.message, user_id);
       res.send({ status: '500', message: err.message });
     }
 
     for (var i = 0; i < tables.length; i++) {
       dsList.push(tables[i].id);
     }
+    logger('/listDatasources', log_severity.info, '', user_id);
     res.send(dsList);
   });
 });
 
 router.get('/listIdentifiers/:name', function(req, res) {
+  var user_id = req.session.user.id;
   var table_id = req.params.name;
   var dataset = bigquery.dataset(config.bq_views_dataset);
   var table = dataset.table(table_id);
@@ -1822,7 +1973,7 @@ router.get('/listIdentifiers/:name', function(req, res) {
   table.getMetadata().then(function(data) {
     var identifiers = data[0].schema.fields;
     identifiers.splice( identifiers.indexOf('perms'), 1 );
-
+    logger('/listIdentifiers/'+req.params.name, log_severity.info, '', user_id);
     res.send(identifiers);
   });
 });
@@ -1833,12 +1984,14 @@ router.get('/getRole', (req, res) => {
     req.session.user.role &&
     req.session.user != ''
   ) {
+    logger('/getRole', log_severity.info, 'User is logged in', req.session.user.id);
     res.send({
       status: '200',
       message: 'User logged in.',
       role: req.session.user.role
     });
   } else {
+    logger('/getRole', log_severity.error, 'User not logged in', '');
     res.send({ status: '403', message: 'User not logged in.', role: 'none' });
   }
 
