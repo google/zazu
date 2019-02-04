@@ -1013,7 +1013,7 @@ router.post('/createReport', function(req, res) {
     }
 
     if (docs1.length == 0) {
-      
+
       var filesIdList = [file_id];
       for (var i = 0; i < newReport.datasources.length; i++) {
         var datasourcelink = newReport.datasources[i].datastudio;
@@ -1645,7 +1645,7 @@ router.post('/login', (req, res) => {
            res.send({ status: '500', message: 'User failed to log in.' });
          }
          config.access_token = req.body.token;
-         req.session.user = { id : userid, role: docs.role };
+         req.session.user = { id : docs._id, role: docs.role };
 
          res.send({
            status: '200',
