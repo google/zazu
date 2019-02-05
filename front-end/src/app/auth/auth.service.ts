@@ -38,9 +38,10 @@ export class AuthService {
     }
   }
 
-  public async login(token): Promise<IsLoggedIn> {
+  public async login(id_token, access_token): Promise<IsLoggedIn> {
     const params = {
-      token: token
+      id_token: id_token,
+      access_token: access_token
     };
     const status = await this.http.post<IsLoggedIn>('/api' + '/login', params).toPromise();
     if ( status.status === '200') {

@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
   }
 
   async login(googleUser) {
-    const loginuser  = await <any>this.authService.login(googleUser.getAuthResponse().id_token);
+    const loginuser  = await <any>this.authService.login(googleUser.getAuthResponse().id_token, googleUser.getAuthResponse().access_token);
     const call = <any> this.http.get('../../assets/main-variables.json').toPromise();
     this.companyName = call.companyName;
     this.ngZone.run(() => this.router.navigate(['../redirect'], {relativeTo: this.route})).then();

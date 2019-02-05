@@ -55,11 +55,11 @@ module.exports = {
     return updateRow;
   },
 
-  shareReport: function(file_id, permissions, revoke, callback) {
+  shareReport: function(file_id, permissions, revoke, access_token, callback) {
     const oAuth2Client = new OAuth2Client();
 
     oAuth2Client.credentials = {
-      access_token: config.access_token
+      access_token: access_token
     };
 
     const drive = google.drive({ version: 'v3', auth: oAuth2Client });

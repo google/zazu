@@ -88,7 +88,7 @@ router.post('/createNewUser', function(req, res) {
   const oAuth2Client = new OAuth2Client();
 
   oAuth2Client.credentials = {
-     access_token: config.access_token
+     access_token: req.session.user.access_token
   };
 
   var request = {
@@ -211,7 +211,7 @@ router.post('/createNewUser', function(req, res) {
 
 
                                       for (var j = 0; j < filesIdList.length; j++) {
-                                          utils.shareReport(filesIdList[j], permsList, 0, function(ret) {
+                                          utils.shareReport(filesIdList[j], permsList, 0, req.session.user.access_token, function(ret) {
                                                   if (ret === 1) {
                                                     console.log("Report sharing failed.");
                                                     res.send({status: "500", message: "Sharing report error."});
@@ -343,7 +343,7 @@ router.post('/createNewUser', function(req, res) {
 
 
                                       for (var j = 0; j < filesIdList.length; j++) {
-                                          utils.shareReport(filesIdList[j], permsList, 0, function(ret) {
+                                          utils.shareReport(filesIdList[j], permsList, 0, req.session.user.access_token, function(ret) {
                                                   if (ret === 1) {
                                                     console.log("Report sharing failed.");
                                                     res.send({status: "500", message: "Sharing report error."});
@@ -467,7 +467,7 @@ router.post('/deleteUser', function(req, res) {
                     filesIdList.push(permissions[i].fileId);
                   }
 
-                  utils.shareReport(filesIdList, permissions, 1, function(ret) {
+                  utils.shareReport(filesIdList, permissions, 1, req.session.user.access_token, function(ret) {
                     if (ret === 1) {
                       console.log("Report sharing failed.");
                       res.send({status: "500", message: "Sharing report error."});
@@ -1064,7 +1064,7 @@ router.post('/createReport', function(req, res) {
               }
 
            for (var j = 0; j < filesIdList.length; j++) {
-                utils.shareReport(filesIdList[j], permsList, 0, function(ret) {
+                utils.shareReport(filesIdList[j], permsList, 0, req.session.user.access_token, function(ret) {
                         if (ret === 1) {
                           console.log("Report sharing failed.");
                           res.send({status: "500", message: "Sharing report error."});
@@ -1226,7 +1226,7 @@ router.post('/deleteReport', function(req, res) {
         filesIdList.push(datasource_id);
       }
 
-        utils.shareReport(filesIdList, permissions, 1, function(ret) {
+        utils.shareReport(filesIdList, permissions, 1, req.session.user.access_token, function(ret) {
           if (ret === 1) {
             console.log("Report sharing failed.");
             res.send({status: "500", message: "Sharing report error."});
@@ -1281,7 +1281,7 @@ router.post('/unshareReport', function(req, res) {
   }
 
   if (permissions.length > 0) {
-    utils.shareReport(filesIdList, permissions, 1, function(ret) {
+    utils.shareReport(filesIdList, permissions, 1, req.session.user.access_token, function(ret) {
       if (ret === 1) {
         console.log("Report sharing failed.");
         res.send({status: "500", message: "Sharing report error."});
@@ -1396,7 +1396,7 @@ router.post('/shareReport', function(req, res) {
       }
 
       for (var j = 0; j < filesIdList.length; j++) {
-          utils.shareReport(filesIdList[j], permsList, 0, function(ret) {
+          utils.shareReport(filesIdList[j], permsList, 0, req.session.user.access_token, function(ret) {
                   if (ret === 1) {
                     console.log("Report sharing failed.");
                     res.send({status: "500", message: "Sharing report error."});
@@ -1444,7 +1444,7 @@ router.post('/shareReport', function(req, res) {
 
     var isCallSuccessful = false;
     for (var j = 0; j < filesIdList.length; j++) {
-          utils.shareReport(filesIdList[j], permsList, 0, function(ret) {
+          utils.shareReport(filesIdList[j], permsList, 0, req.session.user.access_token, function(ret) {
                   if (ret === 1) {
                     console.log("Report sharing failed.");
                     res.send({status: '500', message: "Sharing report error."});
@@ -1624,7 +1624,7 @@ router.post('/login', (req, res) => {
 
   async function verify(callback) {
     const ticket = await client.verifyIdToken({
-        idToken: req.body.token,
+        idToken: req.body.id_token,
         audience: config.google_client_id,  // Specify the CLIENT_ID of the app that accesses the backend
         // Or, if multiple clients access the backend:
         //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
@@ -1644,8 +1644,7 @@ router.post('/login', (req, res) => {
          if (err) {
            res.send({ status: '500', message: 'User failed to log in.' });
          }
-         config.access_token = req.body.token;
-         req.session.user = { id : docs._id, role: docs.role };
+         req.session.user = { id : docs._id, role: docs.role, access_token: req.body.access_token };
 
          res.send({
            status: '200',
