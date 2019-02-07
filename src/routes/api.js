@@ -31,6 +31,8 @@ var Permission = require('../models/permission');
 var utils = require('../utilities/utils');
 var config = require('../utilities/config');
 
+var _ = require('lodash');
+
 router.get('/logout', function(req, res) {
   req.session.destroy();
   res.send({ status: '200', message: 'User logged out' });
@@ -1063,27 +1065,39 @@ router.post('/createReport', function(req, res) {
                 }
               }
 
-           for (var j = 0; j < filesIdList.length; j++) {
-                utils.shareReport(filesIdList[j], permsList, 0, req.session.user.access_token, function(ret) {
-                        if (ret === 1) {
-                          console.log("Report sharing failed.");
-                          res.send({status: "500", message: "Sharing report error."});
-                        }
-                        else {
-                          console.log("Report shared successfully.");
-                        }
-                });
-
-              }
-
-            for (var i = 0; i < newReport.organizations.length; i++) {
+           for (var i = 0; i < newReport.organizations.length; i++) {
                 Organization.updateOne({ _id: newReport.organizations[i]._id }, { $inc: { reportsCount: 1 } }, function(err1, res1) {
                   if (err1) {
                     res.send({ status: '500', message: err1.message });
                   }
                 });
             }
-            res.send({ status: '200', results: results._id });
+            
+           var createdReport = _.after(filesIdList.length, () => {
+             res.send({ status: '200', results: results._id });
+           });
+
+           var failed = false;
+           var failedReport = _.once((scope) => {
+             if (!scope.failed) {
+               scope.failed = true;
+               res.send({status: "500", message: "Sharing report error."});
+             }
+           });
+
+           for (var j = 0; j < filesIdList.length; j++) {
+                utils.shareReport(filesIdList[j], permsList, 0, req.session.user.access_token, function(ret) {
+                        if (ret === 1) {
+                          failedReport(this);
+                          console.log("Report sharing failed.");
+                        }
+                        else {
+                          createdReport();
+                          console.log("Report shared successfully.");
+                        }
+                });
+
+              }
           });
         }
       });
