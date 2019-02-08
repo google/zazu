@@ -211,14 +211,27 @@ router.post('/createNewUser', function(req, res) {
                                           'emailAddress': newUser.googleID
                                         }];
 
+                                        var createdReport = _.after(filesIdList.length, () => {
+                                          res.send({ status: '200', results: results._id });
+                                        });
 
-                                      for (var j = 0; j < filesIdList.length; j++) {
-                                          utils.shareReport(filesIdList[j], permsList, 0, req.session.user.access_token, function(ret) {
+                                        var failed = false;
+                                        var failedReport = _.once((scope) => {
+                                          if (!scope.failed) {
+                                            scope.failed = true;
+                                            res.send({status: "500", message: "Sharing report error."});
+                                          }
+                                        });
+
+
+                                        for (var j = 0; j < filesIdList.length; j++) {
+                                            utils.shareReport(filesIdList[j], permsList, 0, req.session.user.access_token, function(ret) {
                                                   if (ret === 1) {
+                                                    failedReport(this);
                                                     console.log("Report sharing failed.");
-                                                    res.send({status: "500", message: "Sharing report error."});
                                                   }
                                                   else {
+                                                    createdReport();
                                                     console.log("Report shared successfully.");
                                                   }
                                           });
@@ -343,14 +356,27 @@ router.post('/createNewUser', function(req, res) {
                                           'emailAddress': newUser.googleID
                                         }];
 
+                                      var createdReport = _.after(filesIdList.length, () => {
+                                          res.send({ status: '200', results: results._id });
+                                        });
+
+                                        var failed = false;
+                                        var failedReport = _.once((scope) => {
+                                          if (!scope.failed) {
+                                            scope.failed = true;
+                                            res.send({status: "500", message: "Sharing report error."});
+                                          }
+                                      });
+
 
                                       for (var j = 0; j < filesIdList.length; j++) {
                                           utils.shareReport(filesIdList[j], permsList, 0, req.session.user.access_token, function(ret) {
                                                   if (ret === 1) {
+                                                    failedReport(this);
                                                     console.log("Report sharing failed.");
-                                                    res.send({status: "500", message: "Sharing report error."});
                                                   }
                                                   else {
+                                                    createdReport();
                                                     console.log("Report shared successfully.");
                                                   }
                                           });
@@ -469,12 +495,25 @@ router.post('/deleteUser', function(req, res) {
                     filesIdList.push(permissions[i].fileId);
                   }
 
-                  utils.shareReport(filesIdList, permissions, 1, req.session.user.access_token, function(ret) {
-                    if (ret === 1) {
-                      console.log("Report sharing failed.");
+                  var createdReport = _.after(filesIdList.length, () => {
+                    res.send({ status: '200', results: results._id });
+                  });
+
+                  var failed = false;
+                  var failedReport = _.once((scope) => {
+                    if (!scope.failed) {
+                      scope.failed = true;
                       res.send({status: "500", message: "Sharing report error."});
                     }
+                  });
+
+                  utils.shareReport(filesIdList, permissions, 1, req.session.user.access_token, function(ret) {
+                    if (ret === 1) {
+                      failedReport(this);
+                      console.log("Report sharing failed.");
+                    }
                     else {
+                      createdReport();
                       console.log("Report shared successfully.");
                     }
                   });
@@ -1072,7 +1111,7 @@ router.post('/createReport', function(req, res) {
                   }
                 });
             }
-            
+
            var createdReport = _.after(filesIdList.length, () => {
              res.send({ status: '200', results: results._id });
            });
@@ -1240,34 +1279,46 @@ router.post('/deleteReport', function(req, res) {
         filesIdList.push(datasource_id);
       }
 
-        utils.shareReport(filesIdList, permissions, 1, req.session.user.access_token, function(ret) {
+      var createdReport = _.after(filesIdList.length, () => {
+        Report.deleteOne(deleteReport, function(err, results) {
+          if (err) {
+            res.send({ status: '500', message: 'Report deletion error.' });
+          } else {
+            for (var i = 0; i < deleteReport.organizations.length; i++) {
+                Organization.updateOne(
+                  { _id: deleteReport.organizations[i]._id },
+                  { $inc: { reportsCount: -1 } },
+                  function(err1, res1) {
+                    if (err1) {
+                      res.send({ status: '500', message: err1.message });
+                    } else {
+                      res.send({ status: '200', results: results._id });
+                    }
+                  }
+                );
+            }
+          }
+        });
+      });
+
+      var failed = false;
+      var failedReport = _.once((scope) => {
+        if (!scope.failed) {
+          scope.failed = true;
+          res.send({status: "500", message: "Sharing report error."});
+        }
+      });
+
+      utils.shareReport(filesIdList, permissions, 1, req.session.user.access_token, function(ret) {
           if (ret === 1) {
+            failedReport(this);
             console.log("Report sharing failed.");
-            res.send({status: "500", message: "Sharing report error."});
           }
           else {
+            createdReport();
             console.log("Report shared successfully.");
-            Report.deleteOne(deleteReport, function(err, results) {
-              if (err) {
-                res.send({ status: '500', message: 'Report deletion error.' });
-              } else {
-              for (var i = 0; i < deleteReport.organizations.length; i++) {
-              Organization.updateOne(
-                { _id: deleteReport.organizations[i]._id },
-                { $inc: { reportsCount: -1 } },
-                  function(err1, res1) {
-                  if (err1) {
-                    res.send({ status: '500', message: err1.message });
-                  } else {
-                    res.send({ status: '200', results: results._id });
-                  }
-                }
-              );
           }
-              }
-          });
-          }
-        })
+      });
 });
 
 router.post('/unshareReport', function(req, res) {
@@ -1294,13 +1345,26 @@ router.post('/unshareReport', function(req, res) {
     }
   }
 
+  var createdReport = _.after(filesIdList.length, () => {
+    res.send({ status: '200', results: results._id });
+  });
+
+  var failed = false;
+  var failedReport = _.once((scope) => {
+    if (!scope.failed) {
+      scope.failed = true;
+      res.send({status: "500", message: "Sharing report error."});
+    }
+  });
+
   if (permissions.length > 0) {
     utils.shareReport(filesIdList, permissions, 1, req.session.user.access_token, function(ret) {
       if (ret === 1) {
+        failedReport(this);
         console.log("Report sharing failed.");
-        res.send({status: "500", message: "Sharing report error."});
       }
       else {
+        createdReport();
         console.log("Report shared successfully.");
       }
     });
@@ -1409,13 +1473,26 @@ router.post('/shareReport', function(req, res) {
         }
       }
 
+      var createdReport = _.after(filesIdList.length, () => {
+        res.send({ status: '200', results: results._id });
+      });
+
+      var failed = false;
+      var failedReport = _.once((scope) => {
+        if (!scope.failed) {
+          scope.failed = true;
+          res.send({status: "500", message: "Sharing report error."});
+        }
+      });
+
       for (var j = 0; j < filesIdList.length; j++) {
           utils.shareReport(filesIdList[j], permsList, 0, req.session.user.access_token, function(ret) {
                   if (ret === 1) {
+                    failedReport(this);
                     console.log("Report sharing failed.");
-                    res.send({status: "500", message: "Sharing report error."});
                   }
                   else {
+                    createdReport();
                     console.log("Report shared successfully.");
                   }
           });
@@ -1456,16 +1533,27 @@ router.post('/shareReport', function(req, res) {
         }];
     }
 
-    var isCallSuccessful = false;
+    var createdReport = _.after(filesIdList.length, () => {
+      res.send({ status: '200', results: results._id });
+    });
+
+    var failed = false;
+    var failedReport = _.once((scope) => {
+      if (!scope.failed) {
+        scope.failed = true;
+        res.send({status: "500", message: "Sharing report error."});
+      }
+    });
+
     for (var j = 0; j < filesIdList.length; j++) {
           utils.shareReport(filesIdList[j], permsList, 0, req.session.user.access_token, function(ret) {
                   if (ret === 1) {
+                    failedReport(this);
                     console.log("Report sharing failed.");
-                    res.send({status: '500', message: "Sharing report error."});
                   }
                   else {
+                    createdReport();
                     console.log("Report shared successfully.");
-                    isCallSuccessful = true;
                   }
           });
     }
