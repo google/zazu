@@ -74,7 +74,7 @@ router.get('/getAllUsers', function(req, res) {
   User.find(function(err, docs) {
     if (err) {
       logger('/getAllUsers', log_severity.error, 'User list retrieved error.', user_id);
-      res.send({ status: '500', message: 'User list retrieved error.' });   
+      res.send({ status: '500', message: 'User list retrieved error.' });
     }
     logger('/getAllUsers', log_severity.info, '', user_id);
     res.send(docs);
@@ -1160,7 +1160,7 @@ router.post('/createReport', function(req, res) {
   }
   var file_id = extract_id.toString().split('/')[1];
 
-  Report.find({ link: { $regex: "*" + file_id + "*" } }, function(err1, docs1){
+  Report.find({ link: { $regex: "/*" + file_id + "*/" } }, function(err1, docs1){
     if (err1) {
       res.send({ status: '500', message: 'Report creation error. ' + err1 });
     }
