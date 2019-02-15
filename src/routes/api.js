@@ -1394,7 +1394,7 @@ router.post('/deleteReport', function(req, res) {
         filesIdList.push(datasource_id);
       }
 
-      var createdReport = _.after(filesIdList.length, () => {
+      var deletedReport = _.after(filesIdList.length, (deleteReport) => {
         Report.deleteOne(deleteReport, function(err, results) {
           if (err) {
             res.send({ status: '500', message: 'Deleting the report failed: ' + err.message });
@@ -1435,7 +1435,7 @@ router.post('/deleteReport', function(req, res) {
             logger('/createNewUser', log_severity.error, 'Error sharing report ' + filesIdList, user_id);
           }
           else {
-            createdReport();
+            deletedReport(deleteReport);
             logger('/createNewUser', log_severity.info, 'Report ' + filesIdList + ' shared successfully', user_id);
           }
       });
