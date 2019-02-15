@@ -73,8 +73,8 @@ router.get('/getAllUsers', function(req, res) {
   var user_id = req.session.user.id;
   User.find(function(err, docs) {
     if (err) {
-      logger('/getAllUsers', log_severity.error, 'User list retrieved error.', user_id);
-      res.send({ status: '500', message: 'User list retrieved error.' });
+      logger('/getAllUsers', log_severity.error, 'User list retrieved error: ' + err.message, user_id);
+      res.send({ status: '500', message: 'User list retrieved error: ' + err.message });
     }
     logger('/getAllUsers', log_severity.info, '', user_id);
     res.send(docs);
@@ -85,8 +85,8 @@ router.get('/getAllUsers/:id', function(req, res) {
   var user_id = req.session.user.id;
   User.findOne({ _id: req.params.id }, function(err, docs) {
     if (err) {
-      logger('/getAllUsers/'+req.params.id, log_severity.error, 'User list retrieved error.', user_id);
-      res.send({ status: '500', message: 'User list retrieved error.' });
+      logger('/getAllUsers/'+req.params.id, log_severity.error, 'User list retrieved error: ' + err.message, user_id);
+      res.send({ status: '500', message: 'User list retrieved error: ' + err.message });
     }
     logger('/getAllUsers/'+req.params.id, log_severity.info, '', user_id);
     res.send(docs);
@@ -99,8 +99,8 @@ router.get('/getUsersByOrganization/:id', function(req, res) {
 
   User.find(function(err, docs) {
     if (err) {
-      logger('/getUsersByOrganization/'+req.params.id, log_severity.error, 'User list retrieved error.', user_id);
-      res.send({ status: '500', message: 'User list retrieved error.' });
+      logger('/getUsersByOrganization/'+req.params.id, log_severity.error, 'User list retrieved error: ' + err.message, user_id);
+      res.send({ status: '500', message: 'User list retrieved error: ' + err.message });
     } else {
       for (var i = 0; i < docs.length; i++) {
         for (var j = 0; j < docs[i].organizations[j]; j++) {
@@ -579,7 +579,6 @@ router.post('/deleteUser', function(req, res) {
                     }
                   });
                   logger('/deleteUser', log_severity.info, 'Deleted user: ' + deleteUser._id, user_id);
-                  res.send({status: "200", deletedUser: deleteUser._id });
 
                 });
             });
@@ -638,7 +637,7 @@ router.post('/editUserRemoveOrgs', function(req, res) {
         })
         .on('end', function() {
             logger('/editUserRemoveOrgs', log_severity.info, '', user_id);
-            res.send({ status: '200', message: 'Removed org access successfully.' });
+            res.send({ status: '200', message: 'Removed organization access successfully.' });
         })
     });
 });
@@ -705,7 +704,7 @@ router.post('/editUserAddOrgs', function(req, res) {
                 logger('/editUserAddOrgs', log_severity.error, err.message, user_id);
                 res.send({
                   status: '500',
-                  message: 'User failed to update.'
+                  message: 'User failed to update: ' + err.message
                 });
               }
               logger('/editUserAddOrgs', log_severity.info, '', user_id);
@@ -718,10 +717,10 @@ router.get('/getAllOrganizations', function(req, res) {
   var user_id = req.session.user.id;
   Organization.find(function(err, docs) {
     if (err) {
-      logger('/getAllOrganizations', log_severity.error, result, user_id);
+      logger('/getAllOrganizations', log_severity.error, err.message, user_id);
       res.send({
         status: '500',
-        message: 'Organization list retrieved error.'
+        message: 'Organization list retrieved error: ' + err.message
       });
     }
     logger('/getAllOrganizations', log_severity.info, '', user_id);
@@ -738,7 +737,7 @@ router.get('/getAllOrganizationsWithNoDetails', function(req, res) {
       logger('/getAllOrganizationsWithNoDetails', log_severity.error, err.message, user_id);
       res.send({
         status: '500',
-        message: 'Organization list retrieved error.'
+        message: 'Organization list retrieved error: ' + err.message
       });
     }
 
@@ -757,7 +756,7 @@ router.get('/getOrganizationById/:orgid', function(req, res) {
       logger('/getOrganizationById/'+req.params.orgid, log_severity.error, err.message, user_id);
       res.send({
         status: '500',
-        message: 'Organization list retrieved error.'
+        message: 'Organization list retrieved error: ' + err.message
       });
     }
     logger('/getOrganizationById/'+req.params.orgid, log_severity.info, '', user_id);
@@ -794,7 +793,7 @@ router.post('/createOrganization', function(req, res) {
         .createQueryStream(insertRow)
         .on('error', function(err) {
           logger('/createOrganization', log_severity.error, err.message, user_id);
-          res.send({ status: '500', message: err.message });
+          res.send({ status: '500', message: 'Creating new organization failed: ' + err.message });
         })
         .on('data', function(data) {})
         .on('end', function() {
@@ -810,7 +809,7 @@ router.post('/createOrganization', function(req, res) {
             .createQueryStream(getRetailerIds)
             .on('error', function(err) {
               logger('/createOrganization', log_severity.error, err.message, user_id);
-              res.send({ status: '500', message: err.message });
+              res.send({ status: '500', message: 'Creating new organization failed: ' + err.message });
             })
             .on('data', function(data) {
               var user_id = data.user_id;
@@ -829,7 +828,7 @@ router.post('/createOrganization', function(req, res) {
                 .createQueryStream(addRetailerAccesses)
                 .on('error', function(err) {
                   logger('/createOrganization', log_severity.error, err.message, user_id);
-                  res.send({ status: '500', message: err.message });
+                  res.send({ status: '500', message: 'Creating new organization failed: ' + err.message });
                 })
                 .on('data', function(data) {})
                 .on('end', function() {
@@ -843,7 +842,7 @@ router.post('/createOrganization', function(req, res) {
                     function(err, res1) {
                       if (err) {
                         logger('/createOrganization', log_severity.error, err.message, user_id);
-                        res.send({ status: '500', message: err.message });
+                        res.send({ status: '500', message: 'Creating new organization failed: ' + err.message });
                       }
                     }
                   );
@@ -865,7 +864,7 @@ router.post('/deleteOrganization', function(req, res) {
   Organization.deleteOne({ _id: orgDelete._id }, function(err, results) {
     if (err) {
       logger('/createOrganization', log_severity.error, err.message, user_id);
-      res.send({ status: '500', message: err.message });
+      res.send({ status: '500', message: 'Deleting the organization failed: ' + err.message });
     } else {
       var delOrg =
         'DELETE FROM `' +
@@ -880,7 +879,7 @@ router.post('/deleteOrganization', function(req, res) {
         .createQueryStream(delOrg)
         .on('error', function(err) {
           logger('/createOrganization', log_severity.error, err.message, user_id);
-          res.send({ status: '500', message: err.message });
+          res.send({ status: '500', message: 'Deleting the organization failed: ' + err.message });
         })
         .on('data', function(data) {})
         .on('end', function() {
@@ -897,7 +896,7 @@ router.post('/deleteOrganization', function(req, res) {
             .createQueryStream(delCurrentVendorView)
             .on('error', function(err) {
               logger('/createOrganization', log_severity.error, err.message, user_id);
-              res.send({ status: '500', message: err.message });
+              res.send({ status: '500', message: 'Deleting the organization failed: ' + err.message });
             })
             .on('data', function(data) {})
             .on('end', function() {
@@ -914,7 +913,7 @@ router.post('/deleteOrganization', function(req, res) {
                 .createQueryStream(delUserVendor)
                 .on('error', function(err) {
                   logger('/createOrganization', log_severity.error, err.message, user_id);
-                  res.send({ status: '500', message: err.message });
+                  res.send({ status: '500', message: 'Deleting the organization failed: ' + err.message });
                 })
                 .on('data', function(data) {})
                 .on('end', function() {
@@ -936,13 +935,13 @@ router.post('/deleteOrganization', function(req, res) {
                     function(err, res1) {
                       if (err) {
                         logger('/createOrganization', log_severity.error, err.message, user_id);
-                        res.send({ status: '500', message: err.message });
+                        res.send({ status: '500', message: 'Deleting the organization failed: ' + err.message });
                       } else {
 
                           Rule.find({ organization: { name: orgDelete.name, _id: orgDelete._id } }, function(err3, res3) {
                             if (err3) {
                               logger('/createOrganization', log_severity.error, err3.message, user_id);
-                              res.send({ status: '500', message: err3.message });
+                              res.send({ status: '500', message: 'Deleting the organization failed: ' + err3.message });
                             }
 
                             if (res3.length == 0) {
@@ -968,14 +967,14 @@ router.post('/deleteOrganization', function(req, res) {
                                 .createQueryStream(updateRow)
                                 .on('error', function(err) {
                                   logger('/createOrganization', log_severity.error, err.message, user_id);
-                                  res.send({ status: '500', message: err.message });
+                                  res.send({ status: '500', message: 'Deleting the organization failed: ' + err.message });
                                 })
                                 .on('data', function(data) {})
                                 .on('end', function() {
                                   Rule.deleteOne({ _id: curr_rule._id }, function(err, results) {
                                     if (err) {
                                       logger('/createOrganization', log_severity.error, err.message, user_id);
-                                      res.send({ status: '500', message: err.message });
+                                      res.send({ status: '500', message: 'Deleting the organization failed: ' + err.message });
                                     }
                                     if (i === res3.length) {
                                       logger('/createOrganization', log_severity.info, '', user_id);
@@ -1005,14 +1004,14 @@ router.post('/editOrganization', function(req, res) {
     .createQueryStream(updateOrg)
     .on('error', function(err) {
       logger('/editOrganization', log_severity.error, err.message, user_id);
-      res.send({ status: '500', message: err.message });
+      res.send({ status: '500', message: 'Editing the organization failed: ' + err.message });
     })
     .on('data', function(data) {})
     .on('end', function() {
       Organization.updateOne({ _id : editOrg._id }, editOrg, function(err, result) {
         if (err) {
           logger('/editOrganization', log_severity.error, err.message, user_id);
-          res.send({ status: '500', message: 'Organization failed to update.' });
+          res.send({ status: '500', message: 'Editing the organization failed: ' + err.message });
         } else {
           logger('/editOrganization', log_severity.info, '', user_id);
           res.send({ status: '200', result: result });
@@ -1026,7 +1025,7 @@ router.get('/getAllReports', function(req, res) {
   Report.find(function(err, docs) {
     if (err) {
       logger('/getAllReports', log_severity.error, err.message, user_id);
-      res.send({ status: '500', message: 'Report list retrieved error.' });
+      res.send({ status: '500', message: 'Report list retrieval error: ' + err.message });
     } else {
       logger('/getAllReports', log_severity.info, '', user_id);
       res.send(docs);
@@ -1039,7 +1038,7 @@ router.get('/getAllReports/:id', function(req, res) {
   Report.findOne({ _id: req.params.id }, function(err, docs) {
     if (err) {
       logger('/getAllReports/'+req.params.id, log_severity.error, err.message, user_id);
-      res.send({ status: '500', message: 'Report list retrieved error.' });
+      res.send({ status: '500', message: 'Report list retrieval error: ' + err.message });
     }
     logger('/getAllReports/'+req.params.id, log_severity.info, '', user_id);
     res.send(docs);
@@ -1053,7 +1052,7 @@ router.get('/getReportByOrganization/:id', function(req, res) {
   Report.find(function(err, docs) {
     if (err) {
       logger('/getReportByOrganization/'+req.params.id, log_severity.error, err.message, user_id);
-      res.send({ status: '500', message: 'Report list retrieved error.' });
+      res.send({ status: '500', message: 'Report list retrieval error: ' + err.message });
     } else {
       for (var i = 0; i < docs.length; i++) {
         for (var j = 0; j < docs[i].organizations.length; j++) {
@@ -1074,14 +1073,14 @@ router.get('/getReportByUser/:id', function(req, res) {
   User.find({ _id: req.params.id }, function(err, docs) {
     if (err) {
       logger('/getReportByUser/'+req.params.id, log_severity.error, err.message, user_id);
-      res.send({ status: '500', message: 'User retrieved error.' });
+      res.send({ status: '500', message: 'User retrieval error: ' + err.message });
     } else {
       var userOrgList = docs[0].organizations;
 
       Report.find(function(err, reports) {
         if (err) {
           logger('/getReportByUser/'+req.params.id, log_severity.error, err.message, user_id);
-          res.send({ status: '500', message: 'Report list retrieved error.' });
+          res.send({ status: '500', message: 'Report list retrieval error: ' + err.message });
         } else {
           for (var i = 0; i < reports.length; i++) {
             for (var k = 0; k < reports[i].organizations.length; k++) {
@@ -1112,7 +1111,7 @@ router.post('/initGhost', function(req, res) {
   bigquery.createQueryStream(findViewRow)
     .on('error', function(err) {
         logger('/getReportByUser', log_severity.error, err.message, user_id);
-        res.send({status: "500", message: err.message });
+        res.send({status: "500", message: 'Ghost view initialization failed: ' + err.message });
     })
     .on('data', function(row) {
 
@@ -1131,7 +1130,7 @@ router.post('/initGhost', function(req, res) {
       bigquery.createQueryStream(insertOrUpdateView)
         .on('error', function(err) {
           logger('/getReportByUser', log_severity.error, err.message, user_id);
-          res.send({status: "500", message: err.message });
+          res.send({status: "500", message: 'Ghost view initialization failed: ' + err.message });
         })
         .on('data', function(data) {
 
@@ -1162,7 +1161,7 @@ router.post('/createReport', function(req, res) {
 
   Report.find({ link: { $regex: "/*" + file_id + "*/" } }, function(err1, docs1){
     if (err1) {
-      res.send({ status: '500', message: 'Report creation error. ' + err1 });
+      res.send({ status: '500', message: 'Report creation error: ' + err1.message });
     }
 
     if (docs1.length == 0) {
@@ -1183,12 +1182,12 @@ router.post('/createReport', function(req, res) {
 
       Report.create(newReport, function(err, results) {
         if (err) {
-          res.send({ status: '500', message: 'Report creation error.' });
+          res.send({ status: '500', message: 'Report creation error: ' + err.message });
         } else {
 
           User.find(function(err1, docs) {
             if (err1) {
-              res.send({ status: '500', message: 'Retrieving users error.' });
+              res.send({ status: '500', message: 'User retrieval error: ' + err1.message });
             }
             var permsList = [];
 
@@ -1219,7 +1218,7 @@ router.post('/createReport', function(req, res) {
            for (var i = 0; i < newReport.organizations.length; i++) {
                 Organization.updateOne({ _id: newReport.organizations[i]._id }, { $inc: { reportsCount: 1 } }, function(err1, res1) {
                   if (err1) {
-                    res.send({ status: '500', message: err1.message });
+                    res.send({ status: '500', message: 'Editing organization failed: ' + err1.message });
                   }
                 });
             }
@@ -1266,7 +1265,7 @@ router.post('/getPermissionsToRevokeUser', function(req, res) {
     Permission.find({ googleID: user.googleID }, function(err, docs) {
       if (err) {
         logger('/getPermissionsToRevokeUser', log_severity.error, err.message, user_id);
-        res.send({ status: '500', message: err.message });
+        res.send({ status: '500', message: 'Retrieving permissions to revoke failed: ' + err.message });
       }
       logger('/getPermissionsToRevokeUser', log_severity.info, '', user_id);
       res.send({ status: '200', permissions: docs });
@@ -1305,7 +1304,7 @@ router.post('/getPermissionsToRevoke', function(req, res) {
   User.find(function(err1, docs) {
     if (err1) {
       logger('/getPermissionsToRevoke', log_severity.error, err1.message, user_id);
-      res.send({ status: '500', message: 'Report creation error.' });
+      res.send({ status: '500', message: 'User list retrieval failed: ' + err1.message });
     }
 
     if (usersToRevoke.length === 0) {
@@ -1325,7 +1324,7 @@ router.post('/getPermissionsToRevoke', function(req, res) {
 
       if (err) {
         logger('/getPermissionsToRevoke', log_severity.error, err.message, user_id);
-        res.send({ status: '500', message: 'Report creation error.' });
+        res.send({ status: '500', message: 'Retrieving permissions to revoke failed: ' + err.message });
       }
       for (var l = 0; l < docs.length; l++) {
         permsList.push(docs[l]);
@@ -1364,7 +1363,7 @@ router.post('/getPermissionsToRevokeOrg', function(req, res) {
 
       if (err) {
         logger('/getPermissionsToRevokeOrg', log_severity.error, err.message, user_id);
-        res.send({ status: '500', message: 'Report creation error.' });
+        res.send({ status: '500', message: 'Retrieving permissions to revoke failed: ' + err.message });
       }
       for (var l = 0; l < docs.length; l++) {
         permsList.push(docs[l]);
@@ -1398,21 +1397,26 @@ router.post('/deleteReport', function(req, res) {
       var createdReport = _.after(filesIdList.length, () => {
         Report.deleteOne(deleteReport, function(err, results) {
           if (err) {
-            res.send({ status: '500', message: 'Report deletion error.' });
+            res.send({ status: '500', message: 'Deleting the report failed: ' + err.message });
           } else {
+
+            var deleteReportOrgIds = [];
             for (var i = 0; i < deleteReport.organizations.length; i++) {
-                Organization.updateOne(
-                  { _id: deleteReport.organizations[i]._id },
+                deleteReportOrgIds.push(deleteReport.organizations[i]._id);
+            }
+
+            Organization.update(
+                  { _id: { $in: deleteReportOrgIds } },
                   { $inc: { reportsCount: -1 } },
                   function(err1, res1) {
                     if (err1) {
-                      res.send({ status: '500', message: err1.message });
+                      res.send({ status: '500', message: 'Editing the organization failed: ' + err1.message });
                     } else {
                       res.send({ status: '200', results: results._id });
                     }
                   }
                 );
-            }
+
           }
         });
       });
@@ -1462,6 +1466,7 @@ router.post('/unshareReport', function(req, res) {
   }
 
   var createdReport = _.after(filesIdList.length, () => {
+    logger('/unshareReport', log_severity.error, 'Report unsharing succeeded', user_id);
     res.send({ status: '200', results: results._id });
   });
 
@@ -1473,20 +1478,6 @@ router.post('/unshareReport', function(req, res) {
     }
   });
 
-  if (permissions.length > 0) {
-    utils.shareReport(filesIdList, permissions, 1, req.session.user.access_token, function(ret) {
-      if (ret === 1) {
-        failedReport(this);
-        logger('/createNewUser', log_severity.error, 'Error sharing report ' + filesIdList, user_id);
-      }
-      else {
-        createdReport();
-        logger('/createNewUser', log_severity.info, 'Report ' + filesIdList + ' shared successfully', user_id);
-      }
-    });
-
-  }
-
   if (req.body.organization) {
     Organization.updateOne(
           { _id: org._id },
@@ -1494,36 +1485,67 @@ router.post('/unshareReport', function(req, res) {
           function(err1, res1) {
             if (err1) {
               logger('/unshareReport', log_severity.error, err1.message, user_id);
-              res.send({ status: '500', message: err1.message });
+              res.send({ status: '500', message: 'Editing the organization failed: ' + err1.message });
             }
+
+            var unshareReportIds = [];
             for (var j = 0; j < unshareReports.length; j++) {
-              Report.updateOne({ _id: unshareReports[j]._id }, { $pull: { organizations: org  } }, function(err2, res2) {
+              unshareReportIds.push(unshareReports[j]._id);
+            }
+
+            Report.update({ _id: { $in: unshareReportIds } }, { $pull: { organizations: org  } }, function(err2, res2) {
                 if (err2) {
                   logger('/unshareReport', log_severity.error, err2.message, user_id);
-                  res.send({ status: '500', message: err2.message });
+                  res.send({ status: '500', message: 'Editing the report failed: ' + err2.message });
                 }
               });
-            }
             logger('/unshareReport', log_severity.info, 'Report unsharing succeeded', user_id);
-            res.send({ status: '200', message: "Report unshare succeeded." });
+            if (permissions.length > 0) {
+              utils.shareReport(filesIdList, permissions, 1, req.session.user.access_token, function(ret) {
+                if (ret === 1) {
+                  failedReport(this);
+                  logger('/createNewUser', log_severity.error, 'Error sharing report ' + filesIdList, user_id);
+                }
+                else {
+                  createdReport();
+                  logger('/createNewUser', log_severity.info, 'Report ' + filesIdList + ' shared successfully', user_id);
+                }
+              });
 
+            }
           }
         );
   }
   else if (req.body.removedOrganizations) {
+
+    var removedOrganizationIds = [];
     for (var i = 0; i < removedOrganizations.length; i++) {
-      Organization.updateOne(
-            { _id: removedOrganizations[i]._id },
+      removedOrganizationIds.push(removedOrganizations[i]._id);
+    }
+
+    Organization.update(
+            { _id: { $in: removedOrganizationIds } },
             { $inc: { usersCount: -1 } },
             function(err1, res1) {
               if (err1) {
                 logger('/unshareReport', log_severity.error, err1.message, user_id);
-                res.send({ status: '500', message: err1.message });
+                res.send({ status: '500', message: 'Editing the organization failed: ' + err1.message });
+              }
+              if (permissions.length > 0) {
+                utils.shareReport(filesIdList, permissions, 1, req.session.user.access_token, function(ret) {
+                  if (ret === 1) {
+                    failedReport(this);
+                    logger('/createNewUser', log_severity.error, 'Error sharing report ' + filesIdList, user_id);
+                  }
+                  else {
+                    createdReport();
+                    logger('/createNewUser', log_severity.info, 'Report ' + filesIdList + ' shared successfully', user_id);
+                  }
+                });
+
               }
             });
-    }
-    logger('/unshareReport', log_severity.error, 'Report unsharing succeeded', user_id);
-    res.send({ status: '200', message: "Report unshare succeeded." });
+
   }
 
 });
@@ -1536,7 +1558,7 @@ router.post('/editReport', function(req, res) {
   Report.updateOne({ _id: oldReport._id }, newReport, function(err, results) {
     if (err) {
       logger('/editReport', log_severity.error, err.message, user_id);
-      res.send({status: "500", message: err.message });
+      res.send({status: "500", message: 'Editing the report failed: ' + err.message });
     }
     logger('/editReport', log_severity.info, 'Report edited successfully', user_id);
     res.send({status: "200", message: "Report edit succeeded." });
@@ -1570,7 +1592,7 @@ router.post('/shareReport', function(req, res) {
     User.find(function(err1, docs) {
       if (err1) {
         logger('/shareReport', log_severity.error, err1.message, user_id);
-        res.send({ status: '500', message: 'Retrieving users error.' });
+        res.send({ status: '500', message: 'User list retrieval failed: ' + err1.message });
       }
       var permsList = [];
 
@@ -1597,7 +1619,23 @@ router.post('/shareReport', function(req, res) {
       }
 
       var createdReport = _.after(filesIdList.length, () => {
-        res.send({ status: '200', results: results._id });
+        Organization.updateOne({ _id: orgToShare._id }, { $inc: { reportsCount: 1 } }, function(err1, res1) {
+          if (err1) {
+            logger('/shareReport', log_severity.error, err1.message, user_id);
+            res.send({ status: '500', message: 'Editing the organization failed: ' + err1.message });
+          }
+
+          Report.updateOne({ _id: reportsToShare[0]._id }, {   $push: { organizations: { _id: orgToShare._id, name: orgToShare.name } } }, function(err2, res2) {
+            if (err2) {
+              logger('/shareReport', log_severity.error, err2.message, user_id);
+              res.send({ status: '500', message: 'Editing the report failed: ' + err2.message });
+            }
+            logger('/shareReport', log_severity.error, 'Report shared successfully', user_id);
+            res.send({ status: '200', results: results._id });
+
+          });
+
+        });
       });
 
       var failed = false;
@@ -1621,24 +1659,6 @@ router.post('/shareReport', function(req, res) {
           });
       }
 
-      Organization.updateOne({ _id: orgToShare._id }, { $inc: { reportsCount: 1 } }, function(err1, res1) {
-        if (err1) {
-          logger('/shareReport', log_severity.error, err1.message, user_id);
-          res.send({ status: '500', message: err1.message });
-        }
-
-        Report.updateOne({ _id: reportsToShare[0]._id }, {   $push: { organizations: { _id: orgToShare._id, name: orgToShare.name } } }, function(err2, res2) {
-          if (err2) {
-            logger('/shareReport', log_severity.error, err2.message, user_id);
-            res.send({ status: '500', message: err2.message });
-          }
-          logger('/shareReport', log_severity.error, 'Report shared successfully', user_id);
-          res.send({ status: '200', results: "Report shared successfully." });
-
-        });
-
-      });
-
     });
   }
   else if (req.body.user) {
@@ -1659,6 +1679,11 @@ router.post('/shareReport', function(req, res) {
         }];
     }
 
+    var addedOrganizationIds = [];
+    for (var i = 0; i < addedOrganizations.length; i++) {
+      addedOrganizationIds.push(addedOrganizations[i]._id);
+    }
+
     var createdReport = _.after(filesIdList.length, () => {
       res.send({ status: '200', results: results._id });
     });
@@ -1671,37 +1696,29 @@ router.post('/shareReport', function(req, res) {
       }
     });
 
-    for (var j = 0; j < filesIdList.length; j++) {
-          utils.shareReport(filesIdList[j], permsList, 0, req.session.user.access_token, function(ret) {
-                  if (ret === 1) {
-                    failedReport(this);
-                    logger('/createNewUser', log_severity.error, 'Error sharing report ' + filesIdList[j], user_id);
-                  }
-                  else {
-                    createdReport();
-                    logger('/createNewUser', log_severity.info, 'Report ' + filesIdList[j] + ' shared successfully', user_id);
-                  }
-          });
-    }
-
-    for (var i = 0; i < addedOrganizations.length; i++) {
-      Organization.updateOne(
-            { _id: addedOrganizations[i]._id },
+    Organization.update(
+            { _id: { $in: addedOrganizationIds } },
             { $inc: { usersCount: -1 } },
             function(err1, res1) {
               if (err1) {
                 logger('/shareReport', log_severity.error, err1.message, user_id);
-                isCallSuccessful = false;
                 res.send({ status: '500', message: err1.message });
               } else {
-                isCallSuccessful = true;
+                  for (var j = 0; j < filesIdList.length; j++) {
+                        utils.shareReport(filesIdList[j], permsList, 0, req.session.user.access_token, function(ret) {
+                                if (ret === 1) {
+                                  failedReport(this);
+                                  logger('/createNewUser', log_severity.error, 'Error sharing report ' + filesIdList[j], user_id);
+                                }
+                                else {
+                                  createdReport();
+                                  logger('/createNewUser', log_severity.info, 'Report ' + filesIdList[j] + ' shared successfully', user_id);
+                                }
+                        });
+                  }
               }
-            });
-    }
-    if (isCallSuccessful) {
-      logger('/shareReport', log_severity.info, 'Report shared successfully', user_id);
-      res.send({ status: '200', results: "Report shared successfully." });
-    }
+    });
+
   }
 
 });
