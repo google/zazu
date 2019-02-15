@@ -1394,7 +1394,9 @@ router.post('/deleteReport', function(req, res) {
         filesIdList.push(datasource_id);
       }
 
-      var deletedReport = _.after(filesIdList.length, (deleteReport) => {
+      console.log("identified all datasources: " + filesIdList);
+
+      var deletedReport = _.after(1, (deleteReport) => {
         Report.deleteOne(deleteReport, function(err, results) {
           if (err) {
             res.send({ status: '500', message: 'Deleting the report failed: ' + err.message });
@@ -1404,7 +1406,7 @@ router.post('/deleteReport', function(req, res) {
             for (var i = 0; i < deleteReport.organizations.length; i++) {
                 deleteReportOrgIds.push(deleteReport.organizations[i]._id);
             }
-
+             console.log("identified all reports: " + deleteReportOrgIds);
             Organization.update(
                   { _id: { $in: deleteReportOrgIds } },
                   { $inc: { reportsCount: -1 } },
@@ -1428,15 +1430,17 @@ router.post('/deleteReport', function(req, res) {
           res.send({status: "500", message: "Sharing report error."});
         }
       });
-
+      console.log("before unsharing");
+      console.log("les permissions:" + permissions);
+      console.log("les documents: " + filesIdList);
       utils.shareReport(filesIdList, permissions, 1, req.session.user.access_token, function(ret) {
           if (ret === 1) {
             failedReport(this);
-            logger('/createNewUser', log_severity.error, 'Error sharing report ' + filesIdList, user_id);
+            logger('/deleteReport', log_severity.error, 'Error sharing report ' + filesIdList, user_id);
           }
           else {
             deletedReport(deleteReport);
-            logger('/createNewUser', log_severity.info, 'Report ' + filesIdList + ' shared successfully', user_id);
+            logger('/deleteReport', log_severity.info, 'Report ' + filesIdList + ' shared successfully', user_id);
           }
       });
 });
