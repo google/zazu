@@ -1462,7 +1462,7 @@ router.post('/unshareReport', function(req, res) {
     }
   }
 
-  var createdReport = _.after(filesIdList.length, () => {
+  var createdReport = _.after(1, () => {
     logger('/unshareReport', log_severity.error, 'Report unsharing succeeded', user_id);
     res.send({ status: '200', results: results._id });
   });
