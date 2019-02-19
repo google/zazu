@@ -1629,7 +1629,7 @@ router.post('/shareReport', function(req, res) {
               res.send({ status: '500', message: 'Editing the report failed: ' + err2.message });
             }
             logger('/shareReport', log_severity.error, 'Report shared successfully', user_id);
-            res.send({ status: '200', results: results._id });
+            res.send({ status: '200', results: reportsToShare[0]._id });
 
           });
 
