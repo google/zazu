@@ -411,7 +411,30 @@ router.post('/createNewUser', function(req, res) {
                                         }];
 
                                       var createdReport = _.after(filesIdList.length, () => {
-                                          res.send({ status: '200', results: results._id });
+                                              var addNewAdminVendor =
+                                                'INSERT INTO `' +
+                                                config.bq_instance +
+                                                '.' +
+                                                config.bq_dataset +
+                                                '.user_vendor_roles` (user_id, organization_id) VALUES ("' +
+                                                newUserId +
+                                                '", "' +
+                                                data.organization_id +
+                                                '")';
+
+                                              bigquery
+                                                .createQueryStream(addNewAdminVendor)
+                                                .on('error', function(err) {
+                                                  logger('/createNewUser', log_severity.error, err.message, user_id);
+                                                  res.send({ status: '500', message: err.message });
+                                                })
+                                                .on('data', function(data) {})
+                                                .on('end', function() {});
+                                            })
+                                            .on('end', function() {
+                                              logger('/createNewUser', log_severity.info, '', user_id);
+                                              res.send({ status: '200', userID: newUserId });
+                                            });
                                         });
 
                                         var failed = false;
@@ -436,30 +459,6 @@ router.post('/createNewUser', function(req, res) {
                                           });
                                         }
 
-                                      });
-                                        var addNewAdminVendor =
-                                          'INSERT INTO `' +
-                                          config.bq_instance +
-                                          '.' +
-                                          config.bq_dataset +
-                                          '.user_vendor_roles` (user_id, organization_id) VALUES ("' +
-                                          newUserId +
-                                          '", "' +
-                                          data.organization_id +
-                                          '")';
-
-                                        bigquery
-                                          .createQueryStream(addNewAdminVendor)
-                                          .on('error', function(err) {
-                                            logger('/createNewUser', log_severity.error, err.message, user_id);
-                                            res.send({ status: '500', message: err.message });
-                                          })
-                                          .on('data', function(data) {})
-                                          .on('end', function() {});
-                                      })
-                                      .on('end', function() {
-                                        logger('/createNewUser', log_severity.info, '', user_id);
-                                        res.send({ status: '200', userID: newUserId });
                                       });
                             }
                           });
