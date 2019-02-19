@@ -1464,14 +1464,14 @@ router.post('/unshareReport', function(req, res) {
 
   var createdReport = _.after(1, () => {
     logger('/unshareReport', log_severity.error, 'Report unsharing succeeded', user_id);
-    res.send({ status: '200', results: results._id });
+    res.send({ status: '200', message: "Unsharing report was successful." });
   });
 
   var failed = false;
   var failedReport = _.once((scope) => {
     if (!scope.failed) {
       scope.failed = true;
-      res.send({status: "500", message: "Sharing report error."});
+      res.send({status: "500", message: "Unsharing report error."});
     }
   });
 
