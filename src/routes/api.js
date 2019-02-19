@@ -430,11 +430,6 @@ router.post('/createNewUser', function(req, res) {
                                                 })
                                                 .on('data', function(data) {})
                                                 .on('end', function() {});
-                                            })
-                                            .on('end', function() {
-                                              logger('/createNewUser', log_severity.info, '', user_id);
-                                              res.send({ status: '200', userID: newUserId });
-                                            });
                                         });
 
                                         var failed = false;
@@ -460,6 +455,11 @@ router.post('/createNewUser', function(req, res) {
                                         }
 
                                       });
+                                    })
+                                    .on('end', function() {
+                                      logger('/createNewUser', log_severity.info, '', user_id);
+                                      res.send({ status: '200', userID: newUserId });
+                                    });
                             }
                           });
                       }
