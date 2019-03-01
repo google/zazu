@@ -954,7 +954,7 @@ router.post('/deleteOrganization', function(req, res) {
                               var updateRow = utils.buildPermissionsQuery(
                                 config.bq_instance,
                                 config.bq_client_dataset,
-                                res3[i].datasource.name + "_perms",
+                                res3[i].datasource + "_perms",
                                 [''],
                                 res3[i].identifier.name,
                                 res3[i].identifier.identifierType,
@@ -1748,7 +1748,7 @@ router.post('/createRule', (req, res) => {
   var updateRow = utils.buildPermissionsQuery(
     config.bq_instance,
     config.bq_client_dataset,
-    newRule.datasource.name + "_perms",
+    newRule.datasource + "_perms",
     [newRule.organization._id],
     newRule.identifier.name,
     newRule.identifier.identifierType,
@@ -1796,7 +1796,7 @@ router.post('/deleteRule', (req, res) => {
   var updateRow = utils.buildPermissionsQuery(
     config.bq_instance,
     config.bq_client_dataset,
-    delRule.datasource.name + "_perms",
+    delRule.datasource + "_perms",
     [''],
     delRule.identifier.name,
     delRule.identifier.identifierType,
@@ -1843,7 +1843,7 @@ router.post('/editRule', (req, res) => {
   var oldRule = req.body.oldRule;
   var newRule = req.body.newRule;
 
-  var updateRow = utils.buildPermissionsQuery(config.bq_instance, config.bq_client_dataset, oldRule.datasource.name + "_perms", [""], oldRule.identifier.name, oldRule.identifier.identifierType, oldRule.condition, oldRule.token);
+  var updateRow = utils.buildPermissionsQuery(config.bq_instance, config.bq_client_dataset, oldRule.datasource + "_perms", [""], oldRule.identifier.name, oldRule.identifier.identifierType, oldRule.condition, oldRule.token);
 
   bigquery.createQueryStream(updateRow)
      .on('error', function(err) {
@@ -1855,7 +1855,7 @@ router.post('/editRule', (req, res) => {
      })
      .on('end', function() {
 
-        var secondUpdateRow = utils.buildPermissionsQuery(config.bq_instance, config.bq_client_dataset, newRule.datasource.name + "_perms", [newRule.organization._id], newRule.identifier.name, newRule.identifier.identifierType, newRule.condition, newRule.token);
+        var secondUpdateRow = utils.buildPermissionsQuery(config.bq_instance, config.bq_client_dataset, newRule.datasource + "_perms", [newRule.organization._id], newRule.identifier.name, newRule.identifier.identifierType, newRule.condition, newRule.token);
 
         bigquery.createQueryStream(secondUpdateRow)
           .on('error', function(err) {
