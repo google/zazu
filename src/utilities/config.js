@@ -14,8 +14,6 @@ module.exports = {
     bq_dataset: process.env.bq_dataset,
     bq_client_dataset: process.env.bq_client_dataset,
     bq_views_dataset: process.env.bq_views_dataset,
-    bq_client_data_base: process.env.bq_client_data_base,
-    bq_client_data_perms: process.env.bq_client_data_base + '_perms',
 
     google_client_id: process.env.google_client_id,
     google_client_secret: process.env.google_client_secret,
