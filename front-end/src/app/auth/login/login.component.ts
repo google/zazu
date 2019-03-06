@@ -33,6 +33,19 @@ export class LoginComponent implements OnInit {
     const loginuser  = await <any>this.authService.login(googleUser.getAuthResponse().id_token, googleUser.getAuthResponse().access_token);
     const call = <any> this.http.get('../../assets/main-variables.json').toPromise();
     this.companyName = call.companyName;
+    if (loginuser.role == 'admin') {
+      var options = new gapi.auth2.SigninOptionsBuilder(
+              {'scope': 'https://www.googleapis.com/auth/drive'});
+
+      googleUser = this.auth2.currentUser.get();
+      googleUser.grant(options).then(
+        function(success){
+          console.log(JSON.stringify({message: "success", value: success}));
+        },
+        function(fail){
+          alert(JSON.stringify({message: "fail", value: fail}));
+        });
+    }
     this.ngZone.run(() => this.router.navigate(['../redirect'], {relativeTo: this.route})).then();
   }
 
@@ -43,7 +56,7 @@ export class LoginComponent implements OnInit {
         this.auth2 = gapi.auth2.init({
           client_id: environment.google_client_id,
           cookiepolicy: 'single_host_origin',
-          scope: 'profile email https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/bigquery https://www.googleapis.com/auth/cloud-platform'
+          scope: 'profile email https://www.googleapis.com/auth/bigquery https://www.googleapis.com/auth/cloud-platform'
         });
         this.signIn(document.getElementById('google-signin'));
       });
