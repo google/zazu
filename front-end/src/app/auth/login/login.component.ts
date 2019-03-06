@@ -34,16 +34,16 @@ export class LoginComponent implements OnInit {
     const call = <any> this.http.get('../../assets/main-variables.json').toPromise();
     this.companyName = call.companyName;
     if (loginuser.role == 'admin') {
-      var options = new gapi.auth2.SigninOptionsBuilder(
-              {'scope': 'https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/cloud-platform'});
+      var options = new gapi.auth2.SigninOptionsBuilder();
+      options.setScope('https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/cloud-platform');
 
       googleUser = this.auth2.currentUser.get();
       googleUser.grant(options).then(
         function(success){
-          console.log(JSON.stringify({message: "success", value: success}));
+          console.log(JSON.stringify({message: "success"}));
         },
         function(fail){
-          alert(JSON.stringify({message: "fail", value: fail}));
+          console.log(JSON.stringify({message: "fail"}));
         });
     }
     this.ngZone.run(() => this.router.navigate(['../redirect'], {relativeTo: this.route})).then();
