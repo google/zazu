@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
     this.companyName = call.companyName;
     if (loginuser.role == 'admin') {
       var options = new gapi.auth2.SigninOptionsBuilder(
-              {'scope': 'https://www.googleapis.com/auth/drive'});
+              {'scope': 'https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/cloud-platform'});
 
       googleUser = this.auth2.currentUser.get();
       googleUser.grant(options).then(
@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
         this.auth2 = gapi.auth2.init({
           client_id: environment.google_client_id,
           cookiepolicy: 'single_host_origin',
-          scope: 'profile email https://www.googleapis.com/auth/bigquery https://www.googleapis.com/auth/cloud-platform'
+          scope: 'profile email https://www.googleapis.com/auth/bigquery'
         });
         this.signIn(document.getElementById('google-signin'));
       });
