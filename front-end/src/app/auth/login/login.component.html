@@ -6,10 +6,17 @@
     <span class="name"> &nbsp;&nbsp; {{companyName}} </span>
   </div>
 </mat-toolbar>
-<div class="signing-container">
+<div class="signing-container" id="global-login" *ngIf="!isAdmin">
   <div class="signing-card">
     <div class="icon"><div class="icon-image"></div></div>
     <h4>Sign in</h4>
     <button mat-raised-button color="google" id="google-signin">Sign in with Google</button>
+  </div>
+</div>
+<div class="signing-container" id="admin-login" *ngIf="isAdmin">
+  <div class="signing-card">
+    <div class="icon"><div class="icon-image"></div></div>
+    <h4>Admins accounts require additional scope. Please click the button below to continue.</h4>
+    <button mat-raised-button color="google" id="admin-scope-button" (click)="additionalAdminScope()">Grant Admin Scopes</button>
   </div>
 </div>

@@ -19,11 +19,12 @@ export class LoginComponent implements OnInit {
 
   public auth2: any;
 
+  public isAdmin = false;
+
   public signIn(element) {
     this.auth2.attachClickHandler(element, {},
       (googleUser) => {
            this.login(googleUser);
-
       }, (error) => {
         alert(JSON.stringify(error, undefined, 2));
       });
@@ -33,20 +34,26 @@ export class LoginComponent implements OnInit {
     const loginuser  = await <any>this.authService.login(googleUser.getAuthResponse().id_token, googleUser.getAuthResponse().access_token);
     const call = <any> this.http.get('../../assets/main-variables.json').toPromise();
     this.companyName = call.companyName;
-    if (loginuser.role == 'admin') {
-      var options = new gapi.auth2.SigninOptionsBuilder();
+    if (loginuser.role != 'admin') {
+      this.ngZone.run(() => this.router.navigate(['../redirect'], {relativeTo: this.route})).then(); 
+    } else {
+      this.isAdmin = true;
+    }
+  }
+
+  public additionalAdminScope() {
+    var _this = this;
+    var options = new gapi.auth2.SigninOptionsBuilder();
       options.setScope('https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/cloud-platform');
 
-      googleUser = this.auth2.currentUser.get();
+      var googleUser = this.auth2.currentUser.get();
       googleUser.grant(options).then(
         function(success){
-          console.log(JSON.stringify({message: "success"}));
+          _this.ngZone.run(() => _this.router.navigate(['../redirect'], {relativeTo: _this.route})).then();
         },
         function(fail){
-          console.log(JSON.stringify({message: "fail"}));
+          console.log(JSON.stringify({message: "failed"}));
         });
-    }
-    this.ngZone.run(() => this.router.navigate(['../redirect'], {relativeTo: this.route})).then();
   }
 
   async ngOnInit() {

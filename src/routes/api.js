@@ -619,11 +619,11 @@ router.post('/deleteUser', function(req, res) {
                                     else {
                                       res.send({ status: '200', deletedUser: deleteUser._id });
                                     }
-                                  }
-                                }
+                                  });
+                                });
                             }
-                          }
-                        }
+                          });
+                        });
                     }
                     else {
                       res.send({ status: '200', deletedUser: deleteUser._id });
