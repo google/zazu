@@ -603,12 +603,12 @@ router.post('/deleteUser', function(req, res) {
                               dataset.getMetadata().then(function(data) {
                                   var metadata = data[0];
                                   var new_accesses = metadata.access;
-                                  var rmAccess =     {
-                                        "role": "READER",
-                                        "userByEmail": deleteUser.googleID
-                                      }
-                                  var rmAccessInd = new_accesses.indexOf(rmAccess);
-                                  new_accesses.splice(rmAccessInd, 1);
+
+                                  for (var j = 0; j < new_accesses.length; j++) {
+                                    if ((new_accesses[j].role === "READER")&&(new_accesses[j].userByEmail === deleteUser.googleID)) {
+                                      new_accesses.splice(j, 1);
+                                    }
+                                  }
                                   metadata.access = new_accesses;
 
                                   dataset.setMetadata(metadata, function(err1, metadata, apiResponse1) {
