@@ -478,6 +478,7 @@ router.post('/deleteUser', function(req, res) {
   var user_id = req.session.user.id;
   var deleteUser = req.body.user;
   var permissions = req.body.permissions;
+  var dataset = bigquery.dataset(config.bq_views_dataset);
 
   User.deleteOne({ _id: deleteUser._id }, function(err, results) {
     if (err) {
@@ -556,7 +557,77 @@ router.post('/deleteUser', function(req, res) {
                   }
 
                   var deletedReport = _.after(1, () => {
-                    res.send({ status: '200', deletedUser: deleteUser._id });
+                    if (deleteUser.role == "vendor") {
+                      var cloudResourceManager = google.cloudresourcemanager('v1');
+                      const oAuth2Client = new OAuth2Client();
+
+                      oAuth2Client.credentials = {
+                         access_token: req.session.user.access_token
+                      };
+
+                      var request = {
+                        resource_: config.bq_instance,
+                        resource: {},
+                        auth: oAuth2Client
+                      };
+
+                      cloudResourceManager.projects.getIamPolicy(request, function(err, response) {
+                          if (err) {
+                            logger('/createNewUser', log_severity.error, err.message, user_id);
+                            res.send({ status: '500', message: err.message });
+                          }
+                          var roleList = response.data.bindings;
+
+                          for (var i = 0; i < roleList.length; i++) {
+                            if (roleList[i].role == 'roles/bigquery.user') {
+                              var memberInd = roleList[i].members.indexOf('user:' + deleteUser.googleID);
+                              roleList[i].members.splice(memberInd, 1);
+                            }
+                          }
+
+                          var newPolicy = { "bindings": roleList };
+
+                          var newrequest = {
+                            resource_: config.bq_instance,
+                            resource: { policy: newPolicy },
+                            auth: oAuth2Client
+                          };
+
+                          cloudResourceManager.projects.setIamPolicy(newrequest, function(err1, response1) {
+                            if (err1) {
+                              logger('/createNewUser', log_severity.error, err1.message, user_id);
+                              res.send({ status: '500', message: err1.message });
+                            }
+
+                            if (response1.status === 200) {
+                              dataset.getMetadata().then(function(data) {
+                                  var metadata = data[0];
+                                  var new_accesses = metadata.access;
+                                  var rmAccess =     {
+                                        "role": "READER",
+                                        "userByEmail": deleteUser.googleID
+                                      }
+                                  var rmAccessInd = new_accesses.indexOf(rmAccess);
+                                  new_accesses.splice(rmAccessInd, 1);
+                                  metadata.access = new_accesses;
+
+                                  dataset.setMetadata(metadata, function(err1, metadata, apiResponse1) {
+                                    if (err1) {
+                                      logger('/createNewUser', log_severity.error, err1.message, user_id);
+                                      res.send({ status: '500', message: err1.message });
+                                    }
+                                    else {
+                                      res.send({ status: '200', deletedUser: deleteUser._id });
+                                    }
+                                  }
+                                }
+                            }
+                          }
+                        }
+                    }
+                    else {
+                      res.send({ status: '200', deletedUser: deleteUser._id });
+                    }
                   });
 
                   var failed = false;
