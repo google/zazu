@@ -557,7 +557,7 @@ router.post('/deleteUser', function(req, res) {
                   }
 
                   var deletedReport = _.after(1, () => {
-                    if (deleteUser.role == "vendor") {
+                    if (deleteUser.role == "viewer") {
                       var cloudResourceManager = google.cloudresourcemanager('v1');
                       const oAuth2Client = new OAuth2Client();
 
