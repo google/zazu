@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
   public additionalAdminScope() {
     var _this = this;
     var options = new gapi.auth2.SigninOptionsBuilder();
-      options.setScope('https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/cloud-platform');
+      options.setScope('https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/bigquery');
 
       var googleUser = this.auth2.currentUser.get();
       googleUser.grant(options).then(
@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
         this.auth2 = gapi.auth2.init({
           client_id: environment.google_client_id,
           cookiepolicy: 'none',
-          scope: 'profile email https://www.googleapis.com/auth/bigquery'
+          scope: 'profile email'
         });
         this.signIn(document.getElementById('google-signin'));
       });
