@@ -35,9 +35,9 @@ export class LoginComponent implements OnInit {
     const call = <any> this.http.get('../../assets/main-variables.json').toPromise();
     this.companyName = call.companyName;
     if (loginuser.role != 'admin') {
-      this.ngZone.run(() => this.router.navigate(['../redirect'], {relativeTo: this.route})).then(); 
+      this.ngZone.run(() => this.router.navigate(['../redirect'], {relativeTo: this.route})).then();
     } else {
-      this.isAdmin = true;
+      this.ngZone.run(() => { this.isAdmin = true; });
     }
   }
 
