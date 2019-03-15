@@ -5,7 +5,7 @@ RUN npm i -g @angular/cli
 COPY package.json package.json
 RUN npm install --silent
 COPY . .
-RUN cd front-end && npm install --silent && ng build
+RUN cd front-end && npm install --silent && npm rebuild node-sass && ng build
 RUN cd ..
 
 EXPOSE 80 443 3000
