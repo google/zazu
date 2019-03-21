@@ -57,20 +57,23 @@ export class LoginComponent implements OnInit {
   }
 
   async ngOnInit() {
-    try {
+    var _this = this;
 
-      gapi.load('auth2', () => {
-        this.auth2 = gapi.auth2.init({
-          client_id: environment.google_client_id,
-          cookiepolicy: 'none',
-          scope: 'profile email'
+    window.setTimeout(function() {
+      try {
+        gapi.load('auth2', () => {
+          _this.auth2 = gapi.auth2.init({
+            client_id: environment.google_client_id,
+            cookiepolicy: 'none',
+            scope: 'profile email'
+          });
+          _this.signIn(document.getElementById('google-signin'));
         });
-        this.signIn(document.getElementById('google-signin'));
-      });
 
-    } catch (error) {
-      console.log(error);
-    }
+      } catch (error) {
+        console.log(error);
+      }
+    }, 200);
 
   }
 
