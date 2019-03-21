@@ -10,7 +10,7 @@
   <div class="signing-card">
     <div class="icon"><div class="icon-image"></div></div>
     <h4>You have successfully signed out.</h4>
-    <p class="return" [routerLink]="['../login']">
+    <p class="return" (click)="returnToLogin()">
       <strong><i class="material-icons"> keyboard_arrow_left </i> </strong> Return to Log in page
     </p>
   </div>
