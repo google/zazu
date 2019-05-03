@@ -683,7 +683,7 @@ router.post('/editUserRemoveOrgs', function(req, res) {
         }
       }
 
-      Organization.update({ _id: { $in: rmOrgs }, { $inc: { usersCount: -1 }, function(err, result) {
+      Organization.update({ _id: { $in: rmOrgs } }, { $inc: { usersCount: -1 } }, function(err, result) {
         if (err) {
           logger('/editUserRemoveOrgs', log_severity.error, err.message, user_id);
           res.send({
@@ -735,7 +735,7 @@ router.post('/editUserAddOrgs', function(req, res) {
     }
   }
 
-  Organization.update({ name: { $in: newOrgs }, { $inc: { usersCount: 1 }, function(err, result) {
+  Organization.update({ name: { $in: newOrgs } }, { $inc: { usersCount: 1 } }, function(err, result) {
     if (err) {
       logger('/editUserAddOrgs', log_severity.error, err.message, user_id);
       res.send({
