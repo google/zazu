@@ -683,7 +683,7 @@ router.post('/editUserRemoveOrgs', function(req, res) {
         }
       }
 
-      Organization.update({ _id: { $in: rmOrgs } }, { $inc: { usersCount: -1 } }, function(err, result) {
+      Organization.updateMany({ _id: { $in: rmOrgs } }, { $inc: { usersCount: -1 } }, function(err, result) {
         if (err) {
           logger('/editUserRemoveOrgs', log_severity.error, err.message, user_id);
           res.send({
@@ -735,7 +735,7 @@ router.post('/editUserAddOrgs', function(req, res) {
     }
   }
 
-  Organization.update({ name: { $in: newOrgs } }, { $inc: { usersCount: 1 } }, function(err, result) {
+  Organization.updateMany({ name: { $in: newOrgs } }, { $inc: { usersCount: 1 } }, function(err, result) {
     if (err) {
       logger('/editUserAddOrgs', log_severity.error, err.message, user_id);
       res.send({
@@ -1494,7 +1494,7 @@ router.post('/deleteReport', function(req, res) {
             for (var i = 0; i < deleteReport.organizations.length; i++) {
                 deleteReportOrgIds.push(deleteReport.organizations[i]._id);
             }
-            Organization.update(
+            Organization.updateMany(
                   { _id: { $in: deleteReportOrgIds } },
                   { $inc: { reportsCount: -1 } },
                   function(err1, res1) {
@@ -1581,7 +1581,7 @@ router.post('/unshareReport', function(req, res) {
               unshareReportIds.push(unshareReports[j]._id);
             }
 
-            Report.update({ _id: { $in: unshareReportIds } }, { $pull: { organizations: org  } }, function(err2, res2) {
+            Report.updateMany({ _id: { $in: unshareReportIds } }, { $pull: { organizations: org  } }, function(err2, res2) {
                 if (err2) {
                   logger('/unshareReport', log_severity.error, err2.message, user_id);
                   res.send({ status: '500', message: 'Editing the report failed: ' + err2.message });
@@ -1611,7 +1611,7 @@ router.post('/unshareReport', function(req, res) {
       removedOrganizationIds.push(removedOrganizations[i]._id);
     }
 
-    Organization.update(
+    Organization.updateMany(
             { _id: { $in: removedOrganizationIds } },
             { $inc: { usersCount: -1 } },
             function(err1, res1) {
@@ -1784,7 +1784,7 @@ router.post('/shareReport', function(req, res) {
       }
     });
 
-    Organization.update(
+    Organization.updateMany(
             { _id: { $in: addedOrganizationIds } },
             { $inc: { usersCount: -1 } },
             function(err1, res1) {
