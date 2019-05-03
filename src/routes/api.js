@@ -683,6 +683,16 @@ router.post('/editUserRemoveOrgs', function(req, res) {
         }
       }
 
+      Organization.update({ _id: { $in: rmOrgs }, { $inc: { usersCount: -1 }, function(err, result) {
+        if (err) {
+          logger('/editUserRemoveOrgs', log_severity.error, err.message, user_id);
+          res.send({
+            status: '500',
+            message: 'User failed to update: ' + err.message
+          });
+        }
+      });
+
       for (var i = 0; i < rmOrgs.length - 1; i++) {
         findOrgIdsToRm += '"' + rmOrgs[i] + '", ';
       }
@@ -724,6 +734,16 @@ router.post('/editUserAddOrgs', function(req, res) {
       newOrgs.push(editUser.organizations[i].name);
     }
   }
+
+  Organization.update({ name: { $in: newOrgs }, { $inc: { usersCount: 1 }, function(err, result) {
+    if (err) {
+      logger('/editUserAddOrgs', log_severity.error, err.message, user_id);
+      res.send({
+        status: '500',
+        message: 'User failed to update: ' + err.message
+      });
+    }
+  });
 
   for (var i = 0; i < newOrgs.length - 1; i++) {
     findOrgIdsToAdd += '"' + newOrgs[i] + '", ';
