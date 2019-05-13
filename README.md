@@ -36,8 +36,9 @@ Zazu integrates several popular production reliable web, data and analytics tech
 2. APIs & Services > Dashboard > If not already enabled, enable the Big Query, Google+ API and Google Container Registry.
 3. Run `git clone https://github.com/google/zazu.git` in a desired directory.
 4. `cd <directory_of_step_3>/zazu`
-5. Add your key and certificate, <key_name>.key and <cert_name>.crt for https under <directory_of_step_3>/zazu/encryption. For your key and certificate, talk to your admin.<br/>
+5. `mkdir <directory_of_step_3>/zazu/encryption`. Then add your key and certificate, <key_name>.key and <cert_name>.crt for https under this directory. For your key and certificate, talk to your admin.<br/>
    **Note:** If you do not have a key and certificate yet, you can generate a self signed key/certificate for testing purposes, by running the following commands.<br/>
+            `cd <directory_of_step_3>/zazu/encryption`<br/>
             `openssl genrsa -des3 -out <key_name>.key 1024`<br/>
             `openssl req -new -key <key_name>.key -out <cert_name>.csr`<br/>
             `openssl x509 -req -days 365 -in <cert_name>.csr -signkey <key_name>.key -out <cert_name>.crt`<br/>
@@ -52,30 +53,31 @@ Zazu integrates several popular production reliable web, data and analytics tech
    - IAM > Service accounts > Create service accounts<br/>
      - Name: **service-zazu-app**<br/>
      - Role: **Project -> Owner**<br/>
+     - Role: **Storage -> Storage Object Viewer**
+     - Click **Done**
 
-9. Grant the service account permissions to read from the container registry: [Instructions here](https://cloud.google.com/container-registry/docs/access-control#granting_users_and_other_projects_access_to_a_registry). Use the service account name you created on **step 8**.
-
-10. Create a set of OAuth credentials and keep note of the client ID/secret.
+9. Create a set of OAuth credentials and keep note of the client ID/secret.
     - APIs & Services > Credentials > Create credentials > OAuth client ID.
+    - Web application -> Type any client name of preference.
     - Authentication Javascript origin: https://<your_domain_to_be_assigned_to_app>
     - Authentication redirect URI: https://<your_domain_to_be_assigned_to_app>/auth/google/callback
 
-11. Set up firewall rules.
-    - VPC > Firewall rules > Create firewall rules
+10. Set up firewall rules.
+    - VPC Network > Firewall rules > Create firewall rules
       - Name: **zazu-db**
       - Description: Allow connections to zazu database from zazu app.
       - Target tags: **zazu-db**
       - Source tags: **zazu-app**
-      - Source IP ranges: 0.0.0.0/0
+      - Second source filter > IP ranges: 0.0.0.0/0
       - Protocols and ports: **tcp:27017** (which is the default port of mongodb. Change it to a different one, if mongodb is setup to run on a different port.)
-    - VPC > Firewall rules > Create firewall rules
+    - VPC Network > Firewall rules > Create firewall rules
       - Name: **zazu-app**
-      - Description: Allow connections to zazu app from the www.
+      - Description: Allow connections to zazu app from the web.
       - Target tags: **zazu-app**, **https-server**
       - Source IP ranges: 0.0.0.0/0
       - Protocols and ports: **tcp:443**
 
-12. Create a new VM instance for the mongodb.
+11. Create a new VM instance for the mongodb.
     - Deploy a container image.
       - Type **mongo** as the docker image.
       - Advanced Container Options > Environment variable<br/>
@@ -87,14 +89,14 @@ Zazu integrates several popular production reliable web, data and analytics tech
     - Service account: Select the one created on **step 8**.
     - Networking > Network tags > **zazu-db**.
 
-13. Create a global username and password for the mongoDB user used by the application.
+12. Create a global username and password for the mongoDB user used by the application.
 - Compute engine > VM instances > zazu-db > SSH
   - `docker exec -it zazu-db sh`
-  - `mongo admin -u <select_root_username> -p <select_root_password>` (from **step 12a.**)
+  - `mongo admin -u <select_root_username> -p <select_root_password>` (from **step 11a.**)
   - `use zazu`
   - `db.createUser({ user: "<select_app_username>", pwd: "<select_app_password>", roles: [ "readWrite" ] })`
 
-14. Create a new VM instance for the App
+13. Create a new VM instance for the App
     - Deploy a container image
       - Use path from gcr.io where you published the Docker image on **step 7**.
       - Advanced Container Options > Environment variables
@@ -109,7 +111,7 @@ Zazu integrates several popular production reliable web, data and analytics tech
                   **https_key_filename  <your_https_key_filename_used_in_step_5>**<br/>
                   **https_cert_filename  <your_https_cert_filename_used_in_step_5>**<br/>
                   **https_passphrase  <your_https_passphrase_used_in_step_5>**<br/>
-                  **mongo_connection_string mongodb://<select_app_username>:<select_app_password>@<DNS_NAME>/zazu** (from **step 13.**) <br/>
+                  **mongo_connection_string mongodb://<select_app_username>:<select_app_password>@<DNS_NAME>/zazu** (from **step 12.**) <br/>
 
       **Note:** MONGO_INITDB values come from **step 12**. The DNS_NAME looks like: **zazu-db.c.PROJECTNAME.internal** . Template: **INSTANCENAME.c.PROJECTNAME.internal** .<br/>
 
@@ -120,15 +122,15 @@ Zazu integrates several popular production reliable web, data and analytics tech
       - Service account: Select the one created on **step 8**.
       - Networking > Network tags > **zazu-app**
 
-15. **One time only**: Create the first admin user of the application in mongodb.
+14. **One time only**: Create the first admin user of the application in mongodb.
     - Compute engine > VM instances > zazu-db > SSH
       - `docker exec -it zazu-db sh`
-      - `mongo zazu -u <select_app_username> -p <select_app_password>` (from **step 14**)
+      - `mongo zazu -u <select_app_username> -p <select_app_password>` (from **step 13**)
       - `db.users.insert({ name: "<your_admin_name>", googleID: "<your_admin_google_id>", role: "admin" })`
       - `db.users.find()`
-      - Copy the **_id** value of the newly created item, for use in **step 16**.
+      - Copy the **_id** value of the newly created item, for use in **step 15**.
 
-16. **One time only**: Create the **same** first admin user of the application as in **step 15**, in Big Query.
+15. **One time only**: Create the **same** first admin user of the application as in **step 14**, in Big Query.
     - https://bigquery.cloud.google.com > Select the project > Compose query ><br/>
       `INSERT INTO `<project_name>.Zazu_Config_Data.users` (user_id, googleID, role) VALUES ('<_id_value_from_step_15>', '<your_admin_google_id>', 'admin')`
 
