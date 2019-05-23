@@ -1,7 +1,7 @@
 FROM node:8.11-alpine
 WORKDIR /usr/src/app
 RUN apk update -q &&  apk add python -q && apk add make && apk add g++ -q
-RUN npm i -g @angular/cli
+RUN npm i -g @angular/cli@6.1.5
 COPY package.json package.json
 RUN npm install --silent
 COPY . .
